@@ -51,6 +51,14 @@ replaces "generate something generic": find it, read its contract, lift its CSS.
 `mue check` is the same gate with a batch driver; `check-classes.js` stays for
 per-file detail.
 
+## Why a CLI and not an MCP server
+
+An MCP server has to be registered per machine, per client, and it only exists
+while the editor runs. `mue.js` works in any agent that can run a shell command
+— OpenCode, Codex, Claude Code, CI — with nothing installed, and `--json` gives
+the same structured answers a protocol would. If you want MCP anyway, wrap it:
+one tool per command, each spawning `node tools/mue.js <cmd> --json`.
+
 ## Rules
 
 Nothing in `tools/` writes to `design-tokens/`, `styles/components.css`, or
