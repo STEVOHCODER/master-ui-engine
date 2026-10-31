@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  COMPONENT: Radio Buttons
+  ID: frm-radio-buttons
+  GROUP: Components
+  CATEGORY: forms
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#choice — .radio, its hidden input, .box, the dot and .radiogroup are defined there
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  VARIANTS: default, selected, disabled
+  MOTION: durations and easings come from design-tokens/motion/scale.css; nothing here hardcodes a time
+  RESPONSIVE: the group is a stacking column; each row is a wrapping label, so long option text reflows
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31
+  CATALOG: showcase/data/component-catalog.json#frm-radio-buttons
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Radio Buttons | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../../styles/components.css">
+<script src="../../../styles/mue.js" defer></script>
+<style>
+  /* The control itself — box, dot, spring, focus ring, 44px row — is in
+     styles/components.css#choice. What stays here is the framing of a group in
+     this preview and the disabled label colour. */
+  .page {
+    --shell-w: 700px;
+  }
+
+  /* Demo scaffolding: #choice's .radiogroup is a bare flex column; the preview
+     frames each fieldset as a card so the legend reads as its heading. */
+  fieldset.radiogroup {
+    min-width: 0;
+    max-width: 26rem;
+    margin: 0;
+    padding: var(--space-5);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-md);
+    background: var(--bg-surface);
+  }
+  fieldset.radiogroup > legend {
+    padding: 0 var(--space-2);
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+
+  /* #choice dims the dot but not the option text when the input is disabled. */
+  .radio input:disabled ~ span {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+</style>
+</head>
+<body class="page">
+<div class="shell">
+  <header class="masthead">
+    <div>
+      <div class="brand">MASTER-UI-ENGINE</div>
+      <div class="meta">Components &gt; Forms &gt; Radio buttons</div>
+    </div>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+      <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <h1>Radio Buttons</h1>
+  <p class="subtitle">Select one option from a mutually exclusive group.</p>
+
+  <div class="meta-card">
+    <div class="meta">
+      <b>Name:</b> Radio Buttons<br>
+      <b>Category:</b> forms<br>
+      <b>Framework:</b> Vanilla HTML/CSS/JS<br>
+      <b>Defined in:</b> styles/components.css #choice<br>
+      <b>Design system:</b> MASTER-UI-ENGINE custom<br>
+      <b>Variants:</b> default, selected, disabled<br>
+      <b>Responsive:</b> yes — stacks vertically<br>
+      <b>Dependencies:</b> none (native radio inputs, no JS)<br>
+      <b>Original source:</b> MASTER-UI-ENGINE (original)<br>
+      <b>License:</b> MIT
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Default</h2>
+    <p>Each option is a label wrapping a real radio input, so exclusivity comes from
+      the shared <code>name</code> attribute and the browser handles arrow-key
+      navigation for free. The visible circle is <code>.box</code>; its dot is a
+      pseudo-element that scales in on <code>--ease-spring</code>.</p>
+    <fieldset class="radiogroup">
+      <legend>Plan</legend>
+      <label class="radio">
+        <input type="radio" name="plan" value="starter">
+        <span class="box" aria-hidden="true"></span>
+        <span>Starter — $19/mo</span>
+      </label>
+      <label class="radio">
+        <input type="radio" name="plan" value="pro" checked>
+        <span class="box" aria-hidden="true"></span>
+        <span>Professional — $49/mo</span>
+      </label>
+      <label class="radio">
+        <input type="radio" name="plan" value="enterprise">
+        <span class="box" aria-hidden="true"></span>
+        <span>Enterprise — $199/mo</span>
+      </label>
+    </fieldset>
+  </div>
+
+  <div class="section">
+    <h2>Disabled</h2>
+    <p>A disabled option stays in the group — it is still part of the answer set, it
+      just cannot be picked, and it drops out of the tab order. Keep at least one
+      enabled choice, otherwise the group is unreadable.</p>
+    <fieldset class="radiogroup">
+      <legend>Visibility</legend>
+      <label class="radio">
+        <input type="radio" name="vis" value="public" checked>
+        <span class="box" aria-hidden="true"></span>
+        <span>Public</span>
+      </label>
+      <label class="radio">
+        <input type="radio" name="vis" value="private" disabled>
+        <span class="box" aria-hidden="true"></span>
+        <span>Private (disabled)</span>
+      </label>
+    </fieldset>
+  </div>
+
+  <div class="section">
+    <h2>Accessibility</h2>
+    <ul style="list-style:disc;padding-left:1.25rem;color:var(--text-secondary);font-size:var(--text-sm);display:grid;gap:var(--space-2)">
+      <li><code>&lt;fieldset&gt;</code> + <code>&lt;legend&gt;</code> name the question the group answers</li>
+      <li>The same <code>name</code> attribute makes the options mutually exclusive</li>
+      <li>Checked state is announced by screen readers because the inputs are real, only visually hidden</li>
+      <li>Focus lands on the visible circle via <code>input:focus-visible + .box</code>, so keyboard order is obvious</li>
+      <li>Rows are <code>--control-h</code> tall, so the group is a comfortable touch target</li>
+    </ul>
+  </div>
+
+  <div class="code-wrap" data-section="choice">
+    <div class="code-bar"><span>Markup</span></div>
+<pre><code>&lt;fieldset class="radiogroup"&gt;
+  &lt;legend&gt;Plan&lt;/legend&gt;
+  &lt;label class="radio"&gt;
+    &lt;input type="radio" name="plan" value="starter"&gt;
+    &lt;span class="box" aria-hidden="true"&gt;&lt;/span&gt;
+    &lt;span&gt;Starter — $19/mo&lt;/span&gt;
+  &lt;/label&gt;
+  &lt;label class="radio"&gt;
+    &lt;input type="radio" name="plan" value="pro" checked&gt;
+    &lt;span class="box" aria-hidden="true"&gt;&lt;/span&gt;
+    &lt;span&gt;Professional — $49/mo&lt;/span&gt;
+  &lt;/label&gt;
+&lt;/fieldset&gt;</code></pre>
+  </div>
+</div>
+</body>
+</html>

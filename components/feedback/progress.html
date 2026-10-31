@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  COMPONENT: Progress
+  ID: fb-progress
+  GROUP: Components
+  CATEGORY: feedback
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#feedback — every class below is defined there, so pasted markup arrives styled
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  VARIANTS: Determinate, Indeterminate, Interactive demo
+  MOTION: durations and easings come from design-tokens/motion/scale.css; nothing here hardcodes a time
+  RESPONSIVE: tracks are 100% width and the buttons wrap, so nothing overflows at 320px
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31
+  CATALOG: showcase/data/component-catalog.json#fb-progress
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Progress | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../styles/components.css">
+<script src="../../styles/mue.js" defer></script>
+<style>
+  /* Page-local: the sheet has no striped bar, so this preview keeps one —
+     tokens only, and it sits on top of .track > .bar. */
+  .page {
+    --shell-w: 700px;
+  }
+  .progress-striped > .bar {
+    background-color: var(--primary-bg);
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent 0 2px,
+      hsla(var(--color-white) / 0.35) 2px 4px
+    );
+  }
+  .progress-group + .progress-group {
+    margin-top: var(--space-5);
+  }
+  .doc-list {
+    list-style: disc;
+    padding-left: 1.25rem;
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    display: grid;
+    gap: var(--space-2);
+    margin: 0;
+  }
+</style>
+</head>
+<body class="page">
+<div class="shell">
+  <header class="masthead">
+    <div>
+      <div class="brand">MASTER-UI-ENGINE</div>
+      <div class="meta">Components &gt; Feedback &gt; Progress</div>
+    </div>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+      <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <h1>Progress Indicators</h1>
+  <p class="subtitle">Show completion status for tasks, uploads, and multi-step flows.</p>
+
+  <div class="meta-card">
+    <div class="meta">
+      <b>Name:</b> Progress Indicators<br>
+      <b>Category:</b> feedback<br>
+      <b>Framework:</b> Vanilla HTML/CSS/JS<br>
+      <b>Defined in:</b> styles/components.css #feedback<br>
+      <b>Variants:</b> determinate, indeterminate, success, warning, striped<br>
+      <b>Responsive:</b> yes — full-width track<br>
+      <b>Dependencies:</b> none<br>
+      <b>Original source:</b> MASTER-UI-ENGINE (original)<br>
+      <b>License:</b> MIT
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Determinate</h2>
+    <p>The fill reads its value from the <code>--value</code> custom property, so a single
+      style change moves the bar and the shared <code>width</code> transition does the rest.</p>
+    <div class="progress-group">
+      <div class="progress-label"><span id="lbl-upload">Upload</span><span class="percent">65%</span></div>
+      <div class="track" role="progressbar" aria-labelledby="lbl-upload" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
+        <div class="bar" style="--value:65%"></div>
+      </div>
+    </div>
+    <div class="progress-group">
+      <div class="progress-label"><span id="lbl-processing">Processing</span><span class="percent">100%</span></div>
+      <div class="track progress-success" role="progressbar" aria-labelledby="lbl-processing" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+        <div class="bar" style="--value:100%"></div>
+      </div>
+    </div>
+    <div class="progress-group">
+      <div class="progress-label"><span id="lbl-review">Review</span><span class="percent">30%</span></div>
+      <div class="track progress-warning" role="progressbar" aria-labelledby="lbl-review" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
+        <div class="bar" style="--value:30%"></div>
+      </div>
+    </div>
+    <div class="progress-group">
+      <div class="progress-label"><span id="lbl-striped">Sync</span><span class="percent">45%</span></div>
+      <div class="track progress-striped" role="progressbar" aria-labelledby="lbl-striped" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">
+        <div class="bar" style="--value:45%"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Indeterminate</h2>
+    <div class="demo-area" style="flex-direction:column;align-items:stretch">
+      <p style="margin:0;color:var(--text-secondary);font-size:var(--text-sm)">Use when progress cannot be measured.</p>
+      <div class="track progress-indeterminate" role="progressbar" aria-label="Working">
+        <div class="bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Interactive demo</h2>
+    <div class="progress-group">
+      <div class="progress-label"><span id="lbl-demo">Demo progress</span><span class="percent" id="demo-pct">0%</span></div>
+      <div class="track" id="demo-track" role="progressbar" aria-labelledby="lbl-demo" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+        <div class="bar" id="demo-bar" style="--value:0%"></div>
+      </div>
+    </div>
+    <div class="row" style="margin-top:var(--space-4)">
+      <button class="btn-outline" type="button" data-progress="25">25%</button>
+      <button class="btn-outline" type="button" data-progress="50">50%</button>
+      <button class="btn-outline" type="button" data-progress="75">75%</button>
+      <button class="btn-primary" type="button" data-progress="100">Complete</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Accessibility</h2>
+    <ul class="doc-list">
+      <li>Use role="progressbar" with aria-valuenow / valuemin / valuemax, updated as the value changes</li>
+      <li>The percent label is associated via aria-labelledby</li>
+      <li>Color is not the only indicator of state — the label and the number say it too</li>
+      <li>The fill transition runs on <code>--duration-slower</code> with <code>--ease-out-expo</code>; the indeterminate sweep is driven by <code>--duration-slowest</code>, so both stop moving under <code>prefers-reduced-motion</code></li>
+    </ul>
+  </div>
+
+  <div class="code-wrap" data-section="feedback,buttons,utilities">
+    <div class="code-bar"><span>Markup</span></div>
+<pre><code>&lt;div class="progress-group"&gt;
+  &lt;div class="progress-label"&gt;
+    &lt;span id="upload-label"&gt;Upload&lt;/span&gt;
+    &lt;span class="percent"&gt;65%&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="track" role="progressbar" aria-labelledby="upload-label"
+       aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"&gt;
+    &lt;div class="bar" style="--value:65%"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- indeterminate --&gt;
+&lt;div class="track progress-indeterminate" role="progressbar" aria-label="Working"&gt;
+  &lt;div class="bar"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+  </div>
+
+</div>
+<script>
+  /* Page-local behaviour: mue.js has no progress driver. Setting --value is all
+     it takes — the shared .track > .bar rule owns the width transition. */
+  document.querySelectorAll('[data-progress]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const value = btn.dataset.progress;
+      document.getElementById('demo-bar').style.setProperty('--value', value + '%');
+      document.getElementById('demo-pct').textContent = value + '%';
+      document.getElementById('demo-track').setAttribute('aria-valuenow', value);
+    });
+  });
+</script>
+</body>
+</html>

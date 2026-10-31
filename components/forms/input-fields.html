@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  COMPONENT: Input Fields
+  ID: frm-input-fields
+  GROUP: Components
+  CATEGORY: forms
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#fields — the classes below are defined there, so pasted markup arrives styled
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  VARIANTS: text, email, password, textarea, select, is-error, is-success, disabled
+  MOTION: durations and easings come from design-tokens/motion/scale.css; nothing here hardcodes a time
+  RESPONSIVE: fields are block level and never wider than their container; they sit two-up when there is room, and grow taller on touch devices
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31
+  CATALOG: showcase/data/component-catalog.json#frm-input-fields
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Input Fields | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../styles/components.css">
+<script src="../../styles/mue.js" defer></script>
+<style>
+  /* Page chrome and every field rule come from styles/components.css now.
+     What is left here is either a gap in the #fields region or demo layout. */
+  .page {
+    --shell-w: 700px;
+  }
+
+  /* #fields sets appearance:none on .field select and stops there, which deletes
+     the native arrow. This wrapper paints a chevron from currentColor instead of
+     a data-URI with a baked-in hex, so it follows the theme. */
+  .select-wrap {
+    position: relative;
+    min-width: 0;
+  }
+  .select-wrap select {
+    padding-right: 2.75rem;
+  }
+  .select-wrap svg {
+    position: absolute;
+    top: 50%;
+    right: var(--space-3);
+    transform: translateY(-50%);
+    width: 1.125rem;
+    height: 1.125rem;
+    color: var(--text-tertiary);
+    pointer-events: none;
+  }
+
+  /* #fields documents .is-error but has no success counterpart for the message
+     and border, so the valid state is patched locally. */
+  .field.is-success input,
+  .field.is-success select,
+  .field.is-success textarea {
+    border-color: var(--text-success);
+  }
+  .field.is-success .field-msg {
+    color: var(--text-success);
+  }
+
+  /* Demo layout: two-up below a heading, single column when narrow. */
+  .field-grid {
+    --col-min: 15rem;
+  }
+
+  @media (hover: none) {
+    .field input,
+    .field textarea,
+    .field select {
+      min-height: var(--control-h-lg);
+    }
+  }
+</style>
+</head>
+<body class="page">
+<div class="shell">
+  <header class="masthead">
+    <div>
+      <div class="brand">MASTER-UI-ENGINE</div>
+      <div class="meta">Components &gt; Forms &gt; Input fields</div>
+    </div>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+      <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <h1>Input Fields</h1>
+  <p class="subtitle">Form controls with labels, validation states, helper text, and accessible associations.</p>
+
+  <div class="meta-card">
+    <div class="meta">
+      <b>Name:</b> Input Fields<br>
+      <b>Category:</b> forms<br>
+      <b>Framework:</b> Vanilla HTML/CSS/JS<br>
+      <b>Defined in:</b> styles/components.css #fields<br>
+      <b>Design system:</b> MASTER-UI-ENGINE custom<br>
+      <b>Variants:</b> text, email, password, textarea, select, with error, with success, disabled<br>
+      <b>Responsive:</b> yes — full-width, two-up when there is room<br>
+      <b>Dependencies:</b> none<br>
+      <b>Install:</b> copy markup; link design-tokens/engine.css and styles/components.css<br>
+      <b>Original source:</b> MASTER-UI-ENGINE (original)<br>
+      <b>License:</b> MIT<br>
+      <b>Attribution:</b> MASTER-UI-ENGINE contributors
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Default states</h2>
+    <p>A field is a column: label, control, then optional helper text. The control
+      takes its 44px height, border, surface and focus ring from the sheet, so the
+      label and the input can never drift apart in size.</p>
+    <div class="stack">
+      <div class="field">
+        <label class="field-label" for="full-name">Full name</label>
+        <input id="full-name" type="text" placeholder="Alex Morgan" autocomplete="name">
+        <p class="field-helper">We'll use this to personalize your dashboard.</p>
+      </div>
+      <div class="field">
+        <label class="field-label" for="email">Email address</label>
+        <input id="email" type="email" placeholder="alex@example.com" autocomplete="email">
+      </div>
+      <div class="field">
+        <label class="field-label" for="password">Password</label>
+        <input id="password" type="password" placeholder="••••••••" autocomplete="new-password">
+      </div>
+      <div class="field">
+        <label class="field-label" for="bio">Bio</label>
+        <textarea id="bio" rows="3" placeholder="Tell us about yourself..."></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label" for="role">Role</label>
+        <div class="select-wrap">
+          <select id="role">
+            <option>Designer</option>
+            <option>Developer</option>
+            <option>Product Manager</option>
+          </select>
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </div>
+        <p class="field-helper">Native select: it still opens with a click or the keyboard.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Validation states</h2>
+    <p>Error and success states with associated messages. The state class goes on
+      the <code>.field</code> wrapper, so the control and its message change colour
+      together.</p>
+    <div class="stack">
+      <div class="field is-error">
+        <label class="field-label" for="username">Username (error)</label>
+        <input id="username" type="text" value="alex" aria-invalid="true" aria-describedby="username-err">
+        <p class="field-msg" id="username-err">This username is already taken.</p>
+      </div>
+      <div class="field is-success">
+        <label class="field-label" for="email-ok">Email (success)</label>
+        <input id="email-ok" type="email" value="alex@example.com" aria-invalid="false" aria-describedby="email-ok-msg">
+        <p class="field-msg" id="email-ok-msg">Email looks good.</p>
+      </div>
+      <div class="field">
+        <label class="field-label" for="disabled-input">Disabled input</label>
+        <input id="disabled-input" type="text" disabled placeholder="Cannot edit">
+        <p class="field-helper">Disabled controls drop out of the tab order.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Responsive behavior</h2>
+    <p>Every control is <code>width:100%</code> with <code>min-width:0</code>, so a
+      long value wraps instead of pushing a horizontal scrollbar. Below 640px the page
+      padding tightens, and on touch devices the controls grow to
+      <code>--control-h-lg</code>.</p>
+    <div class="grid-auto field-grid">
+      <div class="field">
+        <label class="field-label" for="first-name">First name</label>
+        <input id="first-name" type="text" placeholder="Alex" autocomplete="given-name">
+      </div>
+      <div class="field">
+        <label class="field-label" for="last-name">Last name</label>
+        <input id="last-name" type="text" placeholder="Morgan" autocomplete="family-name">
+      </div>
+      <div class="field">
+        <label class="field-label" for="work-email">Work email</label>
+        <input id="work-email" type="email" placeholder="alex@company.com" autocomplete="email">
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Accessibility</h2>
+    <ul style="list-style:disc;padding-left:1.25rem;color:var(--text-secondary);font-size:var(--text-sm);display:grid;gap:var(--space-2)">
+      <li>Every input has a programmatically associated <code>&lt;label&gt;</code> via for/id</li>
+      <li>Error fields use <code>aria-invalid="true"</code> and <code>aria-describedby</code> pointing at the message</li>
+      <li>Visible focus ring: 2px outline plus the <code>--ring-focus</code> halo (WCAG 2.4.7)</li>
+      <li>44px minimum control height, so the field is a valid tap target</li>
+      <li>Disabled inputs are non-focusable and get a sunken surface, not just grey text</li>
+    </ul>
+  </div>
+
+  <div class="code-wrap" data-section="fields">
+    <div class="code-bar"><span>Markup</span></div>
+<pre><code>&lt;div class="field"&gt;
+  &lt;label class="field-label" for="email"&gt;Email address&lt;/label&gt;
+  &lt;input id="email" type="email" placeholder="alex@example.com"&gt;
+  &lt;p class="field-helper"&gt;We'll use this to personalize your dashboard.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class="field is-error"&gt;
+  &lt;label class="field-label" for="username"&gt;Username&lt;/label&gt;
+  &lt;input id="username" type="text" aria-invalid="true" aria-describedby="username-err"&gt;
+  &lt;p class="field-msg" id="username-err"&gt;This username is already taken.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class="field"&gt;
+  &lt;label class="field-label" for="bio"&gt;Bio&lt;/label&gt;
+  &lt;textarea id="bio" rows="3"&gt;&lt;/textarea&gt;
+&lt;/div&gt;</code></pre>
+  </div>
+</div>
+</body>
+</html>

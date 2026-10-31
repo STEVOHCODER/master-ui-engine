@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  COMPONENT: Empty state
+  ID: fb-empty
+  GROUP: Components
+  CATEGORY: feedback
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#feedback — every class below is defined there, so pasted markup arrives styled
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  VARIANTS: No results found, Get started
+  MOTION: durations and easings come from design-tokens/motion/scale.css; nothing here hardcodes a time
+  RESPONSIVE: the panel is capped at 420px and centered; it shrinks with the viewport and never overflows at 320px
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31
+  CATALOG: showcase/data/component-catalog.json#fb-empty
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Empty States | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../styles/components.css">
+<script src="../../styles/mue.js" defer></script>
+<style>
+  /* Nothing on this page restyles a component. The only local rules are demo
+     scaffolding: how the panels and the notes are laid out inside a preview. */
+  .page {
+    --shell-w: 700px;
+  }
+  .section .empty {
+    max-width: 26.25rem;
+    margin-inline: auto;
+  }
+  .doc-list {
+    list-style: disc;
+    padding-left: 1.25rem;
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    display: grid;
+    gap: var(--space-2);
+    margin: 0;
+  }
+</style>
+</head>
+<body class="page">
+<div class="shell">
+  <header class="masthead">
+    <div>
+      <div class="brand">MASTER-UI-ENGINE</div>
+      <div class="meta">Components &gt; Feedback &gt; Empty states</div>
+    </div>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+      <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <h1>Empty States</h1>
+  <p class="subtitle">Guide users when there is no content to display, with a clear next action.</p>
+
+  <div class="meta-card">
+    <div class="meta">
+      <b>Name:</b> Empty States<br>
+      <b>Category:</b> feedback<br>
+      <b>Framework:</b> Vanilla HTML/CSS/JS<br>
+      <b>Defined in:</b> styles/components.css #feedback<br>
+      <b>Variants:</b> no results, empty inbox, first-time use<br>
+      <b>Responsive:</b> yes — centered, capped width, stacks<br>
+      <b>Dependencies:</b> none<br>
+      <b>Original source:</b> MASTER-UI-ENGINE (original)<br>
+      <b>License:</b> MIT
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>No results</h2>
+    <div class="empty" role="status" aria-label="Empty state">
+      <div class="empty-icon" aria-hidden="true">&#128065;</div>
+      <h2 class="empty-title">No results found</h2>
+      <p class="empty-desc">Try adjusting your search terms or filters.</p>
+      <div class="row">
+        <button class="btn-outline" type="button">Clear filters</button>
+        <button class="btn-primary" type="button">Browse all</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>First-time use</h2>
+    <div class="empty" role="status" aria-label="Empty state">
+      <div class="empty-icon" aria-hidden="true">&#128187;</div>
+      <h2 class="empty-title">Get started</h2>
+      <p class="empty-desc">You haven&rsquo;t created any projects yet. Create your first project to begin.</p>
+      <div class="row">
+        <button class="btn-primary" type="button">Create project</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Guidelines</h2>
+    <ul class="doc-list">
+      <li>Always include a clear heading and a helpful description</li>
+      <li>Offer a primary action that moves the user forward</li>
+      <li>Avoid dead ends — every empty state should have an escape route</li>
+      <li>Use an illustration or icon sparingly to add warmth</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Accessibility</h2>
+    <ul class="doc-list">
+      <li>Icons are decorative (aria-hidden); meaning is in the text</li>
+      <li>Primary action is a real button, keyboard reachable</li>
+      <li>Heading describes the state clearly</li>
+      <li>The panel enters with <code>mue-fade-in</code> on <code>--duration-slower</code>; under <code>prefers-reduced-motion</code> the movement token collapses to zero</li>
+    </ul>
+  </div>
+
+  <div class="code-wrap" data-section="feedback,buttons,utilities">
+    <div class="code-bar"><span>Markup</span></div>
+<pre><code>&lt;div class="empty" role="status" aria-label="Empty state"&gt;
+  &lt;div class="empty-icon" aria-hidden="true"&gt;&amp;#128065;&lt;/div&gt;
+  &lt;h2 class="empty-title"&gt;No results found&lt;/h2&gt;
+  &lt;p class="empty-desc"&gt;Try adjusting your search terms.&lt;/p&gt;
+  &lt;div class="row"&gt;
+    &lt;button class="btn-primary" type="button"&gt;Browse all&lt;/button&gt;
+    &lt;button class="btn-outline" type="button"&gt;Clear filters&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  EXAMPLE: Login
+  ID: ex-login
+  GROUP: Examples
+  CATEGORY: auth
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css (linked in this file head); no web fonts, CDNs or JS libraries, and no shared sheet yet
+  THEME: light + dark toggle (html.dark, persisted in localStorage)
+  RESPONSIVE: fluid layout, no breakpoint needed
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31
+  CATALOG: showcase/data/component-catalog.json#ex-login
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Sign in | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<style>
+  :root{
+    --shadow-sm:0 1px 3px 0 hsla(215,20%,17%,0.08),0 1px 2px -1px hsla(215,20%,17%,0.08);
+    --font-sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{font-family:var(--font-sans);font-size:var(--text-base);line-height:1.5;color:hsl(var(--color-gray-900));background:hsl(var(--color-gray-50))}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:var(--space-6)}.card{background:var(--bg-surface);border:1px solid hsl(var(--color-gray-200));border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);width:100%;max-width:420px;padding:var(--space-8) var(--space-6)}
+  .brand{text-align:center;margin-bottom:var(--space-8)}
+  .brand .mark{font-weight:800;font-size:1.5rem;color:hsl(var(--color-gray-900));letter-spacing:-0.02em}
+  .brand p{color:hsl(var(--color-gray-500));font-size:0.9375rem;margin-top:var(--space-2)}
+  h1{font-size:1.75rem;font-weight:700;letter-spacing:-0.02em;color:hsl(var(--color-gray-900));margin-bottom:var(--space-3);text-align:center}
+  .sub{color:hsl(var(--color-gray-500));text-align:center;margin-bottom:var(--space-8);font-size:0.9375rem}
+  .field{margin-bottom:var(--space-5)}
+  .field label{display:block;font-size:0.875rem;font-weight:600;color:hsl(var(--color-gray-700));margin-bottom:var(--space-2)}.field input{width:100%;border:1px solid hsl(var(--color-gray-300));background:var(--bg-surface);border-radius:var(--radius-base);padding:0.65rem 0.9rem;font-family:inherit;font-size:0.9375rem;color:hsl(var(--color-gray-900))}
+  .field input:focus{border-color:hsl(var(--color-primary-500));box-shadow:0 0 0 3px hsl(var(--color-primary-500) / 0.15)}
+  .field input.error{border-color:hsl(var(--color-error-500))}
+  .err{color:hsl(var(--color-error-500));font-size:0.8125rem;margin-top:var(--space-2);display:none}
+  .field.error .err{display:block}
+  .field.error input{border-color:hsl(var(--color-error-500))}
+  .field-actions{display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-6)}
+  .forgot{font-size:0.875rem;color:hsl(var(--color-primary-500));text-decoration:none}
+  .forgot:hover{text-decoration:underline}
+  button{width:100%;display:flex;align-items:center;justify-content:center;gap:var(--space-2);border:none;border-radius:var(--radius-base);background:hsl(var(--color-primary-500));color:hsl(var(--color-gray-50));font-family:inherit;font-weight:600;font-size:0.9375rem;padding:0.75rem 1rem;cursor:pointer}
+  button:hover{background:hsl(var(--color-primary-600))}
+  button:disabled{opacity:0.6;cursor:not-allowed}
+  .divider{display:flex;align-items:center;gap:var(--space-4);margin:var(--space-6) 0; color:hsl(var(--color-gray-600));font-size:0.875rem}
+  .divider::before,.divider::after{content:"";flex:1;height:1px;background:hsl(var(--color-gray-200))}
+  .social{display:flex;gap:var(--space-3)}.social button{flex:1;background:var(--bg-surface);border:1px solid hsl(var(--color-gray-300));color:hsl(var(--color-gray-700));font-weight:500;padding:0.65rem 1rem}
+  .social button:hover{background:hsl(var(--color-gray-100))}
+  .footer{text-align:center;margin-top:var(--space-8);color:hsl(var(--color-gray-500));font-size:0.9375rem}
+  .footer a{color:hsl(var(--color-primary-500));font-weight:600;text-decoration:none}
+  .footer a:hover{text-decoration:underline}
+  .success-msg{background:hsl(var(--color-success-500) / 0.12);color:hsl(var(--color-success-500));border:1px solid hsl(var(--color-success-500) / 0.25);border-radius:var(--radius-base);padding:var(--space-4);text-align:center;font-size:0.9375rem;margin-bottom:var(--space-6);display:none}
+  .theme-toggle{position:fixed;top:var(--space-4);right:var(--space-4);width:auto;background:hsl(var(--color-gray-200));border:none;border-radius:9999px;padding:0.25rem 0.75rem;font-size:0.875rem;cursor:pointer;color:hsl(var(--color-gray-800));z-index:20}
+  .theme-toggle .dot{width:10px;height:10px;border-radius:50%;background:hsl(var(--color-primary-500));display:inline-block;margin-left:0.5rem}
+</style>
+</head>
+<body>
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"><span>Dark mode</span><span class="dot" id="themeDot"></span></button>
+<div class="card">
+  <div class="brand"><div class="mark">APP</div><p>Sign in to your account</p></div>
+  <h1>Welcome back</h1>
+  <p class="sub">Enter your email and password to continue.</p>
+  <div class="success-msg" id="success">Account created successfully. Please sign in.</div>
+  <div class="field">
+    <label for="email">Email address</label>
+    <input id="email" type="email" placeholder="alex@example.com" autocomplete="email">
+    <span class="err">Enter a valid email</span>
+  </div>
+  <div class="field">
+    <label for="password">Password</label>
+    <input id="password" type="password" placeholder="••••••••" autocomplete="current-password">
+    <span class="err">Password too short</span>
+  </div>
+  <div class="field-actions"><a href="#" class="forgot">Forgot password?</a><a href="signup.html" style="font-size:0.875rem;color:hsl(var(--color-gray-500))">Create account</a></div>
+  <button id="signin">Sign in</button>
+  <div class="divider"><span>Or continue with</span></div>
+  <div class="social"><button>Google</button><button>GitHub</button></div>
+  <div class="footer">Don&rsquo;t have an account? <a href="signup.html">Sign up</a></div>
+</div>
+<script>
+  const btn=document.getElementById('themeToggle');const dot=document.getElementById('themeDot');const html=document.documentElement;
+  btn.addEventListener('click',()=>{html.classList.toggle('dark');dot.style.background=html.classList.contains('dark')?'hsl(var(--color-primary-400))':'hsl(var(--color-primary-500))';localStorage.setItem('mui-theme',html.classList.contains('dark')?'dark':'light')});
+  const saved=localStorage.getItem('mui-theme');if(saved==='dark'){html.classList.add('dark');dot.style.background='hsl(var(--color-primary-400))'}
+  document.getElementById('signin').onclick=function(){const email=document.getElementById('email');const pass=document.getElementById('password');let ok=true;if(!email.value.includes('@')){email.parentElement.classList.add('error');ok=false}else{email.parentElement.classList.remove('error')}if(pass.value.length<6){pass.parentElement.classList.add('error');ok=false}else{pass.parentElement.classList.remove('error')}if(ok){document.getElementById('success').style.display='block';document.getElementById('signin').disabled=true;document.getElementById('signin').textContent='Signed in'}}
+</script>
+</body>
+</html>

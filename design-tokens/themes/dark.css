@@ -1,0 +1,69 @@
+/* ==========================================================================
+   MASTER-UI-ENGINE — Dark Theme
+   Grayscale is mirrored around the 400/500 midpoint. Because every semantic
+   token resolves through the primitives, flipping the ramp re-themes text,
+   borders and surfaces with no per-component dark rules. Only tokens pinned to
+   --color-white need an explicit override.
+   Apply by adding class="dark" to <html>.
+   ========================================================================== */
+
+html.dark {
+  /* --- Mirrored grayscale --- */
+  --color-gray-50: 216 34% 6%;    /* was gray-950 */
+  --color-gray-100: 215 20% 17%;  /* was gray-800 */
+  --color-gray-200: 215 14% 29%;  /* was gray-700 */
+  --color-gray-300: 215 14% 39%;  /* was gray-600 */
+  --color-gray-400: 215 18% 72%;  /* muted text on a dark surface needs to lift */
+  --color-gray-500: 215 16% 64%;  /* was gray-400 */
+  --color-gray-600: 215 20% 82%;  /* was gray-300 */
+  --color-gray-700: 222 47% 90%;  /* was gray-200 */
+  --color-gray-800: 222 47% 95%;  /* was gray-100 */
+  --color-gray-900: 210 40% 98%;  /* was gray-50 */
+  --color-gray-950: 210 40% 98%;  /* was gray-50 */
+
+  /* --- Brand blue lifts one step to keep contrast on a dark surface --- */
+  --color-primary-400: 221 97% 76%;
+  --color-primary-500: 221 96% 68%;
+  --color-primary-600: 221 98% 73%;
+  --color-primary-700: 221 99% 85%;
+
+  /* --- Semantic states brighten rather than darken --- */
+  --color-success-500: 152 76% 46%;
+  --color-warning-500: 38 92% 50%;
+  --color-error-500: 0 85% 66%;
+  --color-error-600: 0 85% 74%;
+  --color-info-500: 200 100% 60%;
+  --color-accent-400: 160 70% 45%;
+  --color-accent-500: 160 74% 52%;
+  --color-accent-600: 160 78% 62%;
+
+  /* --- Shadows must deepen; light-on-dark soft shadows are invisible --- */
+  --shadow-xs: 0 1px 2px 0 hsla(0, 0%, 0%, 0.5);
+  --shadow-sm: 0 1px 3px 0 hsla(0, 0%, 0%, 0.5), 0 1px 2px -1px hsla(0, 0%, 0%, 0.5);
+  --shadow-base: 0 4px 6px -1px hsla(0, 0%, 0%, 0.5), 0 2px 4px -2px hsla(0, 0%, 0%, 0.5);
+  --shadow-md: 0 10px 15px -3px hsla(0, 0%, 0%, 0.55), 0 4px 6px -4px hsla(0, 0%, 0%, 0.55);
+  --shadow-lg: 0 20px 25px -5px hsla(0, 0%, 0%, 0.6), 0 8px 10px -6px hsla(0, 0%, 0%, 0.6);
+  --shadow-xl: 0 25px 50px -12px hsla(0, 0%, 0%, 0.7);
+}
+
+/* Tokens pinned to --color-white do not follow the mirror, so re-point them. */
+html.dark {
+  --bg-surface: hsl(var(--color-gray-100));
+  --bg-surface-hover: hsl(var(--color-gray-200));
+  --bg-surface-active: hsl(var(--color-gray-300));
+  --bg-inverse: hsl(var(--color-gray-900));
+  --text-inverse: hsl(var(--color-gray-50));
+
+  --color-card: hsl(var(--color-gray-100));
+  --color-popover: hsl(var(--color-gray-100));
+  --color-primary-foreground: hsl(var(--color-gray-50));
+  --color-destructive-foreground: hsl(var(--color-gray-50));
+  --secondary-fg: hsl(var(--color-gray-900));
+  --danger-fg: hsl(var(--color-gray-50));
+  --danger-hover: hsl(0 85% 74%);
+  --primary-fg: hsl(var(--color-gray-50));
+  --ghost-fg: hsl(var(--color-gray-500));
+  --outline-fg: hsl(var(--color-gray-900));
+  --outline-border: hsl(var(--color-gray-600));
+  --border-dark: hsl(var(--color-gray-500));
+}

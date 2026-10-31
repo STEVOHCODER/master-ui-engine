@@ -1,0 +1,22 @@
+/* ==========================================================================
+   MASTER-UI-ENGINE — Border Scale
+   ========================================================================== */
+
+:root {
+  /* Border widths */
+  --border-width: 1px;
+  --border-width-0: 0;
+  --border-width-2: 2px;
+
+  /* Border radius */
+  --radius-sm: 0.25rem;   /* 4px */
+  --radius-base: 0.5rem;  /* 8px */
+  --radius-md: 0.75rem;   /* 12px */
+  --radius-lg: 1rem;      /* 16px */
+  --radius-full: 9999px;
+
+  /* Border colors */
+  --border-color: hsl(var(--color-gray-200));
+  --border-color-hover: hsl(var(--color-gray-300));
+  --border-color-focus: hsl(var(--color-primary-500));
+}

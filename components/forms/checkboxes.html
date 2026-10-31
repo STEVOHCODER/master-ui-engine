@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  COMPONENT: Checkboxes
+  ID: frm-checkboxes
+  GROUP: Components
+  CATEGORY: forms
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#choice — the classes below are defined there, so pasted markup arrives styled
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  VARIANTS: default, checked, disabled, with description
+  MOTION: durations and easings come from design-tokens/motion/scale.css; nothing here hardcodes a time
+  RESPONSIVE: a checkbox row is a wrapping flex label, so long labels reflow and the group simply stacks
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31
+  CATALOG: showcase/data/component-catalog.json#frm-checkboxes
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Checkboxes | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../styles/components.css">
+<script src="../../styles/mue.js" defer></script>
+<style>
+  /* The box, the tick, the focus ring and the 44px row all live in
+     styles/components.css#choice. Only the description line and the disabled
+     label colour are page-local. */
+  .page {
+    --shell-w: 700px;
+  }
+
+  /* Optional second line under a choice label. */
+  .choice-desc {
+    display: block;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+  }
+
+  /* #choice fades the box when the input is disabled but leaves the label at
+     full contrast, so a disabled row does not read as still clickable. */
+  .checkbox input:disabled ~ span {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+</style>
+</head>
+<body class="page">
+<div class="shell">
+  <header class="masthead">
+    <div>
+      <div class="brand">MASTER-UI-ENGINE</div>
+      <div class="meta">Components &gt; Forms &gt; Checkboxes</div>
+    </div>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+      <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <h1>Checkboxes</h1>
+  <p class="subtitle">Toggle one or more independent options from a group.</p>
+
+  <div class="meta-card">
+    <div class="meta">
+      <b>Name:</b> Checkboxes<br>
+      <b>Category:</b> forms<br>
+      <b>Framework:</b> Vanilla HTML/CSS/JS<br>
+      <b>Defined in:</b> styles/components.css #choice<br>
+      <b>Design system:</b> MASTER-UI-ENGINE custom<br>
+      <b>Variants:</b> default, checked, disabled, with description<br>
+      <b>Responsive:</b> yes — stacks vertically<br>
+      <b>Dependencies:</b> none (native input, no JS)<br>
+      <b>Original source:</b> MASTER-UI-ENGINE (original)<br>
+      <b>License:</b> MIT
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Default</h2>
+    <p>A native <code>&lt;input type="checkbox"&gt;</code> is hidden inside the label
+      and the visible box is painted from its <code>:checked</code> state, so
+      toggling, keyboard focus and screen-reader announcements stay free — no
+      behaviour code on this page. The tick is an SVG that scales in with
+      <code>--ease-spring</code>.</p>
+    <div class="checkbox-group">
+      <label class="checkbox">
+        <input type="checkbox" id="newsletter">
+        <span class="box" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"></path></svg>
+        </span>
+        Subscribe to newsletter
+      </label>
+      <label class="checkbox">
+        <input type="checkbox" id="terms" checked>
+        <span class="box" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"></path></svg>
+        </span>
+        I agree to the terms of service
+      </label>
+      <label class="checkbox">
+        <input type="checkbox" id="notifications">
+        <span class="box" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"></path></svg>
+        </span>
+        <span>Enable push notifications
+          <span class="choice-desc">Sent to this device only.</span>
+        </span>
+      </label>
+      <label class="checkbox">
+        <input type="checkbox" id="marketing" disabled>
+        <span class="box" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"></path></svg>
+        </span>
+        Receive marketing emails
+      </label>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Responsive behavior</h2>
+    <p>Each row is a wrapping flex label with a 44px minimum height
+      (<code>--control-h</code>), and the box is <code>flex:none</code>, so a long
+      label breaks onto its own line instead of squeezing the box or overflowing at
+      320px. The group itself is a plain column, so it stacks on every screen.</p>
+  </div>
+
+  <div class="section">
+    <h2>Accessibility</h2>
+    <ul style="list-style:disc;padding-left:1.25rem;color:var(--text-secondary);font-size:var(--text-sm);display:grid;gap:var(--space-2)">
+      <li>Native <code>&lt;input type="checkbox"&gt;</code> wrapped in its own <code>&lt;label&gt;</code>, so the whole row is clickable</li>
+      <li>Checked state announced by screen readers because the input is real, only visually hidden</li>
+      <li>Focus ring is drawn on the visible box via <code>input:focus-visible + .box</code></li>
+      <li>The decorative tick SVG is <code>aria-hidden</code>; the box carries no text</li>
+      <li>Disabled checkboxes are non-focusable and dimmed</li>
+    </ul>
+  </div>
+
+  <div class="code-wrap" data-section="choice">
+    <div class="code-bar"><span>Markup</span></div>
+<pre><code>&lt;div class="checkbox-group"&gt;
+  &lt;label class="checkbox"&gt;
+    &lt;input type="checkbox" id="newsletter"&gt;
+    &lt;span class="box" aria-hidden="true"&gt;
+      &lt;svg viewBox="0 0 24 24"&gt;&lt;path d="M5 13l4 4L19 7"&gt;&lt;/path&gt;&lt;/svg&gt;
+    &lt;/span&gt;
+    Subscribe to newsletter
+  &lt;/label&gt;
+
+  &lt;label class="checkbox"&gt;
+    &lt;input type="checkbox" id="notifications"&gt;
+    &lt;span class="box" aria-hidden="true"&gt;
+      &lt;svg viewBox="0 0 24 24"&gt;&lt;path d="M5 13l4 4L19 7"&gt;&lt;/path&gt;&lt;/svg&gt;
+    &lt;/span&gt;
+    &lt;span&gt;Enable push notifications
+      &lt;span class="choice-desc"&gt;Sent to this device only.&lt;/span&gt;
+    &lt;/span&gt;
+  &lt;/label&gt;
+&lt;/div&gt;</code></pre>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  EXAMPLE: SaaS dashboard
+  ID: ex-saas-dashboard
+  GROUP: Examples
+  CATEGORY: dashboards
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css (linked in this file head); no web fonts, CDNs or JS libraries, and no shared sheet yet
+  THEME: light + dark toggle (html.dark, persisted in localStorage)
+  RESPONSIVE: reflows at >=768px, <=768px
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31
+  CATALOG: showcase/data/component-catalog.json#ex-saas-dashboard
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>SaaS Dashboard | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<style>
+  :root{
+    --font-sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{font-family:var(--font-sans);font-size:var(--text-base);line-height:1.5;color:hsl(var(--color-gray-900));background:hsl(var(--color-gray-50));-webkit-font-smoothing:antialiased}
+  body{padding:0}
+  a{color:hsl(var(--color-primary-500));text-decoration:none}
+  a:hover{text-decoration:underline}
+  .app{display:flex}.sidebar{width:250px;border-right:1px solid hsl(var(--color-gray-200));background:var(--bg-surface);display:flex;flex-direction:column;z-index:10}
+  .sidebar-brand{font-weight:700;font-size:1.25rem;color:hsl(var(--color-gray-900));padding:var(--space-6);margin-bottom:var(--space-6)}
+  .sidebar nav{flex:1}
+  .sidebar ul{list-style:none;padding:0 0 var(--space-4) 0;margin:0}
+  .sidebar li{margin-bottom:0.25rem}
+  .sidebar a{display:flex;align-items:center;gap:var(--space-3);padding:0.65rem var(--space-6);color:hsl(var(--color-gray-600));font-size:0.9375rem;text-decoration:none;border-radius:var(--radius-base)}
+  .sidebar a:hover{background:hsl(var(--color-gray-100));color:hsl(var(--color-gray-900))}
+  .sidebar a.active{background:hsl(var(--color-primary-500) / 0.1);color:hsl(var(--color-primary-600))}
+  .sidebar-footer{padding:var(--space-6);border-top:1px solid hsl(var(--color-gray-200))}
+  .main{flex:1;background:hsl(var(--color-gray-50));min-height:100vh}.topbar{display:flex;align-items:center;justify-content:space-between;height:64px;border-bottom:1px solid hsl(var(--color-gray-200));background:var(--bg-surface);padding:0 var(--space-6);position:sticky;top:0;z-index:20}
+  .search{position:relative;width:280px}
+  .search input{width:100%;border:1px solid hsl(var(--color-gray-200));background:hsl(var(--color-gray-100));border-radius:var(--radius-full);padding:0.55rem 1rem 0.55rem 2.75rem;font-size:0.9375rem;color:hsl(var(--color-gray-900))}
+  .search input:focus{border-color:hsl(var(--color-primary-500));box-shadow:0 0 0 3px hsla(var(--color-primary-500)/0.35)}
+  .search svg{position:absolute;left:0.9rem;top:50%;transform:translateY(-50%); color:hsl(var(--color-gray-600));width:1.1rem;height:1.1rem}
+  .user{display:flex;align-items:center;gap:var(--space-3)}
+  .avatar{width:2.5rem;height:2.5rem;border-radius:50%;background:hsl(var(--color-primary-500));color:hsl(var(--color-gray-50));display:grid;place-items:center;font-weight:600}
+  .user-info{display:none}
+  @media (min-width:768px){.user-info{display:block;font-size:0.9375rem;color:hsl(var(--color-gray-700))}}
+  .container{padding:var(--space-6)}
+  .header{margin-bottom:var(--space-8)}
+  .header h1{font-size:2rem;font-weight:700;letter-spacing:-0.03em;color:hsl(var(--color-gray-900));margin-bottom:var(--space-2)}
+  .header p{color:hsl(var(--color-gray-500))}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-6);margin-bottom:var(--space-8)}.kpi{background:var(--bg-surface);border:1px solid hsl(var(--color-gray-200));border-radius:var(--radius-lg);padding:var(--space-6);box-shadow:var(--shadow-sm)}
+  .kpi .label{font-size:0.875rem;color:hsl(var(--color-gray-500));margin-bottom:var(--space-3)}
+  .kpi .value{font-size:2rem;font-weight:700;color:hsl(var(--color-gray-900));letter-spacing:-0.02em}
+  .kpi .delta{font-size:0.875rem;margin-top:var(--space-2)}
+  .delta.up{color:hsl(var(--color-success-500))}
+  .delta.down{color:hsl(var(--color-error-500))}
+  .grid{display:grid;grid-template-columns:2fr 1fr;gap:var(--space-6)}.card{background:var(--bg-surface);border:1px solid hsl(var(--color-gray-200));border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);overflow:hidden}
+  .card-header{padding:var(--space-6);border-bottom:1px solid hsl(var(--color-gray-100));display:flex;align-items:center;justify-content:space-between}
+  .card-title{font-size:1rem;font-weight:600;color:hsl(var(--color-gray-900))}
+  .card-body{padding:var(--space-6)}
+  .chart{width:100%;height:auto;display:block;margin-bottom:var(--space-4)}
+  .chart-grid line{stroke:hsl(var(--color-gray-200));stroke-width:1}
+  .chart-axis text{fill:hsl(var(--color-gray-500));font-size:11px;font-family:var(--font-sans)}
+  .chart-area{fill:url(#revGrad)}
+  .chart-line{fill:none;stroke:hsl(var(--color-primary-500));stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+  .chart-dots circle{fill:hsl(var(--bg-surface));stroke:hsl(var(--color-primary-500));stroke-width:2}
+  .chart-legend{display:flex;gap:var(--space-4);flex-wrap:wrap;font-size:0.8125rem;color:hsl(var(--color-gray-600))}
+  .chart-legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:0.4em;vertical-align:middle}
+  table{width:100%;border-collapse:collapse}
+  th{text-align:left;padding:0.75rem 1rem;font-size:0.8125rem;font-weight:600;color:hsl(var(--color-gray-500));text-transform:uppercase;letter-spacing:0.05em;border-bottom:1px solid hsl(var(--color-gray-100))}
+  td{padding:0.75rem 1rem;border-bottom:1px solid hsl(var(--color-gray-100));font-size:0.9375rem;color:hsl(var(--color-gray-700))}
+  tr:hover td{background:hsl(var(--color-gray-50))}
+  .badge{display:inline-block;font-size:0.75rem;font-weight:600;padding:0.2em 0.6em;border-radius:9999px}
+  .badge-success{background:hsl(var(--color-success-500) / 0.12);color:hsl(var(--color-success-500))}
+  .badge-warning{background:hsl(var(--color-warning-500) / 0.12);color:hsl(var(--color-warning-500))}
+  @media (max-width:768px){.app{flex-direction:column}.sidebar{width:100%;border-right:none;border-bottom:1px solid hsl(var(--color-gray-200))}.kpis{grid-template-columns:1fr}.grid{grid-template-columns:1fr}}
+  .theme-toggle{display:inline-flex;align-items:center;gap:0.5rem;background:hsl(var(--color-gray-200));border:none;border-radius:9999px;padding:0.25rem 0.75rem;font-size:0.875rem;cursor:pointer;color:hsl(var(--color-gray-800));margin-left:auto}
+  .theme-toggle .dot{width:10px;height:10px;border-radius:50%;background:hsl(var(--color-primary-500))}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" aria-label="Main navigation">
+    <div class="sidebar-brand">NexaSaaS</div>
+    <nav>
+      <ul>
+        <li><a class="active" href="#"><span>&#128196;</span> Dashboard</a></li>
+        <li><a href="#"><span>&#128221;</span> Projects</a></li>
+        <li><a href="#"><span>&#128100;</span> Team</a></li>
+        <li><a href="#"><span>&#9993;</span> Messages</a></li>
+        <li><a href="#"><span>&#128204;</span> Analytics</a></li>
+        <li style="margin-top:1rem"><a href="#"><span>&#9881;</span> Settings</a></li>
+      </ul>
+    </nav>
+    <div class="sidebar-footer"><div style="font-size:0.875rem;color:hsl(var(--color-gray-500))">Plan: Professional</div><div style="font-size:0.8125rem;color:hsl(var(--color-gray-500));margin-top:0.25rem">nexasao@example.com</div></div>
+  </aside>
+  <div class="main">
+    <header class="topbar">
+      <div class="search">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <input type="search" placeholder="Search projects...">
+      </div>
+      <div class="user">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"><span>Dark mode</span><span class="dot" id="themeDot"></span></button>
+        <div class="user-info">Jordan Lee</div>
+        <div class="avatar">JL</div>
+      </div>
+    </header>
+    <div class="container">
+      <div class="header">
+        <div>
+          <h1>Dashboard</h1>
+          <p>Here&rsquo;s what&rsquo;s happening across your workspace this week.</p>
+        </div>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><div class="label">Total revenue</div><div class="value">$54,231</div><div class="delta up">&#9650; 12% vs last month</div></div>
+        <div class="kpi"><div class="label">Active users</div><div class="value">3,842</div><div class="delta up">&#9650; 8% vs last month</div></div>
+        <div class="kpi"><div class="label">Churn rate</div><div class="value">3.2%</div><div class="delta down">&#9660; 0.4% vs last month</div></div>
+        <div class="kpi"><div class="label">Sessions</div><div class="value">12.4k</div><div class="delta up">&#9650; 22% vs last month</div></div>
+      </div>
+      <div class="grid">
+        <div class="card" style="grid-column:span 1">
+          <div class="card-header"><span class="card-title">Revenue trend</span><a href="#" style="font-size:0.875rem;color:hsl(var(--color-primary-500))">View all &rarr;</a></div>
+          <div class="card-body">
+            <svg class="chart" viewBox="0 0 600 216" role="img" aria-labelledby="revTitle revDesc">
+              <title id="revTitle">Revenue trend</title>
+              <desc id="revDesc">Area chart of monthly revenue from January to August, rising from 28 thousand to 64 thousand dollars.</desc>
+              <defs>
+                <linearGradient id="revGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" style="stop-color:hsl(var(--color-primary-500));stop-opacity:0.28"/>
+                  <stop offset="100%" style="stop-color:hsl(var(--color-primary-500));stop-opacity:0.02"/>
+                </linearGradient>
+              </defs>
+              <g class="chart-grid">
+                <line x1="44" y1="176" x2="600" y2="176"/>
+                <line x1="44" y1="136" x2="600" y2="136"/>
+                <line x1="44" y1="96" x2="600" y2="96"/>
+                <line x1="44" y1="56" x2="600" y2="56"/>
+                <line x1="44" y1="16" x2="600" y2="16"/>
+              </g>
+              <g class="chart-axis">
+                <text x="36" y="180" text-anchor="end">0</text>
+                <text x="36" y="140" text-anchor="end">20k</text>
+                <text x="36" y="100" text-anchor="end">40k</text>
+                <text x="36" y="60" text-anchor="end">60k</text>
+              </g>
+              <path class="chart-area" d="M44,112 L122,98 L200,105 L278,80 L356,66 L434,73 L512,43 L590,30 L590,176 L44,176 Z"/>
+              <polyline class="chart-line" points="44,112 122,98 200,105 278,80 356,66 434,73 512,43 590,30"/>
+              <g class="chart-dots">
+                <circle cx="44" cy="112" r="3.5"/><circle cx="122" cy="98" r="3.5"/>
+                <circle cx="200" cy="105" r="3.5"/><circle cx="278" cy="80" r="3.5"/>
+                <circle cx="356" cy="66" r="3.5"/><circle cx="434" cy="73" r="3.5"/>
+                <circle cx="512" cy="43" r="3.5"/><circle cx="590" cy="30" r="4.5"/>
+              </g>
+              <g class="chart-axis">
+                <text x="44" y="200">Jan</text><text x="122" y="200">Feb</text>
+                <text x="200" y="200">Mar</text><text x="278" y="200">Apr</text>
+                <text x="356" y="200">May</text><text x="434" y="200">Jun</text>
+                <text x="512" y="200">Jul</text><text x="590" y="200">Aug</text>
+              </g>
+            </svg>
+            <div class="chart-legend">
+              <span><i style="background:hsl(var(--color-primary-500))"></i>Net new revenue</span>
+              <span>Peak $64k in August</span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Recent activity</span><a href="#" style="font-size:0.875rem;color:hsl(var(--color-primary-500))">View all &rarr;</a></div>
+          <div class="card-body">
+            <table>
+              <thead><tr><th style="width:40%">Item</th><th style="width:30%">Status</th><th>Time</th></tr></thead>
+              <tbody>
+                <tr><td>New project created</td><td><span class="badge badge-success">Active</span></td><td>2h ago</td></tr>
+                <tr><td>Invoice #4029 paid</td><td><span class="badge badge-success">Paid</span></td><td>5h ago</td></tr>
+                <tr><td>Team member added</td><td><span class="badge badge-warning">Pending</span></td><td>1d ago</td></tr>
+                <tr><td>Report exported</td><td><span class="badge badge-success">Done</span></td><td>2d ago</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  const btn=document.getElementById('themeToggle');const dot=document.getElementById('themeDot');const html=document.documentElement;
+  btn.addEventListener('click',()=>{html.classList.toggle('dark');dot.innerHTML='';const d=document.createElement('span');d.className='dot';d.style.background=html.classList.contains('dark')?'hsl(var(--color-primary-400))':'hsl(var(--color-primary-500))';dot.appendChild(d);localStorage.setItem('mui-theme',html.classList.contains('dark')?'dark':'light')});
+  const saved=localStorage.getItem('mui-theme');if(saved==='dark')html.classList.add('dark');
+</script>
+</body>
+</html>

@@ -1,0 +1,981 @@
+{
+  "version": "1.3.0",
+  "generated": "2026-10-31",
+  "description": "Index of the standalone HTML previews in this repository. Agents: this is the machine-readable entry point. Humans: open showcase/index.html.",
+  "lab": "showcase/index.html",
+  "tokens": "design-tokens/engine.css",
+  "counts": {
+    "total": 46,
+    "components": 25,
+    "examples": 15,
+    "templates": 6
+  },
+  "items": [
+    {
+      "id": "btn-buttons",
+      "name": "Buttons",
+      "group": "Components",
+      "category": "buttons",
+      "path": "components/buttons/buttons.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "variants": [
+        "primary",
+        "secondary",
+        "outline",
+        "ghost",
+        "danger",
+        "icon"
+      ],
+      "license": "MIT",
+      "kind": "COMPONENT",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=640px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+    },
+    {
+      "id": "frm-input-fields",
+      "name": "Input Fields",
+      "group": "Components",
+      "category": "forms",
+      "path": "components/forms/input-fields.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "variants": [
+        "text",
+        "email",
+        "password",
+        "textarea",
+        "select",
+        "error",
+        "success"
+      ],
+      "license": "MIT",
+      "kind": "COMPONENT",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=640px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+    },
+    {
+      "id": "frm-select-menus",
+      "name": "Select Menus",
+      "group": "Components",
+      "category": "forms",
+      "path": "components/forms/select-menus.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "variants": [
+        "default",
+        "error",
+        "disabled"
+      ],
+      "license": "MIT",
+      "kind": "COMPONENT",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=640px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+    },
+    {
+      "id": "frm-checkboxes",
+      "name": "Checkboxes",
+      "group": "Components",
+      "category": "forms",
+      "path": "components/forms/checkboxes.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "variants": [
+        "default",
+        "checked",
+        "disabled"
+      ],
+      "license": "MIT",
+      "kind": "COMPONENT",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+    },
+    {
+      "id": "frm-switches",
+      "name": "Switches",
+      "group": "Components",
+      "category": "forms",
+      "path": "components/forms/switches.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "variants": [
+        "default",
+        "on",
+        "off",
+        "disabled"
+      ],
+      "license": "MIT",
+      "kind": "COMPONENT",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+    },
+    {
+      "id": "frm-radio-buttons",
+      "name": "Radio Buttons",
+      "group": "Components",
+      "category": "forms",
+      "path": "components/forms/radio-buttons/radio-buttons.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "variants": [
+        "default",
+        "selected",
+        "disabled"
+      ],
+      "license": "MIT",
+      "kind": "COMPONENT",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+    },
+    {
+      "id": "frm-date-picker",
+      "name": "Date Picker",
+      "group": "Components",
+      "category": "forms",
+      "path": "components/forms/date-picker/date-picker.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "variants": [
+        "default",
+        "min-max",
+        "required"
+      ],
+      "license": "MIT",
+      "kind": "COMPONENT",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+    },
+    {
+      "id": "ui-cards",
+      "name": "Cards",
+      "group": "Components",
+      "category": "cards",
+      "path": "components/cards/cards.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "COMPONENT",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=768px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": [
+        "UI design fundamentals",
+        "Design system launch",
+        "Wireless headphones"
+      ]
+    },
+    {
+      "id": "ui-tables",
+      "name": "Tables",
+      "group": "Components",
+      "category": "tables",
+      "path": "components/tables/tables.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "COMPONENT",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=768px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": [
+        "Default",
+        "With row actions"
+      ]
+    },
+    {
+      "id": "ui-charts",
+      "name": "Charts",
+      "group": "Components",
+      "category": "charts",
+      "path": "components/charts/charts.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "COMPONENT",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=768px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": [
+        "Bar chart",
+        "Line chart"
+      ]
+    },
+    {
+      "id": "ui-dialogs",
+      "name": "Dialogs",
+      "group": "Components",
+      "category": "dialogs",
+      "path": "components/dialogs/dialogs.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "COMPONENT",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": [
+        "Confirm dialog",
+        "Alert dialog"
+      ]
+    },
+    {
+      "id": "ui-modals",
+      "name": "Modals",
+      "group": "Components",
+      "category": "modals",
+      "path": "components/modals/modals.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "COMPONENT",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": [
+        "Create item modal"
+      ]
+    },
+    {
+      "id": "ui-dropdowns",
+      "name": "Dropdowns",
+      "group": "Components",
+      "category": "dropdowns",
+      "path": "components/dropdowns/dropdowns.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "COMPONENT",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": [
+        "Default"
+      ]
+    },
+    {
+      "id": "ui-notifications",
+      "name": "Notifications",
+      "group": "Components",
+      "category": "notifications",
+      "path": "components/notifications/notifications.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "COMPONENT",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": [
+        "Toasts",
+        "Inline alert"
+      ]
+    },
+    {
+      "id": "ui-footers",
+      "name": "Footers",
+      "group": "Components",
+      "category": "footers",
+      "path": "components/footers/footers.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "COMPONENT",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=768px",
+        "<=480px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": [
+        "Default"
+      ]
+    },
+    {
+      "id": "fb-progress",
+      "name": "Progress",
+      "group": "Components",
+      "category": "feedback",
+      "path": "components/feedback/progress.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "COMPONENT",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": [
+        "Determinate",
+        "Indeterminate",
+        "Interactive demo"
+      ]
+    },
+    {
+      "id": "fb-skeleton",
+      "name": "Skeleton",
+      "group": "Components",
+      "category": "feedback",
+      "path": "components/feedback/skeleton.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "COMPONENT",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": [
+        "Card skeleton",
+        "List skeleton",
+        "Button skeleton"
+      ]
+    },
+    {
+      "id": "fb-empty",
+      "name": "Empty state",
+      "group": "Components",
+      "category": "feedback",
+      "path": "components/feedback/empty-state.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "COMPONENT",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": [
+        "No results found",
+        "Get started"
+      ]
+    },
+    {
+      "id": "fb-error",
+      "name": "Error state",
+      "group": "Components",
+      "category": "feedback",
+      "path": "components/feedback/error-state.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "COMPONENT",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": [
+        "Something went wrong"
+      ]
+    },
+    {
+      "id": "nav-breadcrumbs",
+      "name": "Breadcrumbs",
+      "group": "Components",
+      "category": "navigation",
+      "path": "components/navigation/breadcrumbs.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "COMPONENT",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": [
+        "Default",
+        "Compact"
+      ]
+    },
+    {
+      "id": "nav-header",
+      "name": "Header Navigation",
+      "group": "Components",
+      "category": "navigation",
+      "path": "components/navigation/header-nav.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "COMPONENT",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=768px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": [
+        "Default"
+      ]
+    },
+    {
+      "id": "nav-menu",
+      "name": "Navigation Menu",
+      "group": "Components",
+      "category": "navigation",
+      "path": "components/navigation/navigation-menu.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "COMPONENT",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=768px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": [
+        "Default",
+        "With dropdown"
+      ]
+    },
+    {
+      "id": "nav-pagination",
+      "name": "Pagination",
+      "group": "Components",
+      "category": "navigation",
+      "path": "components/navigation/pagination.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "COMPONENT",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=480px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": [
+        "Default",
+        "With ellipsis"
+      ]
+    },
+    {
+      "id": "nav-tabs",
+      "name": "Tabs",
+      "group": "Components",
+      "category": "navigation",
+      "path": "components/navigation/tabs.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "COMPONENT",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=640px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": [
+        "Default"
+      ]
+    },
+    {
+      "id": "nav-sidebar",
+      "name": "Sidebar",
+      "group": "Components",
+      "category": "sidebars",
+      "path": "components/sidebars/sidebar.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "COMPONENT",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=768px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": [
+        "Default"
+      ]
+    },
+    {
+      "id": "ex-saas-dashboard",
+      "name": "SaaS dashboard",
+      "group": "Examples",
+      "category": "dashboards",
+      "path": "examples/dashboards/saas-dashboard.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "EXAMPLE",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        ">=768px",
+        "<=768px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": []
+    },
+    {
+      "id": "ex-admin-dashboard",
+      "name": "Admin dashboard",
+      "group": "Examples",
+      "category": "dashboards",
+      "path": "examples/dashboards/admin-dashboard.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "EXAMPLE",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=768px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": []
+    },
+    {
+      "id": "ex-analytics",
+      "name": "Analytics dashboard",
+      "group": "Examples",
+      "category": "analytics",
+      "path": "examples/analytics/analytics-dashboard.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "EXAMPLE",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=768px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": []
+    },
+    {
+      "id": "ex-ecom-home",
+      "name": "Ecommerce homepage",
+      "group": "Examples",
+      "category": "ecommerce",
+      "path": "examples/ecommerce/ecommerce-homepage.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "EXAMPLE",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=768px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": [
+        "Featured products",
+        "What our customers say"
+      ]
+    },
+    {
+      "id": "ex-ecom-pdp",
+      "name": "Product details",
+      "group": "Examples",
+      "category": "ecommerce",
+      "path": "examples/ecommerce/product-details.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "EXAMPLE",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=768px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": []
+    },
+    {
+      "id": "ex-market",
+      "name": "Marketplace homepage",
+      "group": "Examples",
+      "category": "marketplaces",
+      "path": "examples/marketplaces/marketplace-homepage.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "EXAMPLE",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=768px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": [
+        "Featured listings",
+        "Why sell here?"
+      ]
+    },
+    {
+      "id": "ex-ai",
+      "name": "AI assistant",
+      "group": "Examples",
+      "category": "apps",
+      "path": "examples/complete-applications/ai-assistant.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "EXAMPLE",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=768px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": []
+    },
+    {
+      "id": "ex-chat",
+      "name": "Chat interface",
+      "group": "Examples",
+      "category": "apps",
+      "path": "examples/complete-applications/chat-interface.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "EXAMPLE",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=768px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": [
+        "Alex Morgan"
+      ]
+    },
+    {
+      "id": "ex-login",
+      "name": "Login",
+      "group": "Examples",
+      "category": "auth",
+      "path": "examples/authentication/login.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "EXAMPLE",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": []
+    },
+    {
+      "id": "ex-signup",
+      "name": "Signup",
+      "group": "Examples",
+      "category": "auth",
+      "path": "examples/authentication/signup.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "EXAMPLE",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": []
+    },
+    {
+      "id": "ex-landing",
+      "name": "Landing page",
+      "group": "Examples",
+      "category": "marketing",
+      "path": "examples/landing-pages/landing.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "EXAMPLE",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=768px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": [
+        "Everything you need to ship faster",
+        "Start building today"
+      ]
+    },
+    {
+      "id": "ex-launch",
+      "name": "Design system launch",
+      "group": "Examples",
+      "category": "marketing",
+      "path": "examples/landing-pages/design-system-launch.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "EXAMPLE",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=960px",
+        "<=900px",
+        "<=768px",
+        "<=700px",
+        "<=640px",
+        "<=620px",
+        "<=520px",
+        "<=480px",
+        "<=380px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 320/375/768/1280, audited 2026-10-31",
+      "variants": [
+        "Everything renders. Nothing is a screenshot.",
+        "The components are interactive. Try them here.",
+        "The workflow is the product",
+        "Ten token files, one import",
+        "Questions agents ask first",
+        "Give your next session a starting point"
+      ]
+    },
+    {
+      "id": "ex-portfolio",
+      "name": "Portfolio",
+      "group": "Examples",
+      "category": "marketing",
+      "path": "examples/portfolio/portfolio.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "EXAMPLE",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=768px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": [
+        "Selected work",
+        "About me"
+      ]
+    },
+    {
+      "id": "ex-booking",
+      "name": "Booking",
+      "group": "Examples",
+      "category": "marketing",
+      "path": "examples/booking/booking.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "EXAMPLE",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=768px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": [
+        "Featured stays"
+      ]
+    },
+    {
+      "id": "ex-education",
+      "name": "Education",
+      "group": "Examples",
+      "category": "marketing",
+      "path": "examples/education/education.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "EXAMPLE",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=768px navbar wrap",
+        "auto-fit grid from 18rem columns"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA text contrast in light + dark (lowest 4.61:1) and no horizontal overflow at 320/375/600/768/1200, audited 2026-10-31",
+      "variants": [
+        "6 course cards, each with an enrol toggle and a confirmation toast"
+      ]
+    },
+    {
+      "id": "tpl-saas",
+      "name": "SaaS starter",
+      "group": "Templates",
+      "category": "saas",
+      "path": "templates/saas/saas-starter.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "TEMPLATE",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=768px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": []
+    },
+    {
+      "id": "tpl-admin",
+      "name": "Admin starter",
+      "group": "Templates",
+      "category": "dashboards",
+      "path": "templates/dashboards/admin-starter.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "TEMPLATE",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=768px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": []
+    },
+    {
+      "id": "tpl-analytics",
+      "name": "Analytics starter",
+      "group": "Templates",
+      "category": "dashboards",
+      "path": "templates/dashboards/analytics-starter.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "TEMPLATE",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=768px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": []
+    },
+    {
+      "id": "tpl-ecom",
+      "name": "Ecommerce starter",
+      "group": "Templates",
+      "category": "ecommerce",
+      "path": "templates/ecommerce/ecommerce-starter.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "TEMPLATE",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=768px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": []
+    },
+    {
+      "id": "tpl-market",
+      "name": "Marketplace starter",
+      "group": "Templates",
+      "category": "marketplaces",
+      "path": "templates/marketplaces/marketplace-starter.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "TEMPLATE",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=768px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": []
+    },
+    {
+      "id": "tpl-ai",
+      "name": "AI starter",
+      "group": "Templates",
+      "category": "apps",
+      "path": "templates/web-applications/ai-starter.html",
+      "framework": "vanilla",
+      "designSystem": "custom",
+      "license": "MIT",
+      "kind": "TEMPLATE",
+      "tokens": "design-tokens/engine.css",
+      "engineLinked": true,
+      "breakpoints": [
+        "<=768px"
+      ],
+      "theming": "light + dark toggle (html.dark, persisted in localStorage)",
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "variants": []
+    }
+  ]
+}

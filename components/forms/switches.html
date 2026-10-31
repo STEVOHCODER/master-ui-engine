@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  COMPONENT: Switches
+  ID: frm-switches
+  GROUP: Components
+  CATEGORY: forms
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#choice — .switch, its hidden input, .track, the knob and .switch-label are defined there
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  VARIANTS: default, on, off, disabled
+  MOTION: durations and easings come from design-tokens/motion/scale.css; nothing here hardcodes a time
+  RESPONSIVE: the row is a wrapping flex label with a 44px target, so the label reflows under the fixed-width track
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31
+  CATALOG: showcase/data/component-catalog.json#frm-switches
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Switches | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../styles/components.css">
+<script src="../../styles/mue.js" defer></script>
+<style>
+  /* Track, knob, spring travel and focus ring live in
+     styles/components.css#choice. The only local rules are the disabled look
+     and the shell width. */
+  .page {
+    --shell-w: 700px;
+  }
+
+  /* #choice has no :disabled rule for switches, so an off-looking track would
+     otherwise still read as clickable. */
+  .switch input:disabled + .track {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .switch input:disabled ~ .switch-label {
+    color: var(--text-tertiary);
+  }
+</style>
+</head>
+<body class="page">
+<div class="shell">
+  <header class="masthead">
+    <div>
+      <div class="brand">MASTER-UI-ENGINE</div>
+      <div class="meta">Components &gt; Forms &gt; Switches</div>
+    </div>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+      <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <h1>Switches</h1>
+  <p class="subtitle">Toggle a single setting on or off — ideal for preferences and settings.</p>
+
+  <div class="meta-card">
+    <div class="meta">
+      <b>Name:</b> Switches<br>
+      <b>Category:</b> forms<br>
+      <b>Framework:</b> Vanilla HTML/CSS/JS<br>
+      <b>Defined in:</b> styles/components.css #choice<br>
+      <b>Design system:</b> MASTER-UI-ENGINE custom<br>
+      <b>Variants:</b> default, on/off, disabled<br>
+      <b>Responsive:</b> yes — scales with text<br>
+      <b>Dependencies:</b> none (native checkbox input, no JS)<br>
+      <b>Original source:</b> MASTER-UI-ENGINE (original)<br>
+      <b>License:</b> MIT
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Default</h2>
+    <p>A real <code>&lt;input type="checkbox"&gt;</code> stretched over the whole row
+      and made transparent: the browser does the toggling, the sheet moves the knob.
+      Use a switch only where the change takes effect immediately — a checkbox plus a
+      submit button is the right pattern for a form.</p>
+    <div class="stack">
+      <label class="switch">
+        <input type="checkbox" id="dark-mode">
+        <span class="track" aria-hidden="true"></span>
+        <span class="switch-label">Dark mode</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox" id="notifications" checked>
+        <span class="track" aria-hidden="true"></span>
+        <span class="switch-label">Push notifications</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox" id="beta-features" checked>
+        <span class="track" aria-hidden="true"></span>
+        <span class="switch-label">Beta features</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox" id="auto-save" disabled>
+        <span class="track" aria-hidden="true"></span>
+        <span class="switch-label">Auto-save (disabled)</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Motion</h2>
+    <p>The knob slides on <code>--duration-base</code> with
+      <code>--ease-spring</code>, so it overshoots by a hair and settles — the
+      overshoot is what makes the state change feel physical. Under
+      <code>prefers-reduced-motion</code> the movement tokens collapse to zero and the
+      knob jumps instantly, because the sheet never hardcodes a time.</p>
+  </div>
+
+  <div class="section">
+    <h2>Responsive behavior</h2>
+    <p>The track is a fixed 44&times;24px so the knob travel never changes, while
+      <code>.switch</code> is a wrapping flex row with a <code>--control-h</code>
+      minimum height: the label drops below the track on a narrow phone instead of
+      pushing the row sideways.</p>
+  </div>
+
+  <div class="section">
+    <h2>Accessibility</h2>
+    <ul style="list-style:disc;padding-left:1.25rem;color:var(--text-secondary);font-size:var(--text-sm);display:grid;gap:var(--space-2)">
+      <li>Role <code>switch</code> conveyed by a native checkbox plus its wrapping <code>&lt;label&gt;</code></li>
+      <li>Checked state reflects on/off and is announced automatically</li>
+      <li>Focus ring lands on the visible track via <code>input:focus-visible + .track</code></li>
+      <li>The track is decorative and marked <code>aria-hidden</code></li>
+      <li>Disabled switches are non-focusable and dimmed</li>
+    </ul>
+  </div>
+
+  <div class="code-wrap" data-section="choice">
+    <div class="code-bar"><span>Markup</span></div>
+<pre><code>&lt;label class="switch"&gt;
+  &lt;input type="checkbox" id="dark-mode"&gt;
+  &lt;span class="track" aria-hidden="true"&gt;&lt;/span&gt;
+  &lt;span class="switch-label"&gt;Dark mode&lt;/span&gt;
+&lt;/label&gt;
+
+&lt;label class="switch"&gt;
+  &lt;input type="checkbox" id="notifications" checked&gt;
+  &lt;span class="track" aria-hidden="true"&gt;&lt;/span&gt;
+  &lt;span class="switch-label"&gt;Push notifications&lt;/span&gt;
+&lt;/label&gt;</code></pre>
+  </div>
+</div>
+</body>
+</html>

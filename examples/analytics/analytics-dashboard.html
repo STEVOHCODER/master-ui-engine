@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  EXAMPLE: Analytics dashboard
+  ID: ex-analytics
+  GROUP: Examples
+  CATEGORY: analytics
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css (linked in this file head); no web fonts, CDNs or JS libraries, and no shared sheet yet
+  THEME: light + dark toggle (html.dark, persisted in localStorage)
+  RESPONSIVE: reflows at <=768px
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31
+  CATALOG: showcase/data/component-catalog.json#ex-analytics
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Analytics Dashboard | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<style>
+  :root{
+    --shadow-sm:0 1px 3px 0 hsla(215,20%,17%,0.08),0 1px 2px -1px hsla(215,20%,17%,0.08);
+    --font-sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{font-family:var(--font-sans);font-size:var(--text-base);line-height:1.5;color:hsl(var(--color-gray-900));background:hsl(var(--color-gray-50))}
+  body{margin:0}
+  a{color:hsl(var(--color-primary-500));text-decoration:none}
+  .app{display:flex}.sidebar{width:220px;background:var(--bg-surface);border-right:1px solid hsl(var(--color-gray-200));display:flex;flex-direction:column;z-index:10}
+  .sidebar-brand{font-weight:800;font-size:1.25rem;color:hsl(var(--color-gray-900));padding:var(--space-6);letter-spacing:-0.02em}
+  .sidebar nav{flex:1}
+  .sidebar ul{list-style:none;padding:0 0 var(--space-4) 0;margin:0}
+  .sidebar li{margin-bottom:0.25rem}
+  .sidebar a{display:flex;align-items:center;gap:var(--space-3);padding:0.6rem var(--space-6);color:hsl(var(--color-gray-600));font-size:0.9375rem;text-decoration:none;border-radius:var(--radius-base)}
+  .sidebar a:hover{background:hsl(var(--color-gray-100));color:hsl(var(--color-gray-900))}
+  .sidebar a.active{background:hsl(var(--color-primary-500) / 0.1);color:hsl(var(--color-primary-600))}.topbar{height:60px;border-bottom:1px solid hsl(var(--color-gray-200));background:var(--bg-surface);display:flex;align-items:center;justify-content:space-between;padding:0 var(--space-6);position:sticky;top:0;z-index:20}
+  .search{position:relative;width:300px}
+  .search input{width:100%;border:1px solid hsl(var(--color-gray-200));background:hsl(var(--color-gray-100));border-radius:var(--radius-base);padding:0.5rem 1rem 0.5rem 2.6rem;font-size:0.9375rem;color:hsl(var(--color-gray-900))}
+  .search input:focus{border-color:hsl(var(--color-primary-500));box-shadow:0 0 0 3px hsla(var(--color-primary-500)/0.35)}
+  .search svg{position:absolute;left:0.85rem;top:50%;transform:translateY(-50%); color:hsl(var(--color-gray-600));width:1.1rem;height:1.1rem}
+  .main{flex:1;background:hsl(var(--color-gray-50));min-height:100vh;padding:var(--space-6)}
+  .page-header{margin-bottom:var(--space-8);display:flex;align-items:center;justify-content:space-between}
+  .page-header h1{font-size:1.75rem;font-weight:700;letter-spacing:-0.02em;color:hsl(var(--color-gray-900))}
+  .page-header p{color:hsl(var(--color-gray-500))}
+  .date-picker{display:flex;align-items:center;gap:var(--space-3)}.date-picker input{border:1px solid hsl(var(--color-gray-200));background:var(--bg-surface);border-radius:var(--radius-base);padding:0.5rem 0.9rem;font-size:0.9375rem;color:hsl(var(--color-gray-900))}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-6);margin-bottom:var(--space-8)}.kpi{background:var(--bg-surface);border:1px solid hsl(var(--color-gray-200));border-radius:var(--radius-lg);padding:var(--space-6);box-shadow:var(--shadow-sm);position:relative}
+  .kpi .label{font-size:0.8rem;font-weight:600;color:hsl(var(--color-gray-500));text-transform:uppercase;letter-spacing:0.05em;margin-bottom:var(--space-3)}
+  .kpi .value{font-size:1.75rem;font-weight:700;color:hsl(var(--color-gray-900))}
+  .kpi .spark{position:absolute;top:var(--space-6);right:var(--space-6);width:48px;height:28px}
+  .kpi .delta{font-size:0.85rem;margin-top:var(--space-2);display:flex;align-items:center;gap:0.5rem}
+  .delta.up{color:hsl(var(--color-success-500))}
+  .delta.down{color:hsl(var(--color-error-500))}
+  .content-grid{display:grid;grid-template-columns:3fr 2fr;gap:var(--space-6)}.card{background:var(--bg-surface);border:1px solid hsl(var(--color-gray-200));border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);overflow:hidden}
+  .card-header{padding:var(--space-6);border-bottom:1px solid hsl(var(--color-gray-100));display:flex;align-items:center;justify-content:space-between}
+  .card-title{font-size:1rem;font-weight:600;color:hsl(var(--color-gray-900))}
+  .card-body{padding:var(--space-6)}
+  .chart{height:220px;background:hsl(var(--color-gray-100));border-radius:var(--radius-base);display:flex;flex-direction:column;justify-content:space-between;padding:var(--space-3) var(--space-4) var(--space-2);margin-bottom:var(--space-4)}
+  .chart svg{width:100%;height:calc(100% - 26px);display:block}
+  .tr-grid line{stroke:hsl(var(--color-gray-200));stroke-width:1}
+  .tr-axis text{fill:hsl(var(--color-gray-500));font-size:11px;font-family:var(--font-sans)}
+  .tr-area{fill:url(#trGrad)}
+  .tr-line{fill:none;stroke:hsl(var(--color-primary-500));stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+  .tr-prior{fill:none;stroke:hsl(var(--color-gray-400));stroke-width:1.6;stroke-dasharray:5 5}
+  .tr-dots circle{fill:hsl(var(--bg-surface));stroke:hsl(var(--color-primary-500));stroke-width:2}
+  .tr-legend{display:flex;gap:var(--space-4);flex-wrap:wrap;font-size:0.8125rem;color:hsl(var(--color-gray-600))}
+  .tr-legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:0.4em;vertical-align:middle}
+  table{width:100%;border-collapse:collapse}
+  th{text-align:left;padding:0.75rem 1rem;font-size:0.8rem;font-weight:600;color:hsl(var(--color-gray-500));text-transform:uppercase;letter-spacing:0.05em;border-bottom:1px solid hsl(var(--color-gray-100))}
+  td{padding:0.75rem 1rem;border-bottom:1px solid hsl(var(--color-gray-100));font-size:0.9375rem;color:hsl(var(--color-gray-700))}
+  tr:hover td{background:hsl(var(--color-gray-50))}
+  .badge{display:inline-block;font-size:0.72rem;font-weight:700;padding:0.18em 0.6em;border-radius:9999px;text-transform:uppercase}
+  .bg-success{background:hsl(var(--color-success-500)/0.12);color:hsl(var(--color-success-500))}
+  .bg-warning{background:hsl(var(--color-warning-500)/0.12);color:hsl(var(--color-warning-500))}
+  @media (max-width:768px){.app{flex-direction:column}.sidebar{width:100%;border-right:none;border-bottom:1px solid hsl(var(--color-gray-200))}.kpis{grid-template-columns:1fr}.content-grid{grid-template-columns:1fr}}
+  .theme-toggle{display:inline-flex;align-items:center;gap:0.5rem;background:hsl(var(--color-gray-200));border:none;border-radius:9999px;padding:0.25rem 0.75rem;font-size:0.875rem;cursor:pointer;color:hsl(var(--color-gray-800))}
+  .theme-toggle .dot{width:10px;height:10px;border-radius:50%;background:hsl(var(--color-primary-500))}
+  .container{width:100%;max-width:78rem;margin:0 auto;padding:0 var(--space-5)}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" aria-label="Main navigation">
+    <div class="sidebar-brand">ANALYTICS</div>
+    <nav>
+      <ul>
+        <li><a class="active" href="#"><span>&#128196;</span> Overview</a></li>
+        <li><a href="#"><span>&#128209;</span> Traffic</a></li>
+        <li><a href="#"><span>&#128179;</span> Conversions</a></li>
+        <li><a href="#"><span>&#128200;</span> Audiences</a></li>
+        <li style="margin-top:1rem"><a href="#"><span>&#9881;</span> Settings</a></li>
+      </ul>
+    </nav>
+  </aside>
+  <div class="main">
+    <header class="topbar">
+      <div class="date-picker"><input type="date"></div>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"><span>Dark mode</span><span class="dot" id="themeDot"></span></button>
+    </header>
+    <div class="container">
+      <div class="page-header">
+        <div><h1>Analytics overview</h1><p>Traffic, conversions, and revenue at a glance.</p></div>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><div class="label">Page views</div><div class="value">1.24M</div><div class="delta up">&#9650; 18% vs week</div></div>
+        <div class="kpi"><div class="label">Unique visitors</div><div class="value">312k</div><div class="delta up">&#9650; 12% vs week</div></div>
+        <div class="kpi"><div class="label">Conversion rate</div><div class="value">4.2%</div><div class="delta up">&#9650; 0.3% vs week</div></div>
+        <div class="kpi"><div class="label">Revenue</div><div class="value">$89,400</div><div class="delta down">&#9660; 2% vs week</div></div>
+      </div>
+      <div class="content-grid">
+        <div class="card" style="grid-column:span 2">
+          <div class="card-header"><span class="card-title">Traffic trend</span><a href="#" style="font-size:0.875rem;color:hsl(var(--color-primary-500))">Export</a></div>
+          <div class="card-body"><div class="chart"><svg viewBox="0 0 640 196" role="img" aria-labelledby="trTitle trDesc">
+              <title id="trTitle">Traffic trend</title>
+              <desc id="trDesc">Line chart of daily sessions over two weeks. This period climbs from 32 to 91 on an arbitrary index; the previous period, shown dashed, runs from 28 to 58.</desc>
+              <defs><linearGradient id="trGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" style="stop-color:hsl(var(--color-primary-500));stop-opacity:0.26"/>
+                <stop offset="100%" style="stop-color:hsl(var(--color-primary-500));stop-opacity:0.02"/>
+              </linearGradient></defs>
+              <g class="tr-grid"><line x1="44" y1="160" x2="636" y2="160"/><line x1="44" y1="125" x2="636" y2="125"/><line x1="44" y1="90" x2="636" y2="90"/><line x1="44" y1="55" x2="636" y2="55"/><line x1="44" y1="20" x2="636" y2="20"/></g>
+              <g class="tr-axis"><text x="36" y="164" text-anchor="end">0</text><text x="36" y="129" text-anchor="end">25</text><text x="36" y="94" text-anchor="end">50</text><text x="36" y="59" text-anchor="end">75</text><text x="36" y="24" text-anchor="end">100</text></g>
+              <polyline class="tr-prior" points="44,120.8 88.3,118 132.6,113.8 176.9,109.6 221.2,104 265.5,105.4 309.8,101.2 354.2,97 398.5,98.4 442.8,92.8 487.1,90 531.4,85.8 575.7,83 620,78.8"/>
+              <path class="tr-area" d="M44,115.2 L88.3,106.8 L132.6,111 L176.9,92.8 L221.2,87.2 L265.5,95.6 L309.8,78.8 L354.2,71.8 L398.5,80.2 L442.8,62 L487.1,53.6 L531.4,59.2 L575.7,42.4 L620,32.6 L620,160 L44,160 Z"/>
+              <polyline class="tr-line" points="44,115.2 88.3,106.8 132.6,111 176.9,92.8 221.2,87.2 265.5,95.6 309.8,78.8 354.2,71.8 398.5,80.2 442.8,62 487.1,53.6 531.4,59.2 575.7,42.4 620,32.6"/>
+              <g class="tr-dots"><circle cx="44" cy="115.2" r="3"/><circle cx="88.3" cy="106.8" r="3"/><circle cx="132.6" cy="111" r="3"/><circle cx="176.9" cy="92.8" r="3"/><circle cx="221.2" cy="87.2" r="3"/><circle cx="265.5" cy="95.6" r="3"/><circle cx="309.8" cy="78.8" r="3"/><circle cx="354.2" cy="71.8" r="3"/><circle cx="398.5" cy="80.2" r="3"/><circle cx="442.8" cy="62" r="3"/><circle cx="487.1" cy="53.6" r="3"/><circle cx="531.4" cy="59.2" r="3"/><circle cx="575.7" cy="42.4" r="3"/><circle cx="620" cy="32.6" r="3"/></g>
+              <g class="tr-axis"><text x="44" y="184" text-anchor="middle">Mar 03</text><text x="132.6" y="184" text-anchor="middle">Mar 05</text><text x="221.2" y="184" text-anchor="middle">Mar 07</text><text x="309.8" y="184" text-anchor="middle">Mar 09</text><text x="398.5" y="184" text-anchor="middle">Mar 11</text><text x="487.1" y="184" text-anchor="middle">Mar 13</text><text x="575.7" y="184" text-anchor="middle">Mar 15</text></g>
+            </svg>
+            <div class="tr-legend"><span><i style="background:hsl(var(--color-primary-500))"></i>This period</span><span><i style="background:hsl(var(--color-gray-400))"></i>Previous period</span></div></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Top sources</span></div>
+          <div class="card-body">
+            <table>
+              <thead><tr><th>Source</th><th>Share</th></tr></thead>
+              <tbody>
+                <tr><td>Organic search</td><td><span class="badge bg-success">52%</span></td></tr>
+                <tr><td>Direct</td><td><span class="badge bg-warning">24%</span></td></tr>
+                <tr><td>Referral</td><td><span class="badge bg-success">15%</span></td></tr>
+                <tr><td>Social</td><td><span class="badge bg-warning">9%</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  const btn=document.getElementById('themeToggle');const dot=document.getElementById('themeDot');const html=document.documentElement;
+  btn.addEventListener('click',()=>{html.classList.toggle('dark');dot.innerHTML='';const d=document.createElement('span');d.className='dot';d.style.background=html.classList.contains('dark')?'hsl(var(--color-primary-400))':'hsl(var(--color-primary-500))';dot.appendChild(d);localStorage.setItem('mui-theme',html.classList.contains('dark')?'dark':'light')});
+  const saved=localStorage.getItem('mui-theme');if(saved==='dark')html.classList.add('dark');
+</script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  COMPONENT: Dialogs
+  ID: ui-dialogs
+  GROUP: Components
+  CATEGORY: dialogs
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#overlays (with #buttons) — every class below is defined there, so pasted markup arrives styled
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  VARIANTS: Confirm dialog, Alert dialog
+  MOTION: scrim fades on --motion-overlay, the panel rises --reveal-shift-lg on --ease-out-expo; durations from design-tokens/motion/scale.css, nothing here hardcodes a time
+  RESPONSIVE: centred and capped at min(32rem,100%) on desktop; below 640px the sheet turns the dialog into a bottom sheet with full-width buttons
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 320/375/768/1280
+  CATALOG: showcase/data/component-catalog.json#ui-dialogs
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Dialogs | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../styles/components.css">
+<script src="../../styles/mue.js" defer></script>
+<style>
+  /* The sheet hides a closed overlay with opacity + pointer-events, which still
+     leaves the dialog reachable by Tab. visibility is what takes it out of the
+     tab order, delayed by the fade so the exit animation still plays. */
+  .overlay:not(.is-open) {
+    visibility: hidden;
+    transition: var(--motion-overlay), visibility 0s linear var(--duration-slow);
+  }
+  .overlay.is-open {
+    visibility: visible;
+    transition: var(--motion-overlay), visibility 0s;
+  }
+</style>
+</head>
+<body class="page">
+<div class="shell">
+  <header class="masthead">
+    <div>
+      <div class="brand">MASTER-UI-ENGINE</div>
+      <div class="meta">Components &gt; Dialogs</div>
+    </div>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+      <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <h1>Dialogs</h1>
+  <p class="subtitle">Modal overlays that require user confirmation or input before continuing.
+    The markup carries the behaviour hooks — <code>data-open</code>, <code>data-close</code>,
+    <code>data-dialog</code> — so no page script is needed.</p>
+
+  <div class="meta-card">
+    <div class="meta">
+      <b>Name:</b> Dialogs<br>
+      <b>Category:</b> dialogs<br>
+      <b>Framework:</b> Vanilla HTML/CSS/JS<br>
+      <b>Defined in:</b> styles/components.css #overlays<br>
+      <b>Behaviour:</b> styles/mue.js — [data-open], [data-close], [data-dialog]<br>
+      <b>Variants:</b> confirm, alert, custom<br>
+      <b>Responsive:</b> bottom sheet below 640px, full-width footer buttons<br>
+      <b>Dependencies:</b> none<br>
+      <b>License:</b> MIT
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Confirm dialog</h2>
+    <p>A confirmation names the consequence and puts the destructive action on the right, so
+      the safe choice is the one under the thumb when the dialog lands.</p>
+    <div class="demo-area">
+      <button class="btn-primary" type="button" data-open="#dlg-confirm" aria-haspopup="dialog">Delete project</button>
+    </div>
+    <div class="overlay">
+      <div class="dialog" id="dlg-confirm" data-dialog role="dialog" aria-modal="true" aria-labelledby="dlg-confirm-title">
+        <div class="dialog-header">
+          <span class="dialog-title" id="dlg-confirm-title">Delete project?</span>
+          <button class="dialog-close" type="button" data-close aria-label="Close dialog">&times;</button>
+        </div>
+        <div class="dialog-body">This will permanently delete all data associated with the project. This action cannot be undone.</div>
+        <div class="dialog-footer">
+          <button class="btn-outline" type="button" data-close>Cancel</button>
+          <button class="btn-danger" type="button" data-close>Delete project</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Alert dialog</h2>
+    <p>One decision, two ways out. The footer keeps its own order while the sheet handles the
+      wrap, so nothing overflows at 320px.</p>
+    <div class="demo-area">
+      <button class="btn-outline" type="button" data-open="#dlg-alert" aria-haspopup="dialog">Save changes</button>
+    </div>
+    <div class="overlay">
+      <div class="dialog" id="dlg-alert" data-dialog role="alertdialog" aria-modal="true" aria-labelledby="dlg-alert-title">
+        <div class="dialog-header">
+          <span class="dialog-title" id="dlg-alert-title">Unsaved changes</span>
+          <button class="dialog-close" type="button" data-close aria-label="Close dialog">&times;</button>
+        </div>
+        <div class="dialog-body">You have unsaved changes. Would you like to save them before leaving?</div>
+        <div class="dialog-footer">
+          <button class="btn-outline" type="button" data-close>Discard</button>
+          <button class="btn-primary" type="button" data-close>Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Keyboard behavior</h2>
+    <ul style="list-style:disc;padding-left:1.25rem;color:var(--text-secondary);font-size:var(--text-sm);display:grid;gap:var(--space-2)">
+      <li>Escape closes the topmost open dialog</li>
+      <li>Clicking the scrim (anything that is not the panel) closes it</li>
+      <li>Tab is trapped inside the panel while it is open, then focus returns to the trigger</li>
+      <li><code>html.mue-locked</code> stops the page scrolling behind the dialog</li>
+      <li>A closed dialog is <code>visibility: hidden</code>, so it can never be tabbed into</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Accessibility</h2>
+    <ul style="list-style:disc;padding-left:1.25rem;color:var(--text-secondary);font-size:var(--text-sm);display:grid;gap:var(--space-2)">
+      <li><code>role="dialog"</code> or <code>role="alertdialog"</code> with <code>aria-modal="true"</code></li>
+      <li><code>aria-labelledby</code> points at the title, so the dialog announces itself</li>
+      <li>The close button is an empty-looking glyph, so it carries an <code>aria-label</code></li>
+      <li>The scrim blocks interaction with background content while open</li>
+      <li>Under <code>prefers-reduced-motion</code> the movement tokens collapse to zero and the dialog simply appears</li>
+    </ul>
+  </div>
+
+  <div class="code-wrap" data-section="overlays,buttons">
+    <div class="code-bar"><span>Markup</span></div>
+<pre><code>&lt;button class="btn-primary" type="button" data-open="#dlg-confirm" aria-haspopup="dialog"&gt;
+  Delete project
+&lt;/button&gt;
+
+&lt;div class="overlay"&gt;
+  &lt;div class="dialog" id="dlg-confirm" data-dialog role="dialog"
+       aria-modal="true" aria-labelledby="dlg-title"&gt;
+    &lt;div class="dialog-header"&gt;
+      &lt;span class="dialog-title" id="dlg-title"&gt;Delete project?&lt;/span&gt;
+      &lt;button class="dialog-close" type="button" data-close aria-label="Close dialog"&gt;&amp;times;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class="dialog-body"&gt;...&lt;/div&gt;
+    &lt;div class="dialog-footer"&gt;
+      &lt;button class="btn-outline" type="button" data-close&gt;Cancel&lt;/button&gt;
+      &lt;button class="btn-danger" type="button" data-close&gt;Delete project&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- plus one visibility rule for the closed state, see the page style --&gt;</code></pre>
+  </div>
+</div>
+</body>
+</html>

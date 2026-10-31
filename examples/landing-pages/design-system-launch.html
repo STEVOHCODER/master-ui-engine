@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  EXAMPLE: Design system launch
+  ID: ex-launch
+  GROUP: Examples
+  CATEGORY: marketing
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css (linked in this file head); no web fonts, CDNs or JS libraries, and no shared sheet yet
+  THEME: light + dark toggle (html.dark, persisted in localStorage)
+  VARIANTS: Everything renders. Nothing is a screenshot., The components are interactive. Try them here., The workflow is the product, Ten token files, one import, Questions agents ask first, Give your next session a starting point
+  RESPONSIVE: reflows at <=960px, <=900px, <=768px, <=700px, <=640px, <=620px, <=520px, <=480px, <=380px
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 320/375/768/1280, audited 2026-10-31
+  CATALOG: showcase/data/component-catalog.json#ex-launch
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>MASTER-UI-ENGINE — the UI your agents stop redesigning</title>
+<meta name="description" content="A token-driven component library for AI coding agents: 46 standalone previews, light and dark, WCAG AA verified, no build step, MIT.">
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<style>
+/* ---- lifted from components/buttons/buttons.html ------------------------- */
+*{box-sizing:border-box;margin:0;padding:0}
+button{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);border:none;border-radius:var(--radius-base);font-family:inherit;font-weight:500;font-size:var(--text-base);padding:0.625rem 1.25rem;cursor:pointer;transition:background .15s ease,box-shadow .15s ease,transform .1s ease,color .15s ease,border-color .15s ease}
+button:focus-visible{outline:2px solid hsl(var(--color-primary-500));outline-offset:2px}
+button:active{transform:translateY(1px)}
+button:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn-primary{background:hsl(var(--color-primary-500));color:hsl(var(--color-gray-50))}
+.btn-primary:hover:not(:disabled){background:hsl(var(--color-primary-600));box-shadow:var(--shadow-md)}
+.btn-primary:active:not(:disabled){background:hsl(var(--color-primary-700))}
+.btn-secondary{background:hsl(var(--color-gray-200));color:hsl(var(--color-gray-900))}
+.btn-secondary:hover:not(:disabled){background:hsl(var(--color-gray-300))}
+.btn-outline{background:transparent;color:hsl(var(--color-gray-900));border:1px solid hsl(var(--color-gray-300))}
+.btn-outline:hover:not(:disabled){background:hsl(var(--color-gray-100));border-color:hsl(var(--color-gray-400))}
+.btn-ghost{background:transparent;color:hsl(var(--color-gray-700))}
+.btn-ghost:hover:not(:disabled){background:hsl(var(--color-gray-100))}
+.btn-icon{padding:.625rem;width:2.75rem;height:2.75rem;border-radius:var(--radius-md)}
+.btn-icon svg{width:1.125rem;height:1.125rem}
+.btn-lg{padding:.85rem 1.75rem;font-size:1.125rem;border-radius:var(--radius-md)}
+.btn-sm{padding:.4rem .85rem;font-size:.875rem;border-radius:var(--radius-sm)}
+.loading{position:relative;overflow:hidden}
+.loading span.bar{position:absolute;inset:0;background:hsla(var(--color-gray-50)/.25);transform:translateX(-100%);animation:slide 1.2s infinite}
+@keyframes slide{100%{transform:translateX(100%)}}
+@media (max-width:640px){.btn-row{flex-direction:column;align-items:stretch}.btn-row>button{width:100%}}
+
+/* ---- lifted from components/cards/cards.html ----------------------------- */
+.card{background:var(--bg-surface);border:1px solid hsl(var(--color-gray-200));border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);overflow:hidden;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+.card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.card-img{width:100%;height:9rem;background:linear-gradient(180deg,hsla(var(--color-primary-500)/.18),hsla(var(--color-primary-500)/0) 70%),hsl(var(--color-gray-100));border-bottom:1px solid hsl(var(--color-gray-200));display:flex;align-items:center;justify-content:center;color:hsl(var(--color-primary-500))}
+.card-body{padding:var(--space-5)}
+.card-tag{display:inline-block;font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:var(--tracking-wide);padding:.2em .6em;background:hsla(var(--color-primary-500)/.12);color:hsl(var(--color-primary-700));border-radius:var(--radius-full);margin-bottom:var(--space-3)}
+.card-title{font-size:1.125rem;font-weight:600;color:hsl(var(--color-gray-900));margin-bottom:var(--space-2)}
+.card-desc{color:hsl(var(--color-gray-600));font-size:.9375rem;line-height:var(--leading-relaxed)}
+
+/* ---- lifted from components/forms/input-fields.html ---------------------- */
+.field{display:flex;flex-direction:column;gap:var(--space-2)}
+.field label{font-size:.875rem;font-weight:600;color:hsl(var(--color-gray-700))}
+.field input{width:100%;border:1px solid hsl(var(--color-gray-300));background:var(--bg-surface);border-radius:var(--radius-base);padding:.625rem .85rem;font-family:inherit;font-size:var(--text-base);color:hsl(var(--color-gray-900));transition:border-color .2s,box-shadow .2s}
+.field input:focus{border-color:hsl(var(--color-primary-500));box-shadow:0 0 0 3px hsla(var(--color-primary-500)/.2);outline:none}
+.field input::placeholder{color:hsl(var(--color-gray-500))}
+.field-msg{font-size:.8125rem;color:hsl(var(--color-error-500))}
+.field-msg.success{color:hsl(var(--color-success-500))}
+
+/* ---- lifted from components/navigation/header-nav.html ------------------- */
+.site-logo{font-weight:700;font-size:1.125rem;color:hsl(var(--color-gray-900));text-decoration:none;letter-spacing:var(--tracking-tight)}
+.nav-links{display:flex;gap:var(--space-5);list-style:none;margin:0;padding:0}
+.nav-links a{color:hsl(var(--color-gray-600));text-decoration:none;font-size:.9375rem;font-weight:500;padding:.4rem 0;transition:color .15s ease}
+.nav-links a:hover{color:hsl(var(--color-primary-600))}
+.avatar{width:2rem;height:2rem;border-radius:50%;background:hsl(var(--color-gray-200));color:hsl(var(--color-gray-700));display:grid;place-items:center;font-weight:600;font-size:.875rem}
+
+/* ---- lifted from components/footers/footers.html ------------------------- */
+footer{background:hsl(var(--color-gray-900));color:hsl(var(--color-gray-300));border-top:1px solid hsl(var(--color-gray-700))}
+footer a{color:hsl(var(--color-gray-300));text-decoration:none}
+footer a:hover{color:hsl(var(--color-gray-50));text-decoration:underline}
+.footer-inner{padding:var(--space-12) var(--space-6) var(--space-8)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:var(--space-8);max-width:72rem;margin:0 auto}
+.footer-brand{font-weight:700;font-size:1.25rem;letter-spacing:var(--tracking-tight);color:hsl(var(--color-gray-50));margin-bottom:var(--space-3)}
+.footer-desc{color:hsl(var(--color-gray-300));font-size:.9375rem;line-height:var(--leading-relaxed);max-width:22rem}
+.footer-heading{font-size:.8125rem;font-weight:600;color:hsl(var(--color-gray-50));text-transform:uppercase;letter-spacing:var(--tracking-wider);margin-bottom:var(--space-3)}
+.footer-links{list-style:none;padding:0;margin:0}
+.footer-links li{margin-bottom:var(--space-2)}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);padding:var(--space-6) 0;border-top:1px solid hsl(var(--color-gray-700));font-size:.875rem;color:hsl(var(--color-gray-300));max-width:72rem;margin:0 auto}
+.footer-social{display:flex;gap:var(--space-3)}
+.footer-social a{width:1.75rem;height:1.75rem;display:grid;place-items:center;border-radius:var(--radius-base);background:hsl(var(--color-gray-800));color:hsl(var(--color-gray-50))}
+.footer-social a:hover{background:hsl(var(--color-primary-500));text-decoration:none}
+@media (max-width:768px){.footer-grid{grid-template-columns:1fr 1fr;gap:var(--space-6)}}
+@media (max-width:480px){.footer-grid{grid-template-columns:1fr}.footer-bottom{flex-direction:column;align-items:flex-start}}
+
+/* ---- page scaffold ------------------------------------------------------- */
+html{scroll-behavior:smooth}
+body{overflow-x:clip;background:hsl(var(--color-gray-50));color:hsl(var(--color-gray-900))}
+a{color:hsl(var(--color-primary-600))}
+code,pre,kbd,samp{font-family:var(--font-mono)}
+.wrap{max-width:72rem;margin:0 auto;padding:0 var(--space-6)}
+.skip{position:absolute;left:var(--space-4);top:-3rem;z-index:20;background:var(--bg-surface);border:1px solid hsl(var(--color-gray-300));border-radius:var(--radius-base);padding:.5rem .85rem;font-size:.875rem;text-decoration:none;transition:top .15s ease}
+.skip:focus{top:var(--space-4)}
+.eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-size:.75rem;font-weight:600;letter-spacing:var(--tracking-wider);text-transform:uppercase;color:hsl(var(--color-primary-700));background:hsla(var(--color-primary-500)/.12);border:1px solid hsla(var(--color-primary-500)/.25);border-radius:var(--radius-full);padding:.35rem .75rem}
+.eyebrow .pulse{width:.45rem;height:.45rem;border-radius:50%;background:hsl(var(--color-accent-400));animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.35;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}
+h2.display{font-size:clamp(1.6rem,3.2vw,2.25rem);font-weight:800;letter-spacing:var(--tracking-tight);line-height:var(--leading-tight);color:hsl(var(--color-gray-900));margin-bottom:var(--space-3)}
+.lede{color:hsl(var(--color-gray-600));font-size:1.0625rem;line-height:var(--leading-relaxed);max-width:38rem}
+.section{padding:clamp(3.5rem,8vw,6.5rem) 0}
+.section-head{display:flex;flex-direction:column;gap:var(--space-3);margin-bottom:var(--space-10);max-width:44rem}
+
+/* ---- sticky header + scroll progress ------------------------------------ */
+.masthead{position:sticky;top:0;z-index:10;background:hsla(var(--color-gray-50)/.82);backdrop-filter:saturate(1.5) blur(10px);border-bottom:1px solid hsl(var(--color-gray-200));transition:box-shadow .25s ease,background .25s ease}
+.masthead.compact{box-shadow:var(--shadow-sm)}
+.masthead-in{display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);max-width:72rem;margin:0 auto;padding:var(--space-4) var(--space-6);transition:padding .25s ease}
+.masthead.compact .masthead-in{padding:var(--space-2) var(--space-6)}
+.mast-actions{display:flex;align-items:center;gap:var(--space-3)}
+.theme-toggle{display:inline-flex;align-items:center;gap:.5rem;background:hsl(var(--color-gray-200));border:none;border-radius:var(--radius-full);padding:.3rem .75rem;font-size:.875rem;cursor:pointer;color:hsl(var(--color-gray-800))}
+.theme-toggle .dot{width:10px;height:10px;border-radius:50%;background:hsl(var(--color-primary-500))}
+.progress{position:fixed;top:0;left:0;height:2px;width:0;background:linear-gradient(90deg,hsl(var(--color-primary-500)),hsl(var(--color-accent-400)));z-index:11}
+.hamburger{display:none;background:none;border:1px solid hsl(var(--color-gray-300));border-radius:var(--radius-base);padding:.4rem .55rem;color:hsl(var(--color-gray-800));width:2.4rem;height:2.4rem}
+.hamburger svg{width:1.1rem;height:1.1rem}
+@media (max-width:900px){
+  .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;background:var(--bg-surface);border-bottom:1px solid hsl(var(--color-gray-200));padding:var(--space-3) var(--space-6)}
+  .nav-links.open{display:flex}
+  .nav-links li{padding:.55rem 0;border-bottom:1px solid hsl(var(--color-gray-100))}
+  .nav-links a{display:block;padding:0}
+  .hamburger{display:grid;place-items:center}
+  .mast-actions .btn-outline{display:none}
+}
+@media (max-width:380px){
+  .masthead-in,.masthead.compact .masthead-in{padding-inline:var(--space-4);gap:var(--space-2)}
+  .nav-links{padding-inline:var(--space-4)}
+  .wrap,.stats-in{padding-inline:var(--space-4)}
+  /* the toggle keeps its dot + aria-label; the word only costs width here */
+  .theme-toggle > span:first-child{display:none}
+  .theme-toggle{min-width:2.75rem;min-height:2.25rem;justify-content:center;padding-inline:.6rem}
+}
+
+/* ---- hero ---------------------------------------------------------------- */
+.hero{position:relative;padding:clamp(3.5rem,7vw,6rem) 0 clamp(3rem,6vw,5rem);overflow:clip}
+.hero-bg{position:absolute;inset:-20% -10% auto -10%;height:120%;pointer-events:none;background:radial-gradient(38rem 26rem at 18% 12%,hsla(var(--color-primary-500)/.20),transparent 70%),radial-gradient(30rem 22rem at 82% 8%,hsla(var(--color-accent-400)/.16),transparent 72%),radial-gradient(26rem 20rem at 55% 40%,hsla(var(--color-secondary-400)/.12),transparent 70%);animation:drift 22s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(-2%,1.5%,0) scale(1.06)}}
+.hero-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(hsla(var(--color-gray-900)/.05) 1px,transparent 1px),linear-gradient(90deg,hsla(var(--color-gray-900)/.05) 1px,transparent 1px);background-size:4rem 4rem;mask-image:radial-gradient(60% 50% at 50% 30%,#000,transparent)}
+.hero-in{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(2rem,4vw,3.5rem);align-items:center}
+.hero h1{font-size:clamp(2.1rem,5.2vw,3.6rem);font-weight:800;letter-spacing:-.03em;line-height:1.06;color:hsl(var(--color-gray-900));margin:var(--space-5) 0 var(--space-5)}
+.hero h1 em{font-style:normal;color:hsl(var(--color-primary-600));position:relative;white-space:nowrap}
+.hero h1 em::after{content:"";position:absolute;left:0;right:0;bottom:.08em;height:.28em;background:hsla(var(--color-accent-400)/.35);border-radius:var(--radius-sm);transform:scaleX(0);transform-origin:left;animation:sweep .9s .35s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes sweep{to{transform:scaleX(1)}}
+.hero-copy{max-width:34rem;color:hsl(var(--color-gray-600));font-size:1.0625rem;line-height:var(--leading-relaxed)}
+.hero-cta{display:flex;flex-wrap:wrap;gap:var(--space-3);margin:var(--space-8) 0 var(--space-5)}
+.hero-note{display:flex;flex-wrap:wrap;gap:var(--space-4);font-size:.8125rem;color:hsl(var(--color-gray-600))}
+.hero-note span{display:inline-flex;align-items:center;gap:.4rem}
+.hero-note svg{width:.95rem;height:.95rem;color:hsl(var(--color-success-500))}
+@media (max-width:960px){.hero-in{grid-template-columns:1fr}}
+
+/* the lab panel: a live-looking miniature of the visual lab */
+.panel{background:var(--bg-surface);border:1px solid hsl(var(--color-gray-200));border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);overflow:hidden;animation:float 9s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.panel-bar{display:flex;align-items:center;gap:var(--space-2);padding:var(--space-3) var(--space-4);border-bottom:1px solid hsl(var(--color-gray-200));background:hsl(var(--color-gray-100))}
+.panel-bar i{width:.65rem;height:.65rem;border-radius:50%;background:hsl(var(--color-gray-400));font-style:normal}
+.panel-bar b{font-size:.8125rem;font-weight:600;color:hsl(var(--color-gray-700));margin-left:var(--space-2)}
+.panel-bar .live{margin-left:auto;font-size:.75rem;font-weight:600;letter-spacing:var(--tracking-wide);text-transform:uppercase;color:hsl(var(--color-success-500));display:inline-flex;align-items:center;gap:.35rem}
+.panel-bar .live::before{content:"";width:.4rem;height:.4rem;border-radius:50%;background:hsl(var(--color-success-500));animation:pulse 1.8s ease-in-out infinite}
+.panel-body{padding:var(--space-5);display:grid;gap:var(--space-4)}
+.spark{border:1px solid hsl(var(--color-gray-200));border-radius:var(--radius-md);padding:var(--space-4);background:hsl(var(--color-gray-50))}
+.spark h2{font-size:.75rem;font-weight:600;letter-spacing:var(--tracking-wider);text-transform:uppercase;color:hsl(var(--color-gray-600));margin-bottom:var(--space-2)}
+.spark svg{width:100%;height:5.5rem;display:block}
+.spark .line{fill:none;stroke:hsl(var(--color-primary-500));stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1200;stroke-dashoffset:1200;animation:draw 2.6s .4s cubic-bezier(.22,1,.36,1) forwards}
+.spark .fill{fill:hsla(var(--color-primary-500)/.14);opacity:0;animation:fade-in .9s 1.5s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fade-in{to{opacity:1}}
+.spark .prior{fill:none;stroke:hsl(var(--color-gray-400));stroke-width:2;stroke-dasharray:5 5}
+.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-3)}
+.mini div{border:1px solid hsl(var(--color-gray-200));border-radius:var(--radius-md);padding:var(--space-3);background:hsl(var(--color-gray-50))}
+.mini strong{display:block;font-size:1.25rem;font-weight:800;letter-spacing:var(--tracking-tight);color:hsl(var(--color-gray-900));font-variant-numeric:tabular-nums}
+.mini span{font-size:.75rem;color:hsl(var(--color-gray-600))}
+.swatches{display:flex;gap:.35rem;align-items:center}
+.swatches i{width:1.6rem;height:1.6rem;border-radius:var(--radius-sm);display:block;transform:scale(.9);transition:transform .2s ease}
+.swatches:hover i{transform:scale(1)}
+@media (max-width:520px){.mini{grid-template-columns:1fr}.panel-body{padding:var(--space-4)}}
+
+/* ---- stats strip --------------------------------------------------------- */
+.stats{border-block:1px solid hsl(var(--color-gray-200));background:var(--bg-surface)}
+.stats-in{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-6);padding:var(--space-8) var(--space-6);max-width:72rem;margin:0 auto}
+.stat b{display:block;font-size:clamp(1.5rem,3vw,2rem);font-weight:800;letter-spacing:var(--tracking-tight);color:hsl(var(--color-gray-900));font-variant-numeric:tabular-nums}
+.stat p{font-size:.8125rem;color:hsl(var(--color-gray-600));margin-top:.25rem}
+@media (max-width:700px){.stats-in{grid-template-columns:1fr 1fr;gap:var(--space-5)}}
+
+/* ---- marquee ------------------------------------------------------------- */
+.marquee{overflow:hidden;padding:var(--space-6) 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.marquee + .marquee{padding-top:0}
+.track{display:flex;gap:var(--space-3);width:max-content;animation:marquee 38s linear infinite}
+.track.rev{animation-direction:reverse;animation-duration:46s}
+.marquee:hover .track{animation-play-state:paused}
+.chip{display:inline-flex;align-items:center;gap:.5rem;white-space:nowrap;border:1px solid hsl(var(--color-gray-200));background:var(--bg-surface);border-radius:var(--radius-full);padding:.5rem .9rem;font-size:.875rem;font-weight:500;color:hsl(var(--color-gray-700));transition:border-color .2s ease,color .2s ease}
+.chip:hover{border-color:hsl(var(--color-primary-400));color:hsl(var(--color-primary-700))}
+.chip svg{width:1rem;height:1rem;color:hsl(var(--color-primary-500))}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ---- feature grid -------------------------------------------------------- */
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-6)}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-6)}
+.feature-icon{width:2.5rem;height:2.5rem;border-radius:var(--radius-md);display:grid;place-items:center;background:hsla(var(--color-primary-500)/.12);color:hsl(var(--color-primary-700));margin-bottom:var(--space-4)}
+.feature-icon svg{width:1.25rem;height:1.25rem}
+.card-link{display:inline-flex;align-items:center;gap:.35rem;margin-top:var(--space-4);font-size:.875rem;font-weight:600;color:hsl(var(--color-primary-600));text-decoration:none}
+.card-link svg{width:.9rem;height:.9rem;transition:transform .2s ease}
+.card-link:hover svg{transform:translateX(3px)}
+@media (max-width:900px){.grid-3{grid-template-columns:1fr 1fr}}
+@media (max-width:620px){.grid-3,.grid-2{grid-template-columns:1fr}}
+
+/* ---- dark component band ------------------------------------------------- */
+.band{background:hsl(var(--color-gray-900));color:hsl(var(--color-gray-50));border-block:1px solid hsl(var(--color-gray-800))}
+.band h2{color:hsl(var(--color-gray-50))}
+.band .lede{color:hsl(var(--color-gray-300))}
+.band-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(1.5rem,3vw,3rem);align-items:start}
+.demo{border:1px solid hsl(var(--color-gray-800));border-radius:var(--radius-lg);background:hsl(var(--color-gray-100));padding:var(--space-5)}
+.demo h3{font-size:.75rem;font-weight:600;letter-spacing:var(--tracking-wider);text-transform:uppercase;color:var(--text-secondary);margin-bottom:var(--space-4)}
+.tabs{display:flex;gap:var(--space-1);position:relative;border-bottom:1px solid hsl(var(--color-gray-200));margin-bottom:var(--space-4)}
+.tabs button{background:none;color:hsl(var(--color-gray-600));padding:.5rem .85rem;font-size:.875rem;border-radius:var(--radius-sm) var(--radius-sm) 0 0}
+.tabs button:hover{background:hsl(var(--color-gray-100));color:hsl(var(--color-gray-900))}
+.tabs button[aria-selected="true"]{color:hsl(var(--color-primary-700));background:hsl(var(--color-primary-500)/.12)}
+.tabs .ink{position:absolute;bottom:-1px;height:2px;background:hsl(var(--color-primary-500));transition:transform .28s cubic-bezier(.16,1,.3,1),width .28s cubic-bezier(.16,1,.3,1);width:0;left:0}
+.tab-panel{font-size:.9375rem;color:hsl(var(--color-gray-600));line-height:var(--leading-relaxed);min-height:4.5rem}
+.tab-panel[hidden]{display:none}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-3)}
+.switch{display:inline-flex;align-items:center;gap:.6rem;font-size:.875rem;color:hsl(var(--color-gray-700));cursor:pointer;user-select:none}
+.switch input{position:absolute;opacity:0;width:1px;height:1px}
+.switch .knob{width:2.6rem;height:1.5rem;border-radius:var(--radius-full);background:hsl(var(--color-gray-300));position:relative;transition:background .2s ease;flex:none}
+.switch .knob::after{content:"";position:absolute;top:.18rem;left:.2rem;width:1.15rem;height:1.15rem;border-radius:50%;background:hsl(var(--color-gray-50));box-shadow:var(--shadow-sm);transition:transform .22s cubic-bezier(.16,1,.3,1)}
+.switch input:checked + .knob{background:hsl(var(--color-primary-500))}
+.switch input:checked + .knob::after{transform:translateX(1.1rem)}
+.switch input:focus-visible + .knob{outline:2px solid hsl(var(--color-primary-500));outline-offset:2px}
+.meter{height:.5rem;border-radius:var(--radius-full);background:hsl(var(--color-gray-200));overflow:hidden;flex:1;min-width:6rem}
+.meter i{display:block;height:100%;width:38%;border-radius:var(--radius-full);background:linear-gradient(90deg,hsl(var(--color-primary-500)),hsl(var(--color-accent-400)));transition:width .6s cubic-bezier(.16,1,.3,1)}
+.toast{display:flex;align-items:center;gap:.6rem;border-radius:var(--radius-md);padding:.7rem .9rem;font-size:.875rem;font-weight:500;border:1px solid hsl(var(--color-gray-200));background:hsl(var(--color-gray-50));color:hsl(var(--color-gray-800))}
+.toast svg{width:1.05rem;height:1.05rem;flex:none;color:hsl(var(--color-success-500))}
+.toast.show{animation:toast-in .35s cubic-bezier(.16,1,.3,1)}
+@keyframes toast-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.band-list{list-style:none;padding:0;margin:0;display:grid;gap:var(--space-3)}
+.band-list li{display:flex;gap:var(--space-3);align-items:flex-start;font-size:.9375rem;color:hsl(var(--color-gray-300));line-height:var(--leading-relaxed)}
+.band-list svg{width:1.15rem;height:1.15rem;flex:none;margin-top:.1rem;color:hsl(var(--color-accent-400))}
+.band-list b{color:hsl(var(--color-gray-50));font-weight:600}
+@media (max-width:900px){.band-grid{grid-template-columns:1fr}}
+
+/* ---- workflow ------------------------------------------------------------ */
+.steps{display:grid;gap:var(--space-4);counter-reset:step}
+.step{display:grid;grid-template-columns:2.5rem 1fr;gap:var(--space-4);align-items:start;padding:var(--space-5);border:1px solid hsl(var(--color-gray-200));border-radius:var(--radius-lg);background:var(--bg-surface);transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+.step:hover{border-color:hsl(var(--color-primary-300));box-shadow:var(--shadow-sm);transform:translateX(2px)}
+.step i{width:2.5rem;height:2.5rem;border-radius:var(--radius-full);display:grid;place-items:center;font-style:normal;font-weight:700;font-size:.875rem;background:hsl(var(--color-primary-500));color:hsl(var(--color-gray-50))}
+.step h3{font-size:1rem;font-weight:700;color:hsl(var(--color-gray-900));margin-bottom:.25rem}
+.step p{font-size:.9375rem;color:hsl(var(--color-gray-600));line-height:var(--leading-relaxed)}
+.step code{font-size:.8125rem;background:hsl(var(--color-gray-100));border:1px solid hsl(var(--color-gray-200));border-radius:var(--radius-sm);padding:.1rem .35rem;color:hsl(var(--color-gray-800))}
+
+/* ---- tokens specimen ---------------------------------------------------- */
+.specimen{border:1px solid hsl(var(--color-gray-200));border-radius:var(--radius-lg);background:var(--bg-surface);padding:var(--space-6);display:grid;gap:var(--space-6)}
+.ramp{display:flex;gap:.25rem;border-radius:var(--radius-md);overflow:hidden}
+.ramp i{flex:1;height:3.25rem;transition:flex .3s ease}
+.ramp:hover i{flex:.85}
+.scale-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--space-5);color:hsl(var(--color-gray-900))}
+.scale-row span{white-space:nowrap}
+.type-spec{display:grid;gap:var(--space-3)}
+.type-spec p{color:hsl(var(--color-gray-600));font-size:.9375rem}
+.state-row{display:flex;flex-wrap:wrap;gap:var(--space-3)}
+.state-pill{display:inline-flex;align-items:center;gap:.4rem;border-radius:var(--radius-full);padding:.35rem .75rem;font-size:.8125rem;font-weight:600;border:1px solid transparent}
+.state-pill svg{width:.85rem;height:.85rem}
+.ok{background:hsla(var(--color-success-500)/.12);color:hsl(var(--color-success-500));border-color:hsla(var(--color-success-500)/.3)}
+.warn{background:hsla(var(--color-warning-500)/.14);color:hsl(var(--color-warning-500));border-color:hsla(var(--color-warning-500)/.3)}
+.err{background:hsla(var(--color-error-500)/.12);color:hsl(var(--color-error-500));border-color:hsla(var(--color-error-500)/.3)}
+html.dark .err{color:hsl(var(--color-error-600))}
+.info{background:hsla(var(--color-info-500)/.12);color:hsl(var(--color-info-500));border-color:hsla(var(--color-info-500)/.3)}
+
+/* ---- faq ----------------------------------------------------------------- */
+.faq{display:grid;gap:var(--space-3)}
+.qa{border:1px solid hsl(var(--color-gray-200));border-radius:var(--radius-md);background:var(--bg-surface);overflow:hidden}
+.qa button{width:100%;display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);background:none;padding:var(--space-4) var(--space-5);font-size:1rem;font-weight:600;color:hsl(var(--color-gray-900));text-align:left}
+.qa button:hover{background:hsl(var(--color-gray-100))}
+.qa svg{width:1.1rem;height:1.1rem;flex:none;color:hsl(var(--color-gray-500));transition:transform .25s cubic-bezier(.16,1,.3,1)}
+.qa button[aria-expanded="true"] svg{transform:rotate(45deg)}
+.qa .a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .28s ease}
+.qa .a > div{overflow:hidden}
+.qa .a[data-open="true"]{grid-template-rows:1fr}
+.qa .a p{padding:0 var(--space-5) var(--space-5);font-size:.9375rem;color:hsl(var(--color-gray-600));line-height:var(--leading-relaxed);max-width:48rem}
+
+/* ---- closing cta -------------------------------------------------------- */
+.cta{position:relative;overflow:clip;background:hsl(var(--color-gray-900));color:hsl(var(--color-gray-50));border-radius:var(--radius-lg);padding:clamp(2rem,5vw,3.5rem);text-align:center}
+.cta::before{content:"";position:absolute;inset:-40% -10% auto;background:radial-gradient(30rem 18rem at 30% 40%,hsla(var(--color-primary-400)/.35),transparent 70%),radial-gradient(26rem 16rem at 70% 30%,hsla(var(--color-accent-400)/.3),transparent 72%);animation:drift 18s ease-in-out infinite alternate;pointer-events:none}
+.cta > *{position:relative}
+.cta h2{font-size:clamp(1.5rem,3.4vw,2.25rem);font-weight:800;letter-spacing:var(--tracking-tight);color:hsl(var(--color-gray-50));margin-bottom:var(--space-3)}
+.cta p{color:hsl(var(--color-gray-300));max-width:34rem;margin:0 auto var(--space-6);line-height:var(--leading-relaxed)}
+.install{display:flex;align-items:stretch;gap:var(--space-2);max-width:34rem;margin:0 auto var(--space-5);background:hsl(var(--color-gray-100));border:1px solid hsl(var(--color-gray-200));border-radius:var(--radius-md);padding:.4rem .4rem .4rem .9rem;text-align:left}
+.install code{flex:1;font-size:.8125rem;color:hsl(var(--color-gray-800));overflow:auto;white-space:nowrap;padding-block:.5rem}
+.cta .btn-secondary{background:hsl(var(--color-gray-50));color:hsl(var(--color-primary-700));border:1px solid hsl(var(--color-gray-50))}
+.cta .btn-secondary:hover{background:hsl(var(--color-gray-100))}
+.cta .btn-outline{color:hsl(var(--color-gray-50));border-color:hsl(var(--color-gray-50))}
+.cta .btn-outline:hover{background:hsl(var(--color-gray-800))}
+
+/* ---- motion: scroll reveals --------------------------------------------- */
+.js .reveal{opacity:0;transform:translateY(16px)}
+.js .reveal.in{opacity:1;transform:none;transition:opacity .55s ease var(--d,0s),transform .55s cubic-bezier(.16,1,.3,1) var(--d,0s)}
+@media (prefers-reduced-motion:reduce){
+  .track,.hero-bg,.panel,.cta::before,.eyebrow .pulse,.spark .line,.spark .fill,.hero h1 em::after{animation:none!important}
+  .spark .line{stroke-dashoffset:0}
+  .spark .fill,.hero h1 em::after{opacity:1;transform:none}
+  .js .reveal{opacity:1;transform:none}
+  .js .reveal.in{transition:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<header class="masthead" id="masthead" role="banner">
+  <div class="masthead-in">
+    <a href="#top" class="site-logo">MASTER<span style="color:hsl(var(--color-primary-600))">·</span>UI-ENGINE</a>
+    <nav aria-label="Sections">
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#library">Library</a></li>
+        <li><a href="#components">Components</a></li>
+        <li><a href="#workflow">Workflow</a></li>
+        <li><a href="#tokens">Tokens</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </nav>
+    <div class="mast-actions">
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+        <span>Dark mode</span><span class="dot" id="themeDot"></span>
+      </button>
+      <a class="btn-outline" href="../../AGENTS.md" style="text-decoration:none">Agent guide</a>
+      <a class="btn-primary" href="../../showcase/index.html" style="text-decoration:none">Open the lab</a>
+      <button class="hamburger" id="hamburger" type="button" aria-expanded="false" aria-controls="navLinks" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" id="top">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="wrap hero-in">
+    <div>
+      <span class="eyebrow"><span class="pulse"></span>46 previews · MIT · zero dependencies</span>
+      <h1>Your agents keep inventing the same <em>generic UI</em>. Stop that.</h1>
+      <p class="hero-copy">MASTER-UI-ENGINE is a design system your coding agent can actually read: 25 components, 15 example pages and 6 starter templates, every one a standalone HTML preview driven by a single token file. Discover, copy, adapt — no blank canvas.</p>
+      <div class="hero-cta btn-row">
+        <a class="btn-primary btn-lg" href="../../showcase/index.html" style="text-decoration:none">Browse all 46 previews</a>
+        <a class="btn-outline btn-lg" href="../../README.md" style="text-decoration:none">Read the quick start</a>
+      </div>
+      <div class="hero-note">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 13l4 4L19 7"></path></svg>WCAG AA in light and dark</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 13l4 4L19 7"></path></svg>Responsive at 375 / 768 / 1280</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 13l4 4L19 7"></path></svg>No build step, no CDN, no fonts</span>
+      </div>
+    </div>
+
+    <aside class="panel" aria-label="Visual lab preview">
+      <div class="panel-bar"><i></i><i></i><i></i><b>showcase/index.html</b><span class="live">live</span></div>
+      <div class="panel-body">
+        <div class="spark">
+          <h2>Previews adopted per week</h2>
+          <svg viewBox="0 0 320 88" role="img" aria-label="Trend line rising from low to high across twelve weeks">
+            <path class="prior" d="M0 66 L40 62 L80 64 L120 56 L160 58 L200 50 L240 52 L280 44 L320 46"></path>
+            <path class="fill" d="M0 72 L40 58 L80 60 L120 46 L160 40 L200 30 L240 34 L280 18 L320 12 L320 88 L0 88 Z"></path>
+            <path class="line" d="M0 72 L40 58 L80 60 L120 46 L160 40 L200 30 L240 34 L280 18 L320 12"></path>
+          </svg>
+        </div>
+        <div class="mini">
+          <div><strong data-count="25">0</strong><span>components</span></div>
+          <div><strong data-count="15">0</strong><span>page examples</span></div>
+          <div><strong data-count="6">0</strong><span>starters</span></div>
+        </div>
+        <div class="swatches" aria-hidden="true">
+          <i style="background:hsl(221 83% 53%)"></i><i style="background:hsl(221 96% 60%)"></i><i style="background:hsl(160 80% 34%)"></i><i style="background:hsl(215 16% 45%)"></i><i style="background:hsl(215 14% 29%)"></i><i style="background:hsl(0 75% 45%)"></i><i style="background:hsl(38 92% 30%)"></i><i style="background:hsl(142 76% 26%)"></i>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="stats" aria-label="Library at a glance">
+  <div class="stats-in">
+    <div class="stat"><b data-count="46">0</b><p>standalone HTML previews</p></div>
+    <div class="stat"><b data-count="10">0</b><p>token files, one import</p></div>
+    <div class="stat"><b>3</b><p>breakpoints verified: 375 / 768 / 1280</p></div>
+    <div class="stat"><b data-count="0">0</b><p>AA contrast failures, both themes</p></div>
+  </div>
+</section>
+
+<section class="section" id="library">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 class="display">Everything renders. Nothing is a screenshot.</h2>
+      <p class="lede">Each entry in the catalog is a file you can open right now, toggle to dark, resize to a phone, and copy from. The list below is the real catalog, not a mood board.</p>
+    </div>
+  </div>
+  <div class="marquee" aria-hidden="true">
+    <div class="track">
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="8" width="18" height="8" rx="4"></rect></svg>Buttons</span>
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M7 10h10"></path></svg>Input fields</span>
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h16M4 12h10M4 18h7"></path></svg>Navigation</span>
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="2"></rect></svg>Cards</span>
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V5m0 14h16M8 15l3-4 3 2 4-6"></path></svg>Charts</span>
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="4" width="14" height="16" rx="2"></rect><path d="M9 8h6"></path></svg>Dialogs</span>
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 10l4 4 4-4"></path><rect x="4" y="4" width="16" height="16" rx="3"></rect></svg>Dropdowns</span>
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 4v16M4 8h4M4 12h4"></path><rect x="10" y="4" width="10" height="16" rx="2"></rect></svg>Sidebars</span>
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16v12H4zM4 10h16M10 10v8"></path></svg>Tables</span>
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v9m0 0 4 4m-4-4-4 4M5 21h14"></path></svg>Footers</span>
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path></svg>Notifications</span>
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 12h16"></path><circle cx="8" cy="6" r="2"></circle><circle cx="16" cy="18" r="2"></circle></svg>Feedback</span>
+      <span class="chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="8" width="18" height="8" rx="4"></rect></svg>Buttons</span>
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M7 10h10"></path></svg>Input fields</span>
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h16M4 12h10M4 18h7"></path></svg>Navigation</span>
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="2"></rect></svg>Cards</span>
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V5m0 14h16M8 15l3-4 3 2 4-6"></path></svg>Charts</span>
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="4" width="14" height="16" rx="2"></rect><path d="M9 8h6"></path></svg>Dialogs</span>
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 10l4 4 4-4"></path><rect x="4" y="4" width="16" height="16" rx="3"></rect></svg>Dropdowns</span>
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 4v16M4 8h4M4 12h4"></path><rect x="10" y="4" width="10" height="16" rx="2"></rect></svg>Sidebars</span>
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16v12H4zM4 10h16M10 10v8"></path></svg>Tables</span>
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v9m0 0 4 4m-4-4-4 4M5 21h14"></path></svg>Footers</span>
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path></svg>Notifications</span>
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 12h16"></path><circle cx="8" cy="6" r="2"></circle><circle cx="16" cy="18" r="2"></circle></svg>Feedback</span>
+    </div>
+  </div>
+  <div class="marquee" aria-hidden="true">
+    <div class="track rev">
+      <span class="chip">SaaS dashboard</span><span class="chip">Admin dashboard</span><span class="chip">Analytics</span><span class="chip">Ecommerce home</span><span class="chip">Product detail</span><span class="chip">Marketplace</span><span class="chip">Chat interface</span><span class="chip">AI assistant</span><span class="chip">Login / signup</span><span class="chip">Landing page</span><span class="chip">Portfolio</span><span class="chip">Booking</span><span class="chip">Education</span>
+      <span class="chip">SaaS dashboard</span><span class="chip">Admin dashboard</span><span class="chip">Analytics</span><span class="chip">Ecommerce home</span><span class="chip">Product detail</span><span class="chip">Marketplace</span><span class="chip">Chat interface</span><span class="chip">AI assistant</span><span class="chip">Login / signup</span><span class="chip">Landing page</span><span class="chip">Portfolio</span><span class="chip">Booking</span><span class="chip">Education</span>
+    </div>
+  </div>
+
+  <div class="wrap" style="margin-top:var(--space-10)">
+    <div class="grid-3">
+      <article class="card reveal" style="--d:.05s">
+        <div class="card-img"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h9"></path><circle cx="19" cy="17" r="2"></circle></svg></div>
+        <div class="card-body">
+          <span class="card-tag">Discovery</span>
+          <h3 class="card-title">A catalog an agent can query</h3>
+          <p class="card-desc">One JSON index with id, category, variants, breakpoints and license per preview — plus the same metadata mirrored into every file.</p>
+          <a class="card-link" href="../../showcase/data/component-catalog.json">Open the catalog <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"></path></svg></a>
+        </div>
+      </article>
+      <article class="card reveal" style="--d:.12s">
+        <div class="card-img"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8 3 12l4 4M17 8l4 4-4 4M14 4l-4 16"></path></svg></div>
+        <div class="card-body">
+          <span class="card-tag">Copy and paste</span>
+          <h3 class="card-title">Real markup, real states</h3>
+          <p class="card-desc">Disabled, loading, error, focus, hover, empty. Copy a component the way it behaves, not the way a static mock pretends.</p>
+          <a class="card-link" href="../../components/buttons/buttons.html">See the button states <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"></path></svg></a>
+        </div>
+      </article>
+      <article class="card reveal" style="--d:.19s">
+        <div class="card-img"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 9 9 0 0 1-9-9Z"></path></svg></div>
+        <div class="card-body">
+          <span class="card-tag">Theming</span>
+          <h3 class="card-title">Dark mode is a mirror, not a rewrite</h3>
+          <p class="card-desc">Flipping <code>html.dark</code> re-points the grayscale ramp, so every component re-themes itself with zero per-component rules.</p>
+          <a class="card-link" href="../../design-tokens/themes/dark.css">Read the mirror <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"></path></svg></a>
+        </div>
+      </article>
+      <article class="card reveal" style="--d:.26s">
+        <div class="card-img"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M5 8l7-5 7 5v11l-7 4-7-4Z"></path></svg></div>
+        <div class="card-body">
+          <span class="card-tag">Accessibility</span>
+          <h3 class="card-title">Measured, not claimed</h3>
+          <p class="card-desc">3,538 text nodes across 46 previews audited in both themes: no AA failures, no overflow at three widths, a visible focus ring everywhere.</p>
+          <a class="card-link" href="../../AGENTS.md">Quality gates <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"></path></svg></a>
+        </div>
+      </article>
+      <article class="card reveal" style="--d:.33s">
+        <div class="card-img"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M8 4v16M3 9h5"></path></svg></div>
+        <div class="card-body">
+          <span class="card-tag">Layout</span>
+          <h3 class="card-title">Whole pages, not widgets</h3>
+          <p class="card-desc">Dashboards, storefronts, marketplaces, chat shells and auth flows show components working together at real information density.</p>
+          <a class="card-link" href="../dashboards/saas-dashboard.html">Open a page <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"></path></svg></a>
+        </div>
+      </article>
+      <article class="card reveal" style="--d:.4s">
+        <div class="card-img"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 12h6M9 8h6M9 16h3M6 3h9l4 4v14H6Z"></path></svg></div>
+        <div class="card-body">
+          <span class="card-tag">Licensing</span>
+          <h3 class="card-title">MIT, and researched receipts</h3>
+          <p class="card-desc">Every third-party library surveyed for this system carries its license and redistribution status, so reuse stays legal.</p>
+          <a class="card-link" href="../../RESOURCES.md">License summary <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"></path></svg></a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="band section" id="components">
+  <div class="wrap band-grid">
+    <div class="reveal">
+      <div class="section-head" style="margin-bottom:var(--space-6)">
+        <h2 class="display">The components are interactive. Try them here.</h2>
+        <p class="lede">Buttons, tabs, a switch, a meter and a toast — the same markup that lives in <code style="font-size:.85em;color:hsl(var(--color-gray-50))">components/</code>, with the same handlers.</p>
+      </div>
+      <ul class="band-list">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 13l4 4L19 7"></path></svg><span><b>Every state exists.</b> Hover, active, focus-visible, disabled and loading are styled, not described.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 13l4 4L19 7"></path></svg><span><b>Keyboard first.</b> Tabs move with arrow keys, dialogs trap focus, the ring is always visible.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 13l4 4L19 7"></path></svg><span><b>Motion is decorative-free.</b> 150–250ms transitions, one easing curve, and <code style="font-size:.85em;color:hsl(var(--color-gray-50))">prefers-reduced-motion</code> kills all of it.</span></li>
+      </ul>
+    </div>
+
+    <div class="demo reveal" style="--d:.1s">
+      <h3>Buttons · variants</h3>
+      <div class="row btn-row" style="margin-bottom:var(--space-5)">
+        <button class="btn-primary" type="button">Primary</button>
+        <button class="btn-secondary" type="button">Secondary</button>
+        <button class="btn-outline" type="button">Outline</button>
+        <button class="btn-ghost" type="button">Ghost</button>
+        <button class="btn-primary loading" type="button" aria-busy="true"><span class="bar"></span>Loading</button>
+        <button class="btn-outline btn-icon" type="button" id="copyDemo" aria-label="Copy component markup">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg>
+        </button>
+      </div>
+
+      <h3>Tabs</h3>
+      <div class="tabs" role="tablist" aria-label="Component details">
+        <button role="tab" id="t1" aria-controls="p1" aria-selected="true" type="button">Markup</button>
+        <button role="tab" id="t2" aria-controls="p2" aria-selected="false" tabindex="-1" type="button">States</button>
+        <button role="tab" id="t3" aria-controls="p3" aria-selected="false" tabindex="-1" type="button">Motion</button>
+        <span class="ink" id="tabInk" aria-hidden="true"></span>
+      </div>
+      <div class="tab-panel" role="tabpanel" id="p1" aria-labelledby="t1">Six variants, three sizes. The icon button keeps its <code style="font-size:.85em">aria-label</code> because it has no text.</div>
+      <div class="tab-panel" role="tabpanel" id="p2" aria-labelledby="t2" hidden>Default, hover, active, focus-visible, disabled and loading — all shipped, none stubbed.</div>
+      <div class="tab-panel" role="tabpanel" id="p3" aria-labelledby="t3" hidden>Background and shadow in 150ms, press in 100ms, translate by one pixel. Nothing bounces.</div>
+
+      <h3 style="margin-top:var(--space-5)">Switch · meter · toast</h3>
+      <div class="row" style="margin-bottom:var(--space-4)">
+        <label class="switch"><input type="checkbox" id="demoSwitch" checked><span class="knob"></span>Reduce motion</label>
+        <div class="meter" role="progressbar" aria-label="Component coverage" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"><i id="meterFill" style="width:72%"></i></div>
+        <b style="font-size:.8125rem;color:hsl(var(--color-gray-700));font-variant-numeric:tabular-nums" id="meterLabel">72%</b>
+      </div>
+      <div class="toast" id="demoToast" role="status" aria-live="polite">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 13l4 4L19 7"></path></svg>
+        <span id="toastText">Markup copied to your clipboard.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="workflow">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 class="display">The workflow is the product</h2>
+      <p class="lede">AGENTS.md spells out the ten steps every agent follows. Here is the part that actually decides the outcome.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><i>1</i><div><h3>Search before you build</h3><p>Filter <code>showcase/data/component-catalog.json</code> by category and variant. 46 entries, all searchable by name or path.</p></div></div>
+      <div class="step reveal" style="--d:.08s"><i>2</i><div><h3>Open it in the lab</h3><p>The lab renders the real file, so you see the component, its variants and its responsive behaviour before you commit to it.</p></div></div>
+      <div class="step reveal" style="--d:.16s"><i>3</i><div><h3>Copy the markup verbatim</h3><p>Never retype from memory. The preview file contains the exact HTML that produced what you are looking at.</p></div></div>
+      <div class="step reveal" style="--d:.24s"><i>4</i><div><h3>Link one sheet, or lift just its rules</h3><p>Every class is defined in <code>styles/components.css</code>. <b>Copy + CSS</b> in any preview hands you only the <code>#region</code> blocks that snippet uses — inline them, or link the sheet once.</p></div></div>
+      <div class="step reveal" style="--d:.32s"><i>5</i><div><h3>Re-theme with primitives</h3><p>Override <code>--color-primary-500</code> and the grayscale ramp. Semantics, dark mode and every component follow automatically.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="tokens" style="background:var(--bg-surface);border-block:1px solid hsl(var(--color-gray-200))">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 class="display">Ten token files, one import</h2>
+      <p class="lede">Primitives are raw HSL triplets. Semantics resolve to complete colors. That split is what makes a single <code style="font-size:.85em">engine.css</code> link enough.</p>
+    </div>
+    <div class="specimen reveal">
+      <div>
+        <h3 style="font-size:.75rem;font-weight:600;letter-spacing:var(--tracking-wider);text-transform:uppercase;color:hsl(var(--color-gray-600));margin-bottom:var(--space-3)">Grayscale ramp — the dark theme mirrors this</h3>
+        <div class="ramp" aria-hidden="true">
+          <i style="background:hsl(210 40% 98%)"></i><i style="background:hsl(222 47% 95%)"></i><i style="background:hsl(222 47% 90%)"></i><i style="background:hsl(215 20% 82%)"></i><i style="background:hsl(215 16% 64%)"></i><i style="background:hsl(215 16% 45%)"></i><i style="background:hsl(215 14% 39%)"></i><i style="background:hsl(215 14% 29%)"></i><i style="background:hsl(215 20% 17%)"></i><i style="background:hsl(215 28% 9%)"></i><i style="background:hsl(216 34% 6%)"></i>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size:.75rem;font-weight:600;letter-spacing:var(--tracking-wider);text-transform:uppercase;color:hsl(var(--color-gray-600));margin-bottom:var(--space-3)">Type scale — from --text-xs to --text-5xl</h3>
+        <div class="scale-row" aria-hidden="true">
+          <span style="font-size:var(--text-xs)">xs</span><span style="font-size:var(--text-sm)">sm</span><span style="font-size:var(--text-base)">base</span><span style="font-size:var(--text-lg)">lg</span><span style="font-size:var(--text-xl)">xl</span><span style="font-size:var(--text-2xl)">2xl</span><span style="font-size:var(--text-3xl);font-weight:700">3xl</span><span style="font-size:var(--text-4xl);font-weight:700">4xl</span><span style="font-size:var(--text-5xl);font-weight:800;letter-spacing:var(--tracking-tight)">5xl</span>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size:.75rem;font-weight:600;letter-spacing:var(--tracking-wider);text-transform:uppercase;color:hsl(var(--color-gray-600));margin-bottom:var(--space-3)">State semantics — AA in both themes</h3>
+        <div class="state-row">
+          <span class="state-pill ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 13l4 4L19 7"></path></svg>success</span>
+          <span class="state-pill warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 8v5m0 3h.01"></path><circle cx="12" cy="12" r="9"></circle></svg>warning</span>
+          <span class="state-pill err"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>error</span>
+          <span class="state-pill info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 11v5m0-8h.01"></path><circle cx="12" cy="12" r="9"></circle></svg>info</span>
+        </div>
+      </div>
+      <div class="type-spec">
+        <h3 style="font-size:.75rem;font-weight:600;letter-spacing:var(--tracking-wider);text-transform:uppercase;color:hsl(var(--color-gray-600))">Override once, re-brand everything</h3>
+        <pre style="margin:0;background:hsl(var(--color-gray-950));border-radius:var(--radius-md);padding:var(--space-4);overflow:auto;font-family:var(--font-mono);font-size:.8125rem;line-height:1.6;color:hsl(var(--color-gray-300))"><code>:root {
+  --color-primary-500: 262 83% 58%;   /* your brand purple */
+  --color-gray-50:     260 30% 98%;   /* warm neutral surfaces */
+  --radius-base:       0.75rem;
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+}</code></pre>
+        <p>Semantics (<code style="font-size:.85em">--bg-surface</code>, <code style="font-size:.85em">--text-secondary</code>, <code style="font-size:.85em">--primary-fg</code>) and <code style="font-size:.85em">themes/dark.css</code> both derive from those primitives, which is why brand overrides survive the theme flip.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="faq">
+  <div class="wrap" style="max-width:52rem">
+    <div class="section-head reveal">
+      <h2 class="display">Questions agents ask first</h2>
+      <p class="lede">Straight answers, each one checkable in the repo.</p>
+    </div>
+    <div class="faq">
+      <div class="qa reveal"><button type="button" aria-expanded="false" aria-controls="a1"><span>Is there a React or Vue version?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button><div class="a" id="a1" data-open="false"><div><p>No — that is the top roadmap item. Everything here is vanilla HTML/CSS/JS. The CSS is framework-agnostic, so porting is a markup translation, and the token file works unchanged in any of them.</p></div></div></div>
+      <div class="qa reveal" style="--d:.05s"><button type="button" aria-expanded="false" aria-controls="a2"><span>Can I copy a component without copying its CSS?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button><div class="a" id="a2" data-open="false"><div><p>Yes. <code style="font-size:.85em">engine.css</code> ships the tokens and <code style="font-size:.85em">styles/components.css</code> defines every class in the kit, split into <code style="font-size:.85em">#region</code> blocks. Each preview ends with a code panel whose <b>Copy + CSS</b> button hands you just the regions that snippet needs — or link the one sheet and paste the markup as-is.</p></div></div></div>
+      <div class="qa reveal" style="--d:.1s"><button type="button" aria-expanded="false" aria-controls="a3"><span>How is dark mode implemented?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button><div class="a" id="a3" data-open="false"><div><p>One selector. <code style="font-size:.85em">html.dark</code> re-points the grayscale primitives, lifts the brand blues, brightens the semantic states and deepens the shadows. Components never carry dark rules, which is why the ramp can be mirrored without auditing 46 files again.</p></div></div></div>
+      <div class="qa reveal" style="--d:.15s"><button type="button" aria-expanded="false" aria-controls="a4"><span>Does it need a server or a build step?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button><div class="a" id="a4" data-open="false"><div><p>Neither. Every preview, including this page and the visual lab, opens straight from the filesystem. No web fonts, no CDN scripts, no npm install. The optional <code style="font-size:.85em">showcase/serve.ps1</code> exists only if you prefer HTTP.</p></div></div></div>
+      <div class="qa reveal" style="--d:.2s"><button type="button" aria-expanded="false" aria-controls="a5"><span>What is verified, and what is only intended?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button><div class="a" id="a5" data-open="false"><div><p>Verified: contrast AA in both themes across 3,538 text nodes, zero horizontal overflow at 375/768/1280, and 46 working theme toggles. Not verified: pixel-level aesthetics — the audit reads computed styles, not rendered screenshots.</p></div></div></div>
+      <div class="qa reveal" style="--d:.25s"><button type="button" aria-expanded="false" aria-controls="a6"><span>What about shadcn, daisyUI and atlas?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button><div class="a" id="a6" data-open="false"><div><p>Researched, licensed, and not vendored. <code style="font-size:.85em">RESOURCES.md</code> records what each one is safe to copy. This library borrows the shadcn naming convention for tokens and nothing else.</p></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="cta reveal">
+      <h2>Give your next session a starting point</h2>
+      <p>Clone the folder, link one stylesheet, and let the agent pick from 46 previews that already passed the accessibility gates.</p>
+      <div class="install">
+        <code id="installLine">&lt;link rel="stylesheet" href="design-tokens/engine.css"&gt;</code>
+        <button class="btn-primary btn-sm" type="button" id="copyInstall">Copy</button>
+      </div>
+      <div class="row" style="justify-content:center">
+        <a class="btn-secondary btn-lg" href="../../showcase/index.html" style="text-decoration:none">Open the visual lab</a>
+        <a class="btn-outline btn-lg" href="../../README.md" style="text-decoration:none">Quick start</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">MASTER-UI-ENGINE</div>
+        <p class="footer-desc">A reusable UI/UX design system for AI coding agents. Forty-six standalone previews, one token file, MIT licensed.</p>
+        <div class="footer-social" style="margin-top:var(--space-5)">
+          <a href="../../showcase/index.html" aria-label="Visual lab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M3 9h18M8 4v5"></path></svg></a>
+          <a href="../../design-tokens/README.md" aria-label="Design tokens"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8"></circle><path d="M12 8v8m-4-4h8"></path></svg></a>
+          <a href="../../LICENSE" aria-label="License"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M7 3h7l4 4v14H7Z"></path><path d="M10 12h5"></path></svg></a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-heading">Library</div>
+        <ul class="footer-links">
+          <li><a href="../../components/buttons/buttons.html">Buttons</a></li>
+          <li><a href="../../components/forms/input-fields.html">Form fields</a></li>
+          <li><a href="../../components/charts/charts.html">Charts</a></li>
+          <li><a href="../dashboards/admin-dashboard.html">Dashboards</a></li>
+          <li><a href="../ecommerce/ecommerce-homepage.html">Ecommerce</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">System</div>
+        <ul class="footer-links">
+          <li><a href="../../design-tokens/engine.css">engine.css</a></li>
+          <li><a href="../../design-tokens/colors/primitive.css">Primitives</a></li>
+          <li><a href="../../design-tokens/colors/semantic.css">Semantics</a></li>
+          <li><a href="../../design-tokens/themes/dark.css">Dark mirror</a></li>
+          <li><a href="../../design-tokens/spacing/scale.css">Spacing</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">For agents</div>
+        <ul class="footer-links">
+          <li><a href="../../AGENTS.md">Workflow</a></li>
+          <li><a href="../../showcase/data/component-catalog.json">Catalog JSON</a></li>
+          <li><a href="../../CONTRIBUTING.md">Contribute</a></li>
+          <li><a href="../../RESOURCES.md">Licenses</a></li>
+          <li><a href="../analytics/analytics-dashboard.html">Analytics example</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 MASTER-UI-ENGINE contributors · MIT</span>
+      <span>Built with the library's own tokens and components</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.documentElement.classList.remove('no-js');
+document.documentElement.classList.add('js');
+
+const html = document.documentElement;
+const toggle = document.getElementById('themeToggle');
+const paint = (dark) => {
+  html.classList.toggle('dark', dark);
+  toggle.setAttribute('aria-pressed', String(dark));
+  toggle.querySelector('span').textContent = dark ? 'Light mode' : 'Dark mode';
+  document.getElementById('themeDot').style.background = dark
+    ? 'hsl(var(--color-primary-400))' : 'hsl(var(--color-primary-500))';
+};
+toggle.addEventListener('click', () => {
+  const dark = !html.classList.contains('dark');
+  paint(dark);
+  localStorage.setItem('mui-theme', dark ? 'dark' : 'light');
+});
+paint(localStorage.getItem('mui-theme') === 'dark');
+
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* sticky header + scroll progress */
+const masthead = document.getElementById('masthead');
+const bar = document.getElementById('progress');
+const onScroll = () => {
+  masthead.classList.toggle('compact', scrollY > 12);
+  const max = document.documentElement.scrollHeight - innerHeight;
+  bar.style.width = (max > 0 ? (scrollY / max) * 100 : 0) + '%';
+};
+addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+/* mobile drawer */
+const burger = document.getElementById('hamburger');
+const links = document.getElementById('navLinks');
+burger.addEventListener('click', () => {
+  const open = links.classList.toggle('open');
+  burger.setAttribute('aria-expanded', String(open));
+});
+links.addEventListener('click', e => {
+  if (e.target.tagName === 'A') { links.classList.remove('open'); burger.setAttribute('aria-expanded', 'false'); }
+});
+
+/* scroll reveals */
+const revealTargets = document.querySelectorAll('.reveal');
+const countTargets = document.querySelectorAll('[data-count]');
+if (!('IntersectionObserver' in window)) {
+  revealTargets.forEach(el => el.classList.add('in'));
+  countTargets.forEach(el => { el.textContent = el.dataset.count; });
+} else {
+  const reveal = new IntersectionObserver(entries => {
+    entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('in'); reveal.unobserve(entry.target); } });
+  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.08 });
+  revealTargets.forEach(el => reveal.observe(el));
+
+  /* count-ups */
+  const count = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target, to = +el.dataset.count;
+      count.unobserve(el);
+      if (reduced || to === 0) { el.textContent = to; return; }
+      const t0 = performance.now(), dur = 1100;
+      const tick = now => {
+        const p = Math.min(1, (now - t0) / dur);
+        el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3)));
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+  }, { threshold: 0.5 });
+  countTargets.forEach(el => count.observe(el));
+}
+
+/* tabs */
+const tabs = [...document.querySelectorAll('[role="tab"]')];
+const ink = document.getElementById('tabInk');
+const moveInk = (btn) => { ink.style.width = btn.offsetWidth + 'px'; ink.style.transform = 'translateX(' + btn.offsetLeft + 'px)'; };
+tabs.forEach((btn, i) => {
+  btn.addEventListener('click', () => {
+    tabs.forEach(t => {
+      t.setAttribute('aria-selected', String(t === btn));
+      t.tabIndex = t === btn ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = t !== btn;
+    });
+    moveInk(btn);
+  });
+  btn.addEventListener('keydown', e => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    const next = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+    next.focus(); next.click();
+  });
+});
+moveInk(tabs[0]);
+addEventListener('resize', () => moveInk(document.querySelector('[aria-selected="true"]')));
+
+/* switch + meter */
+const sw = document.getElementById('demoSwitch');
+const fill = document.getElementById('meterFill');
+const meterLabel = document.getElementById('meterLabel');
+const syncMeter = () => {
+  const value = sw.checked ? 72 : 100;
+  fill.style.width = value + '%';
+  meterLabel.textContent = value + '%';
+  fill.closest('.meter').setAttribute('aria-valuenow', String(value));
+};
+sw.addEventListener('change', syncMeter);
+syncMeter();
+
+/* toast on real clipboard writes */
+const toast = document.getElementById('demoToast');
+const toastText = document.getElementById('toastText');
+let toastTimer;
+const say = (msg) => {
+  toastText.textContent = msg;
+  toast.classList.remove('show');
+  void toast.offsetWidth;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2600);
+};
+const copyText = async (text, ok) => {
+  try {
+    await navigator.clipboard.writeText(text);
+    say(ok);
+  } catch (e) {
+    say('Clipboard blocked by the browser — select the line and copy manually.');
+  }
+};
+document.getElementById('copyDemo').addEventListener('click', () => {
+  copyText('<button class="btn-primary" type="button">Primary action</button>', 'Button markup copied.');
+});
+document.getElementById('copyInstall').addEventListener('click', async (e) => {
+  const btn = e.currentTarget;
+  const original = btn.textContent;
+  btn.textContent = 'Copying…';
+  btn.disabled = true;
+  try { await navigator.clipboard.writeText(document.getElementById('installLine').textContent); btn.textContent = 'Copied'; say('Install line copied.'); }
+  catch (err) { btn.textContent = 'Unavailable'; }
+  setTimeout(() => { btn.textContent = original; btn.disabled = false; }, 1600);
+});
+
+/* accordion */
+document.querySelectorAll('.qa button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const panel = document.getElementById(btn.getAttribute('aria-controls'));
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    document.querySelectorAll('.qa button').forEach(other => {
+      if (other === btn) return;
+      other.setAttribute('aria-expanded', 'false');
+      document.getElementById(other.getAttribute('aria-controls')).dataset.open = 'false';
+    });
+    btn.setAttribute('aria-expanded', String(!open));
+    panel.dataset.open = String(!open);
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  EXAMPLE: Booking
+  ID: ex-booking
+  GROUP: Examples
+  CATEGORY: marketing
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css (linked in this file head); no web fonts, CDNs or JS libraries, and no shared sheet yet
+  THEME: light + dark toggle (html.dark, persisted in localStorage)
+  VARIANTS: Featured stays
+  RESPONSIVE: reflows at <=768px
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31
+  CATALOG: showcase/data/component-catalog.json#ex-booking
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Booking Platform | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<style>
+  :root{
+
+    --shadow-sm:0 1px 3px 0 hsla(215,20%,17%,0.08),0 1px 2px -1px hsla(215,20%,17%,0.08);
+    --font-sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}html{font-family:var(--font-sans);font-size:var(--text-base);line-height:1.6;color:hsl(var(--color-gray-900));background:var(--bg-body)}
+  body{margin:0}
+  a{color:hsl(var(--color-primary-500));text-decoration:none}
+  header{position:sticky;top:0;z-index:30;background:hsla(var(--color-gray-50)/0.95);backdrop-filter:blur(6px);border-bottom:1px solid hsl(var(--color-gray-200))}
+  .topbar{display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 var(--space-6)}
+  .logo{font-weight:800;font-size:1.25rem;color:hsl(var(--color-gray-900));letter-spacing:-0.02em}
+  .nav-links{display:flex;gap:var(--space-6);list-style:none;margin:0;padding:0}
+  .nav-links a{color:hsl(var(--color-gray-600));font-size:0.9375rem;font-weight:500}
+  .actions{display:flex;align-items:center;gap:var(--space-3)}
+  button{display:inline-flex;align-items:center;gap:var(--space-2);border:none;border-radius:var(--radius-base);font-family:inherit;font-weight:500;font-size:0.9375rem;padding:0.55rem 1rem;cursor:pointer}
+  .btn-outline{background:transparent;border:1px solid hsl(var(--color-gray-300));color:hsl(var(--color-gray-900))}
+  .btn-outline:hover{background:hsl(var(--color-gray-100))}
+  .btn-primary{background:hsl(var(--color-primary-500));color:hsl(var(--color-gray-50))}
+  .btn-primary:hover{background:hsl(var(--color-primary-600))}
+  .hero{background:hsl(var(--color-gray-50));padding:var(--space-12) var(--space-6)}.search-card{background:var(--bg-surface);border:1px solid hsl(var(--color-gray-200));border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);max-width:700px;margin:0 auto;padding:var(--space-8)}
+  .search-form{display:flex;gap:var(--space-4);flex-wrap:wrap}
+  .search-form .field{flex:1;min-width:140px;display:flex;flex-direction:column;gap:var(--space-2)}
+  .search-form label{font-size:0.875rem;font-weight:600;color:hsl(var(--color-gray-700))}.search-form input{width:100%;border:1px solid hsl(var(--color-gray-300));background:var(--bg-surface);border-radius:var(--radius-base);padding:0.7rem 0.95rem;font-size:0.95rem;color:hsl(var(--color-gray-900))}
+  .search-form input:focus{border-color:hsl(var(--color-primary-500));box-shadow:0 0 0 3px hsla(var(--color-primary-500)/0.35)}
+  .search-form button{flex-shrink:0}
+  .hero p{text-align:center;color:hsl(var(--color-gray-500));margin-top:var(--space-6)}
+  .section{padding:var(--space-12) var(--space-6)}
+  .section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-8)}
+  .section-head h2{font-size:1.75rem;font-weight:700;color:hsl(var(--color-gray-900))}
+  .listings{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-6)}.listing{background:var(--bg-surface);border:1px solid hsl(var(--color-gray-200));border-radius:var(--radius-lg);overflow:hidden;display:flex;flex-direction:column}
+  .listing-img{height:200px;background:linear-gradient(160deg,hsla(var(--color-primary-500)/0.16),hsla(var(--color-primary-500)/0) 58%),hsl(var(--color-gray-100));border-bottom:1px solid hsl(var(--color-gray-200));display:flex;align-items:center;justify-content:center;color:hsl(var(--color-primary-500))}.listing-tag{position:absolute;top:0.75rem;right:0.75rem;background:var(--bg-surface);border-radius:var(--radius-base);padding:0.2em 0.6em;font-size:0.78rem;font-weight:700;color:hsl(var(--color-accent-500));border:1px solid hsl(var(--color-accent-500)/0.3)}
+  .listing-body{padding:var(--space-6)}
+  .listing-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:var(--space-3)}
+  .listing-title{font-size:1.05rem;font-weight:600;color:hsl(var(--color-gray-900))}
+  .listing-rating{display:flex;align-items:center;gap:var(--space-2)}
+  .stars{color:hsl(var(--color-warning-500));font-size:0.9rem}
+  .listing-loc{color:hsl(var(--color-gray-500));font-size:0.9375rem;margin-bottom:var(--space-3);display:flex;align-items:center;gap:var(--space-2)}
+  .listing-price{font-size:1.25rem;font-weight:700;color:hsl(var(--color-gray-900))}
+  .listing-price span{font-size:0.875rem;color:hsl(var(--color-gray-500));font-weight:500}
+  .listing-footer{margin-top:auto;padding-top:var(--space-4);border-top:1px solid hsl(var(--color-gray-100));display:flex;justify-content:space-between}
+  .book{background:hsl(var(--color-primary-500));color:hsl(var(--color-gray-50));border:none;border-radius:var(--radius-base);font-weight:600;padding:0.55rem 1rem;cursor:pointer}
+  .book:hover{background:hsl(var(--color-primary-600))}
+  footer{background:hsl(var(--color-gray-950)); color:hsl(var(--color-gray-200));padding:var(--space-12) var(--space-6);border-top:1px solid hsl(var(--color-gray-700));text-align:center}
+  @media (max-width:768px){.topbar{height:auto;flex-wrap:wrap;row-gap:var(--space-3);padding:var(--space-3) var(--space-4)}.nav-links{order:3;flex:1 1 100%;justify-content:space-between;gap:var(--space-4)}.actions{gap:var(--space-2);flex-wrap:wrap}.listings{grid-template-columns:1fr}.search-form{flex-direction:column}.search-form button{width:100%}}
+  .theme-toggle{background:none;border:none;color:hsl(var(--color-gray-600));cursor:pointer;font-size:1.1rem;margin-left:auto}
+</style>
+</head>
+<body>
+<header>
+  <div class="topbar">
+    <div class="logo">STAY</div>
+    <ul class="nav-links"><li><a href="#">Stays</a></li><li><a href="#">Experiences</a></li><li><a href="#">Host</a></li></ul>
+    <div class="actions"><button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">&#127762;</button><button class="btn-outline">Sign in</button><button class="btn-primary">List your space</button></div>
+  </div>
+</header>
+<section class="hero">
+  <div class="search-card">
+    <form class="search-form">
+      <div class="field"><label>Destination</label><input type="text" placeholder="Where to?"></div>
+      <div class="field"><label>Check in</label><input type="date"></div>
+      <div class="field"><label>Check out</label><input type="date"></div>
+      <div class="field"><label>Guests</label><input type="number" placeholder="2" min="1"></div>
+      <button class="btn-primary" style="padding:0.7rem 1.5rem">Search</button>
+    </form>
+  </div>
+  <p>Find the perfect place to stay, wherever you&rsquo;re going.</p>
+</section>
+<section class="section">
+  <div class="section-head">
+    <h2>Featured stays</h2><a href="#" style="font-size:0.9375rem;color:hsl(var(--color-primary-500))">View all &rarr;</a>
+  </div>
+  <div class="listings">
+    <article class="listing">
+      <div class="listing-img"><span class="listing-tag">&#9733;</span><svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2 20l6-9 4 5 3-4 7 8H2z"/><circle cx="17" cy="6" r="2.2"/></svg></div>
+      <div class="listing-body">
+        <div class="listing-head">
+          <div class="listing-title">Cozy mountain cabin</div>
+          <div class="listing-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span style="color:hsl(var(--color-gray-500));font-size:0.875rem">(48)</span></div>
+        </div>
+        <div class="listing-loc">&#128205; Aspen, CO</div>
+        <div class="listing-price">$240<span>/night</span></div>
+      </div>
+      <div class="listing-footer"><button class="book">Book now</button></div>
+    </article>
+    <article class="listing">
+      <div class="listing-img"><span class="listing-tag">&#9733;</span><svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 20V9l5-3v14M9 20h11V12L14 9v11"/><path d="M6 12h1M6 15h1M11 13h1M11 16h1M16 14h1.5M16 17h1.5"/></svg></div>
+      <div class="listing-body">
+        <div class="listing-head">
+          <div class="listing-title">Modern downtown loft</div>
+          <div class="listing-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span style="color:hsl(var(--color-gray-500));font-size:0.875rem">(120)</span></div>
+        </div>
+        <div class="listing-loc">&#128205; Austin, TX</div>
+        <div class="listing-price">$180<span>/night</span></div>
+      </div>
+      <div class="listing-footer"><button class="book">Book now</button></div>
+    </article>
+    <article class="listing">
+      <div class="listing-img"><span class="listing-tag">&#9733;</span><svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 17v-6l7-4 7 4v6H5z"/><path d="M10 17v-3h4v3"/><path d="M2 20c1.5 1.2 3 1.2 4.5 0s3-1.2 4.5 0 3 1.2 4.5 0 3-1.2 4.5 0"/></svg></div>
+      <div class="listing-body">
+        <div class="listing-head">
+          <div class="listing-title">Seaview villa</div>
+          <div class="listing-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span style="color:hsl(var(--color-gray-500));font-size:0.875rem">(67)</span></div>
+        </div>
+        <div class="listing-loc">&#128205; Santorini, GR</div>
+        <div class="listing-price">$420<span>/night</span></div>
+      </div>
+      <div class="listing-footer"><button class="book">Book now</button></div>
+    </article>
+    <article class="listing">
+      <div class="listing-img"><svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="7" y="3" width="10" height="18" rx="1"/><path d="M10 6h1.5M13 6h1.5M10 9h1.5M13 9h1.5M10 12h1.5M13 12h1.5M11 21v-3h2v3"/></svg></div>
+      <div class="listing-body">
+        <div class="listing-head">
+          <div class="listing-title">City center apartment</div>
+          <div class="listing-rating"><span class="stars">&#9733;&#9733;&#9733;&#9734;</span><span style="color:hsl(var(--color-gray-500));font-size:0.875rem">(203)</span></div>
+        </div>
+        <div class="listing-loc">&#128205; Berlin, DE</div>
+        <div class="listing-price">$130<span>/night</span></div>
+      </div>
+      <div class="listing-footer"><button class="book">Book now</button></div>
+    </article>
+    <article class="listing">
+      <div class="listing-img"><svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 20V11l8-6 8 6v9H4z"/><path d="M10 20v-5h4v5"/><path d="M15 8V5h2v3"/></svg></div>
+      <div class="listing-body">
+        <div class="listing-head">
+          <div class="listing-title">Lakefront cottage</div>
+          <div class="listing-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span style="color:hsl(var(--color-gray-500));font-size:0.875rem">(89)</span></div>
+        </div>
+        <div class="listing-loc">&#128205; Lake Tahoe, CA</div>
+        <div class="listing-price">$210<span>/night</span></div>
+      </div>
+      <div class="listing-footer"><button class="book">Book now</button></div>
+    </article>
+    <article class="listing">
+      <div class="listing-img"><svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="7" r="5"/><path d="M12 21V12"/><path d="M8 13h8l-1 3H9l-1-3z"/></svg></div>
+      <div class="listing-body">
+        <div class="listing-head">
+          <div class="listing-title">Forest treehouse</div>
+          <div class="listing-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span style="color:hsl(var(--color-gray-500));font-size:0.875rem">(34)</span></div>
+        </div>
+        <div class="listing-loc">&#128205; Portland, OR</div>
+        <div class="listing-price">$175<span>/night</span></div>
+      </div>
+      <div class="listing-footer"><button class="book">Book now</button></div>
+    </article>
+  </div>
+</section>
+<footer>
+  &#169; 2026 STAY. Built with MASTER-UI-ENGINE.
+</footer>
+<script>
+  const btn=document.getElementById('themeToggle');const html=document.documentElement;
+  btn.addEventListener('click',()=>{html.classList.toggle('dark');localStorage.setItem('mui-theme',html.classList.contains('dark')?'dark':'light')});
+  const saved=localStorage.getItem('mui-theme');if(saved==='dark')html.classList.add('dark');
+</script>
+</body>
+</html>

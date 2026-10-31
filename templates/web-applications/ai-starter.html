@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  TEMPLATE: AI starter
+  ID: tpl-ai
+  GROUP: Templates
+  CATEGORY: apps
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#shell (.app / .app.is-locked / .app > .main — the viewport-locked frame), #chat (.thread, .msg / .msg.ai / .msg.user / .msg.typing / .msg.is-streaming, .bubble, .chat-head, .conversation-list, .composer, .composer-form and the chat-enter / chat-caret / chat-typing keyframes), #chrome (theme toggle), #sidebar (.sidebar/.sidebar-brand/.sidebar-section/.sidebar-heading/.sidebar-link/.sidebar-label), #navigation (.navbar/.nav-spacer/.hamburger), #buttons, #fields (.field + .field textarea, .field-helper), #cards (.card-title/.card-desc), #badges (.badge), #display (.avatar), #notifications (.alert), #utilities (.stack/.row/.truncate) — every class below is defined there; the only local rule is the mobile conversation drawer
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  MOTION: durations and easings come from design-tokens/motion/scale.css; the typing dots, streaming caret and drawer in the sheet animate through --duration-* / --ease-*, nothing here hardcodes a time
+  RESPONSIVE: the sheet restacks the frame below 900px, where this page instead pins the conversation rail as an off-canvas drawer opened by the navbar button (data-menu-toggle, wired by styles/mue.js); bubbles cap at min(46rem, 88%) so long messages wrap instead of widening the page, the thread scrolls inside .thread while .app.is-locked holds the frame to 100dvh, and the composer stays pinned to the bottom at 320px
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 320/375/768/1280
+  CATALOG: showcase/data/component-catalog.json#tpl-ai
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>AI Starter | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../styles/components.css">
+<script src="../../styles/mue.js" defer></script>
+<style>
+  /* The app frame (.app / .app.is-locked / .app > .main) comes from
+     styles/components.css#shell and the whole conversation surface (.thread,
+     .msg*, .bubble, .composer*, .chat-head, .conversation-list) from #chat.
+     What is left here is the only thing the sheet does not cover: below 900px the
+     conversation rail becomes an off-canvas drawer that styles/mue.js opens with
+     [data-menu-toggle]. */
+  .page {
+    padding: 0; /* the chat shell is full-bleed */
+  }
+  @media (max-width: 900px) {
+    .sidebar {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 40;
+      width: min(18rem, 85vw);
+      border-right: 1px solid var(--hairline);
+      box-shadow: var(--shadow-xl);
+      transform: translateX(-100%);
+      transition: transform var(--duration-slow) var(--ease-soft);
+    }
+    .sidebar.is-open {
+      transform: none;
+    }
+    .hamburger {
+      display: grid;
+    }
+  }
+  /* .app.is-locked pins the frame to 100dvh, so the paste target lives below it
+     and the document scrolls once to reach it. */
+  .snippets {
+    padding: var(--space-6);
+  }
+</style>
+</head>
+<body class="page">
+<div class="app is-locked">
+  <aside class="sidebar" id="chatList" aria-label="Conversations">
+    <div class="sidebar-brand">Assistant</div>
+    <div class="stack">
+      <button class="btn-primary btn-block" type="button">New chat</button>
+      <button class="btn-outline btn-block" type="button">Explore prompts</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-heading">Recent</div>
+      <div class="conversation-list">
+        <a class="sidebar-link" href="#" aria-current="page"><span aria-hidden="true">&#128221;</span><span class="sidebar-label">Project planning</span></a>
+        <a class="sidebar-link" href="#"><span aria-hidden="true">&#128221;</span><span class="sidebar-label">Code review</span></a>
+        <a class="sidebar-link" href="#"><span aria-hidden="true">&#128221;</span><span class="sidebar-label">Release notes</span></a>
+      </div>
+    </div>
+    <div class="alert alert-info" role="note">
+      <span><strong>AI Starter Template</strong> — chat shell, conversation list and
+        composer. Point the send handler below at your LLM API.</span>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="navbar" role="banner">
+      <button class="hamburger" type="button" data-menu-toggle="chatList" aria-controls="chatList" aria-expanded="false" aria-label="Toggle conversations">&#9776;</button>
+      <div class="chat-head">
+        <h1 class="card-title truncate">Project planning</h1>
+        <span class="card-desc">GPT-class model &middot; streaming on</span>
+      </div>
+      <div class="nav-spacer"></div>
+      <div class="row">
+        <span class="badge badge-success"><span class="dot" aria-hidden="true"></span>Connected</span>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+          <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+        </button>
+      </div>
+    </header>
+
+    <div class="thread" id="messages" role="log" aria-live="polite" aria-label="Conversation">
+      <div class="msg ai">
+        <span class="avatar" aria-hidden="true">A</span>
+        <div class="bubble">Hi! How can I help you plan your project today?</div>
+      </div>
+    </div>
+
+    <div class="composer">
+      <div class="composer-form">
+        <div class="field">
+          <label class="sr-only" for="prompt">Message</label>
+          <textarea id="prompt" rows="1" placeholder="Message..."></textarea>
+        </div>
+        <button class="btn-primary btn-icon" type="button" id="send" aria-label="Send message">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12l14-7-7 14-2-5-5-2z"></path></svg>
+        </button>
+      </div>
+      <p class="field-helper">Enter sends, Shift+Enter adds a line. Responses are canned
+        until you connect your API.</p>
+    </div>
+  </div>
+</div>
+
+<div class="shell snippets">
+  <div class="code-wrap" data-section="shell, chat">
+    <div class="code-bar"><span>Markup</span></div>
+<pre><code>&lt;div class="app is-locked"&gt;
+  &lt;aside class="sidebar" id="chatList" aria-label="Conversations"&gt;
+    &lt;div class="sidebar-brand"&gt;Assistant&lt;/div&gt;
+    &lt;div class="sidebar-section"&gt;
+      &lt;div class="sidebar-heading"&gt;Recent&lt;/div&gt;
+      &lt;div class="conversation-list"&gt;
+        &lt;a class="sidebar-link" href="#" aria-current="page"&gt;…&lt;span class="sidebar-label"&gt;Project planning&lt;/span&gt;&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/aside&gt;
+
+  &lt;div class="main"&gt;
+    &lt;header class="navbar" role="banner"&gt;
+      &lt;button class="hamburger" type="button" data-menu-toggle="chatList"
+              aria-controls="chatList" aria-expanded="false" aria-label="Toggle conversations"&gt;…&lt;/button&gt;
+      &lt;div class="chat-head"&gt;
+        &lt;h1 class="card-title truncate"&gt;Project planning&lt;/h1&gt;
+        &lt;span class="card-desc"&gt;GPT-class model · streaming on&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class="nav-spacer"&gt;&lt;/div&gt;
+    &lt;/header&gt;
+
+    &lt;div class="thread" id="messages" role="log" aria-live="polite"&gt;
+      &lt;div class="msg ai"&gt;
+        &lt;span class="avatar" aria-hidden="true"&gt;A&lt;/span&gt;
+        &lt;div class="bubble"&gt;Hi! How can I help?&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="msg user"&gt;
+        &lt;span class="avatar" aria-hidden="true"&gt;U&lt;/span&gt;
+        &lt;div class="bubble"&gt;…&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="msg ai typing"&gt;
+        &lt;span class="avatar" aria-hidden="true"&gt;A&lt;/span&gt;
+        &lt;div class="bubble"&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="msg ai is-streaming"&gt;
+        &lt;span class="avatar" aria-hidden="true"&gt;A&lt;/span&gt;
+        &lt;div class="bubble"&gt;tokens still arriving…&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class="composer"&gt;
+      &lt;div class="composer-form"&gt;
+        &lt;div class="field"&gt;
+          &lt;label class="sr-only" for="prompt"&gt;Message&lt;/label&gt;
+          &lt;textarea id="prompt" rows="1" placeholder="Message..."&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;button class="btn-primary btn-icon" type="button" aria-label="Send message"&gt;…&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+  </div>
+</div>
+
+<script>
+  /* Chat behaviour only — styles/mue.js already owns the theme toggle and the
+     conversation drawer. Swap `reply()` for your streaming LLM call. */
+  (() => {
+    const prompt = document.getElementById("prompt");
+    const send = document.getElementById("send");
+    const thread = document.getElementById("messages");
+
+    const add = (role, text) => {
+      const row = document.createElement("div");
+      row.className = "msg " + role;
+      const avatar = document.createElement("span");
+      avatar.className = "avatar";
+      avatar.setAttribute("aria-hidden", "true");
+      avatar.textContent = role === "user" ? "U" : "A";
+      const bubble = document.createElement("div");
+      bubble.className = "bubble";
+      bubble.textContent = text;
+      row.append(avatar, bubble);
+      thread.append(row);
+      return bubble;
+    };
+
+    const scrollDown = () => {
+      thread.scrollTop = thread.scrollHeight;
+    };
+
+    const reply = (question) =>
+      "Here is a placeholder answer for \u201C" + question +
+      "\u201D. Stream your model tokens into bubble.textContent and drop the typing row " +
+      "when the first chunk arrives.";
+
+    const thinking = () => {
+      const row = document.createElement("div");
+      row.className = "msg ai typing";
+      const avatar = document.createElement("span");
+      avatar.className = "avatar";
+      avatar.setAttribute("aria-hidden", "true");
+      avatar.textContent = "A";
+      const bubble = document.createElement("div");
+      bubble.className = "bubble";
+      for (let dot = 0; dot < 3; dot++) bubble.append(document.createElement("i"));
+      const label = document.createElement("span");
+      label.className = "sr-only";
+      label.textContent = "Assistant is typing";
+      row.append(avatar, bubble, label);
+      thread.append(row);
+      scrollDown();
+      return row;
+    };
+
+    const stream = (text) => {
+      const bubble = add("ai", "");
+      bubble.parentElement.classList.add("is-streaming");
+      let i = 0;
+      const step = () => {
+        i += 8;
+        bubble.textContent = text.slice(0, i);
+        scrollDown();
+        if (i < text.length) {
+          requestAnimationFrame(step);
+        } else {
+          bubble.parentElement.classList.remove("is-streaming");
+        }
+      };
+      requestAnimationFrame(step);
+    };
+
+    /* Simulated round-trip latency while no API is wired. Motion timing is CSS-side
+       and comes from design-tokens/motion/scale.css; this is not a duration token. */
+    const FAKE_LATENCY_MS = 900;
+
+    const submit = () => {
+      const text = prompt.value.trim();
+      if (!text) return;
+      add("user", text);
+      prompt.value = "";
+      const pending = thinking();
+      const answer = reply(text);
+      setTimeout(() => {
+        pending.remove();
+        stream(answer);
+      }, FAKE_LATENCY_MS);
+    };
+
+    send.addEventListener("click", submit);
+    prompt.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        submit();
+      }
+    });
+  })();</script>
+</body>
+</html>

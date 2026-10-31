@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  COMPONENT: Charts
+  ID: ui-charts
+  GROUP: Components
+  CATEGORY: charts
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#charts — frame, axis text, bar growth, line draw and legend are defined there; only the series colours are page-local
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  VARIANTS: Bar chart, Line chart
+  MOTION: durations and easings come from design-tokens/motion/scale.css; nothing here hardcodes a time
+  RESPONSIVE: the SVG keeps its viewBox ratio inside a fluid frame, so it shrinks to 320px without a breakpoint
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31
+  CATALOG: showcase/data/component-catalog.json#ui-charts
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Charts | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../styles/components.css">
+<script src="../../styles/mue.js" defer></script>
+<style>
+  /* Page-local: the sheet owns the chart frame, the axis type, the bar growth
+     and the line draw. What it does not yet do is paint a series, so the fills
+     and the stroke below are the only artwork rules this preview keeps. */
+  .page {
+    --shell-w: 900px;
+  }
+  .chart .bar-primary {
+    fill: var(--primary-bg);
+  }
+  .chart .bar-success {
+    fill: hsl(var(--color-success-500));
+  }
+  .chart .bar-warning {
+    fill: hsl(var(--color-warning-500));
+  }
+  .chart .line {
+    fill: none;
+    stroke: var(--primary-bg);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .chart .point {
+    fill: var(--primary-bg);
+  }
+  .chart .chart-title {
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    letter-spacing: var(--tracking-wide);
+    color: var(--text-primary);
+    margin: 0;
+  }
+  .value {
+    font-size: var(--text-xs);
+    line-height: var(--leading-relaxed);
+    color: var(--text-secondary);
+    margin: 0;
+  }
+  .doc-list {
+    list-style: disc;
+    padding-left: 1.25rem;
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    display: grid;
+    gap: var(--space-2);
+    margin: 0;
+  }
+</style>
+</head>
+<body class="page">
+<div class="shell">
+  <header class="masthead">
+    <div>
+      <div class="brand">MASTER-UI-ENGINE</div>
+      <div class="meta">Components &gt; Charts &gt; Charts</div>
+    </div>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+      <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <h1>Charts</h1>
+  <p class="subtitle">Native SVG charts — no external library required. Accessible with titles and descriptions.</p>
+
+  <div class="meta-card">
+    <div class="meta">
+      <b>Name:</b> Charts<br>
+      <b>Category:</b> charts<br>
+      <b>Framework:</b> Vanilla HTML/SVG/JS<br>
+      <b>Defined in:</b> styles/components.css #charts<br>
+      <b>Variants:</b> bar chart, line chart<br>
+      <b>Responsive:</b> yes — fluid width, viewBox-scaled artwork<br>
+      <b>Dependencies:</b> none (SVG)<br>
+      <b>Original source:</b> MASTER-UI-ENGINE (original)<br>
+      <b>License:</b> MIT
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Bar chart</h2>
+    <figure class="chart">
+      <figcaption class="chart-title">Monthly signups</figcaption>
+      <svg viewBox="0 0 700 180" role="img" aria-labelledby="bar-title bar-desc" focusable="false">
+        <title id="bar-title">Monthly signups</title>
+        <desc id="bar-desc">Bar chart showing signups per month, Jan to Jun.</desc>
+        <rect x="60" y="130" width="70" height="40" class="bar bar-primary"/>
+        <rect x="160" y="100" width="70" height="70" class="bar bar-primary"/>
+        <rect x="260" y="60" width="70" height="110" class="bar bar-success"/>
+        <rect x="360" y="40" width="70" height="130" class="bar bar-primary"/>
+        <rect x="460" y="80" width="70" height="90" class="bar bar-warning"/>
+        <rect x="560" y="50" width="70" height="120" class="bar bar-primary"/>
+        <text x="95" y="175" class="axis" text-anchor="middle">Jan</text>
+        <text x="195" y="175" class="axis" text-anchor="middle">Feb</text>
+        <text x="295" y="175" class="axis" text-anchor="middle">Mar</text>
+        <text x="395" y="175" class="axis" text-anchor="middle">Apr</text>
+        <text x="495" y="175" class="axis" text-anchor="middle">May</text>
+        <text x="595" y="175" class="axis" text-anchor="middle">Jun</text>
+      </svg>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot" style="background:var(--primary-bg)"></span>Signups</span>
+        <span class="legend-item"><span class="legend-dot" style="background:hsl(var(--color-success-500))"></span>Converted</span>
+        <span class="legend-item"><span class="legend-dot" style="background:hsl(var(--color-warning-500))"></span>Pending</span>
+      </div>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Line chart</h2>
+    <figure class="chart">
+      <figcaption class="chart-title">Revenue trend</figcaption>
+      <svg viewBox="0 0 700 180" role="img" aria-labelledby="line-title line-desc" focusable="false">
+        <title id="line-title">Revenue trend</title>
+        <desc id="line-desc">Line chart showing revenue over six months.</desc>
+        <polyline points="60,120 160,90 260,60 360,100 460,70 560,50 660,30" class="line"/>
+        <circle cx="60" cy="120" r="3" class="point"/><circle cx="160" cy="90" r="3" class="point"/>
+        <circle cx="260" cy="60" r="3" class="point"/><circle cx="360" cy="100" r="3" class="point"/>
+        <circle cx="460" cy="70" r="3" class="point"/><circle cx="560" cy="50" r="3" class="point"/>
+        <circle cx="660" cy="30" r="3" class="point"/>
+      </svg>
+      <p class="value">Revenue increased 24% over the period.</p>
+    </figure>
+  </div>
+
+  <div class="section">
+    <h2>Responsive behavior</h2>
+    <p>The <code>.chart</code> frame is a flex column with <code>min-width:0</code>, and
+      <code>.chart svg</code> is <code>width:100%; height:auto</code>, so the artwork keeps its
+      viewBox ratio at any width — two charts side by side in a <code>.grid-auto</code> simply
+      stack once a column no longer fits, with no breakpoint of their own.</p>
+  </div>
+
+  <div class="section">
+    <h2>Accessibility</h2>
+    <ul class="doc-list">
+      <li>&lt;svg role="img"&gt; with &lt;title&gt; and &lt;desc&gt; for screen readers</li>
+      <li>Color is not the only means of conveying data (bars + positions + axis labels)</li>
+      <li>Keyboard focusable containers where interactive</li>
+      <li>Bars grow on <code>--duration-slower</code> and the line draws on <code>--duration-slowest</code>; both easing tokens collapse to near-zero under <code>prefers-reduced-motion</code></li>
+    </ul>
+  </div>
+
+  <div class="code-wrap" data-section="charts">
+    <div class="code-bar"><span>Markup</span></div>
+<pre><code>&lt;figure class="chart"&gt;
+  &lt;figcaption class="chart-title"&gt;Monthly signups&lt;/figcaption&gt;
+  &lt;svg viewBox="0 0 700 180" role="img" aria-labelledby="title desc"&gt;
+    &lt;title id="title"&gt;Monthly signups&lt;/title&gt;
+    &lt;desc id="desc"&gt;Bar chart, Jan to Jun.&lt;/desc&gt;
+    &lt;rect x="60" y="130" width="70" height="40" class="bar bar-primary"/&gt;
+    &lt;text x="95" y="175" class="axis" text-anchor="middle"&gt;Jan&lt;/text&gt;
+  &lt;/svg&gt;
+  &lt;div class="legend"&gt;
+    &lt;span class="legend-item"&gt;&lt;span class="legend-dot" style="background:var(--primary-bg)"&gt;&lt;/span&gt;Signups&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/figure&gt;</code></pre>
+  </div>
+
+</div>
+</body>
+</html>

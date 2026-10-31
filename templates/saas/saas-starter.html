@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  TEMPLATE: SaaS starter
+  ID: tpl-saas
+  GROUP: Templates
+  CATEGORY: saas
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#shell (.app/.app > .main, owns the frame and its 900px stacking), #chrome (theme toggle), #sidebar (.sidebar/.sidebar-brand/.sidebar-section/.sidebar-heading/.sidebar-link/.sidebar-label), #navigation (.navbar/.nav-search/.nav-spacer), #fields (.field/.input-icon), #buttons, #cards (.card/.card-header/.card-body), #badges (.badge badge-success), #tables (.table-wrap/.table), #tabs (.tabs/.tab/.tab-panel), #display (.stat/.stat-label/.stat-value/.stat-delta/.metric-row/.avatar), #dropdown, #overlays (.modal), #notifications (.alert/.alert-icon/.toast), #utilities (.row/.spread/.stack) — every component class below is defined there, so pasted markup arrives styled
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  MOTION: durations and easings come from design-tokens/motion/scale.css; nothing here hardcodes a time
+  RESPONSIVE: the sheet's #shell restacks .app to a column below 900px, the KPI strip is an auto-fit row (.metric-row) that becomes one column on a phone, the 2/1 dashboard grid collapses to one column below 900px, tables scroll inside .table-wrap instead of pushing the page wide, the topbar wraps with the search on its own row below 768px, and the account menu re-anchors to the bar below 640px
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 320/375/768/1280
+  CATALOG: showcase/data/component-catalog.json#tpl-saas
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>SaaS Starter | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../styles/components.css">
+<script src="../../styles/mue.js" defer></script>
+<style>
+  /* Page-specific artwork only: how wide the dashboard column is, its padding and
+     the asymmetric 2fr/1fr grid. The app frame (.app + .app > .main), the alert
+     icon, sidebar, topbar, search, stats, cards, table, tabs, badges, dropdown,
+     modal, toast and buttons are all owned by styles/components.css. */
+  .page {
+    padding: 0; /* the shell is full-bleed; .shell centres the dashboard column */
+  }
+  .dash {
+    --shell-w: 75rem;
+    padding: var(--space-6) var(--space-6) var(--space-10);
+  }
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-6);
+    align-items: start;
+  }
+  /* chrome gives a section heading a bottom margin; this one shares a row. */
+  .spread h2 {
+    margin-bottom: 0;
+  }
+  /* The topbar wraps instead of overflowing: search drops to its own row. */
+  @media (max-width: 768px) {
+    .navbar {
+      flex-wrap: wrap;
+      row-gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+    }
+    .nav-search {
+      flex: 1 1 100%;
+      max-width: none;
+    }
+  }
+  /* #shell already restacks .app below 900px; only this page's own grid is left. */
+  @media (max-width: 900px) {
+    .dashboard-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 640px) {
+    .dash {
+      padding: var(--space-4);
+    }
+    .dashboard-grid {
+      gap: var(--space-4);
+    }
+    /* Anchoring the account menu to the navbar instead of its trigger keeps a
+       12rem menu inside the viewport on a phone. */
+    .navbar .dropdown {
+      position: static;
+    }
+  }
+</style>
+</head>
+<body class="page">
+<div class="app">
+  <aside class="sidebar" aria-label="Main navigation">
+    <div class="sidebar-brand">SAAS</div>
+    <nav class="sidebar-section" aria-label="Workspace">
+      <div class="sidebar-heading">Workspace</div>
+      <a class="sidebar-link" href="#" aria-current="page"><span aria-hidden="true">&#128196;</span><span class="sidebar-label">Dashboard</span></a>
+      <a class="sidebar-link" href="#"><span aria-hidden="true">&#128221;</span><span class="sidebar-label">Projects</span></a>
+      <a class="sidebar-link" href="#"><span aria-hidden="true">&#128100;</span><span class="sidebar-label">Team</span></a>
+      <a class="sidebar-link" href="#"><span aria-hidden="true">&#128466;</span><span class="sidebar-label">Billing</span></a>
+    </nav>
+    <nav class="sidebar-section" aria-label="Account">
+      <div class="sidebar-heading">Account</div>
+      <a class="sidebar-link" href="#"><span aria-hidden="true">&#9881;</span><span class="sidebar-label">Settings</span></a>
+      <a class="sidebar-link" href="#"><span aria-hidden="true">&#128682;</span><span class="sidebar-label">Status</span></a>
+    </nav>
+  </aside>
+
+  <div class="main">
+    <header class="navbar" role="banner">
+      <div class="field nav-search">
+        <label class="sr-only" for="globalSearch">Search the workspace</label>
+        <div class="input-icon">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+          <input id="globalSearch" type="search" placeholder="Search projects, people, invoices" autocomplete="off">
+        </div>
+      </div>
+      <div class="nav-spacer"></div>
+      <div class="row">
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+          <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+        </button>
+        <button class="btn-primary btn-sm" type="button" data-open="newProject">New project</button>
+        <div class="dropdown">
+          <button class="btn-outline btn-sm" type="button" data-dropdown aria-haspopup="true">
+            <span class="avatar" aria-hidden="true">SA</span>
+            Account
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="menu-item" href="#">Profile</a></li>
+            <li><a class="menu-item" href="#">Billing</a></li>
+            <li><div class="menu-divider"></div></li>
+            <li><a class="menu-item danger" href="#">Sign out</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="shell dash">
+      <h1>Dashboard</h1>
+      <p class="subtitle">Your SaaS application starting point: sidebar, topbar, KPI strip,
+        tabbed panels and a data table — all from the shared sheet.</p>
+
+      <div class="alert alert-info" role="note" style="margin-bottom:var(--space-6)">
+        <span class="alert-icon" aria-hidden="true">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </span>
+        <span><strong>SaaS Starter Template</strong> — copy this folder, point the sidebar
+          links at your router and replace the KPI numbers with your API. The theme toggle,
+          account dropdown, tab panels, modal and toast are wired by styles/mue.js.</span>
+      </div>
+
+      <section class="section">
+        <h2>Key metrics</h2>
+        <div class="metric-row">
+          <div class="stat">
+            <span class="stat-label">MRR</span>
+            <span class="stat-value" data-count="24500" data-prefix="$">$24,500</span>
+            <span class="stat-delta is-up">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+              12% vs last month
+            </span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Customers</span>
+            <span class="stat-value">1,240</span>
+            <span class="stat-delta is-up">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+              38 new this week
+            </span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Churn</span>
+            <span class="stat-value" data-count="3.4" data-suffix="%">3.4%</span>
+            <span class="stat-delta is-down">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+              0.6 pt vs last month
+            </span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Active trials</span>
+            <span class="stat-value" data-count="86">86</span>
+            <span class="stat-delta">42 convert this cycle</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="section tabs">
+        <div class="spread">
+          <h2>Customer activity</h2>
+          <div role="tablist" aria-label="Time range">
+            <button class="tab" type="button" role="tab" id="tabWeek" aria-controls="panelWeek" aria-selected="true">7 days</button>
+            <button class="tab" type="button" role="tab" id="tabMonth" aria-controls="panelMonth" aria-selected="false">30 days</button>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="panelWeek" role="tabpanel" aria-labelledby="tabWeek">
+          <div class="dashboard-grid">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Recent customers</h3>
+                <a class="btn-ghost btn-sm" href="#">View all</a>
+              </div>
+              <div class="card-body">
+                <div class="table-wrap">
+                  <table class="table">
+                    <caption class="sr-only">Customers acquired in the last 7 days</caption>
+                    <thead>
+                      <tr><th scope="col">Customer</th><th scope="col">Plan</th><th scope="col">Status</th><th scope="col">MRR</th><th scope="col">Joined</th></tr>
+                    </thead>
+                    <tbody>
+                      <tr><td>Acme Corp</td><td>Professional</td><td><span class="badge badge-success"><span class="dot" aria-hidden="true"></span>Active</span></td><td class="tabular">$1,200</td><td>2 days ago</td></tr>
+                      <tr><td>Globex</td><td>Starter</td><td><span class="badge badge-success"><span class="dot" aria-hidden="true"></span>Active</span></td><td class="tabular">$49</td><td>1 week ago</td></tr>
+                      <tr><td>Initech</td><td>Enterprise</td><td><span class="badge badge-warning"><span class="dot" aria-hidden="true"></span>Trialing</span></td><td class="tabular">$2,400</td><td>3 weeks ago</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header"><h3 class="card-title">Quick actions</h3></div>
+              <div class="card-body btn-stack">
+                <button class="btn-outline btn-block" type="button" data-open="newProject">Create project</button>
+                <button class="btn-outline btn-block" type="button" data-toast="inviteToast">Invite team member</button>
+                <button class="btn-outline btn-block" type="button">View billing</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="panelMonth" role="tabpanel" aria-labelledby="tabMonth" hidden>
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Plan mix</h3>
+              <a class="btn-ghost btn-sm" href="#">Export CSV</a>
+            </div>
+            <div class="card-body">
+              <div class="table-wrap">
+                <table class="table">
+                  <caption class="sr-only">Subscriptions by plan over 30 days</caption>
+                  <thead>
+                    <tr><th scope="col">Plan</th><th scope="col">Customers</th><th scope="col">MRR</th><th scope="col">Change</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Enterprise</td><td class="tabular">18</td><td class="tabular">$43,200</td><td><span class="badge badge-success">+4</span></td></tr>
+                    <tr><td>Professional</td><td class="tabular">142</td><td class="tabular">$16,980</td><td><span class="badge badge-success">+11</span></td></tr>
+                    <tr><td>Starter</td><td class="tabular">1,080</td><td class="tabular">$52,920</td><td><span class="badge badge-error">-23</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-wrap" data-section="shell, sidebar, navigation, notifications, display, cards, tabs, tables">
+        <div class="code-bar"><span>Markup</span></div>
+<pre><code>&lt;div class="app"&gt;
+  &lt;aside class="sidebar" aria-label="Main navigation"&gt;
+    &lt;div class="sidebar-brand"&gt;SAAS&lt;/div&gt;
+    &lt;nav class="sidebar-section" aria-label="Workspace"&gt;
+      &lt;div class="sidebar-heading"&gt;Workspace&lt;/div&gt;
+      &lt;a class="sidebar-link" href="#" aria-current="page"&gt;…&lt;span class="sidebar-label"&gt;Dashboard&lt;/span&gt;&lt;/a&gt;
+    &lt;/nav&gt;
+  &lt;/aside&gt;
+
+  &lt;div class="main"&gt;
+    &lt;header class="navbar" role="banner"&gt;…&lt;/header&gt;
+
+    &lt;main class="shell dash"&gt;
+      &lt;h1&gt;Dashboard&lt;/h1&gt;
+      &lt;p class="subtitle"&gt;…&lt;/p&gt;
+
+      &lt;div class="alert alert-info" role="note"&gt;
+        &lt;span class="alert-icon" aria-hidden="true"&gt;…&lt;/span&gt;
+        &lt;span&gt;&lt;strong&gt;SaaS Starter Template&lt;/strong&gt; — …&lt;/span&gt;
+      &lt;/div&gt;
+
+      &lt;section class="section"&gt;
+        &lt;h2&gt;Key metrics&lt;/h2&gt;
+        &lt;div class="metric-row"&gt;…&lt;/div&gt;
+      &lt;/section&gt;
+
+      &lt;div class="dashboard-grid"&gt;…&lt;/div&gt;
+    &lt;/main&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- New project: shared modal, opened from the navbar and the quick actions. -->
+<div class="overlay">
+  <div class="modal" id="newProject" data-dialog role="dialog" aria-modal="true" aria-labelledby="newProjectTitle">
+    <div class="modal-header">
+      <h2 class="modal-title" id="newProjectTitle">New project</h2>
+      <button class="dialog-close" type="button" data-close aria-label="Close dialog">&#10005;</button>
+    </div>
+    <form class="modal-body stack">
+      <div class="field">
+        <label class="field-label" for="projectName">Project name</label>
+        <input id="projectName" type="text" placeholder="Q1 pricing experiments" autocomplete="off">
+        <span class="field-helper">Visible to everyone in the workspace.</span>
+      </div>
+      <div class="field">
+        <label class="field-label" for="projectPlan">Billing plan</label>
+        <input id="projectPlan" type="text" value="Professional" readonly>
+      </div>
+    </form>
+    <div class="modal-footer">
+      <button class="btn-outline" type="button" data-close>Cancel</button>
+      <button class="btn-primary" type="button" data-toast="savedToast">Create project</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast templates: mue.js clones the node named by data-toast. -->
+<div class="toast-region" role="status" aria-live="polite">
+  <div class="toast toast-success" id="savedToast" hidden data-dismiss="3200">
+    <span class="toast-icon" aria-hidden="true">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+    </span>
+    <div class="toast-body">
+      <p class="toast-title">Project created</p>
+      <p class="toast-msg">Post this form to your API.</p>
+    </div>
+    <button class="toast-close" type="button" aria-label="Dismiss">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+    </button>
+  </div>
+  <div class="toast toast-info" id="inviteToast" hidden>
+    <span class="toast-icon" aria-hidden="true">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0m4-8a4 4 0 100 8 4 4 0 000-8zM3 21v-1a6 6 0 016-6h6a6 6 0 016 6v1"></path></svg>
+    </span>
+    <div class="toast-body">
+      <p class="toast-title">Invite sent</p>
+      <p class="toast-msg">Wire this button to your member-invitation endpoint.</p>
+    </div>
+    <button class="toast-close" type="button" aria-label="Dismiss">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+    </button>
+  </div>
+</div>
+</body>
+</html>

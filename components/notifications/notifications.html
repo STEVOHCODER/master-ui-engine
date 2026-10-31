@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  COMPONENT: Notifications
+  ID: ui-notifications
+  GROUP: Components
+  CATEGORY: notifications
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#notifications (with #buttons) — every class below is defined there, so pasted markup arrives styled
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  VARIANTS: Toasts (success, error, warning, info), Inline alert
+  MOTION: a toast enters with mue-toast-in on --ease-out-expo from --reveal-shift-lg and leaves on --motion-overlay timing; nothing here hardcodes a CSS time
+  RESPONSIVE: the toast region is inset on both sides, so a toast is min(24rem,100%) — it shrinks to the phone instead of hanging off it; the trigger row wraps
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 320/375/768/1280
+  CATALOG: showcase/data/component-catalog.json#ui-notifications
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Notifications | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../styles/components.css">
+<script src="../../styles/mue.js" defer></script>
+<style>
+  /* Demo placement + the two notification parts the shared sheet does not ship
+     yet (.toast-body, .toast-close) — both are reported for the region. */
+  .toast-region {
+    position: fixed;
+    inset: auto var(--space-5) var(--space-5);
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-3);
+    pointer-events: none;
+  }
+  .toast-region .toast { pointer-events: auto; }
+  .toast[hidden] { display: none; }
+  .toast-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .toast-close {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    flex: none;
+    padding: 0;
+    font: inherit;
+    font-size: var(--text-lg);
+    line-height: var(--leading-none);
+    color: var(--text-tertiary);
+    background: none;
+    border: 0;
+    border-radius: var(--radius-base);
+    cursor: pointer;
+    transition: var(--motion-colors);
+  }
+  .toast-close:hover {
+    background: var(--bg-surface-active);
+    color: var(--text-primary);
+  }
+  .toast-close:focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
+  }
+  /* An alert already carries its variant colour; let the icon inherit it
+     instead of forcing the neutral toast treatment. */
+  .alert .toast-icon {
+    background: transparent;
+    color: currentColor;
+  }
+</style>
+</head>
+<body class="page">
+<div class="shell">
+  <header class="masthead">
+    <div>
+      <div class="brand">MASTER-UI-ENGINE</div>
+      <div class="meta">Components &gt; Notifications</div>
+    </div>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+      <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <h1>Notifications</h1>
+  <p class="subtitle">Toasts and alerts that communicate system status without interrupting
+    flow. A toast is markup with a <code>data-toast</code> pointer: the script clones it into
+    the stack, animates it in, and removes it again.</p>
+
+  <div class="meta-card">
+    <div class="meta">
+      <b>Name:</b> Notifications<br>
+      <b>Category:</b> notifications<br>
+      <b>Framework:</b> Vanilla HTML/CSS/JS<br>
+      <b>Defined in:</b> styles/components.css #notifications<br>
+      <b>Behaviour:</b> styles/mue.js — [data-toast], .toast .toast-close<br>
+      <b>Variants:</b> success, error, warning, info, inline alert<br>
+      <b>Responsive:</b> toast width min(24rem, 100%); trigger row wraps<br>
+      <b>Dependencies:</b> none<br>
+      <b>License:</b> MIT
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Toasts</h2>
+    <p>Each button names a hidden template. Cloning keeps the demo honest: what you click is
+      the markup you copy. The region sits bottom-right so a toast never parks on top of the
+      theme toggle.</p>
+    <div class="btn-row" style="margin-bottom:var(--space-4)">
+      <button class="btn-primary" type="button" data-toast="#toast-success">Success</button>
+      <button class="btn-outline" type="button" data-toast="#toast-error">Error</button>
+      <button class="btn-outline" type="button" data-toast="#toast-warning">Warning</button>
+      <button class="btn-outline" type="button" data-toast="#toast-info">Info</button>
+    </div>
+    <div class="toast-region">
+      <div class="toast-stack">
+        <div class="toast toast-success" id="toast-success" data-dismiss="4000" role="alert" hidden>
+          <span class="toast-icon" aria-hidden="true">&#10003;</span>
+          <div class="toast-body">
+            <span class="toast-title">Success</span>
+            <span class="toast-msg">Operation completed successfully.</span>
+          </div>
+          <button class="toast-close" type="button" aria-label="Dismiss">&times;</button>
+        </div>
+        <div class="toast toast-error" id="toast-error" data-dismiss="4000" role="alert" hidden>
+          <span class="toast-icon" aria-hidden="true">&#10007;</span>
+          <div class="toast-body">
+            <span class="toast-title">Error</span>
+            <span class="toast-msg">Something went wrong. Please try again.</span>
+          </div>
+          <button class="toast-close" type="button" aria-label="Dismiss">&times;</button>
+        </div>
+        <div class="toast toast-warning" id="toast-warning" data-dismiss="4000" role="alert" hidden>
+          <span class="toast-icon" aria-hidden="true">&#9888;</span>
+          <div class="toast-body">
+            <span class="toast-title">Warning</span>
+            <span class="toast-msg">Please review the highlighted fields.</span>
+          </div>
+          <button class="toast-close" type="button" aria-label="Dismiss">&times;</button>
+        </div>
+        <div class="toast toast-info" id="toast-info" data-dismiss="4000" role="alert" hidden>
+          <span class="toast-icon" aria-hidden="true">i</span>
+          <div class="toast-body">
+            <span class="toast-title">Info</span>
+            <span class="toast-msg">New features are available.</span>
+          </div>
+          <button class="toast-close" type="button" aria-label="Dismiss">&times;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Inline alert</h2>
+    <p>An alert stays where it happened and needs no script: same icon/title/message slots,
+      tinted by the variant class.</p>
+    <div class="alert alert-success" role="alert">
+      <span class="toast-icon" aria-hidden="true">&#10003;</span>
+      <div class="toast-body">
+        <span class="toast-title">Changes saved</span>
+        <span class="toast-msg">Your changes have been saved successfully.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Behavior</h2>
+    <ul style="list-style:disc;padding-left:1.25rem;color:var(--text-secondary);font-size:var(--text-sm);display:grid;gap:var(--space-2)">
+      <li>Toasts auto-dismiss after 4 seconds (<code>data-dismiss</code>)</li>
+      <li>Close button dismisses immediately, with the same slide-out</li>
+      <li>Multiple toasts stack vertically inside the region</li>
+      <li>Nothing is focus-stealing: a toast never traps the keyboard</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Accessibility</h2>
+    <ul style="list-style:disc;padding-left:1.25rem;color:var(--text-secondary);font-size:var(--text-sm);display:grid;gap:var(--space-2)">
+      <li>Inline alerts and toasts use <code>role="alert"</code> so the text is announced</li>
+      <li>Toast icons are decorative (<code>aria-hidden</code>) with a text title beside them</li>
+      <li>Colour plus icon conveys meaning, never colour alone</li>
+      <li>The dismiss control is a real button with an <code>aria-label</code> and a visible focus ring</li>
+      <li>Under <code>prefers-reduced-motion</code> the slide collapses and only the fade remains</li>
+    </ul>
+  </div>
+
+  <div class="code-wrap" data-section="notifications,buttons">
+    <div class="code-bar"><span>Markup</span></div>
+<pre><code>&lt;button class="btn-primary" type="button" data-toast="#toast-success"&gt;Success&lt;/button&gt;
+
+&lt;div class="toast toast-success" id="toast-success" data-dismiss="4000" role="alert" hidden&gt;
+  &lt;span class="toast-icon" aria-hidden="true"&gt;&amp;#10003;&lt;/span&gt;
+  &lt;div class="toast-body"&gt;
+    &lt;span class="toast-title"&gt;Saved&lt;/span&gt;
+    &lt;span class="toast-msg"&gt;Changes saved successfully.&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;button class="toast-close" type="button" aria-label="Dismiss"&gt;&amp;times;&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;div class="alert alert-success" role="alert"&gt;
+  &lt;span class="toast-icon" aria-hidden="true"&gt;&amp;#10003;&lt;/span&gt;
+  &lt;div class="toast-body"&gt;
+    &lt;span class="toast-title"&gt;Changes saved&lt;/span&gt;
+    &lt;span class="toast-msg"&gt;Your changes have been saved successfully.&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+  </div>
+</div>
+<script>
+  /* Kept on purpose: styles/mue.js binds .toast-close when the page boots, so the
+     clones it creates have no listener. This delegates dismissal to every toast,
+     template or clone, and is the only script left on the page. */
+  document.addEventListener("click", (e) => {
+    const x = e.target.closest(".toast .toast-close");
+    if (!x) return;
+    const t = x.closest(".toast");
+    t.classList.add("is-leaving");
+    // 420ms: same removal delay styles/mue.js uses for its own clone dismissal,
+    // one frame past the --duration-slow (320ms) exit transition.
+    setTimeout(() => t.remove(), 420);
+  });
+</script>
+</body>
+</html>

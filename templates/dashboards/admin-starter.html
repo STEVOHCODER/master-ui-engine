@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  TEMPLATE: Admin starter
+  ID: tpl-admin
+  GROUP: Templates
+  CATEGORY: dashboards
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#shell (.app/.main/.content/.page-head/.content-grid/.sidebar nav), #sidebar, #navigation (.navbar/.nav-search/.nav-spacer), #fields (.field/.input-icon), #buttons (.btn-link), #chrome (.theme-toggle/.code-wrap/.code-bar), #badges, #cards, #tables (.table-wrap/.table and the .card .table-wrap reset), #display (.stat/.metric-row), #utilities (.stack/.spread), #notifications (.alert/.alert-info) — the shared classes below are defined there
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  MOTION: durations and easings come from design-tokens/motion/scale.css; nothing here hardcodes a time
+  RESPONSIVE: the #shell frame owns the breakpoint — at <=900px .app becomes a column (rail stacks above the content) and .content-grid collapses to one column; the KPI row auto-fits from 4 columns to 1; the orders table scrolls inside .table-wrap instead of pushing the page wide; the locally capped .nav-search shrinks without overflowing at 320px
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 320/375/768/1280, audited 2026-10-31
+  CATALOG: showcase/data/component-catalog.json#tpl-admin
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Admin Starter | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../styles/components.css">
+<script src="../../styles/mue.js" defer></script>
+<style>
+  /* Nothing here restyles the app frame: .app, .main, .content, .page-head,
+     .content-grid and the rail's full-height nav all come from
+     styles/components.css #shell, including the 900px breakpoint where .app
+     becomes a column and the grid collapses to one column. The 3fr/2fr split
+     this page wants is a value, not a rule, so it is set with --grid-cols on
+     the .content-grid element. Only the search cap below has no shared hook. */
+  .nav-search {
+    max-width: 16.25rem; /* shared #navigation allows 22rem; this dense topbar stays narrower so the row never overflows 320px */
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" aria-label="Main navigation">
+    <div class="sidebar-brand">ADMIN</div>
+    <nav class="sidebar-section">
+      <a class="sidebar-link active" href="#" aria-current="page"><span>&#128196;</span><span class="sidebar-label">Dashboard</span></a>
+      <a class="sidebar-link" href="#"><span>&#128100;</span><span class="sidebar-label">Users</span></a>
+      <a class="sidebar-link" href="#"><span>&#128221;</span><span class="sidebar-label">Orders</span></a>
+      <a class="sidebar-link" href="#"><span>&#128193;</span><span class="sidebar-label">Products</span></a>
+      <a class="sidebar-link" href="#" style="margin-top:var(--space-4)"><span>&#9881;</span><span class="sidebar-label">Settings</span></a>
+    </nav>
+  </aside>
+  <div class="main">
+    <header class="navbar">
+      <div class="field input-icon nav-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0z"></path></svg>
+        <input type="search" placeholder="Search..." aria-label="Search admin">
+      </div>
+      <span class="nav-spacer"></span>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode"><span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span></button>
+    </header>
+    <div class="content">
+      <div class="alert alert-info"><strong>Admin Starter Template</strong> — Dense layout for internal tools. Includes nav, topbar, KPI cards, orders table, and activity panel. Wire to your admin API.</div>
+      <div class="page-head"><h1>Admin overview</h1><p>Manage users, orders, and store performance.</p></div>
+      <div class="metric-row">
+        <div class="stat"><div class="stat-label">Total orders</div><div class="stat-value">4,820</div></div>
+        <div class="stat"><div class="stat-label">Revenue</div><div class="stat-value">$124,500</div></div>
+        <div class="stat"><div class="stat-label">New users</div><div class="stat-value">520</div></div>
+        <div class="stat"><div class="stat-label">Pending</div><div class="stat-value">86</div></div>
+      </div>
+      <div class="content-grid" style="--grid-cols: 3fr 2fr">
+        <section class="card">
+          <div class="card-header"><h2 class="card-title">Recent orders</h2><a class="btn-link" href="#">View all</a></div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th>Order</th><th>Customer</th><th>Amount</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>#40291</td><td>Alex Morgan</td><td>$219.00</td><td><span class="badge badge-success">Delivered</span></td></tr>
+                <tr><td>#40290</td><td>Sam Rivera</td><td>$89.50</td><td><span class="badge badge-warning">Processing</span></td></tr>
+                <tr><td>#40289</td><td>Jules Kim</td><td>$340.00</td><td><span class="badge badge-success">Delivered</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+        <section class="card">
+          <div class="card-header"><h2 class="card-title">System status</h2></div>
+          <div class="card-body">
+            <div class="stack">
+              <div class="spread"><span>API</span><span class="badge badge-success">Healthy</span></div>
+              <div class="spread"><span>Database</span><span class="badge badge-success">Healthy</span></div>
+              <div class="spread"><span>Queue</span><span class="badge badge-warning">Delayed</span></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="code-wrap" data-section="shell">
+        <div class="code-bar"><span>App shell markup</span></div>
+<pre><code>&lt;div class="app"&gt;
+  &lt;aside class="sidebar" aria-label="Main navigation"&gt;
+    &lt;div class="sidebar-brand"&gt;ADMIN&lt;/div&gt;
+    &lt;nav class="sidebar-section"&gt;
+      &lt;a class="sidebar-link active" href="#" aria-current="page"&gt;…&lt;/a&gt;
+    &lt;/nav&gt;
+  &lt;/aside&gt;
+
+  &lt;div class="main"&gt;
+    &lt;header class="navbar"&gt;
+      &lt;div class="field input-icon nav-search"&gt;…&lt;/div&gt;
+      &lt;span class="nav-spacer"&gt;&lt;/span&gt;
+      &lt;button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode"&gt;
+        &lt;span data-theme-state&gt;Dark mode&lt;/span&gt;&lt;span class="dot" aria-hidden="true"&gt;&lt;/span&gt;
+      &lt;/button&gt;
+    &lt;/header&gt;
+
+    &lt;div class="content"&gt;
+      &lt;div class="page-head"&gt;
+        &lt;h1&gt;Admin overview&lt;/h1&gt;
+        &lt;p&gt;Manage users, orders, and store performance.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class="content-grid"&gt;…&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- One value per page: --grid-cols replaces the shared 2fr 1fr split.
+     At 900px the sheet stacks .app and collapses .content-grid to 1fr. --&gt;
+&lt;div class="content-grid" style="--grid-cols: 3fr 2fr"&gt;…&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

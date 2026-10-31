@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  EXAMPLE: Ecommerce homepage
+  ID: ex-ecom-home
+  GROUP: Examples
+  CATEGORY: ecommerce
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#navigation (.navbar/.nav-brand/.nav-links/.nav-link/.nav-spacer/.hamburger and its 768px collapse), #chrome (.theme-toggle), #buttons, #cards (.card/.card-media/.card-body/.card-tag/.card-title/.card-actions/.price), #badges (.badge), #display (.avatar), #footers (.footer/.footer-brand/.footer-desc/.footer-heading/.footer-links/.footer-bottom), #utilities (.row/.spread/.grid-auto) — the shared classes below are defined there
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  VARIANTS: Featured products, What our customers say
+  MOTION: durations and easings come from design-tokens/motion/scale.css; card hover lift is #cards' --motion-lift, nothing here hardcodes a time
+  RESPONSIVE: below 768px the shared navbar wraps and moves the links behind the hamburger; the product and testimonial grids are .grid-auto, so columns flow 4/3 down to 1 with no local breakpoint; the hero only swaps padding and heading size at 640px, so nothing overflows at 320px
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 320/375/768/1280, audited 2026-10-31
+  CATALOG: showcase/data/component-catalog.json#ex-ecom-home
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>E-commerce Homepage | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../styles/components.css">
+<script src="../../styles/mue.js" defer></script>
+<style>
+  /* Storefront geometry only. Navbar, buttons, product cards, badges, the
+     testimonial cards, the footer, the theme toggle and the layout helpers
+     (.row / .spread / .grid-auto) are defined in styles/components.css. */
+  .block { min-width: 0; padding: var(--space-12) var(--space-6); }
+  .block-head { margin-bottom: var(--space-8); }
+  .block-title {
+    margin: 0;
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    letter-spacing: var(--tracking-tight);
+    color: var(--text-primary);
+  }
+  /* Hero artwork: the inverse surface pair flips with the theme, so the band
+     stays dark-on-light in light mode and light-on-dark in dark mode. */
+  .hero {
+    padding: var(--space-20) var(--space-6);
+    background: var(--bg-inverse);
+    color: var(--text-inverse);
+    text-align: center;
+  }
+  .hero h1 {
+    margin: 0 0 var(--space-4);
+    font-size: var(--text-5xl);
+    font-weight: var(--font-extrabold);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tighter);
+  }
+  .hero p {
+    margin: 0 auto var(--space-8);
+    max-width: 42rem;
+    font-size: var(--text-xl);
+    line-height: var(--leading-relaxed);
+    opacity: 0.82;
+  }
+  .hero-actions { justify-content: center; }
+  /* Product-grid geometry: taller media frame and a narrower minimum column
+     than .grid-auto defaults to. Column count stays auto-fit, never fixed. */
+  .products { --col-min: 15rem; gap: var(--space-6); }
+  .product-media {
+    aspect-ratio: 4 / 3;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(160deg, var(--tint-primary), transparent 58%),
+      var(--bg-surface-hover);
+    color: var(--primary-bg);
+  }
+  .product-media svg { width: 6rem; height: 6rem; }
+  .sale {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    padding: var(--space-10) var(--space-6);
+    background: var(--primary-bg);
+    color: var(--primary-fg);
+  }
+  .sale h2 {
+    margin: 0 0 var(--space-2);
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    letter-spacing: var(--tracking-tight);
+  }
+  .sale p { margin: 0; opacity: 0.88; }
+  .quotes { background: var(--bg-surface-hover); }
+  @media (max-width: 640px) {
+    .block { padding: var(--space-10) var(--space-4); }
+    .hero { padding: var(--space-12) var(--space-4); }
+    .hero h1 { font-size: var(--text-3xl); }
+    .sale { padding: var(--space-8) var(--space-4); }
+  }
+</style>
+</head>
+<body>
+<header class="navbar">
+  <a class="nav-brand" href="#">STORE</a>
+  <ul class="nav-links" id="site-nav">
+    <li><a class="nav-link" href="#" aria-current="page">Shop</a></li>
+    <li><a class="nav-link" href="#">New arrivals</a></li>
+    <li><a class="nav-link" href="#">Categories</a></li>
+    <li><a class="nav-link" href="#">Sale</a></li>
+  </ul>
+  <span class="nav-spacer"></span>
+  <button class="hamburger" type="button" data-menu-toggle="#site-nav" aria-controls="site-nav" aria-expanded="false" aria-label="Toggle navigation">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+  </button>
+  <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+    <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+  </button>
+  <div class="row">
+    <button class="btn-outline btn-sm" type="button">Sign in</button>
+    <button class="btn-primary btn-sm" type="button">Cart <span class="badge" aria-label="0 items in cart">0</span></button>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>Premium essentials for everyday life</h1>
+  <p>Thoughtfully designed products crafted to last. Free shipping on orders over $100.</p>
+  <div class="row hero-actions">
+    <button class="btn-primary" type="button">Shop now</button>
+    <button class="btn-secondary" type="button">View catalog</button>
+  </div>
+</section>
+
+<section class="block">
+  <div class="spread block-head">
+    <h2 class="block-title">Featured products</h2>
+    <a class="btn-link" href="#">View all &rarr;</a>
+  </div>
+  <div class="grid-auto products">
+    <article class="card card-interactive">
+      <div class="card-media product-media" role="img" aria-label="Headphones">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 15a8 8 0 0116 0"/><rect x="2.4" y="14" width="4.2" height="6.4" rx="2.1"/><rect x="17.4" y="14" width="4.2" height="6.4" rx="2.1"/><path d="M8 19h8"/></svg>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">Audio</span>
+        <h3 class="card-title">Wireless headphones</h3>
+        <p class="price">$199.00</p>
+        <p class="card-desc">40-hour battery, adaptive noise cancelling.</p>
+      </div>
+      <div class="card-actions">
+        <button class="btn-outline btn-sm" type="button" style="flex:1">Add to cart</button>
+        <button class="btn-ghost btn-sm btn-icon" type="button" aria-label="Save Wireless headphones">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.3 12.6l7.7 7.1 7.7-7.1a4.9 4.9 0 00-6.9-6.9l-.8.8-.8-.8a4.9 4.9 0 00-6.9 6.9z"/></svg>
+        </button>
+      </div>
+    </article>
+    <article class="card card-interactive">
+      <div class="card-media product-media" role="img" aria-label="Watch">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="7" y="7" width="10" height="10" rx="3"/><path d="M9.5 7V3.6h5V7M9.5 17v3.4h5V17"/><path d="M12 10.2V13l2 1.2"/></svg>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">Accessories</span>
+        <h3 class="card-title">Minimalist watch</h3>
+        <p class="price">$149.00</p>
+        <p class="card-desc">Sapphire glass, 5 ATM water resistance.</p>
+      </div>
+      <div class="card-actions">
+        <button class="btn-outline btn-sm" type="button" style="flex:1">Add to cart</button>
+        <button class="btn-ghost btn-sm btn-icon" type="button" aria-label="Save Minimalist watch">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.3 12.6l7.7 7.1 7.7-7.1a4.9 4.9 0 00-6.9-6.9l-.8.8-.8-.8a4.9 4.9 0 00-6.9 6.9z"/></svg>
+        </button>
+      </div>
+    </article>
+    <article class="card card-interactive">
+      <div class="card-media product-media" role="img" aria-label="Speaker">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="5" y="2.6" width="14" height="18.8" rx="2.6"/><circle cx="12" cy="15" r="3.4"/><circle cx="12" cy="7.4" r="1.4"/><path d="M8.4 21h7.2"/></svg>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">Audio</span>
+        <h3 class="card-title">Portable speaker</h3>
+        <p class="price">$89.00</p>
+        <p class="card-desc">IPX7, 12 hours of playback, USB-C.</p>
+      </div>
+      <div class="card-actions">
+        <button class="btn-outline btn-sm" type="button" style="flex:1">Add to cart</button>
+        <button class="btn-ghost btn-sm btn-icon" type="button" aria-label="Save Portable speaker">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.3 12.6l7.7 7.1 7.7-7.1a4.9 4.9 0 00-6.9-6.9l-.8.8-.8-.8a4.9 4.9 0 00-6.9 6.9z"/></svg>
+        </button>
+      </div>
+    </article>
+    <article class="card card-interactive">
+      <div class="card-media product-media" role="img" aria-label="Camera">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2.4" y="6.8" width="19.2" height="12.6" rx="2.6"/><path d="M8.4 6.8L10 4h4l1.6 2.8"/><circle cx="12" cy="13.4" r="3.8"/><circle cx="18" cy="10.4" r=".8"/></svg>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">Photo</span>
+        <h3 class="card-title">Compact camera</h3>
+        <p class="price">$549.00</p>
+        <p class="card-desc">26 MP sensor, 4K/60, in-body stabilisation.</p>
+      </div>
+      <div class="card-actions">
+        <button class="btn-outline btn-sm" type="button" style="flex:1">Add to cart</button>
+        <button class="btn-ghost btn-sm btn-icon" type="button" aria-label="Save Compact camera">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.3 12.6l7.7 7.1 7.7-7.1a4.9 4.9 0 00-6.9-6.9l-.8.8-.8-.8a4.9 4.9 0 00-6.9 6.9z"/></svg>
+        </button>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="sale">
+  <div>
+    <h2>Spring sale up to 30% off</h2>
+    <p>Refresh your space with our seasonal collection. Limited time only.</p>
+  </div>
+  <button class="btn-secondary" type="button">Shop sale</button>
+</section>
+
+<section class="block quotes">
+  <div class="block-head">
+    <h2 class="block-title">What our customers say</h2>
+  </div>
+  <div class="grid-auto" style="--col-min:17rem">
+    <figure class="card">
+      <div class="card-body">
+        <blockquote class="card-desc" style="margin:0">&ldquo;Exceptional quality and fast shipping. Already ordered twice!&rdquo;</blockquote>
+        <figcaption class="row"><span class="avatar" aria-hidden="true">MC</span><span class="card-tag">Maya Chen</span></figcaption>
+      </div>
+    </figure>
+    <figure class="card">
+      <div class="card-body">
+        <blockquote class="card-desc" style="margin:0">&ldquo;The headphones sound amazing and look great. Highly recommended.&rdquo;</blockquote>
+        <figcaption class="row"><span class="avatar" aria-hidden="true">DR</span><span class="card-tag">Diego Ruiz</span></figcaption>
+      </div>
+    </figure>
+    <figure class="card">
+      <div class="card-body">
+        <blockquote class="card-desc" style="margin:0">&ldquo;Great customer service and beautiful products.&rdquo;</blockquote>
+        <figcaption class="row"><span class="avatar" aria-hidden="true">SP</span><span class="card-tag">Samira Patel</span></figcaption>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<footer class="footer">
+  <div>
+    <div class="footer-brand">STORE</div>
+    <p class="footer-desc">Premium essentials for everyday life. Thoughtfully designed, crafted to last.</p>
+  </div>
+  <div>
+    <h2 class="footer-heading">Shop</h2>
+    <ul class="footer-links">
+      <li><a href="#">All products</a></li>
+      <li><a href="#">New arrivals</a></li>
+      <li><a href="#">Sale</a></li>
+      <li><a href="#">Gift cards</a></li>
+    </ul>
+  </div>
+  <div>
+    <h2 class="footer-heading">Support</h2>
+    <ul class="footer-links">
+      <li><a href="#">Help center</a></li>
+      <li><a href="#">Shipping</a></li>
+      <li><a href="#">Returns</a></li>
+      <li><a href="#">Contact us</a></li>
+    </ul>
+  </div>
+  <div>
+    <h2 class="footer-heading">Legal</h2>
+    <ul class="footer-links">
+      <li><a href="#">Privacy</a></li>
+      <li><a href="#">Terms</a></li>
+      <li><a href="#">Cookies</a></li>
+      <li><a href="#">Imprint</a></li>
+    </ul>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 Store. All rights reserved.</span>
+    <span>Powered by MASTER-UI-ENGINE</span>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,41 @@
+/* ==========================================================================
+   MASTER-UI-ENGINE — Typography base styles (optional)
+   Element-level defaults for apps that want headings and links pre-styled.
+   Deliberately NOT imported by engine.css: previews author their own type
+   styles, and applying these globally would restyle their markup.
+   ========================================================================== */
+
+html {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--text-primary);
+  background-color: var(--bg-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+  color: var(--text-primary);
+  letter-spacing: var(--tracking-tight);
+}
+
+h1 { font-size: var(--text-4xl); }
+h2 { font-size: var(--text-3xl); }
+h3 { font-size: var(--text-2xl); }
+h4 { font-size: var(--text-xl); }
+h5 { font-size: var(--text-lg); }
+h6 { font-size: var(--text-base); }
+
+p { margin: 0 0 var(--space-4) 0; }
+
+a {
+  color: var(--text-link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+a:hover { color: var(--text-link-hover); }

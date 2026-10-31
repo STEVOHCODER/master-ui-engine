@@ -1,0 +1,85 @@
+/* ==========================================================================
+   MASTER-UI-ENGINE — Semantic Color Mapping
+   Maps primitive colors to UI roles. Every token here resolves to a usable
+   <color>, so you can write `color: var(--text-primary)` directly.
+   Primitives stay raw HSL triplets for use as hsl(var(--color-gray-500)).
+   ========================================================================== */
+
+@import "./primitive.css";
+
+:root {
+  /* Backgrounds */
+  --bg-body: hsl(var(--color-gray-50));
+  --bg-surface: hsl(var(--color-white));
+  --bg-surface-hover: hsl(var(--color-gray-100));
+  --bg-surface-active: hsl(var(--color-gray-200));
+  --bg-inverse: hsl(var(--color-gray-900));
+
+  /* Text */
+  --text-primary: hsl(var(--color-gray-900));
+  --text-secondary: hsl(var(--color-gray-600));
+  --text-tertiary: hsl(var(--color-gray-500));
+  --text-inverse: hsl(var(--color-white));
+  --text-link: hsl(var(--color-primary-600));
+  --text-link-hover: hsl(var(--color-primary-700));
+  --text-success: hsl(var(--color-success-500));
+  --text-warning: hsl(var(--color-warning-500));
+  --text-error: hsl(var(--color-error-500));
+  --text-info: hsl(var(--color-info-500));
+
+  /* Borders */
+  --border-light: hsl(var(--color-gray-200));
+  --border-medium: hsl(var(--color-gray-300));
+  --border-dark: hsl(var(--color-gray-400));
+  --border-focus: hsl(var(--color-primary-500));
+
+  /* Interactive states (alpha overlays) */
+  --state-hover: hsla(var(--color-gray-200) / 0.5);
+  --state-active: hsla(var(--color-gray-300) / 0.5);
+  --state-focus-ring: hsla(var(--color-primary-500) / 0.35);
+  --state-disabled: hsla(var(--color-gray-300) / 0.4);
+
+  /* Soft tints for selected rows, active tabs, callouts and badges.
+     These are alphas over the state ramp, so they survive the dark mirror.
+     Reach for these instead of --color-primary-50, which does not flip:
+     a solid light tint is unreadable on a dark surface. */
+  --tint-primary: hsla(var(--color-primary-500) / 0.12);
+  --tint-primary-strong: hsla(var(--color-primary-500) / 0.22);
+  --tint-success: hsla(var(--color-success-500) / 0.14);
+  --tint-warning: hsla(var(--color-warning-500) / 0.16);
+  --tint-error: hsla(var(--color-error-500) / 0.13);
+  --tint-info: hsla(var(--color-info-500) / 0.14);
+  --tint-neutral: hsla(var(--color-gray-500) / 0.12);
+
+  /* One ring recipe for every control, so focus looks identical everywhere. */
+  --ring-focus: 0 0 0 3px var(--state-focus-ring);
+  --ring-error: 0 0 0 3px hsla(var(--color-error-500) / 0.3);
+
+  /* Backdrop behind overlays. Literal on purpose: deriving it from the gray
+     ramp would flip it to near-white in dark mode. */
+  --scrim: hsla(220 45% 7% / 0.55);
+
+  /* Component semantics */
+  --primary-bg: hsl(var(--color-primary-500));
+  --primary-fg: hsl(var(--color-white));
+  --primary-hover: hsl(var(--color-primary-600));
+  --primary-active: hsl(var(--color-primary-700));
+
+  --secondary-bg: hsl(var(--color-gray-200));
+  --secondary-fg: hsl(var(--color-gray-900));
+  --secondary-hover: hsl(var(--color-gray-300));
+  --secondary-active: hsl(var(--color-gray-400));
+
+  --outline-bg: transparent;
+  --outline-fg: hsl(var(--color-gray-900));
+  --outline-border: hsl(var(--color-gray-300));
+  --outline-hover: hsl(var(--color-gray-100));
+
+  --ghost-bg: transparent;
+  --ghost-fg: hsl(var(--color-gray-700));
+  --ghost-hover: hsl(var(--color-gray-100));
+
+  --danger-bg: hsl(var(--color-error-500));
+  --danger-fg: hsl(var(--color-white));
+  --danger-hover: hsl(0 72% 51%);
+}

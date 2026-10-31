@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  COMPONENT: Header Navigation
+  ID: nav-header
+  GROUP: Components
+  CATEGORY: navigation
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#navigation (.site-header/.navbar, .nav-brand, .nav-links, .nav-link, .nav-spacer, .hamburger) plus #buttons (.btn-outline) and #display (.avatar)
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  VARIANTS: Default (brand, links, user actions, hamburger)
+  MOTION: link hover recolour uses --motion-colors; past 8px the header grows a shadow via the .is-scrolled class that styles/mue.js adds — nothing hardcodes a time
+  RESPONSIVE: below 768px the hamburger appears and the links collapse into an absolutely-positioned drawer that .is-open reveals; styles/mue.js wires the toggle (data-menu-toggle) and the scroll shadow
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 320/375/768/1280, audited 2026-10-31
+  CATALOG: showcase/data/component-catalog.json#nav-header
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Header Navigation | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../styles/components.css">
+<script src="../../styles/mue.js" defer></script>
+<style>
+  /* Nothing restyles a component here. .site-header, .nav-links, .nav-link,
+     .hamburger, .nav-spacer, .btn-outline and .avatar all come from the sheet,
+     and the drawer + scroll shadow are driven by styles/mue.js. */
+</style>
+</head>
+<body class="page">
+<div class="shell">
+  <header class="masthead">
+    <div>
+      <div class="brand">MASTER-UI-ENGINE</div>
+      <div class="meta">Components &gt; Navigation &gt; Header</div>
+    </div>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+      <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <h1>Header Navigation</h1>
+  <p class="subtitle">Top app header with brand, navigation, and user actions.</p>
+
+  <div class="meta-card">
+    <div class="meta">
+      <b>Name:</b> Header Navigation<br>
+      <b>Category:</b> navigation<br>
+      <b>Framework:</b> Vanilla HTML/CSS/JS<br>
+      <b>Defined in:</b> styles/components.css #navigation (+ #buttons, #display)<br>
+      <b>Variants:</b> default, with user profile<br>
+      <b>Responsive:</b> yes — hamburger drawer below 768px<br>
+      <b>Dependencies:</b> styles/components.css, styles/mue.js (drawer + .is-scrolled)<br>
+      <b>License:</b> MIT
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Default</h2>
+    <header class="site-header" role="banner">
+      <a href="#" class="nav-brand">Brand</a>
+      <ul class="nav-links" id="navLinks">
+        <li class="nav-item"><a href="#" class="nav-link" aria-current="page">Dashboard</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Projects</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Team</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Settings</a></li>
+      </ul>
+      <div class="nav-spacer"></div>
+      <div class="row">
+        <button class="btn-outline" type="button">Sign in</button>
+        <div class="avatar" aria-hidden="true">JS</div>
+      </div>
+      <button class="hamburger" type="button" data-menu-toggle="navLinks" aria-controls="navLinks" aria-expanded="false" aria-label="Toggle navigation">&#9776;</button>
+    </header>
+  </div>
+
+  <div class="section">
+    <h2>Responsive behavior</h2>
+    <p>Below 768px the links collapse behind the hamburger, which reveals a full-width drawer (the <code>.is-open</code> class on <code>.nav-links</code>). Scroll past 8px and the header gains a shadow through <code>.is-scrolled</code>. Both behaviours are wired by styles/mue.js — no page script.</p>
+  </div>
+
+  <div class="section">
+    <h2>Accessibility</h2>
+    <ul style="list-style:disc;padding-left:1.25rem;color:var(--text-secondary);font-size:var(--text-sm);display:grid;gap:var(--space-2)">
+      <li>&lt;header role="banner"&gt; landmark</li>
+      <li>The hamburger uses aria-expanded and aria-controls pointing at the list</li>
+      <li>Links are 44px tall with a visible focus ring</li>
+      <li>A skip link is recommended in a real app (not shown)</li>
+    </ul>
+  </div>
+
+  <div class="code-wrap" data-section="navigation,buttons,display">
+    <div class="code-bar"><span>Markup</span></div>
+<pre><code>&lt;header class="site-header" role="banner"&gt;
+  &lt;a href="#" class="nav-brand"&gt;Brand&lt;/a&gt;
+  &lt;ul class="nav-links" id="navLinks"&gt;
+    &lt;li class="nav-item"&gt;&lt;a href="#" class="nav-link" aria-current="page"&gt;Dashboard&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="nav-item"&gt;&lt;a href="#" class="nav-link"&gt;Projects&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;div class="nav-spacer"&gt;&lt;/div&gt;
+  &lt;div class="row"&gt;
+    &lt;button class="btn-outline" type="button"&gt;Sign in&lt;/button&gt;
+    &lt;div class="avatar"&gt;JS&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;button class="hamburger" data-menu-toggle="navLinks"
+          aria-controls="navLinks" aria-expanded="false"
+          aria-label="Toggle navigation"&gt;&amp;#9776;&lt;/button&gt;
+&lt;/header&gt;</code></pre>
+  </div>
+</div>
+</body>
+</html>

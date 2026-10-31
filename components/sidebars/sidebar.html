@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  COMPONENT: Sidebar
+  ID: nav-sidebar
+  GROUP: Components
+  CATEGORY: sidebars
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#sidebar — .sidebar, .sidebar-section, .sidebar-heading, .sidebar-link and .sidebar-label live there
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  VARIANTS: Default (sectioned links, active state)
+  MOTION: link hover + active recolour use --motion-colors; the width transition uses --duration-slower/--ease-soft — nothing hardcodes a time
+  RESPONSIVE: below 900px the sidebar drops to full width and stacks above the content (border moves to the bottom) — no JavaScript drawer
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 320/375/768/1280, audited 2026-10-31
+  CATALOG: showcase/data/component-catalog.json#nav-sidebar
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Sidebar | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../styles/components.css">
+<script src="../../styles/mue.js" defer></script>
+<style>
+  /* Preview scaffolding only: the frame that holds sidebar + content side by
+     side, the demo brand line (the sheet has no sidebar brand rule), and the
+     content column. Every sidebar class itself comes from styles/components.css. */
+  .page { --shell-w: 1000px; }
+  .demo {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 24rem;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--bg-surface);
+  }
+  .sidebar-brand {
+    padding: 0 var(--space-3);
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    letter-spacing: var(--tracking-tight);
+    color: var(--text-primary);
+  }
+  .content {
+    flex: 1;
+    min-width: 0;
+    padding: var(--space-6);
+  }
+  .content p {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+  }
+</style>
+</head>
+<body class="page">
+<div class="shell">
+  <header class="masthead">
+    <div>
+      <div class="brand">MASTER-UI-ENGINE</div>
+      <div class="meta">Components &gt; Navigation &gt; Sidebar</div>
+    </div>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+      <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <h1>Sidebar</h1>
+  <p class="subtitle">Persistent navigation with brand, links, and collapsible groups.</p>
+
+  <div class="meta-card">
+    <div class="meta">
+      <b>Name:</b> Sidebar<br>
+      <b>Category:</b> sidebars<br>
+      <b>Framework:</b> Vanilla HTML/CSS/JS<br>
+      <b>Defined in:</b> styles/components.css #sidebar<br>
+      <b>Variants:</b> default, sectioned, with icons<br>
+      <b>Responsive:</b> yes — full width and stacked below 900px<br>
+      <b>Dependencies:</b> styles/components.css (CSS-only, no JS)<br>
+      <b>License:</b> MIT
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Default</h2>
+    <div class="demo">
+      <aside class="sidebar" aria-label="Main navigation">
+        <div class="sidebar-brand">App</div>
+        <div class="sidebar-section">
+          <div class="sidebar-heading">Workspace</div>
+          <a class="sidebar-link" href="#" aria-current="page"><span aria-hidden="true">&#9733;</span><span class="sidebar-label">Dashboard</span></a>
+          <a class="sidebar-link" href="#"><span aria-hidden="true">&#128196;</span><span class="sidebar-label">Projects</span></a>
+          <a class="sidebar-link" href="#"><span aria-hidden="true">&#128100;</span><span class="sidebar-label">Team</span></a>
+          <a class="sidebar-link" href="#"><span aria-hidden="true">&#9993;</span><span class="sidebar-label">Messages</span></a>
+        </div>
+        <div class="sidebar-section">
+          <div class="sidebar-heading">Account</div>
+          <a class="sidebar-link" href="#"><span aria-hidden="true">&#9881;</span><span class="sidebar-label">Settings</span></a>
+        </div>
+      </aside>
+      <div class="content">
+        <h3>Dashboard</h3>
+        <p>Welcome back. Here&rsquo;s what&rsquo;s happening across your workspace.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Responsive behavior</h2>
+    <p>Above 900px the sidebar keeps a fixed width beside the content. Below 900px it becomes full-width and stacks above the content, with its rule moving from the right edge to the bottom — all handled by the #sidebar region, no drawer script.</p>
+  </div>
+
+  <div class="section">
+    <h2>Accessibility</h2>
+    <ul style="list-style:disc;padding-left:1.25rem;color:var(--text-secondary);font-size:var(--text-sm);display:grid;gap:var(--space-2)">
+      <li>&lt;aside aria-label&gt; landmark</li>
+      <li>Icons are decorative (aria-hidden); labels are real text in .sidebar-label</li>
+      <li>The active link pairs a colour with a tint background, and every cell is 44px tall</li>
+    </ul>
+  </div>
+
+  <div class="code-wrap" data-section="sidebar">
+    <div class="code-bar"><span>Markup</span></div>
+<pre><code>&lt;aside class="sidebar" aria-label="Main navigation"&gt;
+  &lt;div class="sidebar-section"&gt;
+    &lt;div class="sidebar-heading"&gt;Workspace&lt;/div&gt;
+    &lt;a class="sidebar-link" href="#" aria-current="page"&gt;
+      &lt;span aria-hidden="true"&gt;&amp;#9733;&lt;/span&gt;&lt;span class="sidebar-label"&gt;Dashboard&lt;/span&gt;
+    &lt;/a&gt;
+    &lt;a class="sidebar-link" href="#"&gt;
+      &lt;span aria-hidden="true"&gt;&amp;#128196;&lt;/span&gt;&lt;span class="sidebar-label"&gt;Projects&lt;/span&gt;
+    &lt;/a&gt;
+  &lt;/div&gt;
+&lt;/aside&gt;</code></pre>
+  </div>
+</div>
+</body>
+</html>

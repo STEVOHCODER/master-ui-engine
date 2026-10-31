@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  COMPONENT: Modals
+  ID: ui-modals
+  GROUP: Components
+  CATEGORY: modals
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#overlays (with #buttons, #fields) — every class below is defined there, so pasted markup arrives styled
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  VARIANTS: Create item modal (form modal)
+  MOTION: scrim fades on --motion-overlay, the panel rises --reveal-shift-lg on --ease-out-expo; durations from design-tokens/motion/scale.css, nothing here hardcodes a time
+  RESPONSIVE: width is min(35rem,100%) and the body scrolls inside max-height 85vh; below 640px the sheet turns it into a bottom sheet with stretched footer buttons
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 320/375/768/1280
+  CATALOG: showcase/data/component-catalog.json#ui-modals
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Modals | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../styles/components.css">
+<script src="../../styles/mue.js" defer></script>
+<style>
+  /* Same geometry note as the dialogs page: the sheet dims a closed overlay but
+     does not hide it, so visibility is what keeps the form out of the tab order. */
+  .overlay:not(.is-open) {
+    visibility: hidden;
+    transition: var(--motion-overlay), visibility 0s linear var(--duration-slow);
+  }
+  .overlay.is-open {
+    visibility: visible;
+    transition: var(--motion-overlay), visibility 0s;
+  }
+</style>
+</head>
+<body class="page">
+<div class="shell">
+  <header class="masthead">
+    <div>
+      <div class="brand">MASTER-UI-ENGINE</div>
+      <div class="meta">Components &gt; Modals</div>
+    </div>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+      <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <h1>Modals</h1>
+  <p class="subtitle">Focused overlays for creating, editing, or reviewing content without
+    leaving the page. Header, scrolling body and pinned footer are slots; the shared sheet
+    sizes them and the shared script drives them.</p>
+
+  <div class="meta-card">
+    <div class="meta">
+      <b>Name:</b> Modals<br>
+      <b>Category:</b> modals<br>
+      <b>Framework:</b> Vanilla HTML/CSS/JS<br>
+      <b>Defined in:</b> styles/components.css #overlays (+ #fields, #buttons)<br>
+      <b>Behaviour:</b> styles/mue.js — [data-open], [data-close], [data-dialog]<br>
+      <b>Variants:</b> create item, edit item, form modal<br>
+      <b>Width:</b> --modal-w override on the panel (35rem here, 32rem by default)<br>
+      <b>Responsive:</b> bottom sheet below 640px, body scrolls past 85vh<br>
+      <b>Dependencies:</b> none<br>
+      <b>License:</b> MIT
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Create item modal</h2>
+    <p>A form modal keeps its footer pinned while the body scrolls, so the Create button is
+      always where the reader left it. Fields are plain <code>.field</code> blocks — the modal
+      adds no form CSS of its own.</p>
+    <div class="demo-area">
+      <button class="btn-primary" type="button" data-open="#modal-create" aria-haspopup="dialog">Add new item</button>
+    </div>
+    <div class="overlay">
+      <div class="modal" id="modal-create" data-dialog role="dialog" aria-modal="true"
+           aria-labelledby="modal-title-create" style="--modal-w: 35rem">
+        <div class="modal-header">
+          <span class="modal-title" id="modal-title-create">Add new item</span>
+          <button class="modal-close" type="button" data-close aria-label="Close dialog">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="stack">
+            <div class="field">
+              <label class="field-label" for="item-name">Item name</label>
+              <input id="item-name" type="text" placeholder="Enter name">
+            </div>
+            <div class="field">
+              <label class="field-label" for="item-desc">Description</label>
+              <input id="item-desc" type="text" placeholder="Optional description">
+            </div>
+            <p class="field-helper">The item will be added to your current list.</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-outline" type="button" data-close>Cancel</button>
+          <button class="btn-primary" type="button" data-close>Create item</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Keyboard behavior</h2>
+    <ul style="list-style:disc;padding-left:1.25rem;color:var(--text-secondary);font-size:var(--text-sm);display:grid;gap:var(--space-2)">
+      <li>Escape closes the modal</li>
+      <li>Tab cycles focus within modal contents, wrapping at both ends</li>
+      <li>Focus lands on the first control when the modal opens and returns to the trigger when it closes</li>
+      <li>Close button and scrim both dismiss; the page behind is scroll-locked</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Accessibility</h2>
+    <ul style="list-style:disc;padding-left:1.25rem;color:var(--text-secondary);font-size:var(--text-sm);display:grid;gap:var(--space-2)">
+      <li><code>role="dialog"</code>, <code>aria-modal="true"</code>, <code>aria-labelledby</code> on the panel</li>
+      <li>Every input has an associated <code>.field-label</code> — placeholder text is not a label</li>
+      <li>The close glyph carries an <code>aria-label</code>; the scrim never receives focus</li>
+      <li>A closed modal is <code>visibility: hidden</code>, so its inputs are unreachable by keyboard</li>
+      <li>Body text scrolls inside the panel rather than growing the page</li>
+    </ul>
+  </div>
+
+  <div class="code-wrap" data-section="overlays,buttons,fields,utilities">
+    <div class="code-bar"><span>Markup</span></div>
+<pre><code>&lt;button class="btn-primary" type="button" data-open="#modal-create" aria-haspopup="dialog"&gt;
+  Add new item
+&lt;/button&gt;
+
+&lt;div class="overlay"&gt;
+  &lt;div class="modal" id="modal-create" data-dialog role="dialog" aria-modal="true"
+       aria-labelledby="modal-title" style="--modal-w: 35rem"&gt;
+    &lt;div class="modal-header"&gt;
+      &lt;span class="modal-title" id="modal-title"&gt;Add new item&lt;/span&gt;
+      &lt;button class="modal-close" type="button" data-close aria-label="Close dialog"&gt;&amp;times;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class="modal-body"&gt;
+      &lt;div class="stack"&gt;
+        &lt;div class="field"&gt;
+          &lt;label class="field-label" for="item-name"&gt;Item name&lt;/label&gt;
+          &lt;input id="item-name" type="text" placeholder="Enter name"&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="modal-footer"&gt;
+      &lt;button class="btn-outline" type="button" data-close&gt;Cancel&lt;/button&gt;
+      &lt;button class="btn-primary" type="button" data-close&gt;Create item&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+  </div>
+</div>
+</body>
+</html>

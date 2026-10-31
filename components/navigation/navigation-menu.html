@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  COMPONENT: Navigation Menu
+  ID: nav-menu
+  GROUP: Components
+  CATEGORY: navigation
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#navigation (.navbar, .nav-links, .nav-item, .nav-link, .nav-spacer, .hamburger) + #dropdown (.dropdown, .dropdown-menu, .menu-item)
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  VARIANTS: Default, With dropdown
+  MOTION: link and menu-item recolour via --motion-colors; the menu drops in with mue-drop-in and the --reveal-shift transform — nothing hardcodes a time
+  RESPONSIVE: below 768px links collapse into an absolutely-positioned drawer opened by the hamburger (styles/mue.js), and .nav-link cells stay 44px tall
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 320/375/768/1280, audited 2026-10-31
+  CATALOG: showcase/data/component-catalog.json#nav-menu
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Navigation Menu | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../styles/components.css">
+<script src="../../styles/mue.js" defer></script>
+<style>
+  /* Only a preview-layout tweak lives here: the shared .navbar is position:sticky,
+     which would make two demo headers pile up while scrolling this page, so we pin
+     them in the flow. The real component stays sticky in an application. */
+  .section .navbar {
+    position: relative;
+  }
+</style>
+</head>
+<body class="page">
+<div class="shell">
+  <header class="masthead">
+    <div>
+      <div class="brand">MASTER-UI-ENGINE</div>
+      <div class="meta">Components &gt; Navigation &gt; Navigation menu</div>
+    </div>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+      <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <h1>Navigation Menu</h1>
+  <p class="subtitle">Primary navigation with optional dropdowns and active states.</p>
+
+  <div class="meta-card">
+    <div class="meta">
+      <b>Name:</b> Navigation Menu<br>
+      <b>Category:</b> navigation<br>
+      <b>Framework:</b> Vanilla HTML/CSS/JS<br>
+      <b>Defined in:</b> styles/components.css #navigation + #dropdown<br>
+      <b>Variants:</b> default, with dropdown, active state<br>
+      <b>Responsive:</b> yes — hamburger drawer below 768px<br>
+      <b>Dependencies:</b> styles/components.css, styles/mue.js (drawer + [data-dropdown] menus)<br>
+      <b>License:</b> MIT
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Default</h2>
+    <nav class="navbar" aria-label="Main navigation">
+      <ul class="nav-links" id="navLinksA">
+        <li class="nav-item"><a href="#" class="nav-link" aria-current="page">Dashboard</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Projects</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Team</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Settings</a></li>
+      </ul>
+      <div class="nav-spacer"></div>
+      <button class="hamburger" type="button" data-menu-toggle="navLinksA" aria-controls="navLinksA" aria-expanded="false" aria-label="Toggle navigation">&#9776;</button>
+    </nav>
+  </div>
+
+  <div class="section">
+    <h2>With dropdown</h2>
+    <nav class="navbar" aria-label="Main navigation">
+      <ul class="nav-links" id="navLinksB">
+        <li class="nav-item"><a href="#" class="nav-link" aria-current="page">Dashboard</a></li>
+        <li class="nav-item">
+          <div class="dropdown">
+            <button class="nav-link" type="button" data-dropdown aria-haspopup="true" aria-expanded="false">
+              Resources
+              <svg width="10" height="10" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="menu-item" href="#">Documentation</a></li>
+              <li><a class="menu-item" href="#">Templates</a></li>
+              <li><a class="menu-item" href="#">Design systems</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item"><a href="#" class="nav-link">Team</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Settings</a></li>
+      </ul>
+      <div class="nav-spacer"></div>
+      <button class="hamburger" type="button" data-menu-toggle="navLinksB" aria-controls="navLinksB" aria-expanded="false" aria-label="Toggle navigation">&#9776;</button>
+    </nav>
+  </div>
+
+  <div class="section">
+    <h2>Responsive behavior</h2>
+    <p>Below 768px the list collapses behind the hamburger into a stacked drawer (styles/components.css #navigation); each cell keeps a 44px height. Dropdowns are toggled by <code>[data-dropdown]</code> — styles/mue.js handles open/close, Esc and arrow navigation.</p>
+  </div>
+
+  <div class="section">
+    <h2>Accessibility</h2>
+    <ul style="list-style:disc;padding-left:1.25rem;color:var(--text-secondary);font-size:var(--text-sm);display:grid;gap:var(--space-2)">
+      <li>&lt;nav aria-label&gt; landmark</li>
+      <li>Dropdown triggers expose aria-haspopup/aria-expanded and support Esc + arrow keys via styles/mue.js</li>
+      <li>Active state combines colour and background, not colour alone</li>
+    </ul>
+  </div>
+
+  <div class="code-wrap" data-section="navigation,dropdown">
+    <div class="code-bar"><span>Markup</span></div>
+<pre><code>&lt;nav class="navbar" aria-label="Main navigation"&gt;
+  &lt;ul class="nav-links" id="navLinks"&gt;
+    &lt;li class="nav-item"&gt;&lt;a class="nav-link" href="#" aria-current="page"&gt;Dashboard&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="nav-item"&gt;
+      &lt;div class="dropdown"&gt;
+        &lt;button class="nav-link" type="button" data-dropdown aria-haspopup="true" aria-expanded="false"&gt;Resources&lt;/button&gt;
+        &lt;ul class="dropdown-menu"&gt;
+          &lt;li&gt;&lt;a class="menu-item" href="#"&gt;Documentation&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a class="menu-item" href="#"&gt;Templates&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/div&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;div class="nav-spacer"&gt;&lt;/div&gt;
+  &lt;button class="hamburger" type="button" data-menu-toggle="navLinks"
+          aria-controls="navLinks" aria-expanded="false" aria-label="Toggle navigation"&gt;&amp;#9776;&lt;/button&gt;
+&lt;/nav&gt;</code></pre>
+  </div>
+</div>
+</body>
+</html>

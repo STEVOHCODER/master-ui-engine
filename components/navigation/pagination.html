@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  COMPONENT: Pagination
+  ID: nav-pagination
+  GROUP: Components
+  CATEGORY: navigation
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#navigation — .pagination, its a/button cells, the active and disabled states live there
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  VARIANTS: Default, With ellipsis
+  MOTION: press depth + hover recolour use --motion-colors and --press-depth; the buttons are 44px tall via --control-h, nothing hardcodes a time
+  RESPONSIVE: the row wraps onto new lines; centred below 480px
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 320/375/768/1280, audited 2026-10-31
+  CATALOG: showcase/data/component-catalog.json#nav-pagination
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Pagination | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../styles/components.css">
+<script src="../../styles/mue.js" defer></script>
+<style>
+  /* Page-specific only: a narrower shell for the demo, and an ellipsis cell the
+     shared #navigation region has no rule for. Every other class comes from the
+     sheet, so pasted markup arrives styled. */
+  .page { --shell-w: 800px; }
+  .pagination .ellipsis {
+    padding: 0 var(--space-2);
+    color: var(--text-tertiary);
+    font-size: var(--text-sm);
+  }
+  @media (max-width: 480px) {
+    .pagination { justify-content: center; }
+  }
+</style>
+</head>
+<body class="page">
+<div class="shell">
+  <header class="masthead">
+    <div>
+      <div class="brand">MASTER-UI-ENGINE</div>
+      <div class="meta">Components &gt; Navigation &gt; Pagination</div>
+    </div>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+      <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <h1>Pagination</h1>
+  <p class="subtitle">Navigate through large sets of content one page at a time.</p>
+
+  <div class="meta-card">
+    <div class="meta">
+      <b>Name:</b> Pagination<br>
+      <b>Category:</b> navigation<br>
+      <b>Framework:</b> Vanilla HTML/CSS/JS<br>
+      <b>Defined in:</b> styles/components.css #navigation<br>
+      <b>Variants:</b> default, with ellipsis<br>
+      <b>Sizes:</b> 44px tap targets via --control-h<br>
+      <b>Responsive:</b> yes — wraps onto new lines and centres below 480px<br>
+      <b>Dependencies:</b> styles/components.css, styles/mue.js<br>
+      <b>License:</b> MIT
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Default</h2>
+    <nav class="pagination" aria-label="Pagination">
+      <button type="button" disabled aria-label="Previous">&#8592;</button>
+      <button type="button">1</button>
+      <button type="button" aria-current="true">2</button>
+      <button type="button">3</button>
+      <button type="button">4</button>
+      <button type="button">5</button>
+      <button type="button" aria-label="Next">&#8594;</button>
+    </nav>
+  </div>
+
+  <div class="section">
+    <h2>With ellipsis</h2>
+    <nav class="pagination" aria-label="Pagination">
+      <button type="button">1</button>
+      <button type="button">2</button>
+      <span class="ellipsis" aria-hidden="true">&#8230;</span>
+      <button type="button" aria-current="true">10</button>
+      <span class="ellipsis" aria-hidden="true">&#8230;</span>
+      <button type="button">19</button>
+      <button type="button">20</button>
+    </nav>
+  </div>
+
+  <div class="section">
+    <h2>Responsive behavior</h2>
+    <p>On narrow screens the row wraps and centres; for very large sets prefer a "load more" pattern over long number runs.</p>
+  </div>
+
+  <div class="section">
+    <h2>Accessibility</h2>
+    <ul style="list-style:disc;padding-left:1.25rem;color:var(--text-secondary);font-size:var(--text-sm);display:grid;gap:var(--space-2)">
+      <li>&lt;nav&gt; landmark with aria-label="Pagination"</li>
+      <li>The current page carries aria-current="true", styled by the sheet</li>
+      <li>Disabled cells use the native <code>disabled</code> attribute, so they drop out of the tab order</li>
+      <li>Every cell is a 44px tap target with a visible focus ring</li>
+    </ul>
+  </div>
+
+  <div class="code-wrap" data-section="navigation">
+    <div class="code-bar"><span>Markup</span></div>
+<pre><code>&lt;nav class="pagination" aria-label="Pagination"&gt;
+  &lt;button type="button" disabled aria-label="Previous"&gt;&#8592;&lt;/button&gt;
+  &lt;button type="button"&gt;1&lt;/button&gt;
+  &lt;button type="button" aria-current="true"&gt;2&lt;/button&gt;
+  &lt;span class="ellipsis" aria-hidden="true"&gt;&amp;#8230;&lt;/span&gt;
+  &lt;button type="button" aria-label="Next"&gt;&#8594;&lt;/button&gt;
+&lt;/nav&gt;</code></pre>
+  </div>
+</div>
+</body>
+</html>

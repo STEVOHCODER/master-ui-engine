@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  COMPONENT: Skeleton
+  ID: fb-skeleton
+  GROUP: Components
+  CATEGORY: feedback
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#feedback — every class below is defined there, so pasted markup arrives styled
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  VARIANTS: Card skeleton, List skeleton, Button skeleton
+  MOTION: durations and easings come from design-tokens/motion/scale.css; nothing here hardcodes a time
+  RESPONSIVE: shapes are fluid (percent widths inside a flexible row), so they never overflow at 320px
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31
+  CATALOG: showcase/data/component-catalog.json#fb-skeleton
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Loading Skeletons | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../styles/components.css">
+<script src="../../styles/mue.js" defer></script>
+<style>
+  /* Page-local: only the two shapes the sheet does not ship yet (image block,
+     button block) plus the demo row layout. Everything else is shared. */
+  .page {
+    --shell-w: 700px;
+  }
+  .skeleton-img {
+    width: 100%;
+    height: 10rem;
+    border-radius: var(--radius-lg);
+  }
+  .skeleton-btn {
+    width: 6rem;
+    height: var(--control-h);
+    border-radius: var(--radius-base);
+  }
+  .skeleton-row {
+    align-items: flex-start;
+  }
+  .skeleton-row .stack {
+    flex: 1;
+    min-width: 0;
+  }
+  .doc-list {
+    list-style: disc;
+    padding-left: 1.25rem;
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    display: grid;
+    gap: var(--space-2);
+    margin: 0;
+  }
+</style>
+</head>
+<body class="page">
+<div class="shell">
+  <header class="masthead">
+    <div>
+      <div class="brand">MASTER-UI-ENGINE</div>
+      <div class="meta">Components &gt; Feedback &gt; Skeletons</div>
+    </div>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+      <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <h1>Loading Skeletons</h1>
+  <p class="subtitle">Placeholder shapes that indicate content is loading, reducing perceived wait time.</p>
+
+  <div class="meta-card">
+    <div class="meta">
+      <b>Name:</b> Loading Skeletons<br>
+      <b>Category:</b> feedback<br>
+      <b>Framework:</b> Vanilla HTML/CSS/JS<br>
+      <b>Defined in:</b> styles/components.css #feedback<br>
+      <b>Variants:</b> text, title, avatar, card body, button, image<br>
+      <b>Responsive:</b> yes — fluid widths<br>
+      <b>Dependencies:</b> none<br>
+      <b>Original source:</b> MASTER-UI-ENGINE (original)<br>
+      <b>License:</b> MIT
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Card skeleton</h2>
+    <div class="card">
+      <div class="skeleton skeleton-img"></div>
+      <div class="skeleton-body">
+        <div class="skeleton skeleton-title"></div>
+        <div class="skeleton skeleton-text"></div>
+        <div class="skeleton skeleton-text" style="width:40%"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>List skeleton</h2>
+    <div class="row skeleton-row">
+      <div class="skeleton skeleton-avatar"></div>
+      <div class="stack">
+        <div class="skeleton skeleton-title" style="width:70%"></div>
+        <div class="skeleton skeleton-text"></div>
+        <div class="skeleton skeleton-text" style="width:40%"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Button skeleton</h2>
+    <div class="skeleton skeleton-btn"></div>
+  </div>
+
+  <div class="section">
+    <h2>Usage</h2>
+    <p>Show skeletons while data fetches, then replace with real content. Keep the same layout so there is no layout shift.</p>
+  </div>
+
+  <div class="section">
+    <h2>Accessibility</h2>
+    <ul class="doc-list">
+      <li>Announce loading state to screen readers (aria-live="polite")</li>
+      <li>Replace skeletons with real content and move focus appropriately</li>
+      <li>The shimmer is a sweep on <code>::after</code>, timed by <code>--duration-slowest</code> and <code>--ease-in-out</code>; <code>prefers-reduced-motion</code> switches the animation off</li>
+    </ul>
+  </div>
+
+  <div class="code-wrap" data-section="feedback,utilities">
+    <div class="code-bar"><span>Markup</span></div>
+<pre><code>&lt;div class="card"&gt;
+  &lt;div class="skeleton skeleton-img"&gt;&lt;/div&gt;
+  &lt;div class="skeleton-body"&gt;
+    &lt;div class="skeleton skeleton-title"&gt;&lt;/div&gt;
+    &lt;div class="skeleton skeleton-text"&gt;&lt;/div&gt;
+    &lt;div class="skeleton skeleton-text" style="width:40%"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="row" style="align-items:flex-start"&gt;
+  &lt;div class="skeleton skeleton-avatar"&gt;&lt;/div&gt;
+  &lt;div class="stack" style="flex:1;min-width:0"&gt;
+    &lt;div class="skeleton skeleton-title"&gt;&lt;/div&gt;
+    &lt;div class="skeleton skeleton-text"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="skeleton skeleton-btn"&gt;&lt;/div&gt;</code></pre>
+  </div>
+
+</div>
+</body>
+</html>

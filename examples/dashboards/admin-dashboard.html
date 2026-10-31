@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  EXAMPLE: Admin dashboard
+  ID: ex-admin-dashboard
+  GROUP: Examples
+  CATEGORY: dashboards
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css (linked in this file head); no web fonts, CDNs or JS libraries, and no shared sheet yet
+  THEME: light + dark toggle (html.dark, persisted in localStorage)
+  RESPONSIVE: reflows at <=768px
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31
+  CATALOG: showcase/data/component-catalog.json#ex-admin-dashboard
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Admin Dashboard | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<style>
+  :root{
+    --navy:217 91% 45%;--navy-dark:217 91% 38%;--gray-50:var(--color-gray-50);--gray-100:var(--color-gray-100);--gray-200:var(--color-gray-200);--gray-300:var(--color-gray-300);--gray-400:var(--color-gray-400);--gray-500:var(--color-gray-500);--gray-600:var(--color-gray-600);--gray-700:var(--color-gray-700);--gray-900:var(--color-gray-900);--gray-950:var(--color-gray-950);--rail:216 34% 6%;--rail-raised:215 20% 17%;--rail-muted:215 16% 64%;--success:var(--color-success-500);--warning:var(--color-warning-500);--error:var(--color-error-500);
+    --shadow-sm:0 1px 3px 0 hsla(215,20%,17%,0.08),0 1px 2px -1px hsla(215,20%,17%,0.08);
+    --font-sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  }
+  /* the brand blue has to climb the ramp when the surfaces invert */
+  html.dark{--navy:217 92% 72%;--navy-dark:217 94% 82%}
+  *{box-sizing:border-box;margin:0;padding:0}html{font-family:var(--font-sans);font-size:var(--text-base);line-height:1.5;color:hsl(var(--gray-900));background:var(--bg-body);-webkit-font-smoothing:antialiased}
+  body{margin:0}
+  a{color:hsl(var(--navy));text-decoration:none}
+  a:hover{text-decoration:underline}
+  .app{display:flex}
+  .sidebar{width:240px;background:hsl(var(--rail));border-right:1px solid hsl(var(--rail-raised));display:flex;flex-direction:column;z-index:10}
+  .sidebar-brand{font-weight:800;font-size:1.25rem;color:#fff;padding:var(--space-6);letter-spacing:-0.02em}
+  .sidebar nav{flex:1}
+  .sidebar ul{list-style:none;padding:0 0 var(--space-4) 0;margin:0}
+  .sidebar li{margin-bottom:0.2rem}
+  .sidebar a{display:flex;align-items:center;gap:var(--space-3);padding:0.6rem var(--space-6);color:hsl(var(--rail-muted));font-size:0.9rem;font-weight:500;text-decoration:none;border-radius:var(--radius-base);border-left:3px solid transparent}
+  .sidebar a:hover{background:hsl(var(--rail-raised));color:#fff}
+  .sidebar a.active{background:hsl(var(--rail-raised));color:#fff;border-left-color:hsl(var(--navy))}
+  .topbar{height:56px;border-bottom:1px solid hsl(var(--gray-200));background:var(--bg-surface);display:flex;align-items:center;justify-content:space-between;padding:0 var(--space-6);position:sticky;top:0;z-index:20}
+  .topbar-left{display:flex;align-items:center;gap:var(--space-6)}
+  .mobile-menu{display:none;background:none;border:none;color:hsl(var(--gray-600));font-size:1.25rem}
+  .search{position:relative;width:260px}
+  .search input{width:100%;border:1px solid hsl(var(--gray-200));background:hsl(var(--gray-100));border-radius:var(--radius-base);padding:0.5rem 1rem 0.5rem 2.4rem;font-size:0.9rem;color:hsl(var(--gray-900))}
+  .search input:focus{border-color:hsl(var(--navy));box-shadow:0 0 0 3px hsla(var(--color-primary-500)/0.35)}
+  .search svg{position:absolute;left:0.75rem;top:50%;transform:translateY(-50%);color:hsl(var(--gray-400));width:1.1rem;height:1.1rem}
+  .user{display:flex;align-items:center;gap:var(--space-3)}
+  .avatar{width:2.5rem;height:2.5rem;border-radius:50%;background:hsl(var(--gray-200));color:hsl(var(--gray-600));display:grid;place-items:center;font-weight:600;font-size:0.9rem}
+  .main{flex:1;background:hsl(var(--gray-50));min-height:100vh;padding:var(--space-6)}
+  .page-header{margin-bottom:var(--space-8)}
+  .page-header h1{font-size:1.75rem;font-weight:700;letter-spacing:-0.02em;color:hsl(var(--gray-900));margin-bottom:var(--space-2)}
+  .page-header p{color:hsl(var(--gray-500))}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-6);margin-bottom:var(--space-8)}.kpi{background:var(--bg-surface);border:1px solid hsl(var(--gray-200));border-radius:var(--radius-lg);padding:var(--space-6);box-shadow:var(--shadow-sm)}
+  .kpi .label{font-size:0.8rem;font-weight:600;color:hsl(var(--gray-500));text-transform:uppercase;letter-spacing:0.05em;margin-bottom:var(--space-3)}
+  .kpi .value{font-size:1.75rem;font-weight:700;color:hsl(var(--gray-900))}
+  .kpi .meta{font-size:0.85rem;margin-top:var(--space-2);display:flex;align-items:center;gap:0.5rem}
+  .meta.up{color:hsl(var(--success))}
+  .meta.down{color:hsl(var(--error))}
+  .content-grid{display:grid;grid-template-columns:3fr 2fr;gap:var(--space-6)}.card{background:var(--bg-surface);border:1px solid hsl(var(--gray-200));border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);overflow:hidden}
+  .card-header{padding:var(--space-6);border-bottom:1px solid hsl(var(--gray-100));display:flex;align-items:center;justify-content:space-between}
+  .card-title{font-size:1rem;font-weight:600;color:hsl(var(--gray-900))}
+  .card-body{padding:var(--space-6)}
+  table{width:100%;border-collapse:collapse}
+  th{text-align:left;padding:0.75rem 1rem;font-size:0.78rem;font-weight:600;color:hsl(var(--gray-500));text-transform:uppercase;letter-spacing:0.05em;border-bottom:1px solid hsl(var(--gray-100))}
+  td{padding:0.75rem 1rem;border-bottom:1px solid hsl(var(--gray-100));font-size:0.9rem;color:hsl(var(--gray-700))}
+  tr:hover td{background:hsl(var(--gray-50))}
+  .badge{display:inline-block;font-size:0.72rem;font-weight:700;padding:0.18em 0.6em;border-radius:9999px;text-transform:uppercase;letter-spacing:0.03em}
+  .bg-success{background:hsl(var(--success)/0.12);color:hsl(var(--success))}
+  .bg-warning{background:hsl(var(--warning)/0.12);color:hsl(var(--warning))}
+  .bg-info{background:hsl(var(--navy)/0.12);color:hsl(var(--navy-dark))}
+  .chart-box{height:210px}
+  .chart-box svg{width:100%;height:100%;display:block}
+  .cb-grid{stroke:hsl(var(--gray-200));stroke-width:1}
+  .cb-axis{fill:hsl(var(--gray-400));font-size:11px;font-family:var(--font-sans)}
+  .cb-bar{fill:hsl(var(--navy)/0.85)}
+  .cb-line{fill:none;stroke:hsl(var(--success));stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+  .cb-dot{fill:hsl(var(--bg-surface));stroke:hsl(var(--success));stroke-width:2}
+  .cb-legend{display:flex;gap:var(--space-4);margin-top:var(--space-3);font-size:0.8125rem;color:hsl(var(--gray-600))}
+  .cb-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:0.4em;vertical-align:middle}
+  @media (max-width:768px){.app{flex-direction:column}.mobile-menu{display:block}.sidebar{display:none;width:100%;border-right:none;border-bottom:1px solid hsl(var(--gray-200));position:static}.app.nav-open .sidebar{display:flex}.app.nav-open .sidebar nav{flex:1}.kpis{grid-template-columns:1fr 1fr}.content-grid{grid-template-columns:1fr}.topbar{padding:0 var(--space-4);height:auto;flex-wrap:wrap;row-gap:var(--space-3)}.search{order:3;flex:1 1 100%}.user{flex-wrap:wrap}}
+  .theme-toggle{display:inline-flex;align-items:center;gap:0.5rem;background:hsl(var(--gray-100));border:none;border-radius:9999px;padding:0.25rem 0.75rem;font-size:0.875rem;cursor:pointer;color:hsl(var(--gray-700))}
+  .theme-toggle .dot{width:10px;height:10px;border-radius:50%;background:hsl(var(--navy))}
+  .container{width:100%;max-width:78rem;margin:0 auto;padding:0 var(--space-5)}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-brand">ADMIN</div>
+    <nav>
+      <ul>
+        <li><a class="active" href="#"><span>&#128196;</span> Dashboard</a></li>
+        <li><a href="#"><span>&#128100;</span> Users</a></li>
+        <li><a href="#"><span>&#128221;</span> Orders</a></li>
+        <li><a href="#"><span>&#128193;</span> Products</a></li>
+        <li><a href="#"><span>&#128204;</span> Reports</a></li>
+        <li style="margin-top:1rem"><a href="#"><span>&#9881;</span> Settings</a></li>
+      </ul>
+    </nav>
+  </aside>
+  <div class="main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="mobile-menu" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="sidebar">&#9776;</button>
+        <div class="search"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg><input type="search" placeholder="Search users, orders..."></div>
+      </div>
+      <div class="user">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"><span>Dark mode</span><span class="dot" id="themeDot"></span></button>
+        <div class="avatar">SA</div>
+      </div>
+    </header>
+    <div class="container">
+      <div class="page-header">
+        <h1>Admin overview</h1>
+        <p>Manage users, orders, and store performance.</p>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><div class="label">Total orders</div><div class="value">4,820</div><div class="meta up">&#9650; 14% vs week</div></div>
+        <div class="kpi"><div class="label">Revenue</div><div class="value">$124,500</div><div class="meta up">&#9650; 8% vs week</div></div>
+        <div class="kpi"><div class="label">New users</div><div class="value">520</div><div class="meta up">&#9650; 22% vs week</div></div>
+        <div class="kpi"><div class="label">Pending</div><div class="value">86</div><div class="meta down">&#9660; 3% vs week</div></div>
+      </div>
+      <div class="content-grid">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Recent orders</span><a href="#" style="font-size:0.875rem;color:hsl(var(--navy));text-decoration:none">View all</a></div>
+          <div class="card-body">
+            <table>
+              <thead><tr><th>Order</th><th>Customer</th><th>Amount</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>#40291</td><td>Alex Morgan</td><td>$219.00</td><td><span class="badge bg-success">Delivered</span></td></tr>
+                <tr><td>#40290</td><td>Sam Rivera</td><td>$89.50</td><td><span class="badge bg-warning">Processing</span></td></tr>
+                <tr><td>#40289</td><td>Jules Kim</td><td>$340.00</td><td><span class="badge bg-success">Delivered</span></td></tr>
+                <tr><td>#40288</td><td>Robin Dale</td><td>$56.00</td><td><span class="badge bg-info">Pending</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Sales overview</span><a href="#" style="font-size:0.875rem;color:hsl(var(--navy));text-decoration:none">View all</a></div>
+          <div class="card-body">
+            <div class="chart-box">
+              <svg viewBox="0 0 640 210" role="img" aria-labelledby="salesTitle salesDesc">
+                <title id="salesTitle">Monthly sales</title>
+                <desc id="salesDesc">Bar chart of monthly sales from January to August with a trend line.</desc>
+                <g class="cb-grid">
+                  <line x1="46" y1="176" x2="632" y2="176"/><line x1="46" y1="136" x2="632" y2="136"/>
+                  <line x1="46" y1="96" x2="632" y2="96"/><line x1="46" y1="56" x2="632" y2="56"/>
+                  <line x1="46" y1="16" x2="632" y2="16"/>
+                </g>
+                <g class="cb-axis" text-anchor="end">
+                  <text x="38" y="180">0</text><text x="38" y="140">25</text><text x="38" y="100">50</text>
+                  <text x="38" y="60">75</text><text x="38" y="20">100</text>
+                </g>
+                <g class="cb-bar">
+                  <rect x="48" y="109" width="40" height="67" rx="3"/>
+                  <rect x="121" y="88" width="40" height="88" rx="3"/>
+                  <rect x="194" y="115" width="40" height="61" rx="3"/>
+                  <rect x="267" y="70" width="40" height="106" rx="3"/>
+                  <rect x="340" y="61" width="40" height="115" rx="3"/>
+                  <rect x="413" y="83" width="40" height="93" rx="3"/>
+                  <rect x="486" y="42" width="40" height="134" rx="3"/>
+                  <rect x="559" y="30" width="40" height="146" rx="3"/>
+                </g>
+                <polyline class="cb-line" points="68,109 141,88 214,115 287,70 360,61 433,83 506,42 579,30"/>
+                <g class="cb-dot">
+                  <circle cx="68" cy="109" r="4"/><circle cx="141" cy="88" r="4"/><circle cx="214" cy="115" r="4"/>
+                  <circle cx="287" cy="70" r="4"/><circle cx="360" cy="61" r="4"/><circle cx="433" cy="83" r="4"/>
+                  <circle cx="506" cy="42" r="4"/><circle cx="579" cy="30" r="4"/>
+                </g>
+                <g class="cb-axis" text-anchor="middle">
+                  <text x="68" y="196">Jan</text><text x="141" y="196">Feb</text><text x="214" y="196">Mar</text>
+                  <text x="287" y="196">Apr</text><text x="360" y="196">May</text><text x="433" y="196">Jun</text>
+                  <text x="506" y="196">Jul</text><text x="579" y="196">Aug</text>
+                </g>
+              </svg>
+              <div class="cb-legend">
+                <span><i style="background:hsl(var(--navy)/0.85)"></i>Revenue</span>
+                <span><i style="background:hsl(var(--success));border-radius:50%"></i>Trend</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  const btn=document.getElementById('themeToggle');const label=btn.querySelector('span');const html=document.documentElement;
+  const paint=(dark)=>{html.classList.toggle('dark',dark);label.textContent=dark?'Light mode':'Dark mode'};
+  btn.addEventListener('click',()=>{const dark=!html.classList.contains('dark');paint(dark);localStorage.setItem('mui-theme',dark?'dark':'light')});
+  paint(localStorage.getItem('mui-theme')==='dark');
+  const menuBtn=document.querySelector('.mobile-menu');const app=document.querySelector('.app');
+  menuBtn.addEventListener('click',()=>{const open=app.classList.toggle('nav-open');menuBtn.setAttribute('aria-expanded',String(open))});
+</script>
+</body>
+</html>

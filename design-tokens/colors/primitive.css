@@ -1,0 +1,65 @@
+/* ==========================================================================
+   MASTER-UI-ENGINE — Primitive Color Palette
+   Design tokens: raw HSL colors. Override these to re-theme the library.
+   ========================================================================== */
+
+:root {
+  /* --- Grayscale (slate/zinc neutral) --- */
+  --color-gray-50: 210 40% 98%;
+  --color-gray-100: 222 47% 95%;
+  --color-gray-200: 222 47% 90%;
+  --color-gray-300: 215 20% 82%;
+  --color-gray-400: 215 16% 64%;
+  --color-gray-500: 215 16% 45%;
+  --color-gray-600: 215 14% 39%;
+  --color-gray-700: 215 14% 29%;
+  --color-gray-800: 215 20% 17%;
+  --color-gray-900: 215 28% 9%;
+  --color-gray-950: 216 34% 6%;
+
+  /* --- Primary brand (blue) --- */
+  --color-primary-50: 221 100% 97%;
+  --color-primary-100: 221 100% 93%;
+  --color-primary-200: 221 99% 85%;
+  --color-primary-300: 221 98% 73%;
+  --color-primary-400: 221 96% 60%;
+  --color-primary-500: 221 83% 53%;
+  --color-primary-600: 221 79% 46%;
+  --color-primary-700: 221 73% 39%;
+  --color-primary-800: 221 62% 31%;
+  --color-primary-900: 221 53% 25%;
+  --color-primary-950: 221 44% 15%;
+
+  /* --- Secondary --- */
+  --color-secondary-50: 240 48% 95%;
+  --color-secondary-100: 240 48% 90%;
+  --color-secondary-200: 240 48% 82%;
+  --color-secondary-300: 240 47% 72%;
+  --color-secondary-400: 240 46% 60%;
+  --color-secondary-500: 240 49% 52%;
+  --color-secondary-600: 240 49% 44%;
+  --color-secondary-700: 240 48% 37%;
+  --color-secondary-800: 240 42% 29%;
+  --color-secondary-900: 240 37% 22%;
+
+  /* --- Semantic colors --- */
+  --color-success-500: 142 76% 26%;
+  --color-warning-500: 38 92% 27%;
+  --color-error-500: 0 75% 45%;
+  --color-error-600: 0 78% 36%;
+  --color-info-500: 200 100% 32%;
+
+  /* --- Accent (teal) --- */
+  --color-accent-400: 160 80% 34%;
+  --color-accent-500: 160 84% 26%;
+  --color-accent-600: 160 85% 32%;
+
+  /* --- Black / white --- */
+  --color-black: 0 0% 0%;
+  --color-white: 0 0% 100%;
+}
+
+/* Support hsl() with alpha via css variables */
+:root {
+  --alpha: 1;
+}

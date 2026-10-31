@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  COMPONENT: Select Menus
+  ID: frm-select-menus
+  GROUP: Components
+  CATEGORY: forms
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#fields — .field, .field-label, .field-helper, .field-msg and the select box are defined there
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  VARIANTS: default, is-error, disabled, custom-styled
+  MOTION: durations and easings come from design-tokens/motion/scale.css; nothing here hardcodes a time
+  RESPONSIVE: the select fills its container and never overflows; the option list belongs to the OS
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31
+  CATALOG: showcase/data/component-catalog.json#frm-select-menus
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Select Menus | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../styles/components.css">
+<script src="../../styles/mue.js" defer></script>
+<style>
+  /* Box, focus ring, error border and helper text come from
+     styles/components.css#fields. Only the chevron is page-local. */
+  .page {
+    --shell-w: 700px;
+  }
+
+  /* #fields sets appearance:none on .field select, which removes the native
+     arrow without replacing it. This wrapper paints one from currentColor so it
+     flips with the theme; the svg ignores the pointer, so clicking it still
+     opens the native list. */
+  .select-wrap {
+    position: relative;
+    min-width: 0;
+  }
+  .select-wrap select {
+    padding-right: 2.75rem;
+  }
+  .select-wrap svg {
+    position: absolute;
+    top: 50%;
+    right: var(--space-3);
+    transform: translateY(-50%);
+    width: 1.125rem;
+    height: 1.125rem;
+    color: var(--text-tertiary);
+    pointer-events: none;
+    transition: color var(--duration-instant) var(--ease-standard);
+  }
+  .select-wrap:focus-within svg {
+    color: var(--border-focus);
+  }
+
+  @media (hover: none) {
+    .field select {
+      min-height: var(--control-h-lg);
+    }
+  }
+</style>
+</head>
+<body class="page">
+<div class="shell">
+  <header class="masthead">
+    <div>
+      <div class="brand">MASTER-UI-ENGINE</div>
+      <div class="meta">Components &gt; Forms &gt; Select menus</div>
+    </div>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+      <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <h1>Select Menus</h1>
+  <p class="subtitle">Compact dropdowns for choosing one option from a list.</p>
+
+  <div class="meta-card">
+    <div class="meta">
+      <b>Name:</b> Select Menus<br>
+      <b>Category:</b> forms<br>
+      <b>Framework:</b> Vanilla HTML/CSS/JS<br>
+      <b>Defined in:</b> styles/components.css #fields<br>
+      <b>Design system:</b> MASTER-UI-ENGINE custom<br>
+      <b>Variants:</b> default, with error, disabled, custom-styled<br>
+      <b>Responsive:</b> yes — full-width on mobile<br>
+      <b>Dependencies:</b> none (native <code>&lt;select&gt;</code>)<br>
+      <b>Original source:</b> MASTER-UI-ENGINE (original)<br>
+      <b>License:</b> MIT
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Default</h2>
+    <p>A styled native select, wrapped in the same <code>.field</code> column as every
+      other control. Nothing here opens or closes a menu — the browser owns the
+      option list, which is why the styling only touches the closed box.</p>
+    <div class="stack">
+      <div class="field">
+        <label class="field-label" for="plan">Subscription plan</label>
+        <div class="select-wrap">
+          <select id="plan">
+            <option>Starter — $19/mo</option>
+            <option>Professional — $49/mo</option>
+            <option>Enterprise — $199/mo</option>
+          </select>
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </div>
+        <p class="field-helper">Change your plan anytime.</p>
+      </div>
+      <div class="field">
+        <label class="field-label" for="country">Country</label>
+        <div class="select-wrap">
+          <select id="country">
+            <option>United States</option>
+            <option>Canada</option>
+            <option>United Kingdom</option>
+            <option>Germany</option>
+            <option>France</option>
+          </select>
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>States</h2>
+    <p>The state class sits on the <code>.field</code> wrapper: <code>is-error</code>
+      turns the border and the message red in one step, and <code>:disabled</code>
+      gives the control a sunken surface.</p>
+    <div class="stack">
+      <div class="field is-error">
+        <label class="field-label" for="department">Department (error)</label>
+        <div class="select-wrap">
+          <select id="department" aria-invalid="true" aria-describedby="department-msg">
+            <option>Select a department</option>
+            <option>Engineering</option>
+            <option>Design</option>
+            <option>Marketing</option>
+          </select>
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </div>
+        <p class="field-msg" id="department-msg">Please select a department.</p>
+      </div>
+      <div class="field">
+        <label class="field-label" for="status">Status (disabled)</label>
+        <div class="select-wrap">
+          <select id="status" disabled>
+            <option>Draft</option>
+            <option>Published</option>
+            <option>Archived</option>
+          </select>
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Responsive behavior</h2>
+    <p>Selects expand full-width; the sheet gives them <code>width:100%</code> and
+      <code>min-width:0</code>, so a long option label ellipsizes inside the native
+      control rather than widening the page. On touch devices the closed box grows to
+      <code>--control-h-lg</code>, and the native dropdown still opens on tap.</p>
+  </div>
+
+  <div class="section">
+    <h2>Accessibility</h2>
+    <ul style="list-style:disc;padding-left:1.25rem;color:var(--text-secondary);font-size:var(--text-sm);display:grid;gap:var(--space-2)">
+      <li>Native <code>&lt;select&gt;</code> is keyboard and screen-reader friendly; <code>appearance:none</code> does not change that</li>
+      <li>Every control has a <code>&lt;label&gt;</code> joined by for/id</li>
+      <li>Error state uses <code>aria-invalid="true"</code> plus <code>aria-describedby</code> on the message</li>
+      <li>Visible focus ring from the sheet; the decorative chevron is <code>aria-hidden</code> and ignores clicks</li>
+      <li><code>color-scheme: dark</code> from the engine paints the open option list in the dark palette</li>
+    </ul>
+  </div>
+
+  <div class="code-wrap" data-section="fields">
+    <div class="code-bar"><span>Markup</span></div>
+<pre><code>&lt;div class="field"&gt;
+  &lt;label class="field-label" for="plan"&gt;Subscription plan&lt;/label&gt;
+  &lt;select id="plan"&gt;
+    &lt;option&gt;Starter — $19/mo&lt;/option&gt;
+    &lt;option&gt;Professional — $49/mo&lt;/option&gt;
+  &lt;/select&gt;
+  &lt;p class="field-helper"&gt;Change your plan anytime.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class="field is-error"&gt;
+  &lt;label class="field-label" for="department"&gt;Department&lt;/label&gt;
+  &lt;select id="department" aria-invalid="true" aria-describedby="department-msg"&gt;
+    &lt;option&gt;Select a department&lt;/option&gt;
+  &lt;/select&gt;
+  &lt;p class="field-msg" id="department-msg"&gt;Please select a department.&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+  </div>
+</div>
+</body>
+</html>

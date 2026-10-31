@@ -1,0 +1,87 @@
+/* ==========================================================================
+   MASTER-UI-ENGINE — Motion Scale
+   Durations, easings and movement distances. Nothing animates here; these are
+   the values components/ and styles/components.css read.
+
+   Re-time the whole library from one place:
+
+     html { --duration-base: 160ms; --ease-out: cubic-bezier(.2,.9,.3,1); }
+
+   Rule of thumb for previews and apps:
+     under 100ms feels instant, 150-250ms feels responsive,
+     over 400ms only belongs on something that enters the viewport.
+   ========================================================================== */
+
+:root {
+  /* --- Durations --- */
+  --duration-tick: 60ms;      /* press depth, checkbox tick, toggle knob */
+  --duration-instant: 110ms;  /* hover and focus color changes */
+  --duration-fast: 160ms;     /* small state swaps: chips, tab ink, borders */
+  --duration-base: 220ms;     /* default control transition */
+  --duration-slow: 320ms;     /* overlays: dropdown, modal, drawer */
+  --duration-slower: 460ms;   /* content reveals, page-level motion */
+  --duration-slowest: 720ms;  /* chart draw-in, hero artwork */
+
+  /* --- Easings --- */
+  --ease-linear: linear;
+  --ease-standard: cubic-bezier(0.2, 0, 0.2, 1);      /* symmetric, safe default */
+  --ease-enter: cubic-bezier(0, 0, 0.2, 1);           /* arriving: decelerate in */
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);            /* leaving: accelerate out */
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-soft: cubic-bezier(0.25, 0.8, 0.35, 1);      /* modern, no overshoot */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);     /* decisive, long tail */
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);    /* tiny overshoot for knobs */
+
+  /* --- Movement --- */
+  --lift-hover: -2px;         /* hover travel for cards and raised buttons */
+  --lift-hover-sm: -1px;
+  --press-depth: 1px;         /* :active travel, always downward */
+  --reveal-shift: 14px;       /* scroll reveal rise */
+  --reveal-shift-lg: 26px;    /* hero / panel reveal rise */
+  --pop-scale: 1.015;         /* hover growth for media */
+  --focus-scale: 1.04;        /* switch knob and badge press feedback */
+
+  /* --- Composites: one custom property, one transition declaration --- */
+  --motion-colors:
+    color var(--duration-instant) var(--ease-standard),
+    background-color var(--duration-instant) var(--ease-standard),
+    border-color var(--duration-instant) var(--ease-standard),
+    fill var(--duration-instant) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard);
+  --motion-transform:
+    transform var(--duration-fast) var(--ease-soft);
+  --motion-press:
+    transform var(--duration-tick) var(--ease-exit);
+  --motion-lift:
+    transform var(--duration-base) var(--ease-soft),
+    box-shadow var(--duration-base) var(--ease-soft),
+    border-color var(--duration-base) var(--ease-standard);
+  --motion-overlay:
+    opacity var(--duration-slow) var(--ease-exit),
+    transform var(--duration-slow) var(--ease-exit);
+  --motion-reveal:
+    opacity var(--duration-slower) var(--ease-soft),
+    transform var(--duration-slower) var(--ease-out-expo);
+}
+
+/* Reduced motion: collapse the ramp instead of deleting animation, so
+   components keep their declarations and simply become instant. Opacity
+   transitions survive because they carry no movement. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-tick: 1ms;
+    --duration-instant: 1ms;
+    --duration-fast: 1ms;
+    --duration-base: 1ms;
+    --duration-slow: 1ms;
+    --duration-slower: 1ms;
+    --duration-slowest: 1ms;
+    --lift-hover: 0px;
+    --lift-hover-sm: 0px;
+    --press-depth: 0px;
+    --reveal-shift: 0px;
+    --reveal-shift-lg: 0px;
+    --pop-scale: 1;
+    --focus-scale: 1;
+  }
+}

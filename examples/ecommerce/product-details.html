@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  EXAMPLE: Product details
+  ID: ex-ecom-pdp
+  GROUP: Examples
+  CATEGORY: ecommerce
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#navigation (.navbar/.nav-brand/.nav-links/.nav-link/.nav-spacer/.hamburger/.breadcrumbs), #chrome (.theme-toggle), #buttons, #badges (.badge/.badge-primary/.badge-error/.badge-success/.dot), #fields (.input/.field), #cards (.card/.card-body/.card-desc/.card-title/.price), #tabs (.tabs/.tab-list/.tab/.tab-panel), #tables (.table-wrap/.table), #notifications (.alert/.alert-icon), #display (.avatar), #utilities (.row/.spread/.stack/.doc-list) — the shared classes below are defined there
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  MOTION: durations and easings come from design-tokens/motion/scale.css; thumbnail and tab-ink transitions are --motion-colors / --duration-* from the sheet, nothing here hardcodes a time
+  RESPONSIVE: the two-column product split collapses to one column below 900px and the info rail stops sticking; the gallery keeps a 1:1 aspect ratio and the thumbnails wrap, so nothing overflows at 320px; the spec table scrolls inside .table-wrap
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 320/375/768/1280, audited 2026-10-31
+  CATALOG: showcase/data/component-catalog.json#ex-ecom-pdp
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Product Details | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../styles/components.css">
+<script src="../../styles/mue.js" defer></script>
+<style>
+  /* Product-page geometry only: the two-column split, the gallery frames, the
+     vector artwork paint and the info rail. Navbar, breadcrumbs, buttons,
+     badges, .input, tabs, table, alert and the theme toggle are all defined in
+     styles/components.css. */
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 27rem) minmax(0, 1fr);
+    gap: var(--space-8);
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: var(--space-8) var(--space-6);
+  }
+  .media { min-width: 0; }
+  .info { min-width: 0; align-self: start; position: sticky; top: 5rem; }
+  .info h1 {
+    margin: 0 0 var(--space-3);
+    font-size: var(--text-3xl);
+    font-weight: var(--font-bold);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    color: var(--text-primary);
+  }
+  /* Gallery: the sheet supplies no image picker, so the square frame, the swap
+     state and the 4-up thumbnails are page geometry. */
+  .sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+  .gallery {
+    aspect-ratio: 1 / 1;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-lg);
+    background: radial-gradient(circle at 50% 38%, var(--bg-surface-hover), var(--bg-surface-active));
+  }
+  .gallery svg {
+    width: 78%;
+    height: auto;
+    filter: drop-shadow(0 1rem 1.5rem hsla(var(--color-gray-900) / 0.22));
+  }
+  .view { display: none; }
+  .view.active { display: block; }
+  .thumbs { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-4); }
+  .thumb {
+    width: 4.5rem;
+    height: 4.5rem;
+    flex: none;
+    padding: var(--space-1);
+    background: var(--bg-surface);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-base);
+    cursor: pointer;
+    transition: var(--motion-colors);
+  }
+  .thumb svg { width: 100%; height: 100%; }
+  .thumb:hover { border-color: var(--border-dark); }
+  .thumb[aria-pressed="true"] {
+    border-color: var(--primary-bg);
+    box-shadow: var(--ring-focus);
+  }
+  /* Product artwork drawn with semantic tokens, so the headphones read on both
+     surfaces instead of being pinned to a gray ramp that does not flip. */
+  .hp-band { fill: none; stroke: var(--text-primary); stroke-width: 13; stroke-linecap: round; }
+  .hp-band-inner { fill: none; stroke: var(--primary-bg); stroke-width: 4; stroke-linecap: round; opacity: 0.85; }
+  .hp-cup { fill: var(--text-primary); }
+  .hp-pad { fill: var(--text-secondary); }
+  .hp-hi { fill: var(--text-tertiary); opacity: 0.55; }
+  .hp-dot { fill: var(--primary-bg); }
+  .hp-hole { fill: var(--bg-surface-hover); }
+  .hp-arc-pad { fill: none; stroke: var(--text-secondary); stroke-width: 20; stroke-linecap: round; }
+  .hp-mesh { fill: none; stroke: var(--border-dark); stroke-width: 2; opacity: 0.5; }
+  /* Buy row */
+  .qty { width: 6rem; flex: none; }
+  .buy { flex: 1; min-width: 0; }
+  .stars { color: var(--text-warning); font-size: var(--text-lg); letter-spacing: var(--tracking-wide); }
+  .price .old {
+    margin-left: var(--space-2);
+    font-size: var(--text-base);
+    font-weight: var(--font-medium);
+    color: var(--text-tertiary);
+    text-decoration: line-through;
+  }
+  .crumbs { padding: var(--space-4) var(--space-6); border-bottom: 1px solid var(--hairline); }
+  .tabs-block {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: var(--space-8) var(--space-6) var(--space-12);
+  }
+  /* #tabs supplies the panel text colour; only the sub-heading and paragraph
+     rhythm inside a panel are page geometry. */
+  .tab-panel h3 {
+    margin: var(--space-6) 0 var(--space-3);
+    font-size: var(--text-base);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+  }
+  .tab-panel p { margin: 0 0 var(--space-4); }
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: minmax(0, 1fr); padding: var(--space-6) var(--space-4); }
+    .info { position: static; }
+    .crumbs { padding: var(--space-3) var(--space-4); }
+    .tabs-block { padding: var(--space-6) var(--space-4) var(--space-10); }
+  }
+</style>
+</head>
+<body>
+<header class="navbar">
+  <a class="nav-brand" href="#">STORE</a>
+  <ul class="nav-links" id="site-nav">
+    <li><a class="nav-link" href="#">Shop</a></li>
+    <li><a class="nav-link" href="#">Categories</a></li>
+    <li><a class="nav-link" href="#">Sale</a></li>
+  </ul>
+  <span class="nav-spacer"></span>
+  <button class="hamburger" type="button" data-menu-toggle="#site-nav" aria-controls="site-nav" aria-expanded="false" aria-label="Toggle navigation">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+  </button>
+  <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+    <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+  </button>
+  <div class="row">
+    <button class="btn-primary btn-sm" type="button">Cart <span class="badge" aria-label="0 items in cart">0</span></button>
+  </div>
+</header>
+
+<nav class="crumbs" aria-label="Breadcrumb">
+  <ol class="breadcrumbs">
+    <li><a href="#">Home</a></li>
+    <li aria-hidden="true">&rsaquo;</li>
+    <li><a href="#">Audio</a></li>
+    <li aria-hidden="true">&rsaquo;</li>
+    <li><span aria-current="page">Wireless headphones</span></li>
+  </ol>
+</nav>
+
+<div class="layout">
+  <div class="media">
+    <svg class="sprite" aria-hidden="true" focusable="false" width="0" height="0">
+      <defs>
+        <g id="hp-front">
+          <path class="hp-band" d="M78 208A102 102 0 0 1 282 208"/>
+          <path class="hp-band-inner" d="M92 208A88 88 0 0 1 268 208"/>
+          <rect class="hp-cup" x="52" y="192" width="62" height="112" rx="28"/>
+          <rect class="hp-cup" x="246" y="192" width="62" height="112" rx="28"/>
+          <rect class="hp-pad" x="63" y="204" width="40" height="88" rx="20"/>
+          <rect class="hp-pad" x="257" y="204" width="40" height="88" rx="20"/>
+          <rect class="hp-hi" x="69" y="212" width="9" height="44" rx="4.5"/>
+          <rect class="hp-hi" x="282" y="212" width="9" height="44" rx="4.5"/>
+          <circle class="hp-dot" cx="83" cy="272" r="4"/>
+          <circle class="hp-dot" cx="277" cy="272" r="4"/>
+        </g>
+        <g id="hp-side">
+          <path class="hp-band" d="M186 124C186 70 210 46 256 46"/>
+          <path class="hp-band-inner" d="M186 124C186 76 212 56 252 56"/>
+          <rect class="hp-cup" x="106" y="112" width="130" height="160" rx="50"/>
+          <rect class="hp-pad" x="124" y="130" width="94" height="124" rx="41"/>
+          <ellipse class="hp-hole" cx="171" cy="192" rx="34" ry="46"/>
+          <path class="hp-mesh" d="M147 169h48M147 187h48M147 205h48M147 223h48"/>
+          <circle class="hp-dot" cx="206" cy="252" r="5"/>
+        </g>
+        <g id="hp-headband">
+          <path class="hp-band" d="M50 262A130 130 0 0 1 310 262"/>
+          <path class="hp-arc-pad" d="M96 180A118 118 0 0 1 264 180"/>
+          <path class="hp-band-inner" d="M66 262A114 114 0 0 1 294 262"/>
+          <rect class="hp-cup" x="32" y="246" width="54" height="74" rx="25"/>
+          <rect class="hp-cup" x="274" y="246" width="54" height="74" rx="25"/>
+          <rect class="hp-hi" x="42" y="258" width="9" height="34" rx="4.5"/>
+          <circle class="hp-dot" cx="59" cy="302" r="4"/>
+          <circle class="hp-dot" cx="301" cy="302" r="4"/>
+        </g>
+        <g id="hp-cushion">
+          <ellipse class="hp-cup" cx="180" cy="178" rx="98" ry="120"/>
+          <ellipse class="hp-pad" cx="180" cy="178" rx="76" ry="98"/>
+          <ellipse class="hp-hole" cx="180" cy="178" rx="46" ry="64"/>
+          <path class="hp-mesh" d="M140 148h80M136 166h88M136 184h88M140 202h80"/>
+          <rect class="hp-hi" x="96" y="112" width="14" height="60" rx="7"/>
+          <circle class="hp-dot" cx="180" cy="286" r="5"/>
+        </g>
+      </defs>
+    </svg>
+    <div class="gallery" id="mainImg">
+      <svg class="view active" viewBox="0 0 360 360" role="img" aria-label="Wireless headphones, front view"><use href="#hp-front"/></svg>
+      <svg class="view" viewBox="0 0 360 360" role="img" aria-label="Wireless headphones, side profile"><use href="#hp-side"/></svg>
+      <svg class="view" viewBox="0 0 360 360" role="img" aria-label="Adjustable padded headband"><use href="#hp-headband"/></svg>
+      <svg class="view" viewBox="0 0 360 360" role="img" aria-label="Memory-foam ear cushion detail"><use href="#hp-cushion"/></svg>
+    </div>
+    <div class="thumbs" role="group" aria-label="Product image thumbnails">
+      <button type="button" class="thumb" aria-label="Front view" aria-pressed="true" data-view="0"><svg viewBox="0 0 360 360" aria-hidden="true" focusable="false"><use href="#hp-front"/></svg></button>
+      <button type="button" class="thumb" aria-label="Side profile" aria-pressed="false" data-view="1"><svg viewBox="0 0 360 360" aria-hidden="true" focusable="false"><use href="#hp-side"/></svg></button>
+      <button type="button" class="thumb" aria-label="Headband detail" aria-pressed="false" data-view="2"><svg viewBox="0 0 360 360" aria-hidden="true" focusable="false"><use href="#hp-headband"/></svg></button>
+      <button type="button" class="thumb" aria-label="Ear cushion detail" aria-pressed="false" data-view="3"><svg viewBox="0 0 360 360" aria-hidden="true" focusable="false"><use href="#hp-cushion"/></svg></button>
+    </div>
+  </div>
+
+  <div class="info">
+    <div class="row" style="margin-bottom:var(--space-4)">
+      <span class="badge badge-primary">New</span>
+      <span class="badge badge-error">Sale</span>
+    </div>
+    <h1>Wireless noise-canceling headphones</h1>
+    <div class="row" style="margin-bottom:var(--space-4)">
+      <span class="stars" aria-label="Rated 5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+      <span class="card-desc">(128 reviews)</span>
+    </div>
+    <p class="price">$199.00 <span class="old">$249.00</span></p>
+    <div class="row" style="margin-bottom:var(--space-6)">
+      <span class="badge badge-success"><span class="dot" aria-hidden="true"></span>In stock</span>
+      <span class="card-desc">Ships tomorrow from Berlin</span>
+    </div>
+    <div class="row">
+      <label class="sr-only" for="qty">Quantity</label>
+      <input class="input qty" id="qty" type="number" value="1" min="1">
+      <button class="btn-primary buy" type="button">Add to cart</button>
+      <button class="btn-secondary" type="button">Save for later</button>
+    </div>
+    <div class="alert alert-info" style="margin-top:var(--space-6)" role="note">
+      <span class="alert-icon" aria-hidden="true">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </span>
+      <span>Free delivery by Thu, Nov 5 &middot; 30-day returns &middot; 2-year warranty.</span>
+    </div>
+  </div>
+</div>
+
+<section class="tabs-block">
+  <div class="tabs">
+    <div class="tab-list" role="tablist" aria-label="Product information">
+      <button class="tab" type="button" role="tab" id="tab-desc" aria-controls="panel-desc" aria-selected="true">Description</button>
+      <button class="tab" type="button" role="tab" id="tab-specs" aria-controls="panel-specs" aria-selected="false">Specifications</button>
+      <button class="tab" type="button" role="tab" id="tab-reviews" aria-controls="panel-reviews" aria-selected="false">Reviews</button>
+    </div>
+    <div class="tab-panel" role="tabpanel" id="panel-desc" aria-labelledby="tab-desc">
+      <p>Immerse yourself in sound with our premium wireless headphones. Active noise cancellation, 30-hour battery life and plush memory-foam ear cushions make these perfect for travel, work or focus time.</p>
+      <h3>Key features</h3>
+      <ul class="doc-list">
+        <li>Active noise cancellation (ANC)</li>
+        <li>30-hour playtime with case</li>
+        <li>Bluetooth 5.3 multipoint</li>
+        <li>Fast charge: 10 min = 3 hours</li>
+      </ul>
+    </div>
+    <div class="tab-panel" role="tabpanel" id="panel-specs" aria-labelledby="tab-specs" hidden>
+      <div class="table-wrap">
+        <table class="table">
+          <caption>Technical specifications</caption>
+          <thead><tr><th scope="col">Attribute</th><th scope="col">Value</th></tr></thead>
+          <tbody>
+            <tr><td>Driver size</td><td>40 mm</td></tr>
+            <tr><td>Connectivity</td><td>Bluetooth 5.3</td></tr>
+            <tr><td>Battery</td><td>30 hours (ANC on)</td></tr>
+            <tr><td>Weight</td><td>265 g</td></tr>
+            <tr><td>Colours</td><td>Black, White</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="tab-panel" role="tabpanel" id="panel-reviews" aria-labelledby="tab-reviews" hidden>
+      <div class="stack">
+        <figure class="card">
+          <div class="card-body">
+            <div class="spread">
+              <div class="row"><span class="avatar" aria-hidden="true">MC</span><span class="card-title" style="font-size:var(--text-base)">Maya Chen</span></div>
+              <span class="stars" aria-label="Rated 5 out of 5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            </div>
+            <blockquote class="card-desc" style="margin:0">&ldquo;Exceptional quality and fast shipping. The noise cancellation is a step change on my old pair.&rdquo;</blockquote>
+          </div>
+        </figure>
+        <figure class="card">
+          <div class="card-body">
+            <div class="spread">
+              <div class="row"><span class="avatar" aria-hidden="true">DR</span><span class="card-title" style="font-size:var(--text-base)">Diego Ruiz</span></div>
+              <span class="stars" aria-label="Rated 4 out of 5">&#9733;&#9733;&#9733;&#9733;</span>
+            </div>
+            <blockquote class="card-desc" style="margin:0">&ldquo;Great sound and comfortable for long flights. Only wish the case were smaller.&rdquo;</blockquote>
+          </div>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  /* Gallery swap: mue.js has no image-picker hook, so the thumb that is clicked
+     marks itself pressed and shows the matching <use> view. Tabs, the theme
+     toggle and everything else are wired by styles/mue.js. */
+  const views = Array.from(document.querySelectorAll("#mainImg .view"));
+  const thumbs = Array.from(document.querySelectorAll(".thumb"));
+  thumbs.forEach((thumb) => {
+    thumb.addEventListener("click", () => {
+      thumbs.forEach((other) => other.setAttribute("aria-pressed", String(other === thumb)));
+      views.forEach((view, i) => view.classList.toggle("active", i === Number(thumb.dataset.view)));
+    });
+  });
+</script>
+</body>
+</html>

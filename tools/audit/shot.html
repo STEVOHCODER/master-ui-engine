@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MUE shot rig</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #fff; }
+  iframe { display: block; width: 100%; height: 100vh; border: 0; }
+</style>
+<script>
+  // Seed the theme before the preview loads, then frame it full-bleed so
+  // `msedge --headless --screenshot` captures exactly what a user sees.
+  try {
+    localStorage.setItem("mui-theme", new URLSearchParams(location.search).get("theme") || "light");
+  } catch (e) {}
+</script>
+</head>
+<body>
+<iframe id="f"></iframe>
+<script>
+  const q = new URLSearchParams(location.search);
+  // Paths are repo-rooted, and this rig lives in tools/audit/.
+  document.getElementById("f").src = "/" + (q.get("src") || "showcase/index.html").replace(/^\//, "") + (q.get("q") ? "?" + q.get("q") : "");
+</script>
+</body>
+</html>

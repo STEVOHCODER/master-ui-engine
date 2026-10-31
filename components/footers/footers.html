@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  COMPONENT: Footers
+  ID: ui-footers
+  GROUP: Components
+  CATEGORY: footers
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#footers — .footer (auto-fit column grid), .footer-heading and .footer-links live there
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  VARIANTS: Default (multi-column + bottom bar)
+  MOTION: link hover recolour uses --motion-colors — nothing hardcodes a time
+  RESPONSIVE: columns auto-fit from ~11rem and wrap as the width narrows — no fixed breakpoint needed
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 320/375/768/1280, audited 2026-10-31
+  CATALOG: showcase/data/component-catalog.json#ui-footers
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Footer | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../styles/components.css">
+<script src="../../styles/mue.js" defer></script>
+<style>
+  /* The shared #footers region styles the grid, headings and links. Kept
+     locally are the pieces the region has no rule for yet: the brand line, the
+     description, the bottom bar and the social icons. All token-based. */
+  .footer-brand {
+    margin-bottom: var(--space-3);
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    letter-spacing: var(--tracking-tight);
+    color: var(--text-primary);
+  }
+  .footer-desc {
+    max-width: 28ch;
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    color: var(--text-secondary);
+  }
+  .footer-bottom {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--hairline);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+  }
+  .footer-social {
+    display: flex;
+    gap: var(--space-3);
+  }
+  .footer-social a {
+    display: grid;
+    place-items: center;
+    width: var(--control-h-sm);
+    height: var(--control-h-sm);
+    border-radius: var(--radius-base);
+    background: var(--bg-surface-hover);
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: var(--motion-colors);
+  }
+  .footer-social a:hover {
+    background: var(--primary-bg);
+    color: var(--primary-fg);
+  }
+</style>
+</head>
+<body class="page">
+<div class="shell">
+  <header class="masthead">
+    <div>
+      <div class="brand">MASTER-UI-ENGINE</div>
+      <div class="meta">Components &gt; Footers &gt; Footer</div>
+    </div>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+      <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <h1>Footer</h1>
+  <p class="subtitle">Site footer with brand, navigation, legal, and social links.</p>
+
+  <div class="meta-card">
+    <div class="meta">
+      <b>Name:</b> Footer<br>
+      <b>Category:</b> footers<br>
+      <b>Framework:</b> Vanilla HTML/CSS/JS<br>
+      <b>Defined in:</b> styles/components.css #footers<br>
+      <b>Variants:</b> default (auto-fit columns), + bottom bar<br>
+      <b>Responsive:</b> yes — columns auto-fit and wrap; the bottom bar spans full width<br>
+      <b>Dependencies:</b> styles/components.css (no JS)<br>
+      <b>License:</b> MIT
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Default</h2>
+    <footer class="footer">
+      <div>
+        <div class="footer-brand">MASTER-UI-ENGINE</div>
+        <p class="footer-desc">Reusable UI/UX components and design systems for AI coding agents. Stop building generic interfaces from scratch.</p>
+      </div>
+      <div>
+        <div class="footer-heading">Product</div>
+        <ul class="footer-links"><li><a href="#">Components</a></li><li><a href="#">Templates</a></li><li><a href="#">Design systems</a></li><li><a href="#">Showcase</a></li></ul>
+      </div>
+      <div>
+        <div class="footer-heading">Resources</div>
+        <ul class="footer-links"><li><a href="#">Documentation</a></li><li><a href="#">AGENTS.md guide</a></li><li><a href="#">Accessibility</a></li><li><a href="#">Changelog</a></li></ul>
+      </div>
+      <div>
+        <div class="footer-heading">Legal</div>
+        <ul class="footer-links"><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li><li><a href="#">License</a></li><li><a href="#">Contributing</a></li></ul>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 MASTER-UI-ENGINE. MIT Licensed.</span>
+        <div class="footer-social"><a href="#" aria-label="GitHub">GH</a><a href="#" aria-label="Twitter">TW</a><a href="#" aria-label="Discord">DC</a></div>
+      </div>
+    </footer>
+  </div>
+
+  <div class="section">
+    <h2>Responsive behavior</h2>
+    <p>The #footers region lays the blocks in an <code>auto-fit</code> grid at a ~11rem minimum, so the columns drop from four to one as the viewport narrows without a breakpoint. Social icons are 36px tap targets.</p>
+  </div>
+
+  <div class="section">
+    <h2>Accessibility</h2>
+    <ul style="list-style:disc;padding-left:1.25rem;color:var(--text-secondary);font-size:var(--text-sm);display:grid;gap:var(--space-2)">
+      <li>Semantic &lt;footer&gt; landmark</li>
+      <li>Text colour is token-driven, so contrast holds in both light and dark</li>
+      <li>Focus-visible rings on every link; social icons carry aria-labels</li>
+    </ul>
+  </div>
+
+  <div class="code-wrap" data-section="footers">
+    <div class="code-bar"><span>Markup</span></div>
+<pre><code>&lt;footer class="footer"&gt;
+  &lt;div&gt;
+    &lt;div class="footer-brand"&gt;Brand&lt;/div&gt;
+    &lt;p class="footer-desc"&gt;Description&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div&gt;
+    &lt;div class="footer-heading"&gt;Product&lt;/div&gt;
+    &lt;ul class="footer-links"&gt;
+      &lt;li&gt;&lt;a href="#"&gt;Components&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+  &lt;div class="footer-bottom"&gt;&amp;copy; 2026 Brand.&lt;/div&gt;
+&lt;/footer&gt;</code></pre>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visual lab | MASTER-UI-ENGINE</title>
+<style>
+  :root {
+    --bg: #0f1419;
+    --panel: #171d24;
+    --panel-2: #1d242c;
+    --line: #2a333d;
+    --text: #e8edf2;
+    --muted: #cdd5de;
+    --accent: #3b82f6;
+    --accent-soft: #1e3a5f;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: Inter, ui-sans-serif, system-ui, Segoe UI, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    grid-template-rows: 56px 1fr;
+    height: 100vh;
+  }
+  header {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 16px;
+    border-bottom: 1px solid var(--line);
+    background: var(--panel);
+  }
+  .logo { font-weight: 700; letter-spacing: -0.03em; font-size: 14px; white-space: nowrap; }
+  .logo span { color: var(--muted); font-weight: 500; }
+  input[type="search"] {
+    flex: 1;
+    max-width: 360px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font: inherit;
+    font-size: 13px;
+  }
+  input[type="search"]:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .toolbar { display: flex; align-items: center; gap: 8px; margin-left: auto; flex-wrap: wrap; }
+  .toolbar button, .toolbar a {
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font: inherit;
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .toolbar button.active, .toolbar button[aria-pressed="true"] {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+  }
+  nav {
+    overflow: auto;
+    border-right: 1px solid var(--line);
+    background: var(--panel);
+    padding: 12px 8px 24px;
+  }
+  .group { margin-bottom: 18px; }
+  .group h2 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    padding: 4px 8px 8px;
+  }
+  .item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: 0;
+    color: var(--text);
+    font: inherit;
+    font-size: 13px;
+    padding: 7px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .item:hover { background: var(--panel-2); }
+  .item:focus-visible, .toolbar button:focus-visible, .toolbar a:focus-visible, .thumb:focus-within {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .item.active { background: var(--accent-soft); color: #fff; }
+  .item small { display: block; color: var(--muted); font-size: 11px; }
+  .stage {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    background: #0b0f13;
+  }
+  .meta-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--line);
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .meta-bar strong { color: var(--text); }
+  .frame-wrap {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+    padding: 16px;
+    background:
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 24px 24px;
+    background-color: #0b0f13;
+  }
+  .frame-wrap.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+    align-content: start;
+  }
+  iframe {
+    width: 100%;
+    height: 100%;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #fff;
+    min-height: 70vh;
+  }
+  .frame-wrap:not(.gallery) iframe { max-width: var(--preview-w, 100%); }
+  .thumb {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    min-height: 250px;
+  }
+  .thumb header {
+    display: block;
+    padding: 8px 10px;
+    font-size: 12px;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+  }
+  /* A thumbnail is a real desktop render scaled into the card, so the layout
+     you see is the one the design uses above its breakpoints. */
+  .thumb-frame { position: relative; flex: 1; overflow: hidden; background: #fff; }
+  .thumb-frame iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1280px;
+    height: calc(100% / var(--s, 0.25));
+    min-height: 0;
+    border: 0;
+    border-radius: 0;
+    background: #fff;
+    transform: scale(var(--s, 0.25));
+    transform-origin: top left;
+    pointer-events: none;
+  }
+  .empty { color: var(--muted); padding: 40px; }
+  @media (max-width: 800px) {
+    body { grid-template-columns: 1fr; grid-template-rows: auto auto 1fr; }
+    header { flex-wrap: wrap; height: auto; padding: 10px 12px; row-gap: 8px; }
+    input[type="search"] { flex: 1 1 100%; max-width: none; order: 3; }
+    .toolbar { margin-left: 0; width: 100%; }
+    nav { max-height: 220px; border-right: 0; border-bottom: 1px solid var(--line); }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">MASTER-UI-ENGINE <span>visual lab</span></div>
+  <input type="search" id="search" placeholder="Search designs…" aria-label="Search designs">
+  <div class="toolbar">
+    <button type="button" data-view="lab" class="active">One at a time</button>
+    <button type="button" data-view="gallery">All designs</button>
+    <button type="button" data-width="375">375</button>
+    <button type="button" data-width="768">768</button>
+    <button type="button" data-width="1200">1200</button>
+    <button type="button" data-width="100%" class="active">Fluid</button>
+    <a id="open-tab" href="#" target="_blank" rel="noopener">Open isolated</a>
+  </div>
+</header>
+<nav id="nav" aria-label="Designs"></nav>
+<div class="stage">
+  <div class="meta-bar">
+    <div id="status">Select a design</div>
+    <div>j / k next · catalog from data/catalog.js</div>
+  </div>
+  <div class="frame-wrap" id="stage"></div>
+</div>
+<script src="data/catalog.js"></script>
+<script>
+const ITEMS = (window.MUE_CATALOG && window.MUE_CATALOG.items) || [];
+if (!ITEMS.length) {
+  document.getElementById("stage").innerHTML =
+    '<p class="empty">showcase/data/catalog.js is missing. Run showcase/data/build-catalog.ps1.</p>';
+}
+
+const ROOT = new URL("../", location.href);
+let view = "lab";
+let width = "100%";
+let selected = ITEMS[0];
+
+function src(item) { return new URL(item.path, ROOT).href; }
+
+function filtered() {
+  const q = document.getElementById("search").value.trim().toLowerCase();
+  return ITEMS.filter(i => !q || `${i.group} ${i.category} ${i.name} ${i.path}`.toLowerCase().includes(q));
+}
+
+function renderNav() {
+  const nav = document.getElementById("nav");
+  const list = filtered();
+  const groups = [...new Set(list.map(i => i.group))];
+  nav.innerHTML = "";
+  groups.forEach(g => {
+    const wrap = document.createElement("div");
+    wrap.className = "group";
+    wrap.innerHTML = `<h2>${g}</h2>`;
+    list.filter(i => i.group === g).forEach(item => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "item" + (selected && selected.path === item.path ? " active" : "");
+      b.innerHTML = `${item.name}<small>${item.category}</small>`;
+      b.addEventListener("click", () => select(item));
+      wrap.appendChild(b);
+    });
+    nav.appendChild(wrap);
+  });
+}
+
+function sizeThumbs() {
+  // Measure synchronously: requestAnimationFrame never fires in a background tab.
+  document.querySelectorAll(".thumb-frame").forEach(f => {
+    const w = f.clientWidth || 320;
+    f.style.setProperty("--s", Math.max(0.08, (w / 1280)).toFixed(4));
+  });
+}
+
+function select(item) {
+  selected = item;
+  location.hash = item.path;
+  renderNav();
+  if (view === "gallery") setView("lab"); else renderStage();
+}
+
+function setView(next) {
+  view = next;
+  document.querySelectorAll("[data-view]").forEach(b => b.classList.toggle("active", b.dataset.view === next));
+  renderStage();
+}
+
+function renderStage() {
+  const stage = document.getElementById("stage");
+  const status = document.getElementById("status");
+  const open = document.getElementById("open-tab");
+  document.querySelector(".frame-wrap").style.setProperty("--preview-w", width === "100%" ? "100%" : width + "px");
+  if (view === "gallery") {
+    stage.classList.add("gallery");
+    const list = filtered();
+    status.innerHTML = `<strong>${list.length} designs</strong> — click a card to inspect it`;
+    open.href = selected ? src(selected) : "#";
+    stage.innerHTML = list.map(item => `
+      <article class="thumb" data-path="${item.path}">
+        <header>${item.group} / ${item.name}</header>
+        <div class="thumb-frame">
+          <iframe title="${item.name}" src="${src(item)}" loading="lazy" tabindex="-1"></iframe>
+        </div>
+      </article>`).join("");
+    sizeThumbs();
+    stage.querySelectorAll(".thumb").forEach(el => {
+      el.addEventListener("click", () => select(ITEMS.find(i => i.path === el.dataset.path)));
+    });
+    return;
+  }
+  stage.classList.remove("gallery");
+  if (!selected) {
+    stage.innerHTML = `<p class="empty">No match</p>`;
+    return;
+  }
+  status.innerHTML = `<strong>${selected.name}</strong> · ${selected.group} / ${selected.category} · ${selected.path}`;
+  open.href = src(selected);
+  stage.innerHTML = `<iframe title="${selected.name}" src="${src(selected)}"></iframe>`;
+}
+
+document.getElementById("search").addEventListener("input", () => { renderNav(); if (view === "gallery") renderStage(); });
+document.querySelectorAll("[data-view]").forEach(btn => btn.addEventListener("click", () => setView(btn.dataset.view)));
+document.querySelectorAll("[data-width]").forEach(btn => btn.addEventListener("click", () => {
+  width = btn.dataset.width;
+  document.querySelectorAll("[data-width]").forEach(b => b.classList.toggle("active", b === btn));
+  renderStage();
+}));
+document.addEventListener("keydown", e => {
+  if (e.target.matches("input") || !selected) return;
+  const list = filtered();
+  const i = list.findIndex(x => x.path === selected.path);
+  if (e.key === "j" || e.key === "ArrowDown") { e.preventDefault(); select(list[Math.min(list.length - 1, i + 1)]); }
+  if (e.key === "k" || e.key === "ArrowUp") { e.preventDefault(); select(list[Math.max(0, i - 1)]); }
+});
+
+let resizeTimer;
+addEventListener("resize", () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => { if (view === "gallery") sizeThumbs(); }, 150);
+});
+
+const hash = decodeURIComponent(location.hash.replace(/^#/, ""));
+selected = ITEMS.find(i => i.path === hash) || ITEMS[0];
+renderNav();
+renderStage();
+</script>
+</body>
+</html>

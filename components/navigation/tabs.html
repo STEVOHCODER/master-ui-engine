@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  COMPONENT: Tabs
+  ID: nav-tabs
+  GROUP: Components
+  CATEGORY: navigation
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#tabs — .tabs, .tab-list/[role=tablist], .tab, the ::after ink bar and .tab-panel live there
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  VARIANTS: Default (underline ink bar)
+  MOTION: the tab ink recolours with --motion-colors and grows from a scaleX transition on .tab::after; panel entry uses mue-fade-in — nothing hardcodes a time
+  RESPONSIVE: the tablist scrolls horizontally on narrow screens (overflow-x:auto in the sheet) while tabs stay 44px tall
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 320/375/768/1280, audited 2026-10-31
+  CATALOG: showcase/data/component-catalog.json#nav-tabs
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Tabs | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../styles/components.css">
+<script src="../../styles/mue.js" defer></script>
+<style>
+  .page { --shell-w: 800px; }
+</style>
+</head>
+<body class="page">
+<div class="shell">
+  <header class="masthead">
+    <div>
+      <div class="brand">MASTER-UI-ENGINE</div>
+      <div class="meta">Components &gt; Navigation &gt; Tabs</div>
+    </div>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+      <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <h1>Tabs</h1>
+  <p class="subtitle">Group related content into separate views accessible via tab navigation.</p>
+
+  <div class="meta-card">
+    <div class="meta">
+      <b>Name:</b> Tabs<br>
+      <b>Category:</b> navigation<br>
+      <b>Framework:</b> Vanilla HTML/CSS/JS<br>
+      <b>Defined in:</b> styles/components.css #tabs<br>
+      <b>Variants:</b> underline (default); .pills / .segmented also available in the region<br>
+      <b>Responsive:</b> yes — horizontally scrollable tablist on mobile<br>
+      <b>Dependencies:</b> styles/components.css, styles/mue.js (roving tabindex + arrow keys)<br>
+      <b>License:</b> MIT
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Default</h2>
+    <div class="tabs">
+      <div class="tab-list" role="tablist" aria-label="Item views">
+        <button class="tab" role="tab" id="tab-overview" aria-controls="panel-overview" aria-selected="true" tabindex="0">Overview</button>
+        <button class="tab" role="tab" id="tab-details" aria-controls="panel-details" aria-selected="false" tabindex="-1">Details</button>
+        <button class="tab" role="tab" id="tab-settings" aria-controls="panel-settings" aria-selected="false" tabindex="-1">Settings</button>
+      </div>
+      <div class="tab-panel" id="panel-overview" role="tabpanel" aria-labelledby="tab-overview" tabindex="0">
+        <h3>Overview</h3>
+        <p>A high-level summary of the selected item with key metrics and recent activity.</p>
+      </div>
+      <div class="tab-panel" id="panel-details" role="tabpanel" aria-labelledby="tab-details" tabindex="0" hidden>
+        <h3>Details</h3>
+        <p>Detailed specifications, attributes, and configuration options.</p>
+      </div>
+      <div class="tab-panel" id="panel-settings" role="tabpanel" aria-labelledby="tab-settings" tabindex="0" hidden>
+        <h3>Settings</h3>
+        <p>Preferences and controls for customizing behavior.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Keyboard behavior</h2>
+    <ul style="list-style:disc;padding-left:1.25rem;color:var(--text-secondary);font-size:var(--text-sm);display:grid;gap:var(--space-2)">
+      <li>Arrow keys move focus between tabs (managed by styles/mue.js)</li>
+      <li>Enter/Space activates the focused tab</li>
+      <li>Only the active tab is in the tab order — mue.js applies a roving tabindex</li>
+      <li>Each panel is hidden via the <code>hidden</code> attribute, driven by aria-controls</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Responsive behavior</h2>
+    <p>Below 640px the tablist scrolls horizontally while remaining a set of 44px tap targets — the <code>overflow-x:auto</code> in the #tabs region handles this.</p>
+  </div>
+
+  <div class="section">
+    <h2>Accessibility</h2>
+    <ul style="list-style:disc;padding-left:1.25rem;color:var(--text-secondary);font-size:var(--text-sm);display:grid;gap:var(--space-2)">
+      <li>role="tablist", role="tab", role="tabpanel" with aria-controls/aria-labelledby</li>
+      <li>aria-selected marks the active tab; the sheet paints the ink bar</li>
+      <li>Keyboard navigable per the WAI-ARIA tabs pattern</li>
+    </ul>
+  </div>
+
+  <div class="code-wrap" data-section="tabs">
+    <div class="code-bar"><span>Markup</span></div>
+<pre><code>&lt;div class="tabs"&gt;
+  &lt;div class="tab-list" role="tablist" aria-label="Item views"&gt;
+    &lt;button class="tab" role="tab" aria-controls="panel-overview" aria-selected="true"&gt;Overview&lt;/button&gt;
+    &lt;button class="tab" role="tab" aria-controls="panel-details" aria-selected="false" tabindex="-1"&gt;Details&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="tab-panel" id="panel-overview" role="tabpanel"&gt;&lt;h3&gt;Overview&lt;/h3&gt;&lt;/div&gt;
+  &lt;div class="tab-panel" id="panel-details" role="tabpanel" hidden&gt;&lt;h3&gt;Details&lt;/h3&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+  </div>
+</div>
+</body>
+</html>

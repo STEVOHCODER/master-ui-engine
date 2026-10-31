@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  EXAMPLE: Chat interface
+  ID: ex-chat
+  GROUP: Examples
+  CATEGORY: apps
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css (linked in this file head); no web fonts, CDNs or JS libraries, and no shared sheet yet
+  THEME: light + dark toggle (html.dark, persisted in localStorage)
+  VARIANTS: Alex Morgan
+  RESPONSIVE: reflows at <=768px
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31
+  CATALOG: showcase/data/component-catalog.json#ex-chat
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Chat App | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<style>
+  :root{
+    --shadow-sm:0 1px 3px 0 hsla(215,20%,17%,0.08),0 1px 2px -1px hsla(215,20%,17%,0.08);
+    --font-sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{font-family:var(--font-sans);font-size:var(--text-base);line-height:1.5;color:hsl(var(--color-gray-900));background:hsl(var(--color-gray-50))}
+  body{margin:0;overflow:hidden}
+  .app{display:flex;height:100vh}.sidebar{width:320px;background:var(--bg-surface);border-right:1px solid hsl(var(--color-gray-200));display:flex;flex-direction:column;z-index:10;flex-shrink:0}
+  .sidebar-header{display:flex;align-items:center;justify-content:space-between;height:56px;border-bottom:1px solid hsl(var(--color-gray-200));padding:0 var(--space-6);flex-shrink:0}
+  .search{position:relative;width:200px}
+  .search input{width:100%;border:1px solid hsl(var(--color-gray-200));background:hsl(var(--color-gray-100));border-radius:var(--radius-full);padding:0.5rem 1rem 0.5rem 2.4rem;font-size:0.875rem;color:hsl(var(--color-gray-900))}
+  .search input:focus{border-color:hsl(var(--color-primary-500));box-shadow:0 0 0 3px hsla(var(--color-primary-500)/0.35)}
+  .search svg{position:absolute;left:0.7rem;top:50%;transform:translateY(-50%); color:hsl(var(--color-gray-600));width:1rem;height:1rem}
+  .new-chat{background:none;border:none;color:hsl(var(--color-gray-500));cursor:pointer;font-size:1.1rem}
+  .new-chat:hover{color:hsl(var(--color-primary-500))}
+  .chats{flex:1;overflow-y:auto}
+  .chats ul{list-style:none;padding:0;margin:0}
+  .chat{display:flex;align-items:center;gap:var(--space-3);padding:0.75rem var(--space-6);cursor:pointer;border-radius:var(--radius-base);margin:0 var(--space-3)}
+  .chat:hover{background:hsl(var(--color-gray-100))}
+  .chat.active{background:hsl(var(--color-primary-500) / 0.08)}
+  .avatar{width:3.2rem;height:3.2rem;border-radius:50%;background:hsl(var(--color-gray-200));color:hsl(var(--color-gray-600));display:grid;place-items:center;font-weight:700;font-size:0.95rem;flex-shrink:0}
+  .info{flex:1;min-width:0}
+  .info .name{font-weight:600;color:hsl(var(--color-gray-900));font-size:0.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .info .preview{color:hsl(var(--color-gray-500));font-size:0.875rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .meta{color:hsl(var(--color-gray-500));font-size:0.8rem;margin-left:auto}
+  .unread{width:0.5rem;height:0.5rem;background:hsl(var(--color-primary-500));border-radius:50%;margin-left:auto}
+  .main{flex:1;background:hsl(var(--color-gray-50));display:flex;flex-direction:column;min-width:0}.topbar{height:56px;border-bottom:1px solid hsl(var(--color-gray-200));background:var(--bg-surface);display:flex;align-items:center;justify-content:space-between;padding:0 var(--space-6);flex-shrink:0}
+  .head-left{display:flex;align-items:center;gap:var(--space-4)}
+  .head-avatar{width:2.6rem;height:2.6rem;border-radius:50%;background:hsl(var(--color-gray-200));color:hsl(var(--color-gray-600));display:grid;place-items:center;font-weight:700;font-size:0.9rem}
+  .head-info h2{font-size:1rem;color:hsl(var(--color-gray-900))}
+  .head-info p{font-size:0.85rem;color:hsl(var(--color-success-500));font-weight:600}
+  .head-right{display:flex;align-items:center;gap:var(--space-3)}
+  .icon-btn{background:none;border:none; color:hsl(var(--color-gray-600));cursor:pointer;font-size:1.1rem;width:2rem;height:2rem;display:grid;place-items:center;border-radius:50%}
+  .icon-btn:hover{background:hsl(var(--color-gray-100));color:hsl(var(--color-gray-900))}
+  .messages{flex:1;overflow-y:auto;padding:var(--space-6);display:flex;flex-direction:column;gap:var(--space-4)}
+  .msg{display:flex;gap:var(--space-3);max-width:72%}
+  .msg.me{align-self:flex-end;flex-direction:row-reverse}
+  .bubble{padding:var(--space-4) var(--space-6);border-radius:var(--radius-lg);font-size:0.9375rem;line-height:1.6;max-width:100%}.msg .bubble{background:var(--bg-surface);border:1px solid hsl(var(--color-gray-200));color:hsl(var(--color-gray-900));border-bottom-left-radius:0.25rem}
+  .msg.me .bubble{background:hsl(var(--color-primary-500));color:hsl(var(--color-gray-50));border-bottom-right-radius:0.25rem}
+  .time{font-size:0.75rem;color:hsl(var(--color-gray-500));margin-top:0.25rem;display:block}
+  .msg.me .time{color:hsl(var(--color-gray-50))}.composer{border-top:1px solid hsl(var(--color-gray-200));background:var(--bg-surface);padding:var(--space-4) var(--space-6);flex-shrink:0}
+  .composer-inner{display:flex;gap:var(--space-3);align-items:flex-end}
+  textarea{flex:1;border:1px solid hsl(var(--color-gray-200));background:hsl(var(--color-gray-100));border-radius:var(--radius-full);padding:0.7rem 1.2rem;font-family:inherit;font-size:0.9375rem;color:hsl(var(--color-gray-900));resize:none;min-height:2.4rem}
+  textarea:focus{border-color:hsl(var(--color-primary-500));box-shadow:0 0 0 3px hsla(var(--color-primary-500)/0.35)}
+  .actions{display:flex;gap:var(--space-2)}
+  .actions button{width:2.4rem;height:2.4rem;border-radius:50%;background:hsl(var(--color-primary-500));color:hsl(var(--color-gray-50));border:none;cursor:pointer;display:grid;place-items:center}
+  .actions button.secondary{background:transparent; color:hsl(var(--color-gray-600))}
+  .actions button.secondary:hover{background:hsl(var(--color-gray-100))}
+  .actions button.primary:hover{background:hsl(var(--color-primary-600))}
+  @media (max-width:768px){.sidebar{position:fixed;left:-320px;top:0;bottom:0;z-index:50;transition:left 0.3s}.sidebar.open{left:0}}
+  .theme-toggle{background:none;border:none;color:hsl(var(--color-gray-600));cursor:pointer;font-size:1.1rem;margin-left:auto}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" aria-label="Chats">
+    <div class="sidebar-header">
+      <div class="search"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg><input type="search" placeholder="Search chats"></div>
+      <button class="new-chat" aria-label="New chat">&#10133;</button>
+    </div>
+    <div class="chats">
+      <ul>
+        <li><div class="chat active"><div class="avatar">AM</div><div class="info"><div class="name">Alex Morgan</div><div class="preview">Are we still on for tomorrow?</div></div><div class="meta">10:42</div><div class="unread"></div></div></li>
+        <li><div class="chat"><div class="avatar">SR</div><div class="info"><div class="name">Sam Rivera</div><div class="preview">I sent you the file.</div></div><div class="meta">Yesterday</div></div></li>
+        <li><div class="chat"><div class="avatar">JK</div><div class="info"><div class="name">Jules Kim</div><div class="preview">Great work on the design.</div></div><div class="meta">Mon</div></div></li>
+        <li><div class="chat"><div class="avatar">MC</div><div class="info"><div class="name">Maya Chen</div><div class="preview">See you at the meeting.</div></div><div class="meta">Mon</div></div></li>
+        <li><div class="chat"><div class="avatar">RD</div><div class="info"><div class="name">Robin Dale</div><div class="preview">Can you review this?</div></div><div class="meta">Fri</div></div></li>
+      </ul>
+    </div>
+  </aside>
+  <div class="main">
+    <header class="topbar">
+      <div class="head-left">
+        <div class="head-avatar">AM</div>
+        <div class="head-info"><h2>Alex Morgan</h2><p>Online</p></div>
+      </div>
+      <div class="head-right">
+        <button class="icon-btn" aria-label="Call">&#9742;</button>
+        <button class="icon-btn" aria-label="Video">&#128500;</button>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">&#127762;</button>
+      </div>
+    </header>
+    <div class="messages">
+      <div class="msg"><div class="bubble">Hey! Did you get a chance to look at the proposal?<span class="time">10:30</span></div></div>
+      <div class="msg me"><div class="bubble">Yes, it looks great. I have a few small suggestions.<span class="time">10:35</span></div></div>
+      <div class="msg"><div class="bubble">Sure, send them over whenever you&rsquo;re ready.<span class="time">10:36</span></div></div>
+    </div>
+    <div class="composer">
+      <div class="composer-inner">
+        <div class="actions"><button class="secondary" aria-label="Attach">&#128206;</button><button class="primary" aria-label="Send">&#9654;</button></div>
+        <textarea id="input" placeholder="Message..."></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  const btn=document.getElementById('themeToggle');const html=document.documentElement;
+  btn.addEventListener('click',()=>{html.classList.toggle('dark');localStorage.setItem('mui-theme',html.classList.contains('dark')?'dark':'light')});
+  const saved=localStorage.getItem('mui-theme');if(saved==='dark')html.classList.add('dark');
+</script>
+</body>
+</html>

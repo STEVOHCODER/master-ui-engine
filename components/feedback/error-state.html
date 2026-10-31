@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  COMPONENT: Error state
+  ID: fb-error
+  GROUP: Components
+  CATEGORY: feedback
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#feedback (+ #fields, #buttons) — the centred .error-state comes from the sheet; only the .error-inline layout is page-local
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  VARIANTS: Something went wrong
+  MOTION: durations and easings come from design-tokens/motion/scale.css; nothing here hardcodes a time
+  RESPONSIVE: the inline card stacks icon over body below 640px; the form column is width-capped and never overflows at 320px
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31
+  CATALOG: showcase/data/component-catalog.json#fb-error
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Error States | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../styles/components.css">
+<script src="../../styles/mue.js" defer></script>
+<style>
+  /* Page-local: the sheet defines the centred .error-state panel. This preview
+     also teaches the left-aligned inline card (icon + body + actions), so the
+     layout override below sits on top of the shared class, tokens only. */
+  .page {
+    --shell-w: 700px;
+  }
+  .error-inline {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--space-4);
+    text-align: left;
+    max-width: 31.25rem;
+    margin-inline: auto;
+    padding: var(--space-6);
+    background: var(--bg-surface);
+    border-color: hsla(var(--color-error-500) / 0.3);
+  }
+  .error-icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    background: var(--tint-error);
+    color: var(--text-error);
+  }
+  .error-icon svg {
+    width: 1.35rem;
+    height: 1.35rem;
+  }
+  .error-body {
+    flex: 1;
+    min-width: 0;
+  }
+  .form-demo {
+    max-width: 23.75rem;
+    margin-inline: auto;
+  }
+  .form-summary {
+    font-size: var(--text-sm);
+    color: var(--text-error);
+    margin: 0 0 var(--space-2);
+  }
+  .doc-list {
+    list-style: disc;
+    padding-left: 1.25rem;
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    display: grid;
+    gap: var(--space-2);
+    margin: 0;
+  }
+  @media (max-width: 640px) {
+    .error-inline {
+      flex-direction: column;
+    }
+  }
+</style>
+</head>
+<body class="page">
+<div class="shell">
+  <header class="masthead">
+    <div>
+      <div class="brand">MASTER-UI-ENGINE</div>
+      <div class="meta">Components &gt; Feedback &gt; Error states</div>
+    </div>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+      <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <h1>Error States</h1>
+  <p class="subtitle">Communicate failures clearly and provide a path to recover.</p>
+
+  <div class="meta-card">
+    <div class="meta">
+      <b>Name:</b> Error States<br>
+      <b>Category:</b> feedback<br>
+      <b>Framework:</b> Vanilla HTML/CSS/JS<br>
+      <b>Defined in:</b> styles/components.css #feedback (panel) + #fields (inline error)<br>
+      <b>Variants:</b> page error, form error, action error<br>
+      <b>Responsive:</b> yes — card stacks on mobile<br>
+      <b>Dependencies:</b> none<br>
+      <b>Original source:</b> MASTER-UI-ENGINE (original)<br>
+      <b>License:</b> MIT
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Page error</h2>
+    <div class="error-state error-inline" role="alert">
+      <div class="error-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7.5v5.5"></path><path d="M12 16.6h.01"></path></svg></div>
+      <div class="error-body">
+        <h2 class="empty-title">Something went wrong</h2>
+        <p class="empty-desc">We couldn&rsquo;t load your projects. Please refresh the page or contact support if the problem persists.</p>
+        <div class="row">
+          <a class="btn-outline" href="./error-state.html" role="button">Refresh</a>
+          <button class="btn-primary" type="button">Contact support</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Form error (inline)</h2>
+    <div class="form-demo">
+      <p class="form-summary">Please fix the errors below.</p>
+      <div class="field is-error">
+        <label class="field-label" for="err-email">Email</label>
+        <input id="err-email" type="email" value="not-an-email" aria-describedby="err-email-msg" aria-invalid="true">
+        <p class="field-msg" id="err-email-msg">Enter a valid email address.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Guidelines</h2>
+    <ul class="doc-list">
+      <li>State what happened in plain language, no jargon</li>
+      <li>Offer a concrete next step (refresh, retry, contact support)</li>
+      <li>Don&rsquo;t blame the user</li>
+      <li>Pair color with an icon and clear text</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Accessibility</h2>
+    <ul class="doc-list">
+      <li>Page-level errors use role="alert"</li>
+      <li>Inline errors are associated with inputs via aria-describedby, and the input carries aria-invalid</li>
+      <li>Focus moves to or near the error when it appears</li>
+      <li>Color never carries the message alone: the icon and the wording say it too. Tints come from <code>--tint-error</code>, so the panel stays legible in the dark theme</li>
+    </ul>
+  </div>
+
+  <div class="code-wrap" data-section="feedback,fields,buttons,utilities">
+    <div class="code-bar"><span>Markup</span></div>
+<pre><code>&lt;div class="error-state" role="alert"&gt;
+  &lt;div class="empty-icon" aria-hidden="true"&gt;
+    &lt;svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"&gt;…&lt;/svg&gt;
+  &lt;/div&gt;
+  &lt;h2 class="empty-title"&gt;Something went wrong&lt;/h2&gt;
+  &lt;p class="empty-desc"&gt;We couldn&rsquo;t load your projects.&lt;/p&gt;
+  &lt;button class="btn-primary" type="button"&gt;Retry&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;div class="field is-error"&gt;
+  &lt;label class="field-label" for="email"&gt;Email&lt;/label&gt;
+  &lt;input id="email" type="email" aria-describedby="email-msg" aria-invalid="true"&gt;
+  &lt;p class="field-msg" id="email-msg"&gt;Enter a valid email address.&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+  </div>
+
+</div>
+</body>
+</html>
