@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  COMPONENT: Tour and Float Buttons
+  ID: ui-guidance
+  GROUP: Components
+  CATEGORY: overlays
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#guidance — the coachmark stage, target ring, card, arrow, step counter and the float button and its dock are defined there; #cards frames the surface being taught, #display supplies the stat tiles and the audit timeline, #badges the status pills, #buttons the card actions and #utilities the row, stack and grid that place the demos
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  VARIANTS: Tour step 1-4 (step 2 open at rest), card below, card above, end-aligned; float button default, primary, labelled, stacked dock
+  MOTION: the card and the dock reveal with --motion-reveal, the target ring and the button tint with --motion-colors, the button lift with --motion-lift; durations come from design-tokens/motion/scale.css and nothing here hardcodes a time
+  RESPONSIVE: the tour card is capped at min(21rem, 100%) so it stays inside the stage at 320px, the demo grid collapses to one column, and the dock pulls in to the 1rem gutter below 640px
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01
+  CATALOG: showcase/data/component-catalog.json#ui-guidance
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Guidance | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../styles/components.css">
+<script src="../../styles/mue.js" defer></script>
+<style>
+  /* Page-local: only the shell width. Every rule the tour and the float
+     buttons use is in #region guidance. */
+  .page {
+    --shell-w: 1000px;
+  }
+</style>
+</head>
+<body class="page">
+<div class="shell">
+  <header class="masthead">
+    <div>
+      <div class="brand">MASTER-UI-ENGINE</div>
+      <div class="meta">Components &gt; Overlays &gt; Guidance</div>
+    </div>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+      <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <h1>Guidance</h1>
+  <p class="subtitle">The two surfaces that sit on top of the product rather than inside it:
+    a coachmark tour that spotlights what it is talking about, and a float button dock that stays
+    within thumb reach.</p>
+
+  <div class="meta-card">
+    <div class="meta">
+      <b>Name:</b> Guidance<br>
+      <b>Category:</b> overlays<br>
+      <b>Framework:</b> Vanilla HTML/CSS/JS<br>
+      <b>Defined in:</b> styles/components.css #guidance (+ #cards, #display, #badges, #buttons, #utilities)<br>
+      <b>Behaviour:</b> page script - step order, Escape, focus, dock reveal<br>
+      <b>Variants:</b> tour step 1-4, card below, card above, end-aligned; float default, primary, labelled, dock<br>
+      <b>Responsive:</b> yes - card capped at 100% of the stage, dock gutter tightens below 640px<br>
+      <b>Dependencies:</b> none<br>
+      <b>Original source:</b> MASTER-UI-ENGINE (original)<br>
+      <b>License:</b> MIT
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Product tour</h2>
+    <p>The tour is open at step 2 of 4. Next and Back walk the four steps, Skip and Escape close
+      it, and a closed tour can be replayed. The dark field is the scrim the target's own shadow
+      paints, so the highlight follows whatever is focused instead of needing an overlay element.</p>
+
+    <p class="row">
+      <button class="btn-outline btn-sm" type="button" id="tour-replay">Replay tour</button>
+      <span class="badge badge-info" id="tour-state">Step 2 of 4</span>
+    </p>
+
+    <div class="tour-stage card" id="tour">
+      <div class="card-body">
+        <div class="spread">
+          <div>
+            <p class="card-title">November forecast</p>
+            <p class="card-desc">Draft - recalculated 08:41 GMT</p>
+          </div>
+          <div class="row">
+            <span class="tour" data-step="1">
+              <span class="tour-target">
+                <button class="btn-outline" type="button">Recalculate</button>
+              </span>
+              <div class="tour-card tour-end" role="dialog" aria-labelledby="tc1-title">
+                <span class="tour-arrow" aria-hidden="true"></span>
+                <p class="tour-step">Step 1 of 4</p>
+                <p class="tour-title" id="tc1-title">Recalculate reads the live ledger</p>
+                <p class="tour-body">Every forecast is recomputed from the order ledger on click, so a
+                  draft can never be exported on stale numbers.</p>
+                <div class="tour-actions">
+                  <span class="tour-dots" aria-hidden="true">
+                    <span class="dot is-current"></span><span class="dot"></span>
+                    <span class="dot"></span><span class="dot"></span>
+                  </span>
+                  <span class="row">
+                    <button class="btn-ghost btn-sm" type="button" data-skip>Skip</button>
+                    <button class="btn-outline btn-sm" type="button" data-back disabled>Back</button>
+                    <button class="btn-primary btn-sm" type="button" data-next>Next</button>
+                  </span>
+                </div>
+              </div>
+            </span>
+            <span class="tour is-open" data-step="2">
+              <span class="tour-target">
+                <button class="btn-primary" type="button">Export</button>
+              </span>
+              <div class="tour-card tour-end" role="dialog" aria-labelledby="tc2-title">
+                <span class="tour-arrow" aria-hidden="true"></span>
+                <p class="tour-step">Step 2 of 4</p>
+                <p class="tour-title" id="tc2-title">Export carries the stamp</p>
+                <p class="tour-body">CSV, XLSX or a shareable link - each one is stamped with the
+                  recalculation time from step 1, so the file argues for itself.</p>
+                <div class="tour-actions">
+                  <span class="tour-dots" aria-hidden="true">
+                    <span class="dot"></span><span class="dot is-current"></span>
+                    <span class="dot"></span><span class="dot"></span>
+                  </span>
+                  <span class="row">
+                    <button class="btn-ghost btn-sm" type="button" data-skip>Skip</button>
+                    <button class="btn-outline btn-sm" type="button" data-back>Back</button>
+                    <button class="btn-primary btn-sm" type="button" data-next>Next</button>
+                  </span>
+                </div>
+              </div>
+            </span>
+          </div>
+        </div>
+
+        <div class="grid-auto">
+          <div class="stat">
+            <span class="stat-label">Committed</span>
+            <span class="stat-value">$418,900</span>
+            <span class="stat-delta is-up">+12.4% vs October</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">At risk</span>
+            <span class="stat-value">$62,140</span>
+            <span class="stat-delta is-down">-3.1% vs October</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Open pipeline</span>
+            <span class="stat-value">$1.24M</span>
+            <span class="stat-delta">flat week on week</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="tour" data-step="3">
+          <div class="tour-target">
+            <p class="stat-label">Audit trail</p>
+            <div class="timeline">
+              <div class="timeline-item is-done">
+                <span class="timeline-title">Row-level security applied to finance</span>
+                <span class="timeline-meta">A. Morgan - 08:41 GMT</span>
+              </div>
+              <div class="timeline-item is-current">
+                <span class="timeline-title">Forecast draft reopened after the currency fix</span>
+                <span class="timeline-meta">S. Rivera - 07:55 GMT</span>
+              </div>
+              <div class="timeline-item is-upcoming">
+                <span class="timeline-title">Board pack locks at 17:00</span>
+                <span class="timeline-meta">Scheduled</span>
+              </div>
+            </div>
+          </div>
+          <div class="tour-card tour-top" role="dialog" aria-labelledby="tc3-title">
+            <span class="tour-arrow" aria-hidden="true"></span>
+            <p class="tour-step">Step 3 of 4</p>
+            <p class="tour-title" id="tc3-title">Nothing changes silently</p>
+            <p class="tour-body">Every edit to a forecast is written here with who made it and when,
+              which is what makes the export in step 2 defensible.</p>
+            <div class="tour-actions">
+              <span class="tour-dots" aria-hidden="true">
+                <span class="dot"></span><span class="dot"></span>
+                <span class="dot is-current"></span><span class="dot"></span>
+              </span>
+              <span class="row">
+                <button class="btn-ghost btn-sm" type="button" data-skip>Skip</button>
+                <button class="btn-outline btn-sm" type="button" data-back>Back</button>
+                <button class="btn-primary btn-sm" type="button" data-next>Next</button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <div class="tour" data-step="4">
+          <span class="tour-target">
+            <button class="btn-ghost" type="button">Save view</button>
+          </span>
+          <div class="tour-card tour-top tour-end" role="dialog" aria-labelledby="tc4-title">
+            <span class="tour-arrow" aria-hidden="true"></span>
+            <p class="tour-step">Step 4 of 4</p>
+            <p class="tour-title" id="tc4-title">Save the view, not a copy of the data</p>
+            <p class="tour-body">A saved view keeps the columns, the grouping and the filters, so
+              finance opens the same picture instead of another spreadsheet.</p>
+            <div class="tour-actions">
+              <span class="tour-dots" aria-hidden="true">
+                <span class="dot"></span><span class="dot"></span>
+                <span class="dot"></span><span class="dot is-current"></span>
+              </span>
+              <span class="row">
+                <button class="btn-ghost btn-sm" type="button" data-skip>Skip</button>
+                <button class="btn-outline btn-sm" type="button" data-back>Back</button>
+                <button class="btn-primary btn-sm" type="button" data-next>Finish</button>
+              </span>
+            </div>
+          </div>
+        </div>
+        <span class="badge badge-success"><span class="dot"></span>Synced</span>
+        <span class="badge badge-warning"><span class="dot"></span>3 approvals due</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Card anatomy</h2>
+    <p>Out of the stage the card is a normal block in the flow, which is how it can be shown bare:
+      the counter, the title, the body and the action row are the only parts, and the notch is a
+      single rotated square so the card needs no wrapper for its arrow.</p>
+
+    <div class="grid-auto">
+      <div class="stack">
+        <div class="tour-card">
+          <span class="tour-arrow" aria-hidden="true"></span>
+          <p class="tour-step">Step 1 of 4</p>
+          <p class="tour-title">Below the target</p>
+          <p class="tour-body">The default placement: the notch points up at whatever is being
+            taught and the card hangs below it.</p>
+          <div class="tour-actions">
+            <span class="tour-dots" aria-hidden="true">
+              <span class="dot is-current"></span><span class="dot"></span>
+            </span>
+            <span class="row">
+              <button class="btn-ghost btn-sm" type="button">Skip</button>
+              <button class="btn-primary btn-sm" type="button">Next</button>
+            </span>
+          </div>
+        </div>
+        <p class="card-desc">Used when the target sits in the top half of the surface.</p>
+      </div>
+
+      <div class="stack">
+        <div class="tour-card tour-top">
+          <span class="tour-arrow" aria-hidden="true"></span>
+          <p class="tour-step">Step 3 of 4</p>
+          <p class="tour-title">Above the target</p>
+          <p class="tour-body">Add <code>.tour-top</code> and the card opens upward, which keeps a
+            step near the bottom of a panel inside the frame.</p>
+          <div class="tour-actions">
+            <span class="tour-dots" aria-hidden="true">
+              <span class="dot"></span><span class="dot is-current"></span>
+            </span>
+            <span class="row">
+              <button class="btn-outline btn-sm" type="button">Back</button>
+              <button class="btn-primary btn-sm" type="button">Finish</button>
+            </span>
+          </div>
+        </div>
+        <p class="card-desc">The notch flips with the card, so the pair never drifts apart.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Float buttons</h2>
+    <p>Forty-four pixels, circular, and a label when an icon would be a guess. The dock in the
+      lower corner of this page is the same component: scroll down and it rises into place, and
+      stacking is only a column, so a second action costs no new position.</p>
+
+    <div class="row">
+      <button class="float-btn" type="button" aria-label="Help">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" stroke-width="2"/>
+          <path stroke-linecap="round" stroke-width="2" d="M9.6 9.2a2.5 2.5 0 114 2.1c-.9.6-1.6 1-1.6 2.1"/>
+          <circle cx="12" cy="17.2" r="1.1" fill="currentColor" stroke="none"/>
+        </svg>
+      </button>
+      <button class="float-btn float-btn-primary" type="button" aria-label="Back to top">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5m0 0l-6 6m6-6l6 6"/>
+        </svg>
+      </button>
+      <button class="float-btn float-btn-label" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a8 8 0 01-8 8H8l-5 3 1.4-4.6A8 8 0 1121 12z"/>
+        </svg>
+        Contact support
+      </button>
+      <a class="float-btn" href="#tour" aria-label="Jump to the tour">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 13h16M4 13l4-4M4 13l4 4"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="row">
+      <div class="stack">
+        <button class="float-btn float-btn-primary" type="button" aria-label="New forecast">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-width="2" d="M12 5v14M5 12h14"/>
+          </svg>
+        </button>
+        <button class="float-btn" type="button" aria-label="Chat with support">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a8 8 0 01-8 8H8l-5 3 1.4-4.6A8 8 0 1121 12z"/>
+          </svg>
+        </button>
+        <button class="float-btn" type="button" aria-label="Back to top">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5m0 0l-6 6m6-6l6 6"/>
+          </svg>
+        </button>
+      </div>
+      <p class="card-desc">The dock shape, shown in place. <code>.float-btn-group</code> is the same
+        column pinned to the viewport corner - see it in the lower right of this page once the page
+        has scrolled.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>How it is put together</h2>
+    <ul class="doc-list">
+      <li>The spotlight is a <code>box-shadow</code> on the target with a 9999px spread, clipped by
+        <code>.tour-stage</code> - no overlay element, so the ring cannot fall out of step with the
+        control it highlights</li>
+      <li>Only the open step paints: a step is a <code>.tour</code> wrapper and
+        <code>.is-open</code> moves between them, so the tour is one state variable, not four
+        positioned cards</li>
+      <li>Every card is a <code>role="dialog"</code> labelled by its own title, and Back, Skip and
+        Next are real buttons, so the tour is operable from the keyboard alone - Escape closes it and
+        returns focus to the replay control</li>
+      <li>Steps 3 and 4 use <code>.tour-top</code> so a target near the bottom of the stage still
+        has its card inside the clipped frame</li>
+      <li>The dock is <code>position: fixed</code> and reveals with the shared reveal composite;
+        it is hidden rather than absent at the top of the page, so it never covers the masthead</li>
+      <li>The scrim is a semantic token, so the same rule reads correctly in both themes without a
+        dark-mode block</li>
+    </ul>
+  </div>
+
+  <div class="code-wrap" data-section="guidance,cards,display,badges,buttons,utilities">
+    <div class="code-bar"><span>Markup</span></div>
+<pre><code>&lt;div class="tour-stage card"&gt;
+  &lt;span class="tour is-open" data-step="2"&gt;
+    &lt;span class="tour-target"&gt;
+      &lt;button class="btn-primary" type="button"&gt;Export&lt;/button&gt;
+    &lt;/span&gt;
+    &lt;div class="tour-card tour-end" role="dialog" aria-labelledby="tc2"&gt;
+      &lt;span class="tour-arrow" aria-hidden="true"&gt;&lt;/span&gt;
+      &lt;p class="tour-step"&gt;Step 2 of 4&lt;/p&gt;
+      &lt;p class="tour-title" id="tc2"&gt;Export carries the stamp&lt;/p&gt;
+      &lt;p class="tour-body"&gt;CSV, XLSX or a shareable link.&lt;/p&gt;
+      &lt;div class="tour-actions"&gt;
+        &lt;span class="tour-dots" aria-hidden="true"&gt;
+          &lt;span class="dot"&gt;&lt;/span&gt;&lt;span class="dot is-current"&gt;&lt;/span&gt;
+        &lt;/span&gt;
+        &lt;span class="row"&gt;
+          &lt;button class="btn-ghost btn-sm" type="button" data-skip&gt;Skip&lt;/button&gt;
+          &lt;button class="btn-outline btn-sm" type="button" data-back&gt;Back&lt;/button&gt;
+          &lt;button class="btn-primary btn-sm" type="button" data-next&gt;Next&lt;/button&gt;
+        &lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div class="float-btn-group is-visible"&gt;
+  &lt;button class="float-btn float-btn-primary" type="button" aria-label="Back to top"&gt;...&lt;/button&gt;
+  &lt;button class="float-btn" type="button" aria-label="Chat with support"&gt;...&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+    <div class="code-bar"><span>CSS</span></div>
+<pre><code>.tour-stage {
+  position: relative;
+  overflow: hidden;
+}
+.tour.is-open &gt; .tour-target {
+  box-shadow: 0 0 0 2px var(--primary-bg), 0 0 0 6px var(--state-focus-ring),
+    0 0 0 9999px var(--scrim);
+}
+.tour &gt; .tour-card {
+  position: absolute;
+  inset-block-start: calc(100% + var(--space-8));
+  inset-inline-start: 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(calc(var(--reveal-shift) / -2));
+  transition: var(--motion-reveal), visibility 0s linear var(--duration-slower);
+}
+.tour.is-open &gt; .tour-card {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: var(--motion-reveal);
+}
+.float-btn {
+  inline-size: var(--control-h);
+  block-size: var(--control-h);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-md);
+  transition: var(--motion-lift);
+}
+.float-btn-group {
+  position: fixed;
+  inset-inline-end: var(--space-6);
+  inset-block-end: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}</code></pre>
+  </div>
+</div>
+
+<div class="float-btn-group" id="fab-dock">
+  <button class="float-btn float-btn-primary" type="button" id="fab-top" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5m0 0l-6 6m6-6l6 6"/>
+    </svg>
+  </button>
+  <button class="float-btn" type="button" aria-label="Chat with support">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a8 8 0 01-8 8H8l-5 3 1.4-4.6A8 8 0 1121 12z"/>
+    </svg>
+  </button>
+  <button class="float-btn" type="button" aria-label="Help centre">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" stroke-width="2"/>
+      <path stroke-linecap="round" stroke-width="2" d="M9.6 9.2a2.5 2.5 0 114 2.1c-.9.6-1.6 1-1.6 2.1"/>
+      <circle cx="12" cy="17.2" r="1.1" fill="currentColor" stroke="none"/>
+    </svg>
+  </button>
+</div>
+
+<script>
+  /* The tour is a single state variable: which step is open. The sheet owns the
+     look of an open step, so this script only moves .is-open and keeps the
+     buttons, the badge and focus honest about it. */
+  (function () {
+    const stage = document.getElementById("tour");
+    const steps = Array.from(stage.querySelectorAll(".tour[data-step]"));
+    const badge = document.getElementById("tour-state");
+    const replay = document.getElementById("tour-replay");
+    const total = steps.length;
+    let open = -1;
+
+    function show(i, focusTarget) {
+      open = i;
+      steps.forEach((el, n) => el.classList.toggle("is-open", n === i));
+      if (i < 0) {
+        badge.textContent = "Tour closed";
+        replay.focus();
+        return;
+      }
+      badge.textContent = "Step " + (i + 1) + " of " + total;
+      const card = steps[i].querySelector(".tour-card");
+      if (focusTarget) card.querySelector(focusTarget).focus();
+    }
+
+    steps.forEach((el, n) => {
+      el.querySelector("[data-next]").addEventListener("click", () => {
+        if (n + 1 < total) show(n + 1, "[data-next]");
+        else show(-1);
+      });
+      el.querySelector("[data-back]").addEventListener("click", () => {
+        show(n > 0 ? n - 1 : 0, "[data-back]");
+      });
+      el.querySelector("[data-skip]").addEventListener("click", () => {
+        show(-1);
+      });
+    });
+
+    replay.addEventListener("click", () => { show(0, "[data-next]"); });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && open > -1) {
+        show(-1);
+      }
+    });
+
+    show(1);
+
+    /* The dock reveals once the page has scrolled, so it never competes with
+       the masthead on first paint. */
+    const dock = document.getElementById("fab-dock");
+    let ticking = false;
+    function reveal() {
+      dock.classList.toggle("is-visible", window.scrollY > 420);
+      ticking = false;
+    }
+    window.addEventListener("scroll", () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(reveal);
+    }, { passive: true });
+    document.getElementById("fab-top").addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+    reveal();
+  })();
+</script>
+</body>
+</html>

@@ -4,11 +4,20 @@ This file tells OpenCode, Codex, Claude Code, and other AI coding agents how
 to use MASTER-UI-ENGINE to build user interfaces without generating generic
 interfaces from scratch.
 
+`SKILL.md` (repo root) is the installable, portable version of these rules — the
+same order of operations, token rules and quality gate in skill-pack frontmatter
+that an agent loads on any "build or restyle this UI" task. Install it by copying
+this repo, or `SKILL.md` on its own, into your client's skills directory: Claude
+Code, Codex and OpenCode each keep one, and the path differs per client and
+version, so see your client's skills-directory docs. Then call it by name
+(`/master-ui-engine`) or let its trigger description load it. This file stays the
+repo law: when the two disagree, `AGENTS.md` wins.
+
 ## Purpose
 
 MASTER-UI-ENGINE is a reusable UI/UX component library. Every file under
 `components/`, `examples/`, and `templates/` is a browser-rendered HTML document
-with no build step. The 25 component previews and the 6 starter templates draw
+with no build step. The 33 component previews and the 6 starter templates draw
 on three shared files — the tokens (`design-tokens/engine.css`), the component
 sheet (`styles/components.css`), and the behaviour layer (`styles/mue.js`). The
 15 `examples/` pages and the visual lab predate that conversion and still
@@ -18,7 +27,7 @@ carry their own copy of the chrome.
 selected component to the target project rather than designing from a blank
 canvas.
 
-The library currently holds 46 previews — 25 components, 15 example pages, and
+The library currently holds 54 previews — 33 components, 15 example pages, and
 6 starter templates. There are no React/Vue ports and no third-party design
 system packs yet; everything is vanilla HTML/CSS/JS driven by one token system.
 
@@ -85,6 +94,8 @@ node tools/mue.js region cards             # the exact CSS of one copy unit
 node tools/mue.js usage .btn-primary       # where a class is defined, who uses it
 node tools/mue.js tokens --filter radius    # token names, values, files
 node tools/mue.js scaffold page.html --use ui-cards btn-buttons
+node tools/mue.js add ui-cards --into ../my-app   # install: the snippet + the layers it needs, into your project
+node tools/mue.js registry                        # the whole library as one JSON document (machine endpoint)
 node tools/mue.js check all                 # the gate, across the library
 node tools/mue.js doctor                    # catalog / header / sheet consistency
 ```
@@ -122,7 +133,12 @@ Folders are the fallback:
    dropdowns, dialogs, toasts, accordions and the Copy buttons — including
    **Copy + CSS**, which puts just the `#region` blocks a snippet needs on the
    clipboard for projects that would rather inline them than link a sheet. Or
-   copy `design-tokens/**` + `styles/**` into the project, or map the tokens
+   let the CLI do the whole install — `node tools/mue.js add ui-cards --into ../app`
+   copies `design-tokens/**`, `styles/components.css` and `styles/mue.js` into
+   that project and writes a runnable `../app/mue/ui-cards.html` whose links are
+   already at the right depth (`--minimal` ships only the regions used; linking
+   the sheet whole is the safer default). Or copy
+   `design-tokens/**` + `styles/**` into the project by hand, or map the tokens
    onto the project's own variables.
 4. Replace the brand primitives (`--color-primary-*`, the grayscale ramp) with
    the target brand values; the semantics and every component follow.

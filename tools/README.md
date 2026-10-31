@@ -26,8 +26,10 @@ question.
 | `tokens --filter radius` | every custom property, value, and the file that declares it |
 | `head <file>` | structured `MUE:META` — `SHEET`, `THEME`, `VARIANTS`, `VERIFIED` |
 | `scaffold page.html --use a,b` | a page wired to the shared sheet, holding that markup, born with a valid header |
-| `check <file\|all>` | unresolved classes, dead header comments, missing metadata |
-| `doctor` | catalog ↔ header ↔ sheet consistency plus the conversion backlog |
+| `add <id> --into ../my-app` | installs it: shared layers copied once, `mue/<id>.html` snippet, depth-correct tags. `--minimal` ships a trimmed sheet with only the regions the markup's classes reach |
+| `registry` | the whole library as one JSON document — layers, regions, per-item classes and markup. This is what a website or an MCP wrapper consumes |
+| `check <file\|all>` | unresolved classes, dead header comments, missing metadata. Exits non-zero, so it is a CI gate |
+| `doctor` | catalog ↔ header ↔ sheet consistency plus the conversion backlog. Non-zero on a real problem, not on backlog |
 | `serve` | the visual lab at `http://127.0.0.1:8791` |
 
 Add `--json` to any command. `search`, `show`, and `region` are the trio that

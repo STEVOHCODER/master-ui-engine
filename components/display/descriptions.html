@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  COMPONENT: Descriptions
+  ID: ui-descriptions
+  GROUP: Components
+  CATEGORY: display
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#descriptions — the label/value grid, its bordered, stacked and size variants are defined there; #badges and #display supply the badge and avatar values, #choice the switch, #buttons the header action, #utilities the row and grid that place the variants
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  VARIANTS: Default (2 columns), Bordered (3 columns), Stacked, Compact and roomy sizes
+  MOTION: only hover colour on values and actions, through --motion-colors; durations come from design-tokens/motion/scale.css and nothing here hardcodes a time
+  RESPONSIVE: data-cols sets the pair count and 640px collapses every variant to one column, so a long value never squeezes its label
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01
+  CATALOG: showcase/data/component-catalog.json#ui-descriptions
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Descriptions | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../styles/components.css">
+<script src="../../styles/mue.js" defer></script>
+</head>
+<body class="page">
+<div class="shell">
+  <header class="masthead">
+    <div>
+      <div class="brand">MASTER-UI-ENGINE</div>
+      <div class="meta">Components &gt; Display &gt; Descriptions</div>
+    </div>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+      <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <h1>Descriptions</h1>
+  <p class="subtitle">Read-only label/value pairs for detail panels, order summaries and settings
+    pages - the surface that sits under a table row once you expand it.</p>
+
+  <div class="meta-card">
+    <div class="meta">
+      <b>Name:</b> Descriptions<br>
+      <b>Category:</b> display<br>
+      <b>Framework:</b> Vanilla HTML/CSS/JS<br>
+      <b>Defined in:</b> styles/components.css #descriptions (+ #badges, #display, #choice, #buttons)<br>
+      <b>Variants:</b> default, bordered, stacked, sm, lg<br>
+      <b>Columns:</b> data-cols="1" | "2" | "3"; collapses to 1 at 640px<br>
+      <b>Responsive:</b> yes - one column on a phone<br>
+      <b>Dependencies:</b> none<br>
+      <b>Original source:</b> MASTER-UI-ENGINE (original)<br>
+      <b>License:</b> MIT
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Default (two columns)</h2>
+    <p>A <code>dl</code> with one <code>div.descriptions-item</code> per pair. The wrapper is
+      <code>display: contents</code>, so the <code>dt</code> and <code>dd</code> join the parent grid
+      themselves and every label column lines up across rows.</p>
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h3 class="card-title">Northwind Traders</h3>
+          <p class="card-text">Customer since 2021 - account 4471</p>
+        </div>
+        <button class="btn-link btn-sm" type="button">Edit</button>
+      </div>
+      <div class="card-body">
+        <dl class="descriptions" data-cols="2">
+          <div class="descriptions-item">
+            <dt class="descriptions-label">Account owner</dt>
+            <dd class="descriptions-value"><span class="avatar" aria-hidden="true">AM</span>
+              <a href="#ui-descriptions">Alex Morgan</a></dd>
+          </div>
+          <div class="descriptions-item">
+            <dt class="descriptions-label">Status</dt>
+            <dd class="descriptions-value"><span class="badge badge-success"><span class="dot"></span>Active</span></dd>
+          </div>
+          <div class="descriptions-item">
+            <dt class="descriptions-label">Plan</dt>
+            <dd class="descriptions-value">Scale - annual</dd>
+          </div>
+          <div class="descriptions-item">
+            <dt class="descriptions-label">Seats</dt>
+            <dd class="descriptions-value">48 of 60 used</dd>
+          </div>
+          <div class="descriptions-item">
+            <dt class="descriptions-label">Monthly revenue</dt>
+            <dd class="descriptions-value">$4,820.00</dd>
+          </div>
+          <div class="descriptions-item">
+            <dt class="descriptions-label">Billing email</dt>
+            <dd class="descriptions-value"><a href="#ui-descriptions">ap@northwind.example</a></dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Bordered (three columns)</h2>
+    <p>The frame draws two of its edges and the cells draw the other two, so every rule is exactly
+      one hairline. Label cells take <code>--bg-surface-hover</code>, which is what makes the grid
+      scannable without a second type weight.</p>
+    <h3>Order ORD-98214</h3>
+    <dl class="descriptions descriptions-bordered" data-cols="3">
+      <div class="descriptions-item">
+        <dt class="descriptions-label">Order</dt>
+        <dd class="descriptions-value">ORD-98214</dd>
+      </div>
+      <div class="descriptions-item">
+        <dt class="descriptions-label">Placed</dt>
+        <dd class="descriptions-value">28 Oct 2026, 09:14</dd>
+      </div>
+      <div class="descriptions-item">
+        <dt class="descriptions-label">Fulfilment</dt>
+        <dd class="descriptions-value"><span class="badge badge-info">In transit</span></dd>
+      </div>
+      <div class="descriptions-item">
+        <dt class="descriptions-label">Payment</dt>
+        <dd class="descriptions-value">Visa ending 4242</dd>
+      </div>
+      <div class="descriptions-item">
+        <dt class="descriptions-label">Items</dt>
+        <dd class="descriptions-value">3 lines - 14 units</dd>
+      </div>
+      <div class="descriptions-item">
+        <dt class="descriptions-label">Total</dt>
+        <dd class="descriptions-value"><b>$11,480.00</b></dd>
+      </div>
+      <div class="descriptions-item">
+        <dt class="descriptions-label">Ship to</dt>
+        <dd class="descriptions-value">221B Riverside Way, Unit 7, Portland OR 97204, United States</dd>
+      </div>
+      <div class="descriptions-item">
+        <dt class="descriptions-label">Carrier</dt>
+        <dd class="descriptions-value">Meridian Freight</dd>
+      </div>
+      <div class="descriptions-item">
+        <dt class="descriptions-label">Tracking</dt>
+        <dd class="descriptions-value"><a href="#ui-descriptions">MF442781904US</a></dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Stacked</h2>
+    <p>When values run long, the label sits above them and the pair becomes a real box again.
+      This is the shape a settings panel wants.</p>
+    <h3>Notifications</h3>
+    <dl class="descriptions descriptions-stacked" data-cols="3">
+      <div class="descriptions-item">
+        <dt class="descriptions-label">Product digest</dt>
+        <dd class="descriptions-value">A summary of everything your team shipped, every Monday at 08:00 in the account timezone.</dd>
+      </div>
+      <div class="descriptions-item">
+        <dt class="descriptions-label">Billing alerts</dt>
+        <dd class="descriptions-value">Sent to the three addresses on the invoice whenever a charge fails or a card expires.</dd>
+      </div>
+      <div class="descriptions-item">
+        <dt class="descriptions-label">Incident channel</dt>
+        <dd class="descriptions-value">
+          <label class="switch">
+            <input type="checkbox" checked>
+            <span class="track"></span>
+            <span class="switch-label">Page on-call</span>
+          </label>
+        </dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Sizes</h2>
+    <p><code>.descriptions-sm</code> tightens the rhythm for dense panels;
+      <code>.descriptions-lg</code> raises the type to body size for a summary a reader scans once.</p>
+    <div class="grid-auto">
+      <div>
+        <h3>Compact</h3>
+        <dl class="descriptions descriptions-bordered descriptions-sm" data-cols="1">
+          <div class="descriptions-item">
+            <dt class="descriptions-label">Runtime</dt>
+            <dd class="descriptions-value">Node 22 LTS</dd>
+          </div>
+          <div class="descriptions-item">
+            <dt class="descriptions-label">Region</dt>
+            <dd class="descriptions-value">eu-west-1</dd>
+          </div>
+          <div class="descriptions-item">
+            <dt class="descriptions-label">Build</dt>
+            <dd class="descriptions-value"><span class="badge badge-primary">#4192</span></dd>
+          </div>
+        </dl>
+      </div>
+      <div>
+        <h3>Roomy</h3>
+        <dl class="descriptions descriptions-lg" data-cols="1">
+          <div class="descriptions-item">
+            <dt class="descriptions-label">Support tier</dt>
+            <dd class="descriptions-value">Priority - 2h response, 24/7</dd>
+          </div>
+          <div class="descriptions-item">
+            <dt class="descriptions-label">Renewal</dt>
+            <dd class="descriptions-value">01 Jan 2027</dd>
+          </div>
+          <div class="descriptions-item">
+            <dt class="descriptions-label">Contract</dt>
+            <dd class="descriptions-value"><a href="#ui-descriptions">MSA-2021-114.pdf</a></dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Values that are not plain text</h2>
+    <p>A value is a flex row that centres and wraps, so an avatar, a badge and a link all sit on the
+      same line without per-variant nudges.</p>
+    <dl class="descriptions" data-cols="1">
+      <div class="descriptions-item">
+        <dt class="descriptions-label">Reviewers</dt>
+        <dd class="descriptions-value">
+          <span class="avatar-group">
+            <span class="avatar" aria-hidden="true">AM</span>
+            <span class="avatar" aria-hidden="true">SR</span>
+            <span class="avatar" aria-hidden="true">JK</span>
+          </span>
+          <span>+3 more</span>
+        </dd>
+      </div>
+      <div class="descriptions-item">
+        <dt class="descriptions-label">Health</dt>
+        <dd class="descriptions-value">
+          <span class="badge badge-warning">Degraded</span>
+          <span>p95 latency 412 ms over the last hour</span>
+        </dd>
+      </div>
+      <div class="descriptions-item">
+        <dt class="descriptions-label">Repository</dt>
+        <dd class="descriptions-value"><a href="#ui-descriptions">master-ui-engine/billing</a>
+          <span class="badge">main</span></dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>Accessibility</h2>
+    <ul class="doc-list">
+      <li>Pairs are <code>dt</code> / <code>dd</code> inside a <code>dl</code>, so a screen reader
+        announces the term and its definition in order</li>
+      <li>The <code>div</code> wrapper around each pair is valid HTML and is transparent to the
+        a11y tree here, because <code>display: contents</code> leaves no box of its own</li>
+      <li>Status is carried by the badge text, never by its colour alone</li>
+      <li>Decorative avatar initials are <code>aria-hidden</code>; the name is written beside them</li>
+      <li>Long values wrap inside their own column instead of pushing the label off the grid</li>
+    </ul>
+  </div>
+
+  <div class="code-wrap" data-section="descriptions,badges,display,choice,buttons">
+    <div class="code-bar"><span>Markup</span></div>
+<pre><code>&lt;dl class="descriptions" data-cols="2"&gt;
+  &lt;div class="descriptions-item"&gt;
+    &lt;dt class="descriptions-label"&gt;Account owner&lt;/dt&gt;
+    &lt;dd class="descriptions-value"&gt;
+      &lt;span class="avatar" aria-hidden="true"&gt;AM&lt;/span&gt;
+      &lt;a href="/team/alex"&gt;Alex Morgan&lt;/a&gt;
+    &lt;/dd&gt;
+  &lt;/div&gt;
+  &lt;div class="descriptions-item"&gt;
+    &lt;dt class="descriptions-label"&gt;Status&lt;/dt&gt;
+    &lt;dd class="descriptions-value"&gt;&lt;span class="badge badge-success"&gt;Active&lt;/span&gt;&lt;/dd&gt;
+  &lt;/div&gt;
+&lt;/dl&gt;</code></pre>
+  </div>
+
+</div>
+<script>
+  /* Page-local: mue.js owns the theme toggle and the Copy buttons. There is no
+     other behaviour to add - Descriptions is read-only markup. */
+</script>
+</body>
+</html>

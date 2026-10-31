@@ -6,3 +6,4 @@ package-lock.json
 *.bak
 pre-stamp-backup/
 shots/
+zz_*

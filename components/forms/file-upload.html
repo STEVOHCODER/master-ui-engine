@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  COMPONENT: File Upload
+  ID: frm-dropzone
+  GROUP: Components
+  CATEGORY: forms
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#dropzone (with #fields, #buttons, #badges, #utilities, #chrome) — every class below is defined there, so pasted markup arrives styled
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  VARIANTS: multi-file, single avatar, drag-over state, populated file list
+  MOTION: durations and easings come from design-tokens/motion/scale.css; nothing here hardcodes a time
+  RESPONSIVE: the target is a fluid block, rows truncate the file name and keep the size and remove button on one line at 320px
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 320/375/768/1200
+  CATALOG: showcase/data/component-catalog.json#frm-dropzone
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>File Upload | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../styles/components.css">
+<script src="../../styles/mue.js" defer></script>
+<style>
+  /* Demo scaffolding only: two labelled frames so the multi-file and the
+     single-file targets sit on one page. No component is styled here. */
+  .demo-upload {
+    display: grid;
+    gap: var(--space-4);
+    min-width: 0;
+    padding: var(--space-5);
+    background: var(--bg-surface);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-lg);
+  }
+  .demo-upload-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+  .demo-upload-narrow {
+    max-width: 24rem;
+  }
+</style>
+</head>
+<body class="page">
+<div class="shell">
+  <header class="masthead">
+    <div>
+      <div class="brand">MASTER-UI-ENGINE</div>
+      <div class="meta">Components &gt; Forms &gt; File Upload</div>
+    </div>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+      <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <h1>File Upload</h1>
+  <p class="subtitle">A drop target that is still a form control. The dashed box is decoration; the
+    thing you click, drag onto and Tab into is a real <code>&lt;input type="file"&gt;</code>, which is
+    why this component needs no JavaScript to work.</p>
+
+  <div class="meta-card">
+    <div class="meta">
+      <b>Name:</b> File Upload<br>
+      <b>Category:</b> forms<br>
+      <b>Framework:</b> Vanilla HTML/CSS/JS<br>
+      <b>Defined in:</b> styles/components.css #dropzone (+ #fields, #buttons, #utilities)<br>
+      <b>States:</b> default, hover, focus-within, .is-dragging (app-toggled), populated list<br>
+      <b>Slots:</b> dropzone, dropzone-input, dropzone-icon/title/link/hint, dropzone-list, file-row<br>
+      <b>JS needed:</b> only to render rows from <code>input.files</code> and toggle .is-dragging<br>
+      <b>Dependencies:</b> none<br>
+      <b>License:</b> MIT
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Multi-file</h2>
+    <p>The transparent input is stretched across the whole target, so every pixel of the dashed box
+      opens the picker and every pixel of it is a valid drop zone. The list below is what an
+      application renders from <code>input.files</code>: name, size, and a remove button with a 44px
+      hit area.</p>
+    <div class="demo-upload">
+      <span class="demo-upload-label">.dropzone + .dropzone-list</span>
+      <div class="field">
+        <label class="sr-only" for="exports">Project exports</label>
+        <div class="dropzone">
+          <input class="dropzone-input" type="file" id="exports" name="exports" multiple accept=".png,.jpg,.pdf,.csv">
+          <span class="dropzone-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+          </span>
+          <span class="dropzone-title">Drop exports here or <span class="dropzone-link">browse files</span></span>
+          <span class="dropzone-hint">PNG, JPG, PDF or CSV. Up to 25 MB each, 10 files at a time.</span>
+        </div>
+      </div>
+      <ul class="dropzone-list">
+        <li class="file-row">
+          <span class="file-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M14 3v5h5"/><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/></svg>
+          </span>
+          <span class="file-name">q3-launch-brief-final-rev2.pdf</span>
+          <span class="file-size">2.4 MB</span>
+          <button class="file-remove" type="button">
+            <span class="sr-only">Remove q3-launch-brief-final-rev2.pdf</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>
+          </button>
+        </li>
+        <li class="file-row">
+          <span class="file-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 15l5-4 4 3 3-2 6 5"/></svg>
+          </span>
+          <span class="file-name">hero-mockup-desktop.png</span>
+          <span class="file-size">1.1 MB</span>
+          <button class="file-remove" type="button">
+            <span class="sr-only">Remove hero-mockup-desktop.png</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>
+          </button>
+        </li>
+        <li class="file-row">
+          <span class="file-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+          </span>
+          <span class="file-name">token-audit.csv</span>
+          <span class="file-size">18 KB</span>
+          <button class="file-remove" type="button">
+            <span class="sr-only">Remove token-audit.csv</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>
+          </button>
+        </li>
+      </ul>
+      <div class="spread">
+        <span class="badge badge-success">3 of 10 files</span>
+        <button class="btn-primary btn-sm" type="button">Upload</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Drag-over and single file</h2>
+    <p><code>.is-dragging</code> is the only state the sheet cannot reach on its own: an application
+      adds it on <code>dragover</code> and removes it on <code>dragleave</code>. It is shown here
+      statically so the treatment is visible. The narrow target below is the same component for one
+      image.</p>
+    <div class="demo-upload">
+      <span class="demo-upload-label">.dropzone.is-dragging</span>
+      <div class="dropzone is-dragging">
+        <input class="dropzone-input" type="file" id="drag-demo" tabindex="-1" aria-disabled="true">
+        <span class="dropzone-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M12 3v10"/><path d="m8 9 4 4 4-4"/><path d="M4 17h16"/></svg>
+        </span>
+        <span class="dropzone-title">Release to add these files</span>
+        <span class="dropzone-hint">The dashed border becomes solid and the box takes a primary tint.</span>
+      </div>
+    </div>
+    <div class="demo-upload demo-upload-narrow">
+      <span class="demo-upload-label">.dropzone (single, accept an image)</span>
+      <label class="sr-only" for="avatar-file">Profile photo</label>
+      <div class="dropzone">
+        <input class="dropzone-input" type="file" id="avatar-file" name="avatar" accept="image/*">
+        <span class="dropzone-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" focusable="false"><circle cx="12" cy="9" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>
+        </span>
+        <span class="dropzone-title">Add a profile photo</span>
+        <span class="dropzone-hint">Square JPG or PNG, at least 400 px. One file.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Wiring it up</h2>
+    <p>Nothing in <code>styles/mue.js</code> touches this component, deliberately: the native control
+      already does the hard parts. The application code is two listeners plus one render loop, and it
+      never has to fake a click.</p>
+    <div class="code-wrap" data-section="dropzone">
+      <div class="code-bar"><span>Script</span></div>
+<pre><code>zone.addEventListener("dragover", (e) =&gt; {
+  e.preventDefault();
+  zone.classList.add("is-dragging");
+});
+zone.addEventListener("dragleave", () =&gt; zone.classList.remove("is-dragging"));
+zone.addEventListener("drop", (e) =&gt; {
+  e.preventDefault();
+  input.files = e.dataTransfer.files;
+});
+input.addEventListener("change", () =&gt; render(input.files));</code></pre>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Accessibility</h2>
+    <ul class="doc-list">
+      <li>The control is a real file input, so Tab, Enter and the OS picker work with no JS at all</li>
+      <li>It is labelled by a <code>.sr-only</code> <code>&lt;label&gt;</code>, not by the visible
+        decoration text inside the box</li>
+      <li><code>:focus-within</code> puts a 3px ring on the whole target, so keyboard focus is
+        obvious even though the input itself is invisible</li>
+      <li>File size and file count are text, and the remove button carries an <code>.sr-only</code>
+        name that includes the file it removes</li>
+      <li>Remove buttons and the target are 44px and 88px tall respectively</li>
+      <li>Long names truncate with an ellipsis; the size and the button never get pushed off at 320px</li>
+    </ul>
+  </div>
+
+  <div class="code-wrap" data-section="dropzone,fields,buttons,badges,utilities">
+    <div class="code-bar"><span>Markup</span></div>
+<pre><code>&lt;label class="sr-only" for="exports"&gt;Project exports&lt;/label&gt;
+&lt;div class="dropzone"&gt;
+  &lt;input class="dropzone-input" type="file" id="exports" name="exports"
+         multiple accept=".png,.jpg,.pdf,.csv"&gt;
+  &lt;span class="dropzone-icon" aria-hidden="true"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+  &lt;span class="dropzone-title"&gt;Drop files here or &lt;span class="dropzone-link"&gt;browse&lt;/span&gt;&lt;/span&gt;
+  &lt;span class="dropzone-hint"&gt;PNG, JPG or PDF. Up to 25 MB each.&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;ul class="dropzone-list"&gt;
+  &lt;li class="file-row"&gt;
+    &lt;span class="file-icon" aria-hidden="true"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+    &lt;span class="file-name"&gt;brief.pdf&lt;/span&gt;
+    &lt;span class="file-size"&gt;2.4 MB&lt;/span&gt;
+    &lt;button class="file-remove" type="button"&gt;
+      &lt;span class="sr-only"&gt;Remove brief.pdf&lt;/span&gt;
+      &lt;svg viewBox="0 0 24 24" aria-hidden="true"&gt;&lt;path d="M6 6l12 12M18 6 6 18"/&gt;&lt;/svg&gt;
+    &lt;/button&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!-- drag-over: the app toggles .is-dragging on dragover / dragleave --&gt;</code></pre>
+  </div>
+</div>
+</body>
+</html>

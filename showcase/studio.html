@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  COMPONENT: Token studio
+  ID: studio-tokens
+  GROUP: Tools
+  CATEGORY: theming
+  KIND: TOOL
+  PATH: showcase/studio.html
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step, no dependencies)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css (both linked in this head; styles/mue.js is deliberately not linked — this page owns its theme switch)
+  SHEET: styles/components.css#chrome (with #buttons, #fields, #choice, #cards, #badges, #tables, #notifications, #utilities) — every component class below is defined there; only the studio's own grid, control rows and contrast list are page-local
+  THEME: light + dark from the studio switch; mirrored into mui-theme so every preview follows
+  INPUTS: primary hue/saturation, neutral hue + warm/cool bias, base radius, base spacing, font scale
+  OUTPUT: a copy-ready :root { … } override block, plus a live WCAG AA contrast guard computed from the resolved colors
+  MOTION: durations and easings come from design-tokens/motion/scale.css; nothing here hardcodes a time
+  RESPONSIVE: two columns above 980px, one below; contrast rows stack their verdict under the label below 560px; controls keep 44px targets
+  VERIFIED: hand-checked in headless Chrome at 1440/768/375/320 (document.scrollWidth measured, no horizontal overflow), 2026-11-01; run "node tools/mue.js check showcase/studio.html" after editing
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Token studio | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../design-tokens/engine.css">
+<link rel="stylesheet" href="../styles/components.css">
+<style>
+  /* Studio scaffolding only. Component rules live in styles/components.css,
+     and every colour below is a token — the point of the page is that the
+     tokens themselves move. */
+  .page {
+    --shell-w: 1240px;
+  }
+  .studio-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+  }
+  .studio-grid {
+    display: grid;
+    grid-template-columns: var(--studio-cols, minmax(320px, 360px) minmax(0, 1fr));
+    gap: var(--space-6);
+    align-items: start;
+  }
+  .studio-col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    min-width: 0;
+  }
+  .control-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-width: 0;
+  }
+  .control-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-3);
+  }
+  .control-head output,
+  .control-value {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-variant-numeric: tabular-nums;
+    color: var(--text-link);
+  }
+  .control-row input[type="range"] {
+    height: var(--control-h);
+  }
+  .control-hint {
+    font-size: var(--text-xs);
+    color: var(--text-tertiary);
+  }
+  .swatch-row {
+    display: grid;
+    grid-template-columns: repeat(11, 1fr);
+    gap: 3px;
+    margin-top: var(--space-2);
+  }
+  .swatch {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+  .swatch i {
+    display: block;
+    height: 1.75rem;
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-sm);
+  }
+  .swatch b {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: var(--font-normal);
+    text-align: center;
+    color: var(--text-tertiary);
+  }
+  .sw-50 i { background: hsl(var(--color-primary-50)); }
+  .sw-100 i { background: hsl(var(--color-primary-100)); }
+  .sw-200 i { background: hsl(var(--color-primary-200)); }
+  .sw-300 i { background: hsl(var(--color-primary-300)); }
+  .sw-400 i { background: hsl(var(--color-primary-400)); }
+  .sw-500 i { background: hsl(var(--color-primary-500)); }
+  .sw-600 i { background: hsl(var(--color-primary-600)); }
+  .sw-700 i { background: hsl(var(--color-primary-700)); }
+  .sw-800 i { background: hsl(var(--color-primary-800)); }
+  .sw-900 i { background: hsl(var(--color-primary-900)); }
+  .sw-950 i { background: hsl(var(--color-primary-950)); }
+  .contrast-list {
+    display: grid;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .contrast-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .contrast-item:last-child { border-bottom: 0; }
+  .contrast-name {
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--text-primary);
+  }
+  .contrast-tokens {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: var(--font-normal);
+    color: var(--text-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .contrast-ratio {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: var(--text-sm);
+    color: var(--text-primary);
+    white-space: nowrap;
+  }
+  .contrast-pair {
+    display: inline-flex;
+    gap: 2px;
+    flex: none;
+  }
+  .contrast-pair i {
+    width: 14px;
+    height: 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-medium);
+  }
+  .studio-note {
+    display: flex;
+    gap: var(--space-2);
+    align-items: flex-start;
+    padding: var(--space-3) var(--space-4);
+    border-left: 3px solid var(--primary-bg);
+    background: var(--tint-primary);
+    border-radius: 0 var(--radius-base) var(--radius-base) 0;
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    color: var(--text-primary);
+  }
+  .studio-note code {
+    font-size: var(--text-xs);
+    color: var(--text-link);
+  }
+  .sample-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin: 0;
+  }
+  .output-bar-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+  }
+  .code-wrap pre {
+    max-height: 22rem;
+    overflow: auto;
+    white-space: pre;
+  }
+  @media (max-width: 980px) {
+    .studio-grid { --studio-cols: 1fr; }
+  }
+  /* On a phone the contrast row has no room for label + readout + verdict side
+     by side, so the label takes the first line and the measurement the second. */
+  @media (max-width: 560px) {
+    .contrast-item {
+      grid-template-columns: minmax(0, 1fr) auto;
+      row-gap: var(--space-1);
+    }
+    .contrast-name { grid-column: 1 / -1; }
+    .contrast-tokens { white-space: normal; overflow: visible; }
+  }
+</style>
+</head>
+<body class="page">
+<div class="shell">
+
+  <header class="masthead studio-top">
+    <div>
+      <div class="brand">Token studio</div>
+      <p class="meta">MASTER-UI-ENGINE · live design variables for the whole kit</p>
+    </div>
+    <div class="row">
+      <a class="btn btn-outline btn-sm" href="index.html">Back to the visual lab</a>
+      <button type="button" class="btn btn-secondary btn-sm" id="reset-btn">Reset to defaults</button>
+    </div>
+  </header>
+
+  <div class="page-head">
+    <h1>Move a token, watch everything re-derive</h1>
+    <p class="subtitle">Every control writes one custom property on <code>&lt;html&gt;</code>. The engine's semantic
+      tokens, the component sheet and the sample column below all recompute from it — the same cascade your
+      project gets when you override the primitives. Nothing is saved to the library: this is a preview tool,
+      and the block it prints belongs in your own token file.</p>
+  </div>
+
+  <div class="studio-grid">
+
+    <!-- ---------------------------------------------------------- controls -->
+    <div class="studio-col">
+      <section class="card" aria-labelledby="controls-title">
+        <div class="card-header">
+          <h2 class="card-title" id="controls-title">Controls</h2>
+          <span class="badge badge-primary">live</span>
+        </div>
+        <div class="card-body">
+          <div class="control-row">
+            <div class="control-head">
+              <label class="field-label" for="primary-hue">Primary hue</label>
+              <output class="control-value" id="primary-hue-out" for="primary-hue">221°</output>
+            </div>
+            <input class="slider" type="range" id="primary-hue" min="0" max="360" step="1" value="221"
+                   aria-describedby="primary-hue-hint">
+            <p class="control-hint" id="primary-hue-hint">Writes <code>--color-primary-500</code> and the whole brand ramp.</p>
+          </div>
+
+          <div class="control-row">
+            <div class="control-head">
+              <label class="field-label" for="primary-sat">Primary saturation</label>
+              <output class="control-value" id="primary-sat-out" for="primary-sat">83%</output>
+            </div>
+            <input class="slider" type="range" id="primary-sat" min="0" max="100" step="1" value="83">
+            <p class="control-hint">0% gives a neutral zinc brand colour; the ramp keeps its lightness ladder.</p>
+          </div>
+
+          <div class="swatch-row" id="swatch-row" aria-hidden="true"></div>
+
+          <hr class="divider">
+
+          <div class="control-row">
+            <div class="control-head">
+              <label class="field-label" for="neutral-hue">Neutral hue</label>
+              <output class="control-value" id="neutral-hue-out" for="neutral-hue">215°</output>
+            </div>
+            <input class="slider" type="range" id="neutral-hue" min="0" max="360" step="1" value="215"
+                   aria-describedby="neutral-hue-hint">
+            <p class="control-hint" id="neutral-hue-hint">Writes <code>--color-gray-50 … 950</code>: surfaces, text, borders.</p>
+          </div>
+
+          <div class="control-row">
+            <div class="control-head">
+              <label class="field-label" for="bias">Warm / cool bias</label>
+              <output class="control-value" id="bias-out" for="bias">0</output>
+            </div>
+            <input class="slider" type="range" id="bias" min="-100" max="100" step="1" value="0">
+            <p class="control-hint">Negative pulls the neutrals warm (amber), positive cool (blue), and lifts their chroma.</p>
+          </div>
+
+          <hr class="divider">
+
+          <div class="control-row">
+            <div class="control-head">
+              <label class="field-label" for="radius">Base radius</label>
+              <output class="control-value" id="radius-out" for="radius">8px</output>
+            </div>
+            <input class="slider" type="range" id="radius" min="0" max="24" step="1" value="8">
+            <p class="control-hint"><code>--radius-base</code>, with sm / md / lg derived at the kit's 0.5× · 1.5× · 2×.</p>
+          </div>
+
+          <div class="control-row">
+            <div class="control-head">
+              <label class="field-label" for="space">Base spacing · density</label>
+              <output class="control-value" id="space-out" for="space">16px</output>
+            </div>
+            <input class="slider" type="range" id="space" min="12" max="24" step="1" value="16">
+            <p class="control-hint"><code>--space-4</code>; every other step is re-scaled from it. Control heights stay 44px.</p>
+          </div>
+
+          <div class="control-row">
+            <div class="control-head">
+              <label class="field-label" for="font-scale">Font scale</label>
+              <output class="control-value" id="font-scale-out" for="font-scale">100%</output>
+            </div>
+            <input class="slider" type="range" id="font-scale" min="85" max="130" step="1" value="100">
+            <p class="control-hint">Multiplies the <code>--text-*</code> ramp only; spacing keeps its own rhythm.</p>
+          </div>
+
+          <hr class="divider">
+
+          <label class="switch">
+            <input type="checkbox" id="dark-mode">
+            <span class="track" aria-hidden="true"></span>
+            <span class="switch-label">Dark mode (also shared with every preview)</span>
+          </label>
+        </div>
+      </section>
+
+      <p class="studio-note">
+        <span>Preview tool: it changes this page only. Copy the block into your project's own token file —
+        <code>design-tokens/engine.css</code> in this repo, or your app's <code>:root</code> — to make it real.</span>
+      </p>
+    </div>
+
+    <!-- ------------------------------------------------------------ results -->
+    <div class="studio-col">
+
+      <section class="card" aria-labelledby="contrast-title">
+        <div class="card-header">
+          <h2 class="card-title" id="contrast-title">Contrast guard</h2>
+          <span class="badge" id="contrast-summary">WCAG 2.1 AA · 4.5:1</span>
+        </div>
+        <div class="card-body">
+          <ul class="contrast-list" id="contrast-list"></ul>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="sample-title">
+        <div class="card-header">
+          <h2 class="card-title" id="sample-title">Live sample</h2>
+          <span class="badge badge-solid">components.css</span>
+        </div>
+        <div class="card-body stack">
+          <div>
+            <p class="sample-label">Buttons</p>
+            <div class="row">
+              <button type="button" class="btn btn-primary">Primary</button>
+              <button type="button" class="btn btn-secondary">Secondary</button>
+              <button type="button" class="btn btn-outline">Outline</button>
+              <button type="button" class="btn btn-ghost">Ghost</button>
+              <button type="button" class="btn btn-danger">Danger</button>
+            </div>
+          </div>
+
+          <div>
+            <p class="sample-label">Badges &amp; chips</p>
+            <div class="row">
+              <span class="badge">Neutral</span>
+              <span class="badge badge-primary">Primary</span>
+              <span class="badge badge-success">Success</span>
+              <span class="badge badge-warning">Warning</span>
+              <span class="badge badge-danger">Danger</span>
+              <span class="badge badge-solid"><span class="dot" aria-hidden="true"></span>Solid</span>
+              <button type="button" class="chip" aria-pressed="true">Density</button>
+            </div>
+          </div>
+
+          <div class="grid-auto" style="--col-min: 14rem">
+            <div class="field">
+              <label class="field-label" for="sample-email">Work email</label>
+              <input type="email" id="sample-email" placeholder="ada@example.com" autocomplete="off">
+              <span class="field-helper">Inputs take the radius and the focus ring.</span>
+            </div>
+            <div class="field">
+              <label class="field-label" for="sample-pw">Password</label>
+              <input type="password" id="sample-pw" value="hunter2hunter2">
+              <span class="field-msg">Text scale drives the label, value and helper together.</span>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="switch">
+              <input type="checkbox" checked>
+              <span class="track" aria-hidden="true"></span>
+              <span class="switch-label">Email digest</span>
+            </label>
+            <label class="checkbox">
+              <input type="checkbox" checked>
+              <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"></path></svg></span>
+              <span>Remember this device</span>
+            </label>
+          </div>
+
+          <div>
+            <p class="sample-label">Card</p>
+            <article class="card card-outlined">
+              <div class="card-body">
+                <h3 class="card-title">Starter workspace</h3>
+                <p class="card-text">A nested card proves the surface, hairline and shadow tokens all move
+                  with the neutral hue — and that the tint on the badge stays readable.</p>
+                <div class="row">
+                  <span class="badge badge-primary">3 seats</span>
+                  <span class="badge">Renews 12 Mar</span>
+                </div>
+              </div>
+              <div class="card-actions">
+                <button type="button" class="btn btn-primary btn-sm">Manage</button>
+                <button type="button" class="btn btn-ghost btn-sm">Cancel</button>
+              </div>
+            </article>
+          </div>
+
+          <div>
+            <p class="sample-label">Table row</p>
+            <div class="table-wrap">
+              <table class="table">
+                <caption>Workspace members</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Seats</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Ada Lovelace</th>
+                    <td>Owner</td>
+                    <td><span class="badge badge-success">Active</span></td>
+                    <td>12</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Grace Hopper</th>
+                    <td>Admin</td>
+                    <td><span class="badge badge-warning">Invited</span></td>
+                    <td>4</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="alert alert-info" role="status">
+            <span class="alert-icon" aria-hidden="true">&#9432;</span>
+            <div class="toast-body">
+              <span class="toast-title">Alerts use the tint ramp</span>
+              <span class="toast-msg">Soft backgrounds are alphas over the surface, so the same override works
+                in light and dark.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="output-title">
+        <div class="card-header">
+          <h2 class="card-title" id="output-title">Your override block</h2>
+          <span class="badge" id="output-count">0 tokens</span>
+        </div>
+        <div class="card-body">
+          <p class="field-helper">Paste this after the engine import in your project's token file. Only the lines
+            that differ from the shipped defaults are printed.</p>
+          <div class="code-wrap">
+            <div class="code-bar">
+              <span class="output-bar-label">tokens.css</span>
+              <button type="button" class="copy-btn" id="copy-btn" data-state="">Copy block</button>
+            </div>
+            <pre id="token-output"><code>/* … */</code></pre>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  "use strict";
+
+  const STORE_KEY = "mue-studio";
+  const THEME_KEY = "mui-theme"; // the key styles/mue.js persists for every preview
+  const $ = (id) => document.getElementById(id);
+
+  /* Engine defaults, read off design-tokens/*.css. The studio writes the same
+     shape — raw HSL triplets for the primitives, rem for the scales — so the
+     diff against these is exactly "what did the user change". */
+  const STEPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
+  const PRIMARY_LIGHT = [
+    { s: 100, l: 97 }, { s: 100, l: 93 }, { s: 99, l: 85 }, { s: 98, l: 73 },
+    { s: 96, l: 60 }, { s: 83, l: 53 }, { s: 79, l: 46 }, { s: 73, l: 39 },
+    { s: 62, l: 31 }, { s: 53, l: 25 }, { s: 44, l: 15 },
+  ];
+  /* themes/dark.css only lifts these four brand steps; the rest stay put. */
+  const PRIMARY_DARK = { 400: { s: 97, l: 76 }, 500: { s: 96, l: 68 }, 600: { s: 98, l: 73 }, 700: { s: 99, l: 85 } };
+  const NEUTRAL_LIGHT = [
+    { s: 40, l: 98, h: -5 }, { s: 47, l: 95, h: 7 }, { s: 47, l: 90, h: 7 }, { s: 20, l: 82, h: 0 },
+    { s: 16, l: 64, h: 0 }, { s: 16, l: 45, h: 0 }, { s: 14, l: 39, h: 0 }, { s: 14, l: 29, h: 0 },
+    { s: 20, l: 17, h: 0 }, { s: 28, l: 9, h: 0 }, { s: 34, l: 6, h: 1 },
+  ];
+  const NEUTRAL_DARK = [
+    { s: 34, l: 6, h: 1 }, { s: 20, l: 17, h: 0 }, { s: 14, l: 29, h: 0 }, { s: 14, l: 39, h: 0 },
+    { s: 18, l: 72, h: 0 }, { s: 16, l: 64, h: 0 }, { s: 20, l: 82, h: 0 }, { s: 47, l: 90, h: 7 },
+    { s: 47, l: 95, h: 7 }, { s: 40, l: 98, h: -5 }, { s: 40, l: 98, h: -5 },
+  ];
+  const RADIUS_RATIO = { sm: 0.5, base: 1, md: 1.5, lg: 2 };
+  const SPACE_STEPS = [1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 16, 20, 24];
+  const TEXT_STEPS = { xs: 0.75, sm: 0.875, base: 1, lg: 1.125, xl: 1.25, "2xl": 1.5, "3xl": 1.875, "4xl": 2.25, "5xl": 3, "6xl": 3.75 };
+
+  const DEFAULTS = { primaryHue: 221, primarySat: 83, neutralHue: 215, bias: 0, radius: 8, space: 16, fontScale: 100, dark: false };
+
+  const CONTROLS = {
+    primaryHue: { el: "primary-hue", out: "primary-hue-out", unit: "°" },
+    primarySat: { el: "primary-sat", out: "primary-sat-out", unit: "%" },
+    neutralHue: { el: "neutral-hue", out: "neutral-hue-out", unit: "°" },
+    bias: { el: "bias", out: "bias-out", unit: "" },
+    radius: { el: "radius", out: "radius-out", unit: "px" },
+    space: { el: "space", out: "space-out", unit: "px" },
+    fontScale: { el: "font-scale", out: "font-scale-out", unit: "%" },
+  };
+
+  let settings = load();
+
+  /* Screenshot / automation hook: ?hue=280&sat=90&neutral=30&bias=-60&radius=0
+     &space=22&scale=115&dark=1 applies settings for this load only, without
+     touching localStorage. No production path depends on it. */
+  const params = new URLSearchParams(location.search);
+  const PARAM_KEYS = {
+    hue: "primaryHue",
+    sat: "primarySat",
+    neutral: "neutralHue",
+    bias: "bias",
+    radius: "radius",
+    space: "space",
+    scale: "fontScale",
+  };
+  Object.keys(PARAM_KEYS).forEach((k) => {
+    if (params.has(k) && Number.isFinite(Number(params.get(k)))) settings[PARAM_KEYS[k]] = Number(params.get(k));
+  });
+  if (params.has("dark")) settings.dark = params.get("dark") !== "0";
+
+  /* ------------------------------------------------------------- token math */
+
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const hue = (h) => ((Math.round(h) % 360) + 360) % 360;
+  const round = (n) => Math.round(n * 1000) / 1000;
+
+  /** Primitive ramps for one mode: the raw triplets the engine consumes. */
+  function colorTokens(st, mode) {
+    const out = {};
+    const neutralHue = hue(st.neutralHue + st.bias * 0.3);
+    const chroma = 1 + Math.abs(st.bias) / 200;
+    const grays = mode === "dark" ? NEUTRAL_DARK : NEUTRAL_LIGHT;
+    STEPS.forEach((step, i) => {
+      const g = grays[i];
+      out["--color-gray-" + step] = hue(neutralHue + g.h) + " " + round(clamp(g.s * chroma, 0, 55)) + "% " + g.l + "%";
+    });
+    const satMult = st.primarySat / 83;
+    if (mode === "light") {
+      STEPS.forEach((step, i) => {
+        const p = PRIMARY_LIGHT[i];
+        out["--color-primary-" + step] = hue(st.primaryHue) + " " + round(clamp(p.s * satMult, 0, 100)) + "% " + p.l + "%";
+      });
+    } else {
+      Object.keys(PRIMARY_DARK).forEach((step) => {
+        const p = PRIMARY_DARK[step];
+        out["--color-primary-" + step] = hue(st.primaryHue) + " " + round(clamp(p.s * satMult, 0, 100)) + "% " + p.l + "%";
+      });
+    }
+    return out;
+  }
+
+  /** Scales: mode-independent, derived from the two base controls. */
+  function scaleTokens(st) {
+    const out = {};
+    Object.keys(RADIUS_RATIO).forEach((name) => {
+      out["--radius-" + name] = round((st.radius * RADIUS_RATIO[name]) / 16) + "rem";
+    });
+    SPACE_STEPS.forEach((k) => {
+      out["--space-" + k] = round((k * (st.space / 4)) / 16) + "rem";
+    });
+    const f = st.fontScale / 100;
+    Object.keys(TEXT_STEPS).forEach((name) => {
+      out["--text-" + name] = round(TEXT_STEPS[name] * f) + "rem";
+    });
+    return out;
+  }
+
+  const defaultsLight = Object.assign({}, colorTokens(DEFAULTS, "light"), scaleTokens(DEFAULTS));
+  const defaultsDark = colorTokens(DEFAULTS, "dark");
+
+  /* ------------------------------------------------------------ apply/state */
+
+  const applied = [];
+
+  function clearApplied() {
+    while (applied.length) document.documentElement.style.removeProperty(applied.pop());
+  }
+
+  function apply() {
+    clearApplied();
+    const mode = settings.dark ? "dark" : "light";
+    const tokens = Object.assign({}, colorTokens(settings, mode), scaleTokens(settings));
+    Object.keys(tokens).forEach((token) => {
+      document.documentElement.style.setProperty(token, tokens[token]);
+      applied.push(token);
+    });
+    document.documentElement.classList.toggle("dark", settings.dark);
+    try {
+      localStorage.setItem(THEME_KEY, settings.dark ? "dark" : "light");
+    } catch {}
+    renderReadouts();
+    renderOutput();
+    measureContrast();
+  }
+
+  function renderReadouts() {
+    Object.keys(CONTROLS).forEach((key) => {
+      const c = CONTROLS[key];
+      const el = $(c.el);
+      el.value = String(settings[key]);
+      $(c.out).textContent = settings[key] + c.unit;
+    });
+    $("dark-mode").checked = settings.dark;
+  }
+
+  function line(token, value, defaults) {
+    if (defaults[token] === value) return null;
+    return "  " + token + ": " + value + ";";
+  }
+
+  function renderOutput() {
+    const light = Object.assign({}, colorTokens(settings, "light"), scaleTokens(settings));
+    const dark = colorTokens(settings, "dark");
+    const blocks = [];
+    let count = 0;
+
+    const lightLines = Object.keys(light)
+      .map((t) => line(t, light[t], defaultsLight))
+      .filter(Boolean);
+    count += lightLines.length;
+    const darkLines = Object.keys(dark)
+      .map((t) => line(t, dark[t], defaultsDark))
+      .filter(Boolean);
+    count += darkLines.length;
+
+    blocks.push(":root {\n" + (lightLines.length ? lightLines.join("\n") : "  /* nothing but the defaults so far */") + "\n}");
+    if (settings.dark) {
+      blocks.push("html.dark {\n" + (darkLines.length ? darkLines.join("\n") : "  /* the shipped dark mirror already matches */") + "\n}");
+    }
+    const text = "/* MASTER-UI-ENGINE — generated by showcase/studio.html\n   Paste after the engine import in your own token file. */\n\n" + blocks.join("\n\n");
+    $("token-output").firstChild.textContent = text;
+    $("output-count").textContent = count + (count === 1 ? " token" : " tokens");
+    $("output-count").className = "badge " + (count ? "badge-primary" : "");
+    return text;
+  }
+
+  /* --------------------------------------------------------- contrast guard */
+
+  const probe = document.createElement("span");
+  probe.style.cssText = "position:absolute;left:-9999px;top:0;width:0;height:0;visibility:hidden";
+  probe.setAttribute("aria-hidden", "true");
+
+  function resolved(varName) {
+    probe.style.color = "var(" + varName + ")";
+    const value = getComputedStyle(probe).color;
+    const m = value.match(/rgba?\(([^)]+)\)/);
+    if (!m) return null;
+    const parts = m[1].split(/[\s,\/]+/).filter(Boolean).map(Number);
+    if (parts.length < 3 || parts.some((n) => !Number.isFinite(n))) return null;
+    return parts;
+  }
+
+  function luminance(rgb) {
+    const [r, g, b] = rgb.slice(0, 3).map((c) => {
+      const v = c / 255;
+      return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+    });
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  }
+
+  function ratio(a, b) {
+    const la = luminance(a);
+    const lb = luminance(b);
+    return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+  }
+
+  const PAIRS = [
+    { name: "Body text on surface", fg: "--text-primary", bg: "--bg-surface" },
+    { name: "Secondary text on surface", fg: "--text-secondary", bg: "--bg-surface" },
+    { name: "Primary button label", fg: "--primary-fg", bg: "--primary-bg" },
+    { name: "Link text on surface", fg: "--text-link", bg: "--bg-surface" },
+  ];
+
+  function measureContrast() {
+    const list = $("contrast-list");
+    list.textContent = "";
+    let fails = 0;
+    PAIRS.forEach((pair, i) => {
+      const fg = resolved(pair.fg);
+      const bg = resolved(pair.bg);
+      const li = document.createElement("li");
+      li.className = "contrast-item";
+      const label = document.createElement("div");
+      label.className = "contrast-name";
+      label.textContent = pair.name;
+      const tokens = document.createElement("code");
+      tokens.className = "contrast-tokens";
+      tokens.textContent = pair.fg + " on " + pair.bg;
+      label.appendChild(tokens);
+      li.appendChild(label);
+
+      if (!fg || !bg) {
+        fails++;
+        const unknown = document.createElement("span");
+        unknown.className = "contrast-ratio";
+        unknown.textContent = "unresolved";
+        li.appendChild(unknown);
+        list.appendChild(li);
+        return;
+      }
+
+      const r = ratio(fg, bg);
+      if (r < 4.5) fails++;
+      const readout = document.createElement("span");
+      readout.className = "contrast-ratio";
+      const swatch = document.createElement("span");
+      swatch.className = "contrast-pair";
+      swatch.setAttribute("aria-hidden", "true");
+      [fg, bg].forEach((c) => {
+        const chip = document.createElement("i");
+        chip.style.background = "rgb(" + c.slice(0, 3).join(",") + ")";
+        swatch.appendChild(chip);
+      });
+      readout.appendChild(swatch);
+      readout.appendChild(document.createTextNode(" " + r.toFixed(2) + ":1"));
+      li.appendChild(readout);
+
+      const chip = document.createElement("span");
+      chip.className = "badge " + (r < 4.5 ? "badge-danger" : "badge-success");
+      chip.textContent = r < 4.5 ? "AA fail" : "AA pass";
+      li.appendChild(chip);
+      list.appendChild(li);
+    });
+
+    const summary = $("contrast-summary");
+    summary.className = "badge " + (fails ? "badge-danger" : "badge-success");
+    summary.textContent = fails ? fails + " below 4.5:1" : "All 4 pairs pass AA";
+  }
+
+  /* --------------------------------------------------------------- swatches */
+
+  function renderSwatches() {
+    const row = $("swatch-row");
+    row.textContent = "";
+    STEPS.forEach((step) => {
+      const cell = document.createElement("span");
+      cell.className = "swatch sw-" + step;
+      const block = document.createElement("i");
+      const label = document.createElement("b");
+      label.textContent = String(step);
+      cell.appendChild(block);
+      cell.appendChild(label);
+      row.appendChild(cell);
+    });
+  }
+
+  /* ------------------------------------------------------------------ store */
+
+  function load() {
+    const st = Object.assign({}, DEFAULTS);
+    try {
+      const raw = localStorage.getItem(STORE_KEY);
+      if (raw) Object.assign(st, JSON.parse(raw));
+    } catch {}
+    Object.keys(DEFAULTS).forEach((k) => {
+      if (k !== "dark" && !Number.isFinite(Number(st[k]))) st[k] = DEFAULTS[k];
+      if (k !== "dark") st[k] = Number(st[k]);
+    });
+    st.dark = Boolean(st.dark);
+    return st;
+  }
+
+  function save() {
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify(settings));
+    } catch {}
+  }
+
+  /* ----------------------------------------------------------------- events */
+
+  Object.keys(CONTROLS).forEach((key) => {
+    const el = $(CONTROLS[key].el);
+    el.addEventListener("input", () => {
+      settings[key] = Number(el.value);
+      save();
+      apply();
+    });
+  });
+
+  $("dark-mode").addEventListener("change", (e) => {
+    settings.dark = e.target.checked;
+    save();
+    apply();
+  });
+
+  $("reset-btn").addEventListener("click", () => {
+    settings = Object.assign({}, DEFAULTS);
+    save();
+    apply();
+    $("reset-btn").focus();
+  });
+
+  async function copyBlock() {
+    const text = renderOutput();
+    let ok = false;
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        ok = true;
+      }
+    } catch {
+      ok = false;
+    }
+    if (!ok) {
+      // file:// is not a secure context, so the execCommand path is the real one.
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.cssText = "position:fixed;top:-9999px;left:0;opacity:0";
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        ok = document.execCommand("copy");
+      } catch {
+        ok = false;
+      }
+      ta.remove();
+    }
+    const btn = $("copy-btn");
+    btn.dataset.state = ok ? "done" : "error";
+    btn.textContent = ok ? "Copied" : "Select + Ctrl+C";
+    if (!ok) {
+      const pre = $("token-output");
+      const range = document.createRange();
+      range.selectNodeContents(pre);
+      const sel = getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+    clearTimeout(copyBlock._t);
+    copyBlock._t = setTimeout(() => {
+      btn.dataset.state = "";
+      btn.textContent = "Copy block";
+    }, 1800);
+  }
+
+  $("copy-btn").addEventListener("click", copyBlock);
+
+  addEventListener("storage", (e) => {
+    if (e.key === THEME_KEY) {
+      settings.dark = e.newValue === "dark";
+      save();
+      apply();
+    }
+  });
+
+  document.body.appendChild(probe);
+  renderSwatches();
+  apply();
+})();
+</script>
+</body>
+</html>

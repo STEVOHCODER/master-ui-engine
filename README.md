@@ -4,8 +4,8 @@ A reusable UI/UX design system and component library for AI coding agents.
 Stop generating generic interfaces from scratch. Explore, copy, and adapt
 professionally designed components, page layouts, and application templates.
 
-> **Visual design laboratory** — 46 previews that render in a browser with no
-> build step. 33 of them (every component preview, every starter template, and
+> **Visual design laboratory** — 54 previews that render in a browser with no
+> build step. 41 of them (every component preview, every starter template, and
 > three example pages) are built from one token file, one shared component sheet
 > and one behaviour script, so a single edit restyles the whole library. The 13
 > remaining `examples/` pages and the lab itself are still self-contained.
@@ -16,8 +16,9 @@ professionally designed components, page layouts, and application templates.
 
 | | |
 |---|---|
-| ![The visual lab, preview-first with 375/768/1200 width switches](docs/screenshots/lab-light.png) | ![A landing page assembled from the kit](docs/screenshots/landing-light.png) |
-| ![Course cards with a working enrol toggle](docs/screenshots/education-light.png) | ![Dark mode is a token mirror, not a re-theme](docs/screenshots/buttons-dark.png) |
+| ![The command palette over the lab: every preview, ranked, with the CSS region it draws from](docs/screenshots/palette.png) | ![Token studio: move a token, watch every component re-derive, with a live WCAG contrast guard](docs/screenshots/studio.png) |
+| ![Data table: selection, sorting, column filters, expandable rows into a Descriptions panel](docs/screenshots/datatable.png) | ![Marketing sections: hero, features, pricing, testimonials, CTA band, FAQ, team](docs/screenshots/sections.png) |
+| ![A landing page assembled from the kit](docs/screenshots/landing-light.png) | ![Dark mode is a primitive mirror, not a per-component re-theme](docs/screenshots/buttons-dark.png) |
 
 ---
 
@@ -26,7 +27,7 @@ professionally designed components, page layouts, and application templates.
 | Section | What it contains |
 |---------|------------------|
 | `design-tokens/` | The token system: primitives, semantics, type/spacing/border/shadow scales, light + dark themes, and `engine.css` (single entry point) |
-| `components/` | 25 component previews — buttons, forms (inputs, selects, checkboxes, radios, switches, date picker), navigation (menu, header, breadcrumbs, tabs, pagination), cards, tables, charts, dialogs, modals, dropdowns, sidebars, footers, notifications, feedback (progress, skeleton, empty state, error state) |
+| `components/` | 33 component previews — buttons, forms (inputs, selects, checkboxes, radios, switches, date picker, file upload), navigation (menu, header, breadcrumbs, tabs, pagination), cards, tables plus a full data table (select, sort, filter, expand, page), charts, dialogs, modals, dropdowns, popovers, sidebars, footers, notifications, feedback (progress, skeleton, empty state, error state, stepper), display (avatars, stats, timeline, rating, descriptions), marketing sections (hero, features, pricing, testimonials, FAQ, CTA, team), and tour + float buttons |
 | `examples/` | 15 complete-page previews — dashboards, analytics, ecommerce, marketplace, chat/AI apps, login/signup, landing, portfolio, booking, education |
 | `templates/` | 6 starter-application templates — SaaS, admin, analytics, ecommerce, marketplace, AI web app |
 | `showcase/` | The visual lab (`index.html`), the machine-readable catalog (`data/`), and the catalog build script |
@@ -150,7 +151,7 @@ explicit override, and `themes/dark.css` carries that list.
 Checked with a scripted browser audit over every preview (light and dark,
 375 / 768 / 1280):
 
-- 46/46 previews link `design-tokens/engine.css` and render standalone
+- 54/54 previews link `design-tokens/engine.css` and render standalone
 - 46/46 dark-mode toggles work; the lab shell has no toggle by design
 - 0 WCAG AA text-contrast failures in either theme
 - 0 horizontal-overflow failures at any tested width, measured against
@@ -177,6 +178,18 @@ recalled by what it *is*, copied with exactly the CSS it needs, and gated
 before it ships — so an agent extends this kit instead of generating a generic
 interface from a blank file.
 
+### Install it into your project, or as a skill
+
+`node tools/mue.js add ui-cards --into ../my-app` drops the component *and* the
+layers it needs into your project — `design-tokens/**`, `styles/components.css`,
+`styles/mue.js`, plus a runnable `../my-app/mue/ui-cards.html` — and
+`node tools/mue.js registry` prints the whole library as one JSON document for a
+wrapper or a website to consume. For the behaviour pack itself, `SKILL.md` at the
+repo root is the installable agent skill: copy this repo (or just `SKILL.md`)
+into your client's skills directory — Claude Code, Codex and OpenCode each keep
+one at a path that differs per client, so see your client's skills-directory
+docs — then call `/master-ui-engine` on any UI task.
+
 ## License
 
 - Original MASTER-UI-ENGINE code: **MIT License** (see `LICENSE`)
@@ -197,7 +210,7 @@ See `CONTRIBUTING.md`.
 - [x] `AGENTS.md` + agent workflows
 - [x] Visual lab (`showcase/index.html`) and component catalog
 - [x] A shared component stylesheet, so copied markup arrives styled.
-      `styles/components.css` defines every class in the kit — 23 `#region`
+      `styles/components.css` defines every class in the kit — 31 `#region`
       blocks (`buttons`, `fields`, `cards`, `tabs`, `navigation`, `shell`,
       `chat`, `disclosure`, `invert`, …) — and `styles/mue.js` adds the
       behaviour: persisted theme sync, working Copy markup / Copy + CSS buttons

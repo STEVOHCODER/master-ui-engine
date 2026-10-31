@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  COMPONENT: Stepper
+  ID: fb-stepper
+  GROUP: Components
+  CATEGORY: feedback
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)
+  SHEET: styles/components.css#stepper (with #display, #buttons, #badges, #utilities, #chrome) — every class below is defined there, so pasted markup arrives styled
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  VARIANTS: four-step checkout, three-step onboarding, completed, current, upcoming, changelog timeline
+  MOTION: durations and easings come from design-tokens/motion/scale.css; nothing here hardcodes a time
+  RESPONSIVE: vertical rail with the label beside the dot under 640px, dots in a row with the rail between them above it
+  VERIFIED: WCAG AA contrast in light + dark and no overflow at 320/375/768/1200
+  CATALOG: showcase/data/component-catalog.json#fb-stepper
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Stepper | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../styles/components.css">
+<script src="../../styles/mue.js" defer></script>
+<style>
+  /* Demo scaffolding only: a frame that keeps each stepper sample apart and
+     labels it, so the page can show three real states side by side. */
+  .demo-step {
+    display: grid;
+    gap: var(--space-4);
+    min-width: 0;
+    padding: var(--space-5);
+    background: var(--bg-surface);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-lg);
+  }
+  .demo-step-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+</style>
+</head>
+<body class="page">
+<div class="shell">
+  <header class="masthead">
+    <div>
+      <div class="brand">MASTER-UI-ENGINE</div>
+      <div class="meta">Components &gt; Feedback &gt; Stepper</div>
+    </div>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+      <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <h1>Stepper</h1>
+  <p class="subtitle">Where a multi-part task is, in progress. The rail is drawn by the sheet and
+    the three states are classes, so a wizard is markup plus two lines of application code and never
+    a canvas.</p>
+
+  <div class="meta-card">
+    <div class="meta">
+      <b>Name:</b> Stepper<br>
+      <b>Category:</b> feedback<br>
+      <b>Framework:</b> Vanilla HTML/CSS/JS<br>
+      <b>Defined in:</b> styles/components.css #stepper (+ #display for the timeline variant, #utilities)<br>
+      <b>States:</b> is-done, is-current (aria-current="step"), is-upcoming<br>
+      <b>Slots:</b> stepper, stepper-item, stepper-dot, stepper-label, stepper-name, stepper-text<br>
+      <b>Responsive:</b> vertical under 640px, horizontal above; one media query<br>
+      <b>Dependencies:</b> none; state swapping is the app's two class toggles<br>
+      <b>License:</b> MIT
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Four steps, mid-flow</h2>
+    <p>Two done, one current, one to come. A finished dot carries a check glyph instead of a number,
+      so progress survives greyscale, and the current dot is ringed as well as coloured.</p>
+    <div class="demo-step">
+      <span class="demo-step-label">.stepper &gt; .stepper-item.is-done / .is-current / .is-upcoming</span>
+      <ol class="stepper">
+        <li class="stepper-item is-done">
+          <span class="stepper-dot" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m5 13 4 4 10-10"/></svg>
+          </span>
+          <span class="stepper-label">
+            <span class="stepper-name">Account</span>
+            <span class="stepper-text">Verified</span>
+          </span>
+        </li>
+        <li class="stepper-item is-done">
+          <span class="stepper-dot" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m5 13 4 4 10-10"/></svg>
+          </span>
+          <span class="stepper-label">
+            <span class="stepper-name">Workspace</span>
+            <span class="stepper-text">Two seats added</span>
+          </span>
+        </li>
+        <li class="stepper-item is-current" aria-current="step">
+          <span class="stepper-dot" aria-hidden="true">3</span>
+          <span class="stepper-label">
+            <span class="stepper-name">Billing</span>
+            <span class="stepper-text">Choose a plan</span>
+          </span>
+        </li>
+        <li class="stepper-item is-upcoming">
+          <span class="stepper-dot" aria-hidden="true">4</span>
+          <span class="stepper-label">
+            <span class="stepper-name">Invite</span>
+            <span class="stepper-text">Optional</span>
+          </span>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Short flow, all the way through</h2>
+    <p>Three steps read the same whether the rail is running down the left edge or across the top.
+      On a completed flow every dot is filled and the last one is still the one the user is looking
+      at, so it keeps <code>aria-current="step"</code>.</p>
+    <div class="demo-step">
+      <span class="demo-step-label">.stepper (three items, last is current)</span>
+      <ol class="stepper">
+        <li class="stepper-item is-done">
+          <span class="stepper-dot" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m5 13 4 4 10-10"/></svg>
+          </span>
+          <span class="stepper-label"><span class="stepper-name">Cart</span><span class="stepper-text">3 items</span></span>
+        </li>
+        <li class="stepper-item is-done">
+          <span class="stepper-dot" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m5 13 4 4 10-10"/></svg>
+          </span>
+          <span class="stepper-label"><span class="stepper-name">Delivery</span><span class="stepper-text">Standard, 4 days</span></span>
+        </li>
+        <li class="stepper-item is-current" aria-current="step">
+          <span class="stepper-dot" aria-hidden="true">3</span>
+          <span class="stepper-label"><span class="stepper-name">Payment</span><span class="stepper-text">Card on file</span></span>
+        </li>
+      </ol>
+      <div class="spread">
+        <span class="badge"><span class="dot" aria-hidden="true"></span>Step 3 of 3</span>
+        <div class="row">
+          <button class="btn-ghost btn-sm" type="button">Back</button>
+          <button class="btn-primary btn-sm" type="button">Pay now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Related: the changelog timeline</h2>
+    <p>Where a stepper counts forward through a task, <code>.timeline</code> from
+      <code>#display</code> reads backward through history. It now carries the same three states, so
+      a roadmap entry can say what shipped, what is in review and what is only planned.</p>
+    <div class="demo-step">
+      <span class="demo-step-label">.timeline &gt; .timeline-item.is-done / .is-current / .is-upcoming</span>
+      <ul class="timeline">
+        <li class="timeline-item is-done">
+          <span class="timeline-title">Marketing sections region</span>
+          <span class="timeline-meta">Shipped 2026-10-28</span>
+          Hero, pricing, testimonials and the closing band, all on the spacing scale.
+        </li>
+        <li class="timeline-item is-current">
+          <span class="timeline-title">Stepper, dropzone, rating, popover</span>
+          <span class="timeline-meta">In review</span>
+          Four new regions in this sheet, each with its own preview page.
+        </li>
+        <li class="timeline-item is-upcoming">
+          <span class="timeline-title">Command palette</span>
+          <span class="timeline-meta">Planned</span>
+          Keyboard-first search over the catalog, with the same overlay classes.
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Responsive behavior</h2>
+    <p>The default is the vertical form: a continuous rail on the left, dot and label as a two-column
+      row, comfortable even at 320px. At <code>min-width: 40rem</code> the same items become grid
+      columns of <code>1fr</code> each, which makes the rail maths exact without measuring anything:
+      each step draws its incoming segment from <code>-50%</code> of its own width to its own centre,
+      so the segment always lands dot to dot. That is the only breakpoint in the component, and the
+      label text is <code>min-width: 0</code> so a long step name wraps instead of widening the row.</p>
+  </div>
+
+  <div class="section">
+    <h2>Accessibility</h2>
+    <ul class="doc-list">
+      <li>The list is a real <code>&lt;ol&gt;</code>, so reading order is the step order</li>
+      <li>The active step carries <code>aria-current="step"</code>, which screen readers announce and
+        the sheet styles as well</li>
+      <li>Dot numbers and check glyphs are <code>aria-hidden</code>: the step name in the label is the
+        accessible name, so nothing is announced twice</li>
+      <li>Done is a filled dot with a glyph, current is ringed, upcoming is dashed - three shape
+        differences, so state never depends on color alone</li>
+      <li>Rows clear 44px via <code>--control-h</code> min-height, so a step row is tappable</li>
+      <li>Both themes hold AA: dot borders use <code>--border-medium</code>, labels
+        <code>--text-primary</code> and <code>--text-secondary</code></li>
+    </ul>
+  </div>
+
+  <div class="code-wrap" data-section="stepper,display,badges,buttons,utilities">
+    <div class="code-bar"><span>Markup</span></div>
+<pre><code>&lt;ol class="stepper"&gt;
+  &lt;li class="stepper-item is-done"&gt;
+    &lt;span class="stepper-dot" aria-hidden="true"&gt;
+      &lt;svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"&gt;
+        &lt;path d="m5 13 4 4 10-10"/&gt;
+      &lt;/svg&gt;
+    &lt;/span&gt;
+    &lt;span class="stepper-label"&gt;
+      &lt;span class="stepper-name"&gt;Account&lt;/span&gt;
+      &lt;span class="stepper-text"&gt;Verified&lt;/span&gt;
+    &lt;/span&gt;
+  &lt;/li&gt;
+  &lt;li class="stepper-item is-current" aria-current="step"&gt;
+    &lt;span class="stepper-dot" aria-hidden="true"&gt;2&lt;/span&gt;
+    &lt;span class="stepper-label"&gt;&lt;span class="stepper-name"&gt;Billing&lt;/span&gt;&lt;/span&gt;
+  &lt;/li&gt;
+  &lt;li class="stepper-item is-upcoming"&gt;
+    &lt;span class="stepper-dot" aria-hidden="true"&gt;3&lt;/span&gt;
+    &lt;span class="stepper-label"&gt;&lt;span class="stepper-name"&gt;Invite&lt;/span&gt;&lt;/span&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;!-- vertical below 640px, horizontal above; the app swaps the three
+     state classes, there is no behaviour to import --&gt;</code></pre>
+  </div>
+</div>
+</body>
+</html>

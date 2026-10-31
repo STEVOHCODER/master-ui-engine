@@ -4,6 +4,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Visual lab | MASTER-UI-ENGINE</title>
+<!-- BEGIN MUE:META
+  COMPONENT: Visual lab
+  ID: lab-shell
+  GROUP: Tools
+  CATEGORY: browsing
+  KIND: TOOL
+  PATH: showcase/index.html
+  FRAMEWORK: vanilla (HTML/CSS/JS, no build step, no dependencies)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: data/catalog.js (global ITEMS list), lab.js (all behaviour), lab.css (page chrome), design-tokens/engine.css
+  SHEET: none — the lab browses the previews, it is not one; every preview renders inside an iframe, so nothing here needs styles/components.css. engine.css is linked for exactly two things: the motion composites (durations, easings, movement distances) and .sr-only. The lab's own dark chrome is the :root ramp in this file's style block plus lab.css, both authored after the engine so they win.
+  KEEPER: the head holds exactly one comment, this block — mue.js check fails a page whose head has two.
+  THEME: the lab's own dark chrome, plus a light/dark switch that writes mui-theme so the iframed previews follow
+  INPUTS: keyboard (Ctrl/⌘ K palette, j/k to move), filter field, width presets, view toggle
+  OUTPUT: none — a browser, and the entry point to studio.html
+  MOTION: var(--duration-base), var(--ease-standard) and var(--reveal-shift) from design-tokens/motion/scale.css; no time is hardcoded
+  RESPONSIVE: sidebar collapses under 800px; the palette search label shortens under 1180px; checked in headless Chrome at 1440 and file://, 2026-11-01
+  VERIFIED: run "node tools/mue.js check showcase/index.html" after editing
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<link rel="stylesheet" href="../design-tokens/engine.css">
+<link rel="stylesheet" href="lab.css">
 <style>
   :root {
     --bg: #0f1419;
@@ -30,7 +53,7 @@
     grid-column: 1 / -1;
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
     padding: 0 16px;
     border-bottom: 1px solid var(--line);
     background: var(--panel);
@@ -39,7 +62,7 @@
   .logo span { color: var(--muted); font-weight: 500; }
   input[type="search"] {
     flex: 1;
-    max-width: 360px;
+    max-width: 240px;
     background: var(--bg);
     border: 1px solid var(--line);
     color: var(--text);
@@ -60,6 +83,8 @@
     font-size: 12px;
     cursor: pointer;
     text-decoration: none;
+    white-space: nowrap;
+    transition: var(--motion-colors);
   }
   .toolbar button.active, .toolbar button[aria-pressed="true"] {
     background: var(--accent-soft);
@@ -93,7 +118,8 @@
     cursor: pointer;
   }
   .item:hover { background: var(--panel-2); }
-  .item:focus-visible, .toolbar button:focus-visible, .toolbar a:focus-visible, .thumb:focus-within {
+  .item:focus-visible, .toolbar button:focus-visible, .toolbar a:focus-visible,
+  .kbd-trigger:focus-visible, .studio-link:focus-visible, .thumb:focus-within {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
   }
@@ -117,6 +143,14 @@
     color: var(--muted);
   }
   .meta-bar strong { color: var(--text); }
+  .meta-bar .hint kbd {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 11px;
+    padding: 1px 5px;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    background: var(--panel-2);
+  }
   .frame-wrap {
     flex: 1;
     min-height: 0;
@@ -180,6 +214,10 @@
     pointer-events: none;
   }
   .empty { color: var(--muted); padding: 40px; }
+  @media (max-width: 1180px) {
+    input[type="search"] { max-width: 170px; }
+    .kbd-trigger .trigger-words { display: none; }
+  }
   @media (max-width: 800px) {
     body { grid-template-columns: 1fr; grid-template-rows: auto auto 1fr; }
     header { flex-wrap: wrap; height: auto; padding: 10px 12px; row-gap: 8px; }
@@ -192,14 +230,23 @@
 <body>
 <header>
   <div class="logo">MASTER-UI-ENGINE <span>visual lab</span></div>
-  <input type="search" id="search" placeholder="Search designs…" aria-label="Search designs">
+  <button type="button" id="palette-trigger" class="kbd-trigger" aria-haspopup="dialog"
+          aria-expanded="false" aria-controls="palette" title="Search every preview and command">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.6-3.6"></path></svg>
+    <span class="trigger-words">Search previews &amp; commands</span>
+    <span data-short>Search</span>
+    <kbd>Ctrl K</kbd>
+  </button>
+  <input type="search" id="search" placeholder="Filter sidebar…" aria-label="Filter the sidebar list">
   <div class="toolbar">
-    <button type="button" data-view="lab" class="active">One at a time</button>
-    <button type="button" data-view="gallery">All designs</button>
+    <button type="button" data-view="lab" class="active" title="One preview in the stage">Stage</button>
+    <button type="button" data-view="gallery" title="All previews as thumbnails">Gallery</button>
     <button type="button" data-width="375">375</button>
     <button type="button" data-width="768">768</button>
     <button type="button" data-width="1200">1200</button>
     <button type="button" data-width="100%" class="active">Fluid</button>
+    <button type="button" id="theme-btn" aria-pressed="false" title="Preview theme, shared with every preview">Dark</button>
+    <a href="studio.html" title="Live token studio">Token studio</a>
     <a id="open-tab" href="#" target="_blank" rel="noopener">Open isolated</a>
   </div>
 </header>
@@ -207,130 +254,11 @@
 <div class="stage">
   <div class="meta-bar">
     <div id="status">Select a design</div>
-    <div>j / k next · catalog from data/catalog.js</div>
+    <div class="hint">j / k next · <kbd id="shortcut-hint">Ctrl K</kbd> search</div>
   </div>
   <div class="frame-wrap" id="stage"></div>
 </div>
 <script src="data/catalog.js"></script>
-<script>
-const ITEMS = (window.MUE_CATALOG && window.MUE_CATALOG.items) || [];
-if (!ITEMS.length) {
-  document.getElementById("stage").innerHTML =
-    '<p class="empty">showcase/data/catalog.js is missing. Run showcase/data/build-catalog.ps1.</p>';
-}
-
-const ROOT = new URL("../", location.href);
-let view = "lab";
-let width = "100%";
-let selected = ITEMS[0];
-
-function src(item) { return new URL(item.path, ROOT).href; }
-
-function filtered() {
-  const q = document.getElementById("search").value.trim().toLowerCase();
-  return ITEMS.filter(i => !q || `${i.group} ${i.category} ${i.name} ${i.path}`.toLowerCase().includes(q));
-}
-
-function renderNav() {
-  const nav = document.getElementById("nav");
-  const list = filtered();
-  const groups = [...new Set(list.map(i => i.group))];
-  nav.innerHTML = "";
-  groups.forEach(g => {
-    const wrap = document.createElement("div");
-    wrap.className = "group";
-    wrap.innerHTML = `<h2>${g}</h2>`;
-    list.filter(i => i.group === g).forEach(item => {
-      const b = document.createElement("button");
-      b.type = "button";
-      b.className = "item" + (selected && selected.path === item.path ? " active" : "");
-      b.innerHTML = `${item.name}<small>${item.category}</small>`;
-      b.addEventListener("click", () => select(item));
-      wrap.appendChild(b);
-    });
-    nav.appendChild(wrap);
-  });
-}
-
-function sizeThumbs() {
-  // Measure synchronously: requestAnimationFrame never fires in a background tab.
-  document.querySelectorAll(".thumb-frame").forEach(f => {
-    const w = f.clientWidth || 320;
-    f.style.setProperty("--s", Math.max(0.08, (w / 1280)).toFixed(4));
-  });
-}
-
-function select(item) {
-  selected = item;
-  location.hash = item.path;
-  renderNav();
-  if (view === "gallery") setView("lab"); else renderStage();
-}
-
-function setView(next) {
-  view = next;
-  document.querySelectorAll("[data-view]").forEach(b => b.classList.toggle("active", b.dataset.view === next));
-  renderStage();
-}
-
-function renderStage() {
-  const stage = document.getElementById("stage");
-  const status = document.getElementById("status");
-  const open = document.getElementById("open-tab");
-  document.querySelector(".frame-wrap").style.setProperty("--preview-w", width === "100%" ? "100%" : width + "px");
-  if (view === "gallery") {
-    stage.classList.add("gallery");
-    const list = filtered();
-    status.innerHTML = `<strong>${list.length} designs</strong> — click a card to inspect it`;
-    open.href = selected ? src(selected) : "#";
-    stage.innerHTML = list.map(item => `
-      <article class="thumb" data-path="${item.path}">
-        <header>${item.group} / ${item.name}</header>
-        <div class="thumb-frame">
-          <iframe title="${item.name}" src="${src(item)}" loading="lazy" tabindex="-1"></iframe>
-        </div>
-      </article>`).join("");
-    sizeThumbs();
-    stage.querySelectorAll(".thumb").forEach(el => {
-      el.addEventListener("click", () => select(ITEMS.find(i => i.path === el.dataset.path)));
-    });
-    return;
-  }
-  stage.classList.remove("gallery");
-  if (!selected) {
-    stage.innerHTML = `<p class="empty">No match</p>`;
-    return;
-  }
-  status.innerHTML = `<strong>${selected.name}</strong> · ${selected.group} / ${selected.category} · ${selected.path}`;
-  open.href = src(selected);
-  stage.innerHTML = `<iframe title="${selected.name}" src="${src(selected)}"></iframe>`;
-}
-
-document.getElementById("search").addEventListener("input", () => { renderNav(); if (view === "gallery") renderStage(); });
-document.querySelectorAll("[data-view]").forEach(btn => btn.addEventListener("click", () => setView(btn.dataset.view)));
-document.querySelectorAll("[data-width]").forEach(btn => btn.addEventListener("click", () => {
-  width = btn.dataset.width;
-  document.querySelectorAll("[data-width]").forEach(b => b.classList.toggle("active", b === btn));
-  renderStage();
-}));
-document.addEventListener("keydown", e => {
-  if (e.target.matches("input") || !selected) return;
-  const list = filtered();
-  const i = list.findIndex(x => x.path === selected.path);
-  if (e.key === "j" || e.key === "ArrowDown") { e.preventDefault(); select(list[Math.min(list.length - 1, i + 1)]); }
-  if (e.key === "k" || e.key === "ArrowUp") { e.preventDefault(); select(list[Math.max(0, i - 1)]); }
-});
-
-let resizeTimer;
-addEventListener("resize", () => {
-  clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(() => { if (view === "gallery") sizeThumbs(); }, 150);
-});
-
-const hash = decodeURIComponent(location.hash.replace(/^#/, ""));
-selected = ITEMS.find(i => i.path === hash) || ITEMS[0];
-renderNav();
-renderStage();
-</script>
+<script src="lab.js"></script>
 </body>
 </html>

@@ -85,6 +85,17 @@
 }
 .page .section {
   margin-bottom: var(--space-12);
+  /* The #sections primitives carry their own vertical rhythm. A preview page
+     is not a marketing page, so the chrome block opts out of it. */
+  --section-pad-y: 0;
+  --section-pad-x: 0;
+}
+/* A marketing demo nests the real primitive inside that block, so the opt-out
+   has to stop here: "initial" makes --section-pad-* guaranteed-invalid again and
+   the fallback in #sections takes over. */
+.page .section .section {
+  --section-pad-y: initial;
+  --section-pad-x: initial;
 }
 .page .section h2 {
   font-size: var(--text-xl);
@@ -2137,6 +2148,47 @@ html.dark .skeleton::after {
   transition: opacity var(--duration-base) var(--ease-enter),
     transform var(--duration-base) var(--ease-enter);
 }
+/* A tooltip used to need hand-placed offsets, because .tooltip is absolutely
+   positioned and nothing gave it a containing block or a trigger. .tooltip-wrap
+   is that containing block, and it shows the tooltip on hover AND keyboard
+   focus, so the hint is reachable without a mouse. `translate` centres it while
+   `transform` stays free for the entrance nudge above. */
+.tooltip-wrap {
+  position: relative;
+  display: inline-flex;
+}
+.tooltip-wrap > .tooltip {
+  top: auto;
+  left: 50%;
+  bottom: calc(100% + var(--space-2));
+  translate: -50% 0;
+}
+.tooltip-wrap > .tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 0.5rem;
+  height: 0.5rem;
+  translate: -50% -50%;
+  rotate: 45deg;
+  background: var(--bg-inverse);
+}
+.tooltip-wrap:hover > .tooltip,
+.tooltip-wrap:focus-within > .tooltip {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--duration-base) var(--ease-enter),
+    transform var(--duration-base) var(--ease-enter);
+}
+.tooltip-below > .tooltip {
+  bottom: auto;
+  top: calc(100% + var(--space-2));
+}
+.tooltip-below > .tooltip::after {
+  top: auto;
+  bottom: 100%;
+}
 
 .error-inline {
   flex-direction: row;
@@ -2481,6 +2533,34 @@ html.dark .skeleton::after {
 .timeline-item:hover::before {
   transform: scale(var(--focus-scale));
 }
+/* Timeline entries carry the same three states a stepper does, so a changelog
+   can mark what is finished, what is happening now and what is still coming.
+   The dot alone used to say nothing; now it is filled, ringed or hollow. */
+.timeline-item.is-done::before {
+  background: var(--primary-bg);
+  border-color: var(--primary-bg);
+}
+.timeline-item.is-current::before {
+  background: var(--bg-surface);
+  border-color: var(--primary-bg);
+  box-shadow: var(--ring-focus);
+}
+.timeline-item.is-upcoming::before {
+  border-style: dashed;
+  border-color: var(--border-medium);
+  background: var(--bg-body);
+}
+.timeline-title {
+  display: block;
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+}
+.timeline-meta {
+  display: block;
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+}
 .avatar {
   display: grid;
   place-items: center;
@@ -2636,6 +2716,20 @@ kbd {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
   gap: var(--space-4);
+}
+/* Text for assistive tech only - the label of a control whose visible face is
+   an icon, a star or a dashed upload box. Clip, never display:none, or the
+   element leaves the accessibility tree as well as the screen. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* A reveal hides content until the behaviour layer reveals it, so it must only
@@ -3000,4 +3094,1734 @@ html:not(.mue-js) .reveal {
 .invert .btn-outline:hover {
   background: var(--bg-surface-hover);
 }
+/* The dark theme mirrors the whole grayscale ramp, so gray-900/950 above turn
+   near-white and the panel would flip to a light box inside a dark page. Re-point
+   each token at the same *absolute* step of the mirrored ramp: the panel keeps
+   its near-black surface and light text in both themes, and a solid primary
+   button pairs the lifted blue with the dark ink the theme already uses. */
+html.dark .invert {
+  --bg-body: hsl(var(--color-gray-50));
+  --bg-surface: hsl(var(--color-gray-100));
+  --bg-surface-hover: hsl(var(--color-gray-200));
+  --bg-surface-active: hsl(var(--color-gray-300));
+  --text-primary: hsl(var(--color-gray-950));
+  --text-secondary: hsl(var(--color-gray-600));
+  --text-tertiary: hsl(var(--color-gray-500));
+  --hairline: hsl(var(--color-gray-200));
+  --border-light: hsl(var(--color-gray-200));
+  --border-medium: hsl(var(--color-gray-300));
+  --border-dark: hsl(var(--color-gray-400));
+  --primary-bg: hsl(var(--color-primary-500));
+  --primary-fg: hsl(var(--color-gray-50));
+  background: hsl(var(--color-gray-100));
+}
 /* #endregion invert */
+
+/* #region sections */
+/* Marketing section primitives: the blocks a product or landing page is
+   assembled from. Every rhythm comes off the spacing scale - a normal band is
+   --space-16 deep, a hero --space-24 - so a whole page can be re-spaced by
+   overriding one custom property (--section-pad-y) instead of hunting rules. */
+.section {
+  padding-block: var(--section-pad-y, var(--space-16));
+  padding-inline: var(--section-pad-x, var(--space-6));
+}
+/* Eyebrow + title + lede. Left aligned by default; .is-centered centres the
+   block and keeps the lede on a readable measure either way. */
+.section-head {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-3);
+  max-width: 46rem;
+  margin-bottom: var(--space-10);
+}
+.section-head.is-centered {
+  margin-inline: auto;
+  justify-items: center;
+  text-align: center;
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: var(--font-bold);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--text-link);
+}
+/* Title and lede carry their own classes: a bare h2 inherits whatever the host
+   page already decided, and a marketing headline is a decision, not a default.
+   The two-selector list keeps the block usable standalone AND keeps its size
+   when a preview nests it inside page chrome. */
+.section-head .section-title,
+.section .section-head .section-title {
+  margin: 0;
+  max-width: 24ch;
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--text-primary);
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+.section-head .section-lede,
+.section .section-head .section-lede {
+  margin: 0;
+  max-width: 60ch;
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+}
+/* Hero: copy on one side, an optional media slot on the other. Add .hero-split
+   to get the two columns; without it the media simply stacks under the copy.
+   The container carries rhythm only and the layout lives on .hero-split, because
+   two example pages in this kit already use the bare word .hero for their own
+   bespoke band and link this sheet: a display:grid from here would have quietly
+   re-flowed both of them. */
+.hero {
+  padding-block: var(--hero-pad-y, var(--space-24));
+  padding-inline: var(--hero-pad-x, var(--space-6));
+}
+.hero-split {
+  display: grid;
+  align-items: center;
+  gap: var(--space-8);
+}
+.hero-copy {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: var(--space-4);
+  min-width: 0;
+}
+.hero .hero-title {
+  margin: 0;
+  font-size: var(--text-4xl);
+  font-weight: var(--font-extrabold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--text-primary);
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+.hero-sub {
+  margin: 0;
+  max-width: 56ch;
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+}
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin: 0;
+}
+.hero-note {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+.hero-media {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  margin-block-start: var(--space-8);
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, var(--tint-primary), var(--bg-surface-hover) 72%);
+  color: var(--text-link);
+}
+/* Inside a split hero the grid gap owns that space already. */
+.hero-split .hero-media {
+  margin-block-start: 0;
+}
+.hero-media img,
+.hero-media svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Feature grid: auto-fit columns, so the row count follows the available width
+   and nobody has to maintain a breakpoint. */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(var(--col-min, 17rem), 100%), 1fr));
+  gap: var(--space-8) var(--space-6);
+}
+.feature {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  min-width: 0;
+}
+.feature-icon {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--radius-md);
+  background: var(--tint-primary);
+  color: var(--text-link);
+}
+.feature-icon svg {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+.feature-title {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-tight);
+  color: var(--text-primary);
+}
+.feature-text {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+}
+/* Pricing. .is-recommended is the highlighted tier, and it is also labelled by
+   a .price-flag badge, so the emphasis never rests on colour alone. */
+.pricing {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(17rem, 100%), 1fr));
+  gap: var(--space-4);
+  align-items: start;
+}
+.price-card {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: var(--space-4);
+  min-width: 0;
+  padding: var(--space-6);
+  background: var(--bg-surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+  transition: var(--motion-colors);
+}
+.price-card.is-recommended {
+  border-color: var(--primary-bg);
+  box-shadow: var(--shadow-md);
+}
+.price-flag {
+  position: absolute;
+  inset-block-start: calc(var(--space-3) * -1);
+  inset-inline-start: var(--space-6);
+}
+.price-name {
+  margin: 0;
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+}
+.price-amount {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-1);
+  margin: 0;
+  font-size: var(--text-4xl);
+  font-weight: var(--font-extrabold);
+  line-height: var(--leading-none);
+  letter-spacing: var(--tracking-tight);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+.price-period {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--text-secondary);
+}
+.price-list {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+}
+.price-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  min-width: 0;
+}
+.price-list svg {
+  flex: none;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-top: 2px;
+  color: var(--text-success);
+}
+.price-note {
+  margin: 0;
+  font-size: var(--text-xs);
+  line-height: var(--leading-normal);
+  color: var(--text-secondary);
+}
+.price-card .btn {
+  width: 100%;
+}
+/* Testimonial: quote first, attribution second, optional source link. */
+.testimonial {
+  display: grid;
+  align-content: start;
+  gap: var(--space-4);
+  min-width: 0;
+  padding: var(--space-6);
+  background: var(--bg-surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg);
+}
+.quote-mark {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  line-height: var(--leading-none);
+  color: var(--primary-bg);
+}
+.testimonial-quote {
+  margin: 0;
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+  color: var(--text-primary);
+}
+.testimonial-person {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+.testimonial-name {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+}
+.testimonial-role {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+/* Closing call to action. Pair with .invert for a dark band that stays dark in
+   both themes, or leave it on the surface and it follows the theme. */
+.cta-band {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-4);
+  padding: var(--space-10) var(--space-6);
+  text-align: center;
+  background: var(--bg-surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg);
+}
+.cta-band-title {
+  margin: 0;
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  letter-spacing: var(--tracking-tight);
+  color: var(--text-primary);
+  text-wrap: balance;
+}
+.cta-band-text {
+  margin: 0;
+  max-width: 52ch;
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+}
+.cta-band-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+}
+.cta-band-note {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+}
+/* Team card: avatar, role, and link buttons that clear 44px on their own. */
+.team-card {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  padding: var(--space-6);
+  text-align: center;
+  background: var(--bg-surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg);
+  transition: var(--motion-colors);
+}
+.team-card .avatar {
+  width: 4.5rem;
+  height: 4.5rem;
+  font-size: var(--text-lg);
+}
+.team-name {
+  margin: 0;
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+}
+.team-role {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+.team-bio {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+}
+.team-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+.team-links a {
+  display: inline-grid;
+  place-items: center;
+  width: var(--control-h);
+  height: var(--control-h);
+  color: var(--text-secondary);
+  background: var(--bg-surface-hover);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-full);
+  transition: var(--motion-colors);
+}
+.team-links a:hover {
+  color: var(--text-link);
+  border-color: var(--border-medium);
+}
+.team-links a:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+.team-links svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+/* FAQ: the #disclosure accordion does the behaviour, these two classes only
+   widen the hit area and centre the column. */
+.faq-list {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 46rem;
+  margin-inline: auto;
+}
+.faq-item > .accordion-trigger {
+  padding: var(--space-4) var(--space-5);
+  font-size: var(--text-base);
+}
+.faq-item .accordion-panel p {
+  padding: 0 var(--space-5) var(--space-6);
+}
+@media (min-width: 60rem) {
+  .hero-split {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  }
+  .hero .hero-title {
+    font-size: var(--text-5xl);
+  }
+}
+/* #endregion sections */
+
+/* #region stepper */
+/* Progress through a multi-part task. Vertical (rail down the left) on a phone,
+   horizontal (rail between the dots) from 640px up - one breakpoint, because
+   the two layouts genuinely differ rather than just rescale.
+   States: .is-done, .is-current (which should also carry aria-current="step")
+   and .is-upcoming. */
+.stepper {
+  --stepper-dot: 2.25rem;
+  position: relative;
+  display: grid;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.stepper::before {
+  content: "";
+  position: absolute;
+  inset-block: var(--space-6);
+  left: calc(var(--stepper-dot) / 2 - 1px);
+  width: 2px;
+  border-radius: var(--radius-full);
+  background: var(--border-light);
+}
+.stepper-item {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: var(--stepper-dot) minmax(0, 1fr);
+  gap: var(--space-3);
+  align-items: center;
+  min-height: var(--control-h);
+  min-width: 0;
+}
+/* The coloured progress segment belongs to a completed step and runs down to
+   the next dot; the next dot paints over the end of it. */
+.stepper-item.is-done::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--stepper-dot) / 2 - 1px);
+  top: 50%;
+  bottom: calc(-50% - var(--space-4));
+  width: 2px;
+  border-radius: var(--radius-full);
+  background: var(--primary-bg);
+}
+.stepper-dot {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: var(--stepper-dot);
+  height: var(--stepper-dot);
+  border-radius: var(--radius-full);
+  background: var(--bg-surface);
+  border: 2px solid var(--border-medium);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  font-variant-numeric: tabular-nums;
+  transition: var(--motion-colors);
+}
+.stepper-dot svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+.stepper-label {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+.stepper-name {
+  font-weight: var(--font-semibold);
+  color: var(--text-secondary);
+}
+.stepper-text {
+  line-height: var(--leading-normal);
+}
+.stepper-item.is-done .stepper-dot {
+  background: var(--primary-bg);
+  border-color: var(--primary-bg);
+  color: var(--primary-fg);
+}
+.stepper-item.is-done .stepper-name,
+.stepper-item.is-current .stepper-name {
+  color: var(--text-primary);
+}
+.stepper-item.is-current .stepper-dot,
+.stepper-item[aria-current="step"] .stepper-dot {
+  border-color: var(--primary-bg);
+  color: var(--text-link);
+  box-shadow: var(--ring-focus);
+}
+.stepper-item.is-upcoming .stepper-dot {
+  border-style: dashed;
+  color: var(--text-tertiary);
+}
+@media (min-width: 40rem) {
+  .stepper {
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    gap: 0;
+  }
+  .stepper::before {
+    display: none;
+  }
+  .stepper-item {
+    grid-template-columns: none;
+    grid-template-rows: auto auto;
+    justify-items: center;
+    gap: var(--space-3);
+    padding-inline: var(--space-3);
+    text-align: center;
+  }
+  .stepper-item.is-done::after {
+    content: none;
+  }
+  /* Equal columns make the maths exact: -50% lands on the previous dot. */
+  .stepper-item + .stepper-item::before {
+    content: "";
+    position: absolute;
+    top: calc(var(--stepper-dot) / 2 - 1px);
+    left: -50%;
+    right: 50%;
+    height: 2px;
+    border-radius: var(--radius-full);
+    background: var(--border-light);
+  }
+  .stepper-item.is-done + .stepper-item::before,
+  .stepper-item.is-current + .stepper-item::before,
+  .stepper-item + .stepper-item[aria-current="step"]::before {
+    background: var(--primary-bg);
+  }
+  .stepper-label {
+    justify-items: center;
+  }
+}
+/* #endregion stepper */
+
+/* #region dropzone */
+/* File upload target. The real <input type="file"> is stretched across the box
+   at zero opacity, so a click, a drag and a Tab all hit the native control -
+   no label gymnastics, no JS to open the picker. */
+.dropzone {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  padding: var(--space-8) var(--space-6);
+  text-align: center;
+  background: var(--bg-surface);
+  border: 2px dashed var(--border-medium);
+  border-radius: var(--radius-lg);
+  transition: var(--motion-colors);
+}
+.dropzone:hover {
+  border-color: var(--border-focus);
+  background: var(--bg-surface-hover);
+}
+.dropzone:focus-within {
+  border-color: var(--border-focus);
+  box-shadow: var(--ring-focus);
+}
+/* The consuming app toggles .is-dragging on dragover/dragleave. */
+.dropzone.is-dragging {
+  border-color: var(--primary-bg);
+  background: var(--tint-primary);
+}
+/* The element selector is load-bearing: a dropzone inside an app's own
+   .field wrapper must not pick up the sheet's text-input styling. */
+input.dropzone-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border-radius: inherit;
+  font-size: var(--text-sm);
+  color: transparent;
+  opacity: 0;
+  cursor: pointer;
+}
+input.dropzone-input::file-selector-button {
+  cursor: pointer;
+}
+.dropzone-icon {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--radius-full);
+  background: var(--tint-primary);
+  color: var(--text-link);
+}
+.dropzone-icon svg {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+.dropzone-title {
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+}
+.dropzone-link {
+  color: var(--text-link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.dropzone-hint {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+.dropzone-list {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.file-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+  padding: var(--space-2) var(--space-3);
+  background: var(--bg-surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-base);
+}
+.file-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-base);
+  background: var(--tint-neutral);
+  color: var(--text-secondary);
+}
+.file-icon svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+.file-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.file-size {
+  flex: none;
+  font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-secondary);
+}
+.file-remove {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: var(--control-h);
+  height: var(--control-h);
+  margin: calc(var(--space-2) * -1) calc(var(--space-3) * -1) calc(var(--space-2) * -1) 0;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-base);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--motion-colors);
+}
+.file-remove svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+.file-remove:hover {
+  color: var(--text-error);
+  background: var(--tint-error);
+}
+.file-remove:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+/* #endregion dropzone */
+
+/* #region rating */
+/* Star rating. Read-only: .rating with an aria-label that states the score.
+   Interactive: a plain radio group in natural order (1 to 5), so Right and
+   Down raise the score, and "fill up to the chosen star" is expressed with
+   :has() instead of the reversed-DOM trick that fakes it in CSS-only kits. */
+.rating {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+.rating-stars {
+  display: inline-flex;
+  gap: 1px;
+  font-size: var(--text-lg);
+  line-height: var(--leading-none);
+}
+.star {
+  color: var(--border-medium);
+}
+.star.is-filled {
+  color: var(--text-warning);
+}
+/* Half a star: the glyph is clipped by a hard gradient stop, so it needs no
+   second element and stays crisp at any size. */
+.star.is-half {
+  background-image: linear-gradient(90deg, var(--text-warning) 50%, var(--border-medium) 50%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.rating-value {
+  font-weight: var(--font-semibold);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+.rating-input {
+  display: inline-flex;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.rating-radio {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+.rating-star {
+  display: inline-grid;
+  place-items: center;
+  width: var(--control-h);
+  height: var(--control-h);
+  font-size: var(--text-2xl);
+  line-height: var(--leading-none);
+  color: var(--border-medium);
+  border-radius: var(--radius-base);
+  cursor: pointer;
+  transition: var(--motion-colors), transform var(--duration-fast) var(--ease-spring);
+}
+.rating-star:hover {
+  transform: translateY(var(--lift-hover-sm));
+}
+.rating-radio:focus-visible + .rating-star {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+/* The rule is written twice over: without :has() support the chosen star still
+   fills, so the control degrades to readable rather than broken. */
+.rating-radio:checked + .rating-star,
+.rating-star:has(~ .rating-radio:checked),
+.rating-star:hover,
+.rating-star:has(~ .rating-star:hover) {
+  color: var(--text-warning);
+}
+/* #endregion rating */
+
+/* #region popover */
+/* Non-modal surface on hover or focus - the annotation counterpart to
+   #dropdown, which is a click-opened menu of choices. It is a sibling of the
+   trigger inside .popover-wrap, so :hover and :focus-within both reach it and
+   keyboard users get it for free. Surfaces are semantic, so it is correct in
+   dark without .invert. */
+.popover-wrap {
+  position: relative;
+  display: inline-flex;
+}
+.popover-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--control-h);
+  padding: var(--space-2) var(--space-4);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--text-primary);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-base);
+  cursor: pointer;
+  transition: var(--motion-colors);
+}
+.popover-trigger:hover {
+  background: var(--bg-surface-hover);
+  border-color: var(--border-dark);
+}
+.popover-trigger:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+.popover {
+  position: absolute;
+  z-index: 40;
+  inset-block-end: calc(100% + var(--space-3));
+  left: 50%;
+  translate: -50% 0;
+  width: max-content;
+  max-width: min(20rem, 80vw);
+  padding: var(--space-4);
+  text-align: left;
+  background: var(--bg-surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(var(--press-depth));
+  transition: opacity var(--duration-fast) var(--ease-exit),
+    transform var(--duration-fast) var(--ease-exit),
+    visibility 0s linear var(--duration-fast);
+}
+/* Two boxes make hover survivable: ::before bridges the gap so moving the
+   pointer from trigger to surface never leaves .popover-wrap, and ::after is
+   the arrow, drawn as a rotated square with the surface's own border. */
+.popover::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 100%;
+  left: 0;
+  width: 100%;
+  height: var(--space-4);
+}
+.popover::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 100%;
+  left: 50%;
+  width: 0.75rem;
+  height: 0.75rem;
+  translate: -50% -50%;
+  rotate: 45deg;
+  background: var(--bg-surface);
+  border-inline-end: 1px solid var(--hairline);
+  border-block-end: 1px solid var(--hairline);
+}
+.popover-wrap:hover .popover,
+.popover-wrap:focus-within .popover,
+.popover-wrap.is-open .popover {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity var(--duration-base) var(--ease-enter),
+    transform var(--duration-base) var(--ease-enter), visibility 0s;
+}
+.popover-title {
+  display: block;
+  margin: 0 0 var(--space-1);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+}
+.popover-body {
+  display: block;
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+}
+.popover-body a {
+  color: var(--text-link);
+}
+.popover-list {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+.popover-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+.popover-list svg {
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  margin-top: 3px;
+  color: var(--text-success);
+}
+/* Open below the trigger when the surface would be clipped by the top edge. */
+.popover-below {
+  inset-block-end: auto;
+  inset-block-start: calc(100% + var(--space-3));
+}
+.popover-below::before {
+  inset-block-start: auto;
+  inset-block-end: 100%;
+}
+.popover-below::after {
+  inset-block-start: auto;
+  inset-block-end: 100%;
+  border-inline-end: 0;
+  border-block-end: 0;
+  border-inline-start: 1px solid var(--hairline);
+  border-block-start: 1px solid var(--hairline);
+}
+.popover-start {
+  left: 0;
+  translate: 0 0;
+}
+.popover-start::after {
+  left: var(--space-5);
+  translate: 0 -50%;
+}
+/* A centred surface needs half its own width either side of the trigger, so a
+   trigger within that distance of a viewport edge spills past it - and a hidden
+   surface spills too, because visibility: hidden still lays it out. Anchor the
+   near-edge ones instead: .popover-start pins the left, .popover-end the right,
+   and the arrow follows. */
+.popover-end {
+  left: auto;
+  right: 0;
+  translate: 0 0;
+}
+.popover-end::after {
+  left: auto;
+  right: var(--space-5);
+  translate: 0 -50%;
+}
+/* Touch screens have no hover, so the app opens it with a tap and .is-open. */
+@media (hover: none) {
+  .popover-wrap:hover .popover {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(var(--press-depth));
+  }
+}
+/* #endregion popover */
+
+/* #region descriptions */
+/* antd's Descriptions - the label/value grid behind every detail panel and
+   settings page. The list is a <dl> whose pairs are wrapped in
+   .descriptions-item; in the inline layout that wrapper is display: contents,
+   so the dt and dd join the parent grid themselves and every label column lines
+   up across rows - a nested box can never promise that alignment. The stacked
+   variant needs a real box to sit the label above its value, so it puts the
+   wrapper back. Column count is an attribute, mirroring the [data-sort] idiom
+   in #region tables: data-cols is the only knob a consumer needs. */
+.descriptions {
+  --desc-cols: 2;
+  --desc-label-w: 7.5rem;
+  display: grid;
+  grid-template-columns: repeat(
+    var(--desc-cols),
+    minmax(var(--desc-label-w), 1fr) minmax(0, 1.8fr)
+  );
+  gap: var(--space-4) var(--space-6);
+  margin: 0;
+  min-width: 0;
+  font-size: var(--text-sm);
+}
+.descriptions[data-cols="1"] {
+  --desc-cols: 1;
+}
+.descriptions[data-cols="3"] {
+  --desc-cols: 3;
+}
+.descriptions-item {
+  display: contents;
+}
+.descriptions-label {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  min-width: 0;
+  margin: 0;
+  color: var(--text-secondary);
+  font-weight: var(--font-medium);
+}
+.descriptions-value {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  min-width: 0;
+  margin: 0;
+  color: var(--text-primary);
+  /* Values are emails, tracking numbers and URLs - one unbreakable token that
+     has to split rather than push the column past the panel. */
+  overflow-wrap: break-word;
+}
+/* Values are frequently a badge, an avatar or a link. Centring the row keeps a
+   16px avatar and a 20px pill on the same baseline without nudging the text. */
+.descriptions-value a {
+  color: var(--text-link);
+  text-decoration: none;
+  transition: var(--motion-colors);
+}
+.descriptions-value a:hover {
+  color: var(--text-link-hover);
+  text-decoration: underline;
+}
+.descriptions-title {
+  margin: 0 0 var(--space-4);
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-tight);
+  color: var(--text-primary);
+}
+/* Label above value: the shape a settings page wants when values are long. */
+.descriptions-stacked {
+  grid-template-columns: repeat(var(--desc-cols), minmax(0, 1fr));
+}
+.descriptions-stacked .descriptions-item {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+}
+/* Bordered reads as a table, so the gaps close and the rules appear. Two edges
+   come from the frame and two from the cells - a full border on the container
+   would double the line where the first label and the last row already draw
+   their own. */
+.descriptions-bordered {
+  gap: 0;
+  border-block-start: 1px solid var(--hairline);
+  border-inline-end: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  overflow: hidden;
+}
+.descriptions-bordered .descriptions-label,
+.descriptions-bordered .descriptions-value {
+  padding: var(--space-3) var(--space-4);
+  border-block-end: 1px solid var(--hairline);
+}
+.descriptions-bordered .descriptions-label {
+  background: var(--bg-surface-hover);
+  border-inline-start: 1px solid var(--hairline);
+}
+.descriptions-sm {
+  gap: var(--space-3) var(--space-5);
+}
+.descriptions-lg {
+  gap: var(--space-5) var(--space-8);
+}
+.descriptions-lg .descriptions-label,
+.descriptions-lg .descriptions-value {
+  font-size: var(--text-base);
+}
+.descriptions-bordered.descriptions-sm .descriptions-label,
+.descriptions-bordered.descriptions-sm .descriptions-value {
+  padding: var(--space-2) var(--space-3);
+}
+@media (max-width: 640px) {
+  /* The collapse has to out-specify data-cols, or a three-column panel keeps
+     three columns and pushes the page sideways on a phone. */
+  .descriptions,
+  .descriptions[data-cols] {
+    --desc-cols: 1;
+  }
+}
+/* #endregion descriptions */
+
+/* #region datatable */
+/* antd's Table - the kit's signature enterprise surface. Everything structural
+   stays in #region tables (.table, .table-wrap, .table-compact, .table-striped,
+   the [data-sort] caret); this region adds the behaviours around them: row
+   selection, a sort button, a column filter, expandable rows, in-table states
+   and a scroll frame with a head that gets a rule only once rows pass under
+   it. */
+
+/* The frame. min-width is wider than a plain .table because eight real columns
+   at 40rem would wrap; the wrap still pans instead of squeezing the page. */
+.table.datatable {
+  min-width: var(--table-min-w, 54rem);
+}
+.table-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-4);
+  margin-block-end: var(--space-4);
+}
+/* The search box is the only toolbar control that has to give way on a narrow
+   screen, so it grows but never past a readable line length. */
+.table-search {
+  flex: 1 1 13rem;
+  min-inline-size: 11rem;
+  max-inline-size: 20rem;
+}
+.table-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-4);
+  margin-block-start: var(--space-4);
+}
+.table-foot .select-wrap {
+  inline-size: 7.5rem;
+  flex: none;
+}
+.table-foot-count {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+/* Sticky head inside a scroll frame. thead th is already sticky (#region
+   tables), so .table-scroll only supplies the height to stick against. The
+   rule under it is drawn by the header's own ::after and stays at zero until
+   the frame scrolls - a hairline that is always on would read as a second
+   border. #region navigation raises .is-scrolled the same way on the navbar. */
+.table-scroll {
+  max-height: var(--table-max-h, 26rem);
+  overflow: auto;
+}
+.table-scroll .table thead th::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 100%;
+  inset-inline: 0;
+  height: 1px;
+  background: var(--hairline);
+  box-shadow: var(--shadow-xs);
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-standard);
+}
+.table-scroll.is-scrolled .table thead th::after {
+  opacity: 1;
+}
+/* Sort control. A real <button> so the column is reachable by Tab and Enter;
+   aria-sort stays on the th, because that is the element AT reports as the
+   column header. The cell loses its padding and the button takes it, which is
+   what keeps the target a full 44px instead of a 14px caret. */
+.sort-btn {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  min-height: var(--control-h);
+  padding: 0 var(--space-4);
+  font: inherit;
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  text-align: start;
+  color: var(--text-secondary);
+  background: none;
+  border: 0;
+  border-radius: 0;
+  cursor: pointer;
+  transition: var(--motion-colors);
+}
+.sort-btn:hover {
+  color: var(--text-primary);
+  background: var(--bg-surface-active);
+}
+.sort-btn:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: -2px;
+  box-shadow: var(--ring-focus);
+}
+.table th:has(.sort-btn) {
+  padding: 0;
+}
+/* The third state. [data-sort="asc"] and [data-sort="desc"] already draw a
+   caret in #region tables; an unsorted column needs a faint neutral one so the
+   affordance is visible before the first click. */
+.table [data-sort="none"]::after {
+  border-block-end: 4px solid currentColor;
+  opacity: 0.3;
+}
+.table th[aria-sort="ascending"] .sort-btn,
+.table th[aria-sort="descending"] .sort-btn {
+  color: var(--text-primary);
+}
+.table th[aria-sort="ascending"] .sort-btn::after,
+.table th[aria-sort="descending"] .sort-btn::after {
+  opacity: 1;
+}
+/* Column filter. The whole header cell is the trigger, which is what makes the
+   target 44px without a second row of controls; the menu itself stays
+   #region dropdown's. is-filtered is the only cue that a column is narrowed -
+   the funnel takes the link colour so the header reads as edited. */
+.table th:has(.th-filter) {
+  padding: 0;
+}
+.cell-filter .dropdown {
+  display: block;
+}
+.th-filter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: var(--control-h);
+  padding: 0 var(--space-3) 0 var(--space-4);
+  font: inherit;
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  text-align: start;
+  color: var(--text-secondary);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  transition: var(--motion-colors);
+}
+.th-filter:hover {
+  color: var(--text-primary);
+  background: var(--bg-surface-active);
+}
+.th-filter:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: -2px;
+  box-shadow: var(--ring-focus);
+}
+.th-filter svg {
+  width: 0.875rem;
+  height: 0.875rem;
+  flex: none;
+  color: var(--text-tertiary);
+}
+.th-filter.is-filtered,
+.th-filter.is-filtered svg {
+  color: var(--text-link);
+}
+/* Selection. The check cell is a .checkbox from #region choice, stripped of the
+   label's vertical padding because the cell now owns the row's height. */
+.cell-check {
+  width: 3.5rem;
+  padding-block: 0;
+  padding-inline: var(--space-4) var(--space-2);
+}
+.cell-toggle {
+  width: 3.5rem;
+  padding-block: 0;
+  padding-inline: var(--space-2);
+  text-align: center;
+}
+.table .cell-check .checkbox {
+  min-height: var(--control-h);
+  padding: 0;
+  align-items: center;
+}
+.table .cell-check .box {
+  margin-top: 0;
+}
+/* The header checkbox spends its life between checked and unchecked: mixed.
+   A dash, not a tick, is what tells the reader "some, not all". */
+.checkbox input:indeterminate + .box {
+  background: var(--primary-bg);
+  border-color: var(--primary-bg);
+}
+.checkbox input:indeterminate + .box::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline: 3px;
+  height: 2px;
+  translate: 0 -50%;
+  background: var(--primary-fg);
+  border-radius: var(--radius-full);
+}
+/* Ordered after #region tables on purpose: .is-selected and the striped even
+   row have the same specificity, so source order is the tie-break. */
+.table tbody tr.is-selected,
+.table-striped tbody tr.is-selected {
+  background: var(--tint-primary);
+}
+.table tbody tr.is-selected:hover {
+  background: var(--tint-primary-strong);
+}
+.table-selection {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  margin-block-end: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--tint-primary);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-base);
+}
+.table-selection-count {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+/* The bar is a flexbox, so it has to out-specify the UA [hidden] rule or the
+   "0 selected" strip can never be put away. */
+.table-selection[hidden] {
+  display: none;
+}
+/* Column filter: #region dropdown for the surface, #region choice for the
+   boxes. The menu is padding and typography only - it must survive being
+   opened inside a scroll frame, so it stays short. */
+.menu-filter {
+  min-width: 13rem;
+  padding: var(--space-2);
+  display: grid;
+  gap: var(--space-1);
+  /* The menu lives inside a thead cell, so it would otherwise inherit the
+     header's uppercase and shout at the data ("DISPUTED" not "Disputed"). */
+  text-transform: none;
+}
+.menu-filter-head {
+  padding: var(--space-1) var(--space-3) var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+.menu-filter-option {
+  min-height: var(--control-h);
+  padding: 0 var(--space-3);
+  font-size: var(--text-sm);
+  align-items: center;
+  border-radius: var(--radius-base);
+  transition: var(--motion-colors);
+}
+.menu-filter-option:hover {
+  background: var(--tint-primary);
+}
+.menu-filter-option .box {
+  margin-top: 0;
+}
+.menu-filter-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding-block: var(--space-1);
+}
+/* Expandable rows. The caret is the whole control, so it gets a 44px box and
+   the cell gives up its padding to hold the row at one height. */
+.row-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: var(--control-h);
+  height: var(--control-h);
+  padding: 0;
+  color: var(--text-secondary);
+  background: none;
+  border: 0;
+  border-radius: var(--radius-base);
+  cursor: pointer;
+  transition: var(--motion-colors), transform var(--duration-tick) var(--ease-exit);
+}
+.row-toggle:hover {
+  color: var(--text-primary);
+  background: var(--bg-surface-active);
+}
+.row-toggle:active {
+  transform: translateY(var(--press-depth));
+}
+.row-toggle:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: -2px;
+  box-shadow: var(--ring-focus);
+}
+.row-toggle svg {
+  width: 1rem;
+  height: 1rem;
+  transition: transform var(--duration-base) var(--ease-out-expo);
+}
+.row-toggle[aria-expanded="true"] svg {
+  transform: rotate(90deg);
+}
+/* The detail panel is inset to the row content it belongs to and carries
+   .descriptions, never a second table. It has to out-specify .table td to
+   undo the nowrap that the columns above it rely on. */
+.table td.table-detail {
+  padding: 0;
+  white-space: normal;
+  background: var(--bg-body);
+  border-block-end: 1px solid var(--hairline);
+}
+.table-detail-inner {
+  padding: var(--space-5) var(--space-5) var(--space-6) calc(var(--space-4) + var(--space-8));
+  animation: mue-detail-open var(--duration-slow) var(--ease-enter);
+}
+@keyframes mue-detail-open {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--reveal-shift) / -2));
+  }
+}
+/* In-table states. A skeleton cell takes its width from --sk-w so the columns
+   keep their proportions while loading - the shape of the answer is visible
+   before the answer is. */
+.sk-cell {
+  display: inline-block;
+  inline-size: var(--sk-w, 6rem);
+  block-size: 0.75rem;
+  vertical-align: middle;
+}
+.table .table-empty {
+  padding: var(--space-4);
+  white-space: normal;
+}
+.table .table-empty .empty {
+  border: 0;
+  background: none;
+  padding: var(--space-8) var(--space-4);
+}
+/* Money and counts align right, so the column sums by eye. */
+.table .col-num {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+.table th.col-num .sort-btn {
+  justify-content: flex-end;
+}
+/* Paging and filtering hide rows with the hidden attribute. This is a guard,
+   not a fix: any author-side display on a row would beat the UA's [hidden]
+   rule, and a filtered-out row that keeps painting is the worst kind of bug. */
+.table tr[hidden],
+.table tbody[hidden] {
+  display: none;
+}
+/* The two-line cell an identity column needs: the name carries the scan and
+   the sub-line the context, and the pair stays on one baseline with the avatar. */
+.cell-user {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+.cell-user > :last-child {
+  display: block;
+  min-width: 0;
+}
+.cell-user-name {
+  display: block;
+  font-weight: var(--font-medium);
+  color: var(--text-primary);
+}
+.cell-user-sub {
+  display: block;
+  font-size: var(--text-xs);
+  font-weight: var(--font-normal);
+  letter-spacing: var(--tracking-normal);
+  text-transform: none;
+  color: var(--text-tertiary);
+  overflow-wrap: anywhere;
+}
+@media (max-width: 640px) {
+  .table-detail-inner {
+    padding-inline-start: var(--space-4);
+  }
+}
+/* #endregion datatable */
+
+/* #region guidance */
+/* antd's Tour and FloatButton: the two surfaces that live on top of the app
+   rather than inside it. */
+
+/* The stage is what turns the highlight into a spotlight. .tour-target paints a
+   9999px scrim as its own box-shadow, and the clipped frame makes that scrim
+   stop at the edge of the surface being taught - no overlay element needed. */
+.tour-stage {
+  position: relative;
+  overflow: hidden;
+}
+.tour {
+  position: relative;
+  display: inline-flex;
+  max-width: 100%;
+}
+.tour-target {
+  position: relative;
+  z-index: 2;
+  border-radius: var(--radius-md);
+  transition: var(--motion-colors);
+}
+.tour.is-open > .tour-target {
+  box-shadow: 0 0 0 2px var(--primary-bg), 0 0 0 6px var(--state-focus-ring),
+    0 0 0 9999px var(--scrim);
+}
+.tour-card {
+  position: relative;
+  /* Not 100%: inside a tour the card's containing block is its own target,
+     which is often a 90px button. The viewport gutter is the only measure
+     that keeps the card readable and off the edge of a phone. */
+  inline-size: min(21rem, calc(100vw - 4rem));
+  padding: var(--space-5);
+  background: var(--bg-surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xl);
+  color: var(--text-primary);
+  z-index: 3;
+}
+/* Inside a tour the card is pinned to its target and only arrives when that
+   step is open. A bare .tour-card stays in the flow, which is how the variant
+   row can show one without a target. */
+.tour > .tour-card {
+  position: absolute;
+  inset-block-start: calc(100% + var(--space-8));
+  inset-inline-start: 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(calc(var(--reveal-shift) / -2));
+  transition: var(--motion-reveal), visibility 0s linear var(--duration-slower);
+}
+.tour.is-open > .tour-card {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: var(--motion-reveal);
+}
+.tour-end > .tour-card {
+  inset-inline-start: auto;
+  inset-inline-end: 0;
+}
+.tour-top > .tour-card {
+  inset-block-start: auto;
+  inset-block-end: calc(100% + var(--space-8));
+}
+/* The notch is the popover arrow with the card's own surface and border. */
+.tour-arrow {
+  position: absolute;
+  inset-block-start: calc(var(--space-2) * -1);
+  inset-inline-start: var(--space-8);
+  width: 0.875rem;
+  height: 0.875rem;
+  translate: 0 -50%;
+  rotate: 45deg;
+  background: var(--bg-surface);
+  border-inline-start: 1px solid var(--hairline);
+  border-block-start: 1px solid var(--hairline);
+}
+.tour-end .tour-arrow {
+  inset-inline-start: auto;
+  inset-inline-end: var(--space-8);
+}
+.tour-top .tour-arrow {
+  inset-block-start: auto;
+  inset-block-end: calc(var(--space-2) * -1);
+  translate: 0 50%;
+  rotate: 225deg;
+}
+.tour-step {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+.tour-title {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-tight);
+  color: var(--text-primary);
+}
+.tour-body {
+  margin: 0 0 var(--space-4);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+}
+.tour-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.tour-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-inline-end: var(--space-2);
+}
+.tour-dots .dot {
+  width: 6px;
+  height: 6px;
+  background: var(--bg-surface-active);
+}
+.tour-dots .is-current {
+  width: 14px;
+  background: var(--primary-bg);
+}
+/* FloatButton: 44px, circular, and the group is the dock - stacking is just
+   that column, so two buttons never need a new position. */
+.float-btn {
+  display: inline-grid;
+  place-items: center;
+  inline-size: var(--control-h);
+  block-size: var(--control-h);
+  padding: 0;
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--text-primary);
+  background: var(--bg-surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  text-decoration: none;
+  transition: var(--motion-lift);
+}
+.float-btn:hover {
+  color: var(--text-link);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(var(--lift-hover));
+}
+.float-btn:active {
+  transform: translateY(var(--press-depth));
+}
+.float-btn:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+  box-shadow: var(--ring-focus);
+}
+.float-btn svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex: none;
+}
+.float-btn-primary {
+  background: var(--primary-bg);
+  border-color: transparent;
+  color: var(--primary-fg);
+}
+.float-btn-primary:hover {
+  background: var(--primary-hover);
+  color: var(--primary-fg);
+}
+/* Label beside the glyph - the shape that needs a tooltip-free explanation. */
+.float-btn-label {
+  inline-size: auto;
+  grid-auto-flow: column;
+  gap: var(--space-2);
+  padding: 0 var(--space-4);
+}
+.float-btn-group {
+  position: fixed;
+  z-index: 45;
+  inset-inline-end: var(--space-6);
+  inset-block-end: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(var(--reveal-shift-lg));
+  transition: var(--motion-reveal), visibility 0s linear var(--duration-slower);
+}
+.float-btn-group.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: var(--motion-reveal);
+}
+@media (max-width: 640px) {
+  .float-btn-group {
+    inset-inline-end: var(--space-4);
+    inset-block-end: var(--space-4);
+  }
+}
+/* #endregion guidance */
