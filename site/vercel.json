@@ -36,7 +36,10 @@
     },
     {
       "source": "/engine/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600, s-maxage=86400" }]
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=3600, s-maxage=86400" },
+        { "key": "X-Robots-Tag", "value": "noindex, follow" }
+      ]
     },
     {
       "source": "/assets/(.*)",

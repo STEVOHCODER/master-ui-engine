@@ -233,6 +233,17 @@ console asks before it sends, and the rows are gone.
 - `/admin` and `/admin/login` ship `noindex, nofollow`, carry a
   `X-Robots-Tag` header, are disallowed in `robots.txt`, and do **not** load
   `/assets/analytics.js`, so the owner's own visits never inflate the numbers.
+- The 59 preview pages under `/engine/**` carry `X-Robots-Tag: noindex, follow`
+  from `vercel.json` (set 2026-11-01, after Google's first crawl filed them as
+  content pages). They are the iframed assets, not the search landing pages, and
+  the React and Web Components galleries are client-rendered shells, so keeping
+  them out of the index also keeps crawl reports down to the seven real pages.
+  They stay reachable and still load for `llms.txt`, the CLI and the catalog —
+  `robots.txt` deliberately does **not** disallow `/engine/`, because a
+  disallowed URL cannot be fetched and therefore cannot be told `noindex`.
+  Note that a `.html` URL answers the `cleanUrls` 308 before the header block
+  applies, so the redirect itself carries no `X-Robots-Tag`; Google follows it to
+  the extension-less URL, which does, and honours the tag from there.
 - Library search text: `library.js` reports a search as
   `mueTrack("library_search", { id: <typed text> })`. `STORE_SEARCH_TERMS` in
   `site/api/_lib.js` is `false`, so `/api/track` stores the *count* of searches
