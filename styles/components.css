@@ -70,6 +70,7 @@
   color: var(--text-secondary);
 }
 .page h1 {
+  font-family: var(--font-display);
   font-size: var(--text-3xl);
   font-weight: var(--font-bold);
   line-height: var(--leading-tight);
@@ -892,6 +893,7 @@ html.dark input[type="time"]::-webkit-calendar-picker-indicator {
   min-width: 0;
 }
 .card-title {
+  font-family: var(--font-display);
   font-size: var(--text-lg);
   font-weight: var(--font-semibold);
   letter-spacing: var(--tracking-tight);
@@ -1489,6 +1491,7 @@ a.card:focus-visible {
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-lg);
   opacity: 0;
+  visibility: hidden;
   transform: translateY(calc(var(--reveal-shift) / -3)) scale(0.98);
   transform-origin: top left;
   pointer-events: none;
@@ -1499,6 +1502,7 @@ a.card:focus-visible {
 .dropdown-menu.is-open,
 .dropdown-menu[aria-hidden="false"] {
   opacity: 1;
+  visibility: visible;
   transform: none;
   pointer-events: auto;
   transition: opacity var(--duration-base) var(--ease-enter),
@@ -2453,6 +2457,7 @@ html.dark .skeleton::after {
   color: var(--text-tertiary);
 }
 .stat-value {
+  font-family: var(--font-display);
   font-size: var(--text-3xl);
   font-weight: var(--font-bold);
   line-height: var(--leading-none);

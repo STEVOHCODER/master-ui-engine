@@ -131,16 +131,19 @@
           <div class="frame-stage" data-frame-stage>
             <iframe class="frame-view" data-frame-view title="Live preview: analytics dashboard built from MASTER-UI-ENGINE tokens and components" src="/engine/examples/analytics/analytics-dashboard.html" loading="eager" style="position:absolute;inset-block-start:0;inset-inline-start:0"></iframe>
           </div>
-          <div class="frame-tabs" role="tablist" aria-label="Live preview examples">
-            <button role="tab" type="button" aria-selected="true" data-src="/engine/examples/analytics/analytics-dashboard.html">Analytics</button>
-            <button role="tab" type="button" aria-selected="false" data-src="/engine/examples/dashboards/admin-dashboard.html">Admin</button>
-            <button role="tab" type="button" aria-selected="false" data-src="/engine/examples/marketplaces/marketplace-homepage.html">Marketplace</button>
-            <button role="tab" type="button" aria-selected="false" data-src="/engine/examples/landing-pages/landing.html">Landing</button>
-            <button role="tab" type="button" aria-selected="false" data-src="/engine/examples/complete-applications/ai-assistant.html">AI app</button>
-            <span class="nav-spacer"></span>
-            <button type="button" data-width="1280" aria-pressed="true">1280</button>
-            <button type="button" data-width="768" aria-pressed="false">768</button>
-            <button type="button" data-width="375" aria-pressed="false">375</button>
+          <div class="frame-tabs">
+            <div class="frame-tab-group" role="tablist" aria-label="Live preview examples">
+              <button role="tab" type="button" aria-selected="true" data-src="/engine/examples/analytics/analytics-dashboard.html">Analytics</button>
+              <button role="tab" type="button" aria-selected="false" data-src="/engine/examples/dashboards/admin-dashboard.html">Admin</button>
+              <button role="tab" type="button" aria-selected="false" data-src="/engine/examples/marketplaces/marketplace-homepage.html">Marketplace</button>
+              <button role="tab" type="button" aria-selected="false" data-src="/engine/examples/landing-pages/landing.html">Landing</button>
+              <button role="tab" type="button" aria-selected="false" data-src="/engine/examples/complete-applications/ai-assistant.html">AI app</button>
+            </div>
+            <div class="frame-widths" role="group" aria-label="Preview width">
+              <button type="button" data-width="1280" aria-pressed="true">1280</button>
+              <button type="button" data-width="768" aria-pressed="false">768</button>
+              <button type="button" data-width="375" aria-pressed="false">375</button>
+            </div>
           </div>
         </div>
         <p class="note">This is a real page from the repository, running in your browser right now — not a screenshot of one.</p>

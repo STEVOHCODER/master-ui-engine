@@ -26,6 +26,8 @@
   const $ = (sel, root = document) => $$(sel, root)[0] || null;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const THEME_KEY = "mui-theme";
+  const PRESET_KEY = "mue-theme-name";
+  const PRESETS = ["default", "editorial", "evergreen", "violet", "mono"];
 
   /* ---- theme --------------------------------------------------------------
      Persisted in localStorage and mirrored across frames, so a preview inside
@@ -72,6 +74,30 @@
     });
     addEventListener("storage", (e) => {
       if (e.key === THEME_KEY) applyTheme(e.newValue === "dark");
+    });
+  }
+
+  function applyPreset(name) {
+    const preset = PRESETS.includes(name) ? name : "default";
+    if (preset === "default") rootEl.removeAttribute("data-mue-theme");
+    else rootEl.setAttribute("data-mue-theme", preset);
+    $$("[data-mue-theme-select]").forEach((select) => { select.value = preset; });
+  }
+
+  function initPreset() {
+    let saved = null;
+    try { saved = localStorage.getItem(PRESET_KEY); } catch {}
+    applyPreset(saved || "default");
+    $$("[data-mue-theme-select]").forEach((select) => {
+      if (select.dataset.mueBound) return;
+      select.dataset.mueBound = "1";
+      select.addEventListener("change", () => {
+        applyPreset(select.value);
+        try { localStorage.setItem(PRESET_KEY, select.value); } catch {}
+      });
+    });
+    addEventListener("storage", (e) => {
+      if (e.key === PRESET_KEY) applyPreset(e.newValue || "default");
     });
   }
 
@@ -335,10 +361,12 @@
       const menu = $(".dropdown-menu, .menu", wrap);
       if (!menu) return;
       trigger.setAttribute("aria-expanded", "false");
+      menu.setAttribute("aria-hidden", "true");
       const setOpen = (open) => {
         wrap.classList.toggle("is-open", open);
         menu.classList.toggle("is-open", open);
         trigger.setAttribute("aria-expanded", String(open));
+        menu.setAttribute("aria-hidden", String(!open));
         if (open) $(".menu-item, .dropdown-item", menu)?.focus();
       };
       trigger.addEventListener("click", (e) => {
@@ -504,6 +532,7 @@
   function boot() {
     rootEl.classList.add("mue-js");
     initTheme();
+    initPreset();
     initCopy();
     initTabs();
     initDropdowns();
@@ -520,5 +549,5 @@
     boot();
   }
 
-  window.MUE = { toggleTheme, applyTheme, writeClipboard };
+  window.MUE = { toggleTheme, applyTheme, applyPreset, writeClipboard };
 })();

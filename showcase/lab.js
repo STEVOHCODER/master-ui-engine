@@ -14,6 +14,7 @@
   const ITEMS = (window.MUE_CATALOG && window.MUE_CATALOG.items) || [];
   const ROOT = new URL("../", location.href);
   const THEME_KEY = "mui-theme"; // same key styles/mue.js persists in the previews
+  const PRESET_KEY = "mue-theme-name";
   const isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
   const SHORTCUT = isMac ? "⌘K" : "Ctrl K";
 
@@ -67,6 +68,7 @@
     filter: document.getElementById("search"),
     trigger: document.getElementById("palette-trigger"),
     theme: document.getElementById("theme-btn"),
+    preset: document.getElementById("theme-preset"),
   };
 
   let view = "lab";
@@ -222,6 +224,17 @@
     if (saved === null && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) saved = "dark";
     document.documentElement.classList.toggle("dark", saved === "dark");
     applyThemeLabel();
+  }
+
+  function initPreset() {
+    let saved = "default";
+    try { saved = localStorage.getItem(PRESET_KEY) || "default"; } catch {}
+    if (![...els.preset.options].some((option) => option.value === saved)) saved = "default";
+    els.preset.value = saved;
+    els.preset.addEventListener("change", () => {
+      try { localStorage.setItem(PRESET_KEY, els.preset.value); } catch {}
+      renderStage();
+    });
   }
 
   /* ----------------------------------------------------------- palette ranking
@@ -581,6 +594,7 @@
   });
 
   initTheme();
+  initPreset();
   buildPalette();
   const hash = decodeURIComponent(location.hash.replace(/^#/, ""));
   selected = ITEMS.find((i) => i.path === hash) || ITEMS[0];

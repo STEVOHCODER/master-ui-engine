@@ -378,6 +378,16 @@ html.dark .lib-error { border-color: #a86a5f; color: #e59a8d; }
   background: var(--accent);
   border-color: var(--accent);
 }
+.pv-stage-wrap .frame-tabs select {
+  padding: 0.3rem 1.6rem 0.3rem 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--panel);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+.pv-stage-wrap .frame-tabs select:disabled { opacity: 0.55; cursor: not-allowed; }
 .pv-note { margin: 0.8rem 0 0; color: var(--muted); font-size: 0.82rem; line-height: 1.55; max-width: 74ch; }
 .pv-install { margin-top: 1.4rem; padding-top: 1.1rem; border-top: 1px solid var(--line); }
 .pv-install-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin-top: 0.55rem; }

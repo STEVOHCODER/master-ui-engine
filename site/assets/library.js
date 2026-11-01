@@ -998,12 +998,34 @@
       })(themeBtns[b]);
     }
 
+    var presetSelect = $id("pv-theme-preset");
+    var preset = "default";
+    try { preset = localStorage.getItem("mue-theme-name") || "default"; } catch (e) {}
+    if (presetSelect) {
+      presetSelect.value = preset;
+      presetSelect.disabled = !item.engineLinked;
+      if (!item.engineLinked) presetSelect.title = "This self-contained preview does not use the shared theme tokens";
+      on(presetSelect, "change", function () {
+        preset = presetSelect.value;
+        try { localStorage.setItem("mue-theme-name", preset); } catch (e) {}
+        var doc = frameDoc();
+        if (doc && doc.documentElement) {
+          if (preset === "default") doc.documentElement.removeAttribute("data-mue-theme");
+          else doc.documentElement.setAttribute("data-mue-theme", preset);
+        }
+      });
+    }
+
     iframe.addEventListener("load", function () {
       paintWidth();
       var doc = frameDoc();
       var isDark = !!(doc && doc.documentElement &&
         /(^|\s)dark(\s|$)/.test(String(doc.documentElement.getAttribute("class") || "")));
       markTheme(isDark);
+      if (doc && doc.documentElement && item.engineLinked) {
+        if (preset === "default") doc.documentElement.removeAttribute("data-mue-theme");
+        else doc.documentElement.setAttribute("data-mue-theme", preset);
+      }
     });
 
     window.addEventListener("resize", paintWidth);

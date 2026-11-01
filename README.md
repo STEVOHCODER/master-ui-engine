@@ -58,16 +58,17 @@ a one-off: change a token or a `#region`, change the library.
    ```
 
    Then open [http://127.0.0.1:4173/showcase/index.html](http://127.0.0.1:4173/showcase/index.html).
-   The sidebar lists every design; **All designs** shows scaled thumbnails of
-   all 46; the 375 / 768 / 1200 / Fluid buttons resize the stage; **Open
+   The sidebar lists every design; **Gallery** shows scaled thumbnails of
+   all 54; the 375 / 768 / 1200 / Fluid buttons resize the stage; **Open
    isolated** opens the raw file in its own tab. `j` / `k` step through designs.
 
 2. **Or open any single file** — `components/buttons/buttons.html`,
    `examples/ecommerce/ecommerce-homepage.html`, and so on render standalone.
 
-3. **Toggle the theme** — each preview has a Light/Dark control that flips
-   `class="dark"` on `<html>` and remembers the choice in
-   `localStorage["mui-theme"]`.
+3. **Choose a visual direction** — the lab's theme selector applies Core blue,
+   Editorial, Evergreen, Violet, or Monochrome to shared-token previews and
+   remembers the choice in `localStorage["mue-theme-name"]`. Each preview also
+   has a Light/Dark control persisted in `localStorage["mui-theme"]`.
 
 4. **Copy the source** — every converted preview ends with a code block and two
    buttons injected by `styles/mue.js`: **Copy markup** puts the HTML on the
@@ -141,6 +142,7 @@ Layer reference (see `design-tokens/README.md` for the full list):
 | `shadows/scale.css` | `--shadow-xs` … `--shadow-xl` |
 | `themes/light.css` | shadcn-style aliases (`--color-background`, `--radius`) |
 | `themes/dark.css` | `html.dark`: mirrors the grayscale ramp, lifts brand blues, brightens states, deepens shadows |
+| `themes/presets.css` | Opt-in Editorial, Evergreen, Violet, and Monochrome palettes, typography, and radii |
 | `base/typography.css` | Optional element styles (`h1`–`h6`, `p`, `a`) — deliberately *not* imported by `engine.css` |
 
 Dark mode is a **primitive mirror**: `html.dark` re-points the grayscale ramp,

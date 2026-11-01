@@ -21,6 +21,7 @@
 @import "./motion/scale.css";
 @import "./themes/light.css";
 @import "./themes/dark.css";
+@import "./themes/presets.css";
 
 /* --------------------------------------------------------------------------
    Base

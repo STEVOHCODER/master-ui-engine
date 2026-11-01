@@ -1,0 +1,85 @@
+html[data-mue-theme="editorial"] {
+  --font-sans: "Segoe UI", system-ui, sans-serif;
+  --font-display: Georgia, "Times New Roman", serif;
+  --color-gray-50: 40 33% 98%; --color-gray-100: 35 24% 94%; --color-gray-200: 30 18% 87%;
+  --color-gray-300: 28 14% 76%; --color-gray-400: 28 10% 58%; --color-gray-500: 28 9% 43%;
+  --color-gray-600: 28 10% 35%; --color-gray-700: 30 12% 26%; --color-gray-800: 30 15% 16%;
+  --color-gray-900: 30 20% 10%; --color-gray-950: 30 24% 6%;
+  --color-primary-50: 16 100% 97%; --color-primary-100: 16 95% 92%; --color-primary-200: 15 90% 83%;
+  --color-primary-300: 14 85% 72%; --color-primary-400: 13 80% 60%; --color-primary-500: 12 72% 45%;
+  --color-primary-600: 11 74% 38%; --color-primary-700: 10 72% 31%; --color-primary-800: 10 64% 25%;
+  --color-primary-900: 10 55% 20%; --color-primary-950: 10 48% 12%;
+  --radius-sm: 0.125rem; --radius-base: 0.25rem; --radius-md: 0.375rem; --radius-lg: 0.5rem;
+}
+html.dark[data-mue-theme="editorial"] {
+  --color-gray-50: 30 24% 7%; --color-gray-100: 30 15% 13%; --color-gray-200: 30 12% 23%;
+  --color-gray-300: 28 10% 34%; --color-gray-400: 28 12% 72%; --color-gray-500: 28 10% 62%;
+  --color-gray-600: 30 18% 86%; --color-gray-700: 35 24% 92%; --color-gray-800: 40 33% 97%;
+  --color-gray-900: 40 33% 98%; --color-gray-950: 40 33% 98%;
+  --color-primary-400: 14 88% 76%; --color-primary-500: 14 88% 68%;
+  --color-primary-600: 14 85% 72%; --color-primary-700: 15 90% 83%;
+}
+
+html[data-mue-theme="evergreen"] {
+  --font-display: "Trebuchet MS", "Segoe UI", sans-serif;
+  --color-gray-50: 150 25% 98%; --color-gray-100: 150 18% 94%; --color-gray-200: 150 14% 87%;
+  --color-gray-300: 150 11% 76%; --color-gray-400: 150 8% 58%; --color-gray-500: 150 8% 43%;
+  --color-gray-600: 150 10% 35%; --color-gray-700: 150 13% 26%; --color-gray-800: 150 18% 16%;
+  --color-gray-900: 150 25% 10%; --color-gray-950: 150 30% 6%;
+  --color-primary-50: 155 65% 96%; --color-primary-100: 155 60% 90%; --color-primary-200: 155 55% 80%;
+  --color-primary-300: 156 52% 65%; --color-primary-400: 157 55% 46%; --color-primary-500: 158 64% 32%;
+  --color-primary-600: 159 68% 26%; --color-primary-700: 160 70% 21%; --color-primary-800: 161 65% 17%;
+  --color-primary-900: 162 55% 14%; --color-primary-950: 162 50% 9%;
+  --radius-sm: 0.375rem; --radius-base: 0.625rem; --radius-md: 0.875rem; --radius-lg: 1.25rem;
+}
+html.dark[data-mue-theme="evergreen"] {
+  --color-gray-50: 150 30% 6%; --color-gray-100: 150 18% 13%; --color-gray-200: 150 13% 23%;
+  --color-gray-300: 150 10% 34%; --color-gray-400: 150 12% 72%; --color-gray-500: 150 9% 62%;
+  --color-gray-600: 150 14% 86%; --color-gray-700: 150 18% 92%; --color-gray-800: 150 25% 97%;
+  --color-gray-900: 150 25% 98%; --color-gray-950: 150 25% 98%;
+  --color-primary-400: 156 65% 72%; --color-primary-500: 156 68% 62%;
+  --color-primary-600: 156 62% 68%; --color-primary-700: 155 60% 82%;
+}
+
+html[data-mue-theme="violet"] {
+  --font-display: "Segoe UI", system-ui, sans-serif;
+  --color-gray-50: 260 35% 98%; --color-gray-100: 260 25% 95%; --color-gray-200: 260 20% 89%;
+  --color-gray-300: 260 15% 80%; --color-gray-400: 260 11% 62%; --color-gray-500: 260 10% 46%;
+  --color-gray-600: 260 12% 38%; --color-gray-700: 260 16% 29%; --color-gray-800: 260 22% 18%;
+  --color-gray-900: 260 30% 11%; --color-gray-950: 260 36% 7%;
+  --color-primary-50: 262 100% 97%; --color-primary-100: 262 95% 93%; --color-primary-200: 262 90% 85%;
+  --color-primary-300: 262 85% 74%; --color-primary-400: 262 80% 64%; --color-primary-500: 262 70% 50%;
+  --color-primary-600: 262 72% 42%; --color-primary-700: 262 70% 35%; --color-primary-800: 262 62% 28%;
+  --color-primary-900: 262 52% 22%; --color-primary-950: 262 45% 14%;
+  --radius-sm: 0.5rem; --radius-base: 0.875rem; --radius-md: 1.25rem; --radius-lg: 1.75rem;
+}
+html.dark[data-mue-theme="violet"] {
+  --color-gray-50: 260 36% 7%; --color-gray-100: 260 22% 14%; --color-gray-200: 260 16% 25%;
+  --color-gray-300: 260 12% 37%; --color-gray-400: 260 15% 74%; --color-gray-500: 260 11% 64%;
+  --color-gray-600: 260 20% 86%; --color-gray-700: 260 25% 93%; --color-gray-800: 260 35% 97%;
+  --color-gray-900: 260 35% 98%; --color-gray-950: 260 35% 98%;
+  --color-primary-400: 262 90% 79%; --color-primary-500: 262 88% 72%;
+  --color-primary-600: 262 85% 76%; --color-primary-700: 262 90% 86%;
+}
+
+html[data-mue-theme="mono"] {
+  --font-sans: Arial, Helvetica, sans-serif;
+  --font-display: "Arial Narrow", Arial, sans-serif;
+  --color-primary-50: 0 0% 97%; --color-primary-100: 0 0% 92%; --color-primary-200: 0 0% 83%;
+  --color-primary-300: 0 0% 68%; --color-primary-400: 0 0% 48%; --color-primary-500: 0 0% 18%;
+  --color-primary-600: 0 0% 12%; --color-primary-700: 0 0% 9%; --color-primary-800: 0 0% 7%;
+  --color-primary-900: 0 0% 5%; --color-primary-950: 0 0% 3%;
+  --color-gray-50: 0 0% 98%; --color-gray-100: 0 0% 95%; --color-gray-200: 0 0% 89%;
+  --color-gray-300: 0 0% 80%; --color-gray-400: 0 0% 62%; --color-gray-500: 0 0% 45%;
+  --color-gray-600: 0 0% 37%; --color-gray-700: 0 0% 28%; --color-gray-800: 0 0% 17%;
+  --color-gray-900: 0 0% 10%; --color-gray-950: 0 0% 6%;
+  --radius-sm: 0.125rem; --radius-base: 0.125rem; --radius-md: 0.25rem; --radius-lg: 0.375rem;
+}
+html.dark[data-mue-theme="mono"] {
+  --color-primary-400: 0 0% 82%; --color-primary-500: 0 0% 92%;
+  --color-primary-600: 0 0% 86%; --color-primary-700: 0 0% 96%;
+  --color-gray-50: 0 0% 6%; --color-gray-100: 0 0% 13%; --color-gray-200: 0 0% 24%;
+  --color-gray-300: 0 0% 36%; --color-gray-400: 0 0% 74%; --color-gray-500: 0 0% 64%;
+  --color-gray-600: 0 0% 86%; --color-gray-700: 0 0% 93%; --color-gray-800: 0 0% 97%;
+  --color-gray-900: 0 0% 98%; --color-gray-950: 0 0% 98%;
+}

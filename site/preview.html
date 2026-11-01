@@ -91,6 +91,13 @@
               <span class="pv-ctl-label">Frame theme</span>
               <button type="button" data-frame-theme="light" aria-pressed="false">Light</button>
               <button type="button" data-frame-theme="dark" aria-pressed="false">Dark</button>
+              <select id="pv-theme-preset" aria-label="Preview visual theme" title="Apply a visual theme to this preview">
+                <option value="default">Core blue</option>
+                <option value="editorial">Editorial</option>
+                <option value="evergreen">Evergreen</option>
+                <option value="violet">Violet</option>
+                <option value="mono">Monochrome</option>
+              </select>
             </div>
           </div>
           <p class="pv-note" id="pv-note">The frame above is the resource's own file, served from <span class="mono">/engine/…</span>. The width buttons resize the frame it renders into; the theme buttons set <span class="mono">html.dark</span> on the preview document itself.</p>
