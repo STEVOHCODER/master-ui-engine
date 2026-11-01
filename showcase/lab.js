@@ -12,7 +12,11 @@
   "use strict";
 
   const ITEMS = (window.MUE_CATALOG && window.MUE_CATALOG.items) || [];
-  const ROOT = new URL("../", location.href);
+  /* document.baseURI, not location.href: Vercel's cleanUrls serves this page at
+     /engine/showcase with no trailing slash, where "../" would resolve to the site
+     root and every preview iframe would 404. The deployed copy pins a <base> to
+     /engine/showcase/, so the base is the one truth for both hosts. */
+  const ROOT = new URL("../", document.baseURI);
   const THEME_KEY = "mui-theme"; // same key styles/mue.js persists in the previews
   const PRESET_KEY = "mue-theme-name";
   const isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);

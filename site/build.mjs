@@ -1,6 +1,6 @@
 /* Copies the live engine previews into site/engine so the marketing pages can
    iframe the real components instead of screenshots of them. */
-import { cpSync, mkdirSync, rmSync, existsSync, readdirSync, statSync } from "node:fs";
+import { cpSync, mkdirSync, rmSync, existsSync, readdirSync, statSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -29,5 +29,17 @@ const countHtml = (dir) =>
 
 let pages = 0;
 for (const tree of TREES) pages += countHtml(join(OUT, tree));
+
+/* showcase/index.html is the one copied page whose URL is a folder index. Vercel's
+   cleanUrls 308s /engine/showcase/index.html to /engine/showcase, and a path with no
+   trailing slash makes the browser resolve ../design-tokens/engine.css and lab.js
+   against /engine/ instead of /engine/showcase/. Pinning a base there keeps the
+   source file relative (so file:// and tools/audit/serve.js still work) while the
+   deployed copy loads its own assets. */
+const labPath = join(OUT, "showcase", "index.html");
+const lab = readFileSync(labPath, "utf8");
+if (!lab.includes("<base ")) {
+  writeFileSync(labPath, lab.replace(/(<meta charset[^>]*>)/i, `$1\n  <base href="/engine/showcase/">`), "utf8");
+}
 
 console.log("engine/ ready — " + pages + " html files, styles " + statSync(join(OUT, "styles/components.css")).size + " bytes");
