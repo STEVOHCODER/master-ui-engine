@@ -274,18 +274,24 @@ files in the repo. See `AGENTS.md` for the full build order and the gate list.
 
 ### 8. Search submission
 
-Two things have to happen in Google's own UI; nothing in this repo can do them
-for you:
+**Both verification paths are already in place** (added 2026-11-01, so Google can
+read either):
 
-1. **Verify the domain.** In Search Console choose *Domain property* and add the
-   TXT record Google gives you to the DNS for `masterinterface.xyz` (Vercel DNS,
-   since the domain registered there). If you would rather verify a URL-prefix
-   property, hand me the `google-site-verification` token and I will add it as a
-   meta tag in the `<head>` of every page in the same commit as the rest of the
-   head tags — a token belongs in the repo, a password does not.
-2. **Submit the sitemap** at `https://masterinterface.xyz/sitemap.xml`, after the
-   apex certificate is issued, so Google crawls `https` on the canonical host
-   instead of following `http` into a redirect chain.
+- A `TXT` record on the apex of the Vercel-managed DNS for `masterinterface.xyz`
+  holding `google-site-verification=<token>`, which is what a *Domain property*
+  needs. Check it with `node -e "require('node:dns').promises.resolveTxt('masterinterface.xyz').then(r=>console.log(r.map(x=>x.join(''))))"` — the token is
+  public data, not a credential, and re-adding it costs nothing.
+- The same token as `<meta name="google-site-verification">` in the `<head>` of
+  all seven public pages, which is what a *URL-prefix property* needs.
+
+That means nothing in the repo is left to do; only Google's own UI is waiting on
+you:
+
+1. **Verify.** In Search Console add a *Domain property* for `masterinterface.xyz`
+   and click verify — the TXT record answers it. If you would rather not own the
+   DNS, add the URL-prefix property `https://masterinterface.xyz/` instead; the
+   meta tag answers that too.
+2. **Submit the sitemap** at `https://masterinterface.xyz/sitemap.xml`.
 
 Then check, in this order: `curl -sI https://masterinterface.xyz/robots.txt`
 returns 200 and names the sitemap; `sitemap.xml` returns 200 and every `<loc>`
