@@ -11,13 +11,6 @@ const SITE = dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.env.PORT || 8820);
 const ROUTES = ["/library", "/templates", "/preview", "/agents", "/admin", "/admin/login", "/privacy"];
 
-/* Mirrors the rewrites in vercel.json, so the clean URLs resolve to the same
-   files locally as they do on Vercel. */
-const REWRITES = {
-  "/admin": "/admin.html",
-  "/admin/login": "/admin-login.html",
-};
-
 loadEnv(join(SITE, ".env.local"));
 
 const TYPES = {
@@ -49,14 +42,12 @@ function loadEnv(file) {
 function fileFor(pathname) {
   if (pathname === "/") return join(SITE, "index.html");
   if (pathname === "/analytics" || pathname === "/analytics.html") return null;
-  const rewritten = REWRITES[pathname];
-  if (rewritten) {
-    const target = join(SITE, rewritten);
-    if (existsSync(target) && statSync(target).isFile()) return target;
-  }
   const safe = normalize(decodeURIComponent(pathname)).replace(/^(\.\.[/\\])+/, "");
   const direct = join(SITE, safe);
   if (existsSync(direct) && statSync(direct).isFile()) return direct;
+  /* /admin resolves to admin/index.html, the way Vercel serves it. */
+  const index = join(direct, "index.html");
+  if (existsSync(index) && statSync(index).isFile()) return index;
   const html = direct + ".html";
   if (!extname(safe) && existsSync(html) && ROUTES.includes(pathname)) return html;
   return null;

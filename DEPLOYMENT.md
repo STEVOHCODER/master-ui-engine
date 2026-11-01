@@ -9,7 +9,8 @@ plus one Supabase project. No build step, no framework runtime.
 ```
 site/
   index.html  library.html  templates.html  preview.html  agents.html
-  admin.html  admin-login.html  privacy.html
+  admin/      index.html  login.html    <- owner console, no clean-URL rewrite needed
+  privacy.html
   assets/     web.css  web.js  library.css  library.js  admin.css  admin.js  analytics.js  img/
   api/        track.js  stats.js  subscribe.js  _lib.js  _admin.js  admin/login.js  admin/session.js  admin/data.js
   tools/      admin-credentials.mjs <- creates the owner password hash locally (not deployed)
@@ -215,7 +216,7 @@ console asks before it sends, and the rows are gone.
   comment marking it for replacement. `SITE_URL` is documentation only: the
   functions derive the allowed origin from `x-forwarded-host`, so a wrong
   `SITE_URL` cannot lock out your own visitors.
-- `admin.html` and `admin-login.html` ship `noindex, nofollow`, carry a
+- `/admin` and `/admin/login` ship `noindex, nofollow`, carry a
   `X-Robots-Tag` header, are disallowed in `robots.txt`, and do **not** load
   `/assets/analytics.js`, so the owner's own visits never inflate the numbers.
 - Library search text: `library.js` reports a search as

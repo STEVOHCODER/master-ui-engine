@@ -6,8 +6,6 @@
     { "source": "/templates", "destination": "/templates.html" },
     { "source": "/preview", "destination": "/preview.html" },
     { "source": "/agents", "destination": "/agents.html" },
-    { "source": "/admin", "destination": "/admin.html" },
-    { "source": "/admin/login", "destination": "/admin-login.html" },
     { "source": "/privacy", "destination": "/privacy.html" }
   ],
   "redirects": [
@@ -36,7 +34,7 @@
       "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
     },
     {
-      "source": "/admin/login",
+      "source": "/admin/(.*)",
       "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
     }
   ]
