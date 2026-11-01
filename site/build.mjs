@@ -42,4 +42,28 @@ if (!lab.includes("<base ")) {
   writeFileSync(labPath, lab.replace(/(<meta charset[^>]*>)/i, `$1\n  <base href="/engine/showcase/">`), "utf8");
 }
 
-console.log("engine/ ready — " + pages + " html files, styles " + statSync(join(OUT, "styles/components.css")).size + " bytes");
+/* The 59 previews are iframed assets, not landing pages, so they stay out of the
+   index. That has to be a per-file meta tag rather than an X-Robots-Tag on
+   /engine/**: the header also lands on the CSS and JavaScript Googlebot fetches
+   to render the marketing pages, and a noindexed stylesheet or script is what
+   Search Console files as "Other error — Stylesheet / Script". */
+const META_ROBOTS = '<meta name="robots" content="noindex, follow">';
+const walkHtml = (dir) =>
+  readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
+    e.isDirectory() ? walkHtml(join(dir, e.name)) : e.name.endsWith(".html") ? [join(dir, e.name)] : []
+  );
+
+let tagged = 0;
+for (const file of walkHtml(OUT)) {
+  const html = readFileSync(file, "utf8");
+  if (/name=["']robots["']/i.test(html)) continue;
+  const withMeta = html.replace(/(<meta charset[^>]*>)/i, `$1\n  ${META_ROBOTS}`);
+  if (withMeta === html) throw new Error("no charset meta to anchor the robots tag: " + file);
+  writeFileSync(file, withMeta, "utf8");
+  tagged++;
+}
+
+console.log(
+  "engine/ ready — " + pages + " html files (" + tagged + " tagged noindex), styles " +
+    statSync(join(OUT, "styles/components.css")).size + " bytes"
+);

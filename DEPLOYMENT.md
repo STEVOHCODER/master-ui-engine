@@ -229,15 +229,21 @@ console asks before it sends, and the rows are gone.
   session cookie is `Secure`, which is why signing in over plain `http://` — or
   on a local `node site/serve.mjs` origin other than `localhost` — cannot
   complete: `requestIsSecure()` also accepts a host ending in `.vercel.app`.
-- `/admin` and `/admin/login` ship `noindex, nofollow`, carry a
-  `X-Robots-Tag` header, are disallowed in `robots.txt`, and do **not** load
-  `/assets/analytics.js`, so the owner's own visits never inflate the numbers.
+- `/admin` and `/admin/login` ship `noindex, nofollow` as an `X-Robots-Tag`
+  header and do **not** load `/assets/analytics.js`, so the owner's own visits
+  never inflate the numbers. `robots.txt` no longer disallows them: Google's own
+  report says it best — *"The 'Disallow:' line in my robots.txt blocks Google
+  from accessing this page, so Google can't determine if the page is noindex"* —
+  so a blocked URL keeps its row forever instead of clearing it.
 - Every `/api/*` response sets `X-Robots-Tag: noindex, nofollow` inside
   `sendJson()` in `site/api/_lib.js`, not in `vercel.json`. Googlebot GETs the
-  POST-only endpoints, files the `405` JSON as an "Other error" row, and a
-  `robots.txt` disallow leaves that row in place — only a fetched `noindex`
-  clears it. The header is set in code so it survives on every status, including
-  `405` and `401`, which no static header block would distinguish.
+  POST-only endpoints, files the `405` JSON as an "Other error" row, and the same
+  reasoning applies: the `Disallow: /api/` line that used to sit in `robots.txt`
+  stopped the fetch that the `noindex` needs. It is gone for `User-agent: *`;
+  the named AI-crawler stanzas still skip `/api/` and `/admin`. Nothing here
+  loosens the guards — `/api/track` is still POST-only with a same-origin check,
+  `/api/stats` and `/api/admin/data` still answer `401` without the signed
+  session cookie.
 - Nothing on the site links a `.html` URL any more. `engineUrl()` in
   `site/assets/library.js`, the preview frames and `src`/`data-src` attributes in
   `index.html`, the filter form's `action` and every `/preview` link use the
@@ -249,19 +255,20 @@ console asks before it sends, and the rows are gone.
   extension-less path to its `.html` file, so local and deployed URLs match.
   `data-path` attributes and the GitHub "View source" links keep the real
   `.html` filename — those name a file in the repository, not a URL to crawl.
-- The 59 preview pages under `/engine/**` carry `X-Robots-Tag: noindex, follow`
-  from `vercel.json` (set 2026-11-01, after Google's first crawl filed them as
-  content pages). They are the iframed assets, not the search landing pages, and
-  the React and Web Components galleries are client-rendered shells, so keeping
-  them out of the index also keeps crawl reports down to the seven real pages.
-  They stay reachable and still load for `llms.txt`, the CLI and the catalog —
-  `robots.txt` deliberately does **not** disallow `/engine/`, because a
-  disallowed URL cannot be fetched and therefore cannot be told `noindex`.
-  Note that a `.html` URL answers the `cleanUrls` 308 before the header block
-  applies, so the redirect itself carries no `X-Robots-Tag`; Google follows it to
-  the extension-less URL, which does, and honours the tag from there. Since the
-  site no longer links any `.html` URL, that path now only matters for links made
-  from outside.
+- The 59 preview pages under `/engine/**` are kept out of the index by
+  `<meta name="robots" content="noindex, follow">`, injected into the deployed
+  copy by `site/build.mjs`. It used to be an `X-Robots-Tag` on `/engine/(.*)` in
+  `vercel.json`, and that was wrong: the pattern also matched the CSS and JS the
+  engine ships, so Googlebot fetched `design-tokens/engine.css`,
+  `colors/primitive.css`, `themes/dark.css`, `typography/scale.css` and
+  `styles/mue.js` as noindexed URLs and filed each one as "Other error —
+  Stylesheet / Script". `engine.css` and `mue.js` are also what the seven
+  *indexable* pages render with, so a header on the whole tree was actively
+  working against the pages we want indexed. A meta tag cannot land on a
+  stylesheet, which is why the signal moved there.
+  The previews stay reachable and still load for `llms.txt`, the CLI and the
+  catalog — `robots.txt` does not disallow `/engine/`, because a disallowed URL
+  cannot be fetched and therefore cannot be told `noindex`.
 - Library search text: `library.js` reports a search as
   `mueTrack("library_search", { id: <typed text> })`. `STORE_SEARCH_TERMS` in
   `site/api/_lib.js` is `false`, so `/api/track` stores the *count* of searches
@@ -327,23 +334,44 @@ returns 200 and names the sitemap; `sitemap.xml` returns 200 and every `<loc>`
 resolves 200 on the same host; and URL Inspection on `https://masterinterface.xyz/`
 reports the canonical as the apex URL, not `master-ui-engine.vercel.app`.
 
-**The two crawl errors in the first report, and what closed them** (both fixed
-2026-11-01; Search Console re-crawls on its own schedule, so the rows outlive the
-fix by days):
+**The crawl errors in the first reports, and what closed them** (all three fixed
+2026-11-01; Search Console re-crawls on its own schedule, so a row outlives the
+fix by days — and Google caches `robots.txt` for about a day, so the `noindex`
+signal is not readable until it refetches that file):
 
-- *Other error* on `/api/track` — a POST-only endpoint that returns `405` plus
-  JSON when Googlebot GETs it, with nothing telling the crawler to leave it
-  alone. Fixed by the `X-Robots-Tag: noindex, nofollow` in `sendJson()`.
+- *Other error* on `/api/track` and `/api/subscribe` — POST-only endpoints that
+  answer `405` plus JSON to a crawler GET. The `X-Robots-Tag: noindex, nofollow`
+  in `sendJson()` is the signal; removing `Disallow: /api/` from the
+  `User-agent: *` stanza is what lets Googlebot actually read it. Google's own
+  row text says the same thing: *"The 'Disallow:' line in my robots.txt blocks
+  Google from accessing this page, so Google can't determine if the page is
+  noindex."*
+- *Other error — Stylesheet / Script* on the engine CSS and JS, *caused by the
+  fix for the row above*: `vercel.json` put `X-Robots-Tag` on all of `/engine/**`
+  and the tree holds stylesheets and scripts as well as previews. The signal
+  moved to a per-file meta tag injected at build time, so it can only land on
+  HTML.
 - *Redirect page* on `/engine/**.html` — `cleanUrls` answers those with a `308`
-  to the extension-less URL. They were only ever discovered because our own
-  pages linked them. Fixed by emitting the extension-less form everywhere, so a
-  crawl now reaches the page in one request; the `.html` URLs keep working for
-  anyone who links the old form.
-- The report also said the sitemap "couldn't fetch pages". The file itself is
-  sound and answers `200 application/xml` with six `<loc>` entries that each
-  resolve `200` — the rows were the two causes above plus crawl results recorded
-  before the apex certificate was issued. Verify with `node site/build.mjs` and
-  a GET of `https://masterinterface.xyz/sitemap.xml`.
+  to the extension-less URL, and our own pages were the ones handing Google the
+  `.html` form. Fixed by emitting the extension-less form everywhere; the
+  `.html` URLs keep working for anyone who links the old form.
+- **The sitemap rows.** `sitemap.xml` answers `200 application/xml`, no BOM, six
+  `<loc>` entries, each resolving `200`; every other plausible sitemap name
+  (`sitemap-0.xml`, `sitemap-index.xml`, `sitemap-1.xml`, `engine/sitemap.xml`)
+  answers `404`, so there is exactly one file and it has never held more than six
+  URLs (`git show 5d5daf5:site/sitemap.xml` had five). A Search Console figure
+  like "306 pages couldn't be reached" therefore cannot be the *contents* of this
+  file — it is Google's backlog of URLs it found by crawling the domain: the
+  `.html` redirect forms, the engine CSS/JS, and `/api/*` results recorded before
+  the apex certificate existed. Reproduce the checks with `node site/build.mjs`
+  plus:
+
+```bash
+curl -s https://masterinterface.xyz/sitemap.xml | grep -c "<loc>"   # 6
+curl -s https://masterinterface.xyz/robots.txt                      # no Disallow for User-agent: *
+curl -sI https://masterinterface.xyz/engine/design-tokens/engine.css | grep -i x-robots   # no match
+curl -s https://masterinterface.xyz/engine/components/cards/cards  | grep -o 'name="robots"[^>]*'
+```
 
 `llms.txt` at the site root is for agent readers, not for ranking — Google has
 said it does not use the file, so treat it as machine-readable documentation and

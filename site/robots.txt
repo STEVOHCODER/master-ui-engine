@@ -1,8 +1,11 @@
 User-agent: *
 Allow: /
-Disallow: /admin
-Disallow: /admin/login
-Disallow: /api/
+
+# /admin and /api/ are kept out of the index by a noindex signal, not by a
+# Disallow: a blocked URL cannot be fetched, so Google never reads the signal and
+# leaves the row up as "Other error" instead of clearing it. Both are guarded in
+# code — /api/track is POST-only with a same-origin check, /api/stats and
+# /api/admin/data need the signed session cookie, /admin gates to the login page.
 
 # AI assistants and coding agents are welcome: the catalog, the CLI and the docs
 # are the product, and a crawler that cannot read them cannot recommend this kit.
@@ -36,6 +39,8 @@ Allow: /
 Disallow: /admin
 Disallow: /api/
 
-# The analytics collector posts from the page itself; no crawler needs /api/, and
-# a bot driving it would only inflate the counts the owner console reads.
+# The agent crawlers above are asked to skip /admin and /api/: the collector posts
+# from the page itself, and a bot driving it would only inflate the counts the
+# owner console reads. Googlebot is not in that group and gets the noindex
+# treatment described at the top instead.
 Sitemap: https://masterinterface.xyz/sitemap.xml
