@@ -3,6 +3,8 @@
   <url><loc>https://masterinterface.xyz/</loc><lastmod>2026-11-01</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://masterinterface.xyz/library</loc><lastmod>2026-11-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://masterinterface.xyz/templates</loc><lastmod>2026-11-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://masterinterface.xyz/cli</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://masterinterface.xyz/web-components</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://masterinterface.xyz/faq</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://masterinterface.xyz/agents</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://masterinterface.xyz/privacy</loc><lastmod>2026-11-01</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>

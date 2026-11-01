@@ -21,6 +21,16 @@ for (const tree of TREES) {
   cpSync(from, join(OUT, tree), { recursive: true, filter: isWebFile });
 }
 
+/* The /cli page lets a visitor copy the agent instruction files. Serving the real
+   bytes from the same build keeps that copy from drifting away from the code it
+   describes — a transcription on the page would go stale the next time the CLI
+   changes. */
+for (const doc of ["SKILL.md", "AGENTS.md"]) {
+  const from = join(REPO, doc);
+  if (!existsSync(from)) throw new Error("missing agent instruction file: " + doc);
+  cpSync(from, join(OUT, doc));
+}
+
 const countHtml = (dir) =>
   readdirSync(dir, { withFileTypes: true }).reduce(
     (n, e) => n + (e.isDirectory() ? countHtml(join(dir, e.name)) : e.name.endsWith(".html") ? 1 : 0),

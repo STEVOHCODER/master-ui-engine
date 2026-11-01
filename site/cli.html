@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mue CLI: Install UI Components With No npm | MASTER-UI-ENGINE</title>
+<meta name="description" content="Every mue command with the output it actually printed: search 54 previews, install a component with the token layers it needs, and gate the edit with mue check.">
+<link rel="canonical" href="https://masterinterface.xyz/cli">
+<meta name="google-site-verification" content="tcEkZsfCtJvpGwOo7fmJlAD91_HAHV_ME0NYM211-o8">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mue CLI: install a designed component without a build step">
+<meta property="og:description" content="Six steps, printed verbatim: clone the repo, run mue help, search the catalog, add ui-cards into your project with the 15 shared layer files it needs, pick the react, vue or web-components source instead, then gate the edit with mue check. Plus the failure messages, word for word.">
+<meta property="og:url" content="https://masterinterface.xyz/cli">
+<meta property="og:image" content="https://masterinterface.xyz/assets/img/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0c0f'/%3E%3Crect x='7' y='7' width='8' height='8' fill='%23c9f24a'/%3E%3Crect x='17' y='7' width='8' height='8' fill='%23f5f4f0'/%3E%3Crect x='7' y='17' width='8' height='8' fill='%23f5f4f0'/%3E%3Crect x='17' y='17' width='8' height='8' fill='%23c9f24a'/%3E%3C/svg%3E">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/engine/design-tokens/engine.css">
+<link rel="stylesheet" href="/assets/web.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://masterinterface.xyz/#site",
+      "url": "https://masterinterface.xyz/",
+      "name": "MASTER-UI-ENGINE",
+      "publisher": { "@id": "https://masterinterface.xyz/#org" },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://masterinterface.xyz/#org",
+      "name": "MASTER-UI-ENGINE",
+      "url": "https://masterinterface.xyz/",
+      "sameAs": ["https://github.com/STEVOHCODER/master-ui-engine"]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://masterinterface.xyz/cli#page",
+      "url": "https://masterinterface.xyz/cli",
+      "name": "mue CLI — install UI components with no npm",
+      "isPartOf": { "@id": "https://masterinterface.xyz/#site" },
+      "description": "The complete mue command surface with verbatim output: getting the library, searching the catalog, installing a component with its token layers, choosing a framework binding, and gating the edit."
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "url": "https://masterinterface.xyz/" },
+        { "@type": "ListItem", "position": 2, "name": "CLI", "url": "https://masterinterface.xyz/cli" }
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "mue CLI: install a designed component without a build step",
+      "description": "A file CLI over a git checkout: 16 commands, no dependencies beyond Node's own fs, path and url, no npm package and no registry token.",
+      "url": "https://masterinterface.xyz/cli",
+      "isPartOf": { "@id": "https://masterinterface.xyz/#site" },
+      "author": { "@id": "https://masterinterface.xyz/#org" },
+      "license": "https://opensource.org/licenses/MIT"
+    }
+  ]
+}
+</script>
+</head>
+<body class="page doc-page">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <a class="nav-brand" href="/">MASTER-UI-<span>ENGINE</span></a>
+  <nav class="nav-links" id="navLinks" aria-label="Main">
+    <a class="nav-link" href="/library">Library</a>
+    <a class="nav-link" href="/templates">Templates</a>
+    <a class="nav-link" href="/#frameworks">Frameworks</a>
+    <a class="nav-link" href="/agents">Agent guide</a>
+    <a class="nav-link" href="/cli" aria-current="page">CLI</a>
+    <a class="nav-link" href="/web-components">Web Components</a>
+    <a class="nav-link" href="/faq">FAQ</a>
+    <a class="btn-primary" href="https://github.com/STEVOHCODER/master-ui-engine" data-event="github_click">View on GitHub</a>
+  </nav>
+  <span class="nav-spacer"></span>
+  <button class="theme-toggle" data-theme-toggle data-event="theme_switch" aria-pressed="false">Dark mode</button>
+  <button class="menu-toggle" data-menu-toggle="#navLinks" aria-expanded="false" aria-controls="navLinks" aria-label="Menu"><i></i><i></i><i></i></button>
+</header>
+
+<main id="main">
+  <section class="section flush">
+    <div class="shell" style="max-width:54rem">
+      <p class="eyebrow">Documentation · CLI</p>
+      <h1 style="font-size:clamp(1.9rem,4.4vw,2.9rem);max-width:26ch">Install a designed component without leaving the terminal.</h1>
+      <p class="lede" style="margin-top:1.2rem"><span class="mono">mue</span> is a plain Node script that reads the library already on your disk. It searches the 54 previews, prints the markup with the tokens it depends on, copies a component into your project with every layer it needs, and then checks what you pasted. Every block of output on this page is what the command printed when it was run — not a sketch of it.</p>
+      <div class="metrics" style="margin-top:2.2rem">
+        <div class="metric"><b>16</b><span>commands</span></div>
+        <div class="metric"><b>54</b><span>previews indexed</span></div>
+        <div class="metric"><b>0</b><span>npm installs</span></div>
+        <div class="metric"><b>0</b><span>API keys</span></div>
+      </div>
+      <div class="cta-row">
+        <a class="btn-primary" href="/web-components">Web Components usage</a>
+        <a class="btn-ghost" href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/tools/mue.js">Read the CLI source</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="sec-title">No registry, because nothing is hosted</h2>
+      <p class="sec-lede" style="max-width:68ch">Most component CLIs resolve a remote registry: the tool calls a service, the service returns source, and a private registry wants a token first. This one has no server to reach, so there is nothing to authenticate to and nothing that can be renamed or taken down.</p>
+      <div class="compare" style="margin-top:2rem">
+        <div class="compare-col neg">
+          <h3>What you do not need</h3>
+          <ul class="mark-list">
+            <li>An account, a login or an API token — the repository is public and MIT.</li>
+            <li><span class="mono">npm install</span> of the library. <span class="mono">mue-react</span>, <span class="mono">mue-vue</span> and <span class="mono">mue-web-components</span> are not published; the CLI copies their files.</li>
+            <li>A build step. <span class="mono">tools/mue.js</span> imports only <span class="mono">fs</span>, <span class="mono">path</span> and <span class="mono">url</span>.</li>
+            <li>A <span class="mono">components.json</span> or registry entry to keep pointed at the right place.</li>
+          </ul>
+        </div>
+        <div class="compare-col">
+          <h3>What you do need</h3>
+          <ul class="mark-list pos">
+            <li>Node on your PATH. Run and verified on <span class="mono">v24.11.1</span> on Windows; it is CommonJS with built-in modules only.</li>
+            <li>A checkout of the repository — one <span class="mono">git clone</span>, or the ZIP from GitHub.</li>
+            <li>The path to <span class="mono">tools/mue.js</span>. The library root is derived from the script&rsquo;s own location, so it works from any directory.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="note">The trade is real: with no registry there is no <span class="mono">add @your-registry/item</span> one-liner. You get the source instead, which an agent can read, diff and copy — the thing a hosted registry makes harder, not easier.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <p class="eyebrow">Setup · six steps</p>
+      <h2 class="sec-title">From clone to installed component</h2>
+      <ol class="steps" style="margin-top:2rem">
+        <li><b>01 — 02</b><h3>Get it, confirm it</h3><p>Clone or download, then <span class="mono">mue help</span>. If help prints, the CLI is wired.</p></li>
+        <li><b>03 — 04</b><h3>Find it, install it</h3><p><span class="mono">search</span> for what the screen looks like, <span class="mono">add</span> to copy it into your project with its layers.</p></li>
+        <li><b>05 — 06</b><h3>Swap the stack, gate it</h3><p><span class="mono">--framework</span> for React, Vue or Web Components source; <span class="mono">check</span> for classes you invented.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="sec-title">Step 01 — get the library</h2>
+      <div class="grid-2" style="margin-top:1.6rem">
+        <div>
+          <p class="sec-lede" style="font-size:0.96rem">Any of the three gives you the same tree. The clone is what you want if you plan to run <span class="mono">mue serve</span> or keep up with changes; the ZIP is fine for a one-off copy, and <span class="mono">--depth 1</span> is the shortcut when you only want the current files and not the history.</p>
+          <p class="note">After unzipping, the folder is <span class="mono">master-ui-engine-main</span>. The rest of this page assumes your terminal is inside the repository root.</p>
+        </div>
+        <div>
+          <div class="doc-tabs" role="tablist" aria-label="How to get the library">
+            <button class="tab" role="tab" type="button" id="tab-clone" aria-selected="true" aria-controls="panel-clone">git clone</button>
+            <button class="tab" role="tab" type="button" id="tab-shallow" aria-selected="false" aria-controls="panel-shallow">shallow clone</button>
+            <button class="tab" role="tab" type="button" id="tab-zip" aria-selected="false" aria-controls="panel-zip">ZIP</button>
+          </div>
+          <div class="term doc-panel" id="panel-clone" role="tabpanel" aria-labelledby="tab-clone">
+            <div class="term-bar"><span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="term-title">your shell</span><button class="copy-btn" type="button" data-copy-text="#cloneCmd">Copy</button></div>
+            <pre><code id="cloneCmd"><span class="prompt">$</span> git clone https://github.com/STEVOHCODER/master-ui-engine.git
+<span class="prompt">$</span> cd master-ui-engine</code></pre>
+          </div>
+          <div class="term doc-panel" id="panel-shallow" role="tabpanel" aria-labelledby="tab-shallow" hidden>
+            <div class="term-bar"><span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="term-title">files only</span><button class="copy-btn" type="button" data-copy-text="#shallowCmd">Copy</button></div>
+            <pre><code id="shallowCmd"><span class="prompt">$</span> git clone --depth 1 https://github.com/STEVOHCODER/master-ui-engine.git
+<span class="prompt">$</span> cd master-ui-engine</code></pre>
+          </div>
+          <div class="term doc-panel" id="panel-zip" role="tabpanel" aria-labelledby="tab-zip" hidden>
+            <div class="term-bar"><span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="term-title">no git</span><button class="copy-btn" type="button" data-copy-text="#zipCmd">Copy</button></div>
+            <pre><code id="zipCmd"><span class="prompt">$</span> curl -L -o mue.zip https://github.com/STEVOHCODER/master-ui-engine/archive/refs/heads/main.zip
+<span class="prompt">$</span> unzip mue.zip &amp;&amp; cd master-ui-engine-main</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="sec-title">Step 02 — confirm it answers</h2>
+      <div class="grid-2" style="margin-top:1.6rem">
+        <div>
+          <p class="sec-lede" style="font-size:0.96rem">This is the whole install check. If it prints, every other command works; if it does not, the problem is the path to <span class="mono">tools/mue.js</span>, not a missing dependency, because there is no dependency to miss.</p>
+          <p class="note">Printed below is the complete <span class="mono">help</span> output, including the two commands that appear as usage variants (<span class="mono">show --framework</span>, <span class="mono">add --framework</span>).</p>
+        </div>
+        <div class="term">
+          <div class="term-bar"><span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="term-title">mue help</span><button class="copy-btn" type="button" data-copy-text="#helpOut">Copy</button></div>
+          <pre><code id="helpOut"><span class="prompt">$</span> node tools/mue.js help
+<span class="out">MUE — reuse what is already designed.
+
+  search "&lt;words&gt;"        find a preview by what it looks like
+  list [--group Components] every id, category and path in the library
+  show &lt;id|path&gt;          header, what to link, and the copy-ready markup
+  show &lt;id&gt; --framework x that binding's source instead (react, vue, web-components…)
+  regions                 the 31 CSS copy units in styles/components.css
+  region &lt;name&gt;...        the exact CSS of a copy unit
+  usage .class            which region defines it, which previews use it
+  tokens [--filter x]     every custom property with its value and file
+  head &lt;file|id&gt;          structured MUE:META for one preview
+  scaffold &lt;out&gt; --use a,b  a page wired to the shared sheet with that markup
+  add &lt;id&gt;... --into &lt;dir&gt;  install the component + the layers it needs into your project
+  add &lt;id&gt; --framework react --into &lt;dir&gt;  install that stack's own source instead
+  stack [react]           which frameworks exist here for real, and their source files
+  registry               the whole library as one JSON document (machine endpoint)
+  check &lt;file|all&gt;        unresolved classes, broken headers, missing metadata
+  doctor                  catalog/header/sheet consistency + conversion backlog
+  serve                   the visual lab at http://127.0.0.1:8791
+
+  --json on any command. Read AGENTS.md before building: the rule is
+  reuse a preview, never invent generic UI.</span></code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="sec-title">Step 03 — find what already exists</h2>
+      <div class="grid-2" style="margin-top:1.6rem">
+        <div>
+          <p class="sec-lede" style="font-size:0.96rem"><span class="mono">search</span> matches against names, categories, variants and the classes a preview actually uses, so you can ask in the vocabulary of the screen rather than the vocabulary of an API. <span class="mono">list</span> is the inventory, <span class="mono">regions</span> is the map of the stylesheet, and <span class="mono">tokens</span> is the value list.</p>
+          <p class="note">Every command accepts <span class="mono">--json</span>. The <span class="mono">frameworks</span> array in a search result is the honest answer to &ldquo;does this exist in React?&rdquo; — it lists only stacks with real source for that id.</p>
+        </div>
+        <div class="term">
+          <div class="term-bar"><span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="term-title">discovery</span><button class="copy-btn" type="button" data-copy-text="#findOut">Copy</button></div>
+          <pre><code id="findOut"><span class="prompt">#</span> what does a pricing table look like here?
+node tools/mue.js search <span class="flag">"pricing table"</span>
+<span class="out">ui-tables              Tables                 components/tables/tables.html
+  regions: tables
+  stacks: vanilla, react, vue, web-components
+  matched: name
+ui-datatable           Data Table             components/tables/data-table.html
+  regions: datatable
+  stacks: vanilla, vue, web-components, react
+  matched: name</span>
+
+<span class="prompt">#</span> the same answer as data, for an agent to read
+node tools/mue.js search <span class="flag">"pricing table"</span> <span class="flag">--json</span>
+<span class="out">[
+  {
+    "id": "ui-tables",
+    "name": "Tables",
+    "group": "Components",
+    "path": "components/tables/tables.html",
+    "score": 6,</span>
+
+<span class="prompt">#</span> which slice of the sheet defines .card?
+node tools/mue.js usage <span class="flag">.card</span>
+<span class="out">.card                defined in: cards, tables
+  used by 48 preview(s): btn-buttons, frm-input-fields, frm-select-menus, frm-checkboxes, frm-switches, frm-radio-buttons, frm-date-picker, frm-dropzone, ui-cards, ui-sections, ui-tables, ui-charts …</span>
+
+<span class="prompt">#</span> the inventory, grouped
+node tools/mue.js list <span class="flag">--group</span> Templates
+<span class="out">tpl-saas               Templates   saas             templates/saas/saas-starter.html
+tpl-admin              Templates   dashboards       templates/dashboards/admin-starter.html</span></code></pre>
+        </div>
+      </div>
+      <p class="note">Verbatim, with long results cut at a line boundary and marked <span class="mono">…</span>: <span class="mono">search</span> returns nine hits for that query, the <span class="mono">--json</span> form keeps going with <span class="mono">matchedOn</span>, <span class="mono">regions</span>, <span class="mono">frameworks</span> and <span class="mono">theme</span> for each, and <span class="mono">list</span> prints six template rows.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="sec-title">Step 04 — install a component into your project</h2>
+      <div class="grid-2" style="margin-top:1.6rem">
+        <div>
+          <p class="sec-lede" style="font-size:0.96rem"><span class="mono">add</span> is the reason this is a CLI and not a folder of files to browse. It writes the snippet, then writes the layers that snippet needs: the token files and the two shared sheets, resolved from the component&rsquo;s own region list. A pasted component without its tokens is a colour-less box, and that is the failure this prevents.</p>
+          <p class="sec-lede" style="font-size:0.96rem;margin-top:0.9rem">Files it will not overwrite are reported as <span class="mono">identical</span> and skipped; <span class="mono">--force</span> rewrites them. <span class="mono">--minimal</span> swaps the full stylesheet for the trimmed one. Multiple ids in one call share the layers instead of duplicating them.</p>
+          <div class="ref">
+            <div class="entry"><span class="key">what lands</span><span class="val"><span class="mono">mue/ui-cards.html</span> plus 15 shared files — 13 under <span class="mono">design-tokens/</span>, then <span class="mono">styles/components.css</span> and <span class="mono">styles/mue.js</span></span></div>
+            <div class="entry"><span class="key">regions resolved</span><span class="val"><span class="mono">tokens, buttons, cards, badges, feedback, utilities, datatable</span> — the closure this component needs, read from its own header</span></div>
+            <div class="entry"><span class="key">next line</span><span class="val">the CLI prints the <span class="mono">check</span> command for the file it just wrote, so the gate is the next keystroke rather than a remembered step</span></div>
+          </div>
+        </div>
+        <div class="term">
+          <div class="term-bar"><span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="term-title">mue add</span><button class="copy-btn" type="button" data-copy-text="#addOut">Copy</button></div>
+          <pre><code id="addOut"><span class="prompt">$</span> node tools/mue.js add ui-cards --into ../demo-app --create
+<span class="out">added 1 component(s) into ../demo-app
+mue/ui-cards.html  [written]  snippet
+  regions: tokens, buttons, cards, badges, feedback, utilities, datatable
+  &lt;link rel="stylesheet" href="../design-tokens/engine.css"&gt;
+  &lt;link rel="stylesheet" href="../styles/components.css"&gt;
+  &lt;script src="../styles/mue.js" defer&gt;&lt;/script&gt;
+  next: open …/demo-app/mue/ui-cards.html in a browser, then gate edits:
+        node tools/mue.js check "…/demo-app/mue/ui-cards.html"
+
+shared layers: 15 file(s) — 15 written</span></code></pre>
+        </div>
+      </div>
+      <p class="note">Verbatim, with two changes a reader should know about: the tool prints the target as a resolved absolute path, shown here as <span class="mono">../demo-app</span> and <span class="mono">…</span>, and the <span class="mono">next:</span> line is wrapped to fit. Run it yourself and the rest of the text is identical.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="sec-title">Step 05 — ask for that stack&rsquo;s own source</h2>
+      <p class="sec-lede" style="max-width:70ch">The same command, with <span class="mono">--framework</span>, installs the React, Vue or Web Components file instead of the HTML snippet. It never falls back: if a stack has no source for that id, nothing is written and the message says so, because silently handing an agent HTML while calling it React is how a project ends up with a component that does not exist.</p>
+      <div class="doc-tabs" role="tablist" aria-label="Which stack to install" style="margin-top:1.8rem">
+        <button class="tab" role="tab" type="button" id="tab-vanilla" aria-selected="true" aria-controls="panel-vanilla">vanilla</button>
+        <button class="tab" role="tab" type="button" id="tab-react" aria-selected="false" aria-controls="panel-react">react</button>
+        <button class="tab" role="tab" type="button" id="tab-vue" aria-selected="false" aria-controls="panel-vue">vue</button>
+        <button class="tab" role="tab" type="button" id="tab-wc" aria-selected="false" aria-controls="panel-wc">web-components</button>
+      </div>
+      <div class="term doc-panel" id="panel-vanilla" role="tabpanel" aria-labelledby="tab-vanilla">
+        <div class="term-bar"><span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="term-title">no --framework</span><button class="copy-btn" type="button" data-copy-text="#fwVanilla">Copy</button></div>
+        <pre><code id="fwVanilla"><span class="prompt">$</span> node tools/mue.js add btn-buttons --into ../demo-app --create
+<span class="out">added 1 component(s) into ../demo-app
+mue/btn-buttons.html  [written]  snippet
+  regions: tokens, buttons
+  &lt;link rel="stylesheet" href="../design-tokens/engine.css"&gt;
+  &lt;link rel="stylesheet" href="../styles/components.css"&gt;
+  &lt;script src="../styles/mue.js" defer&gt;&lt;/script&gt;
+
+shared layers: 15 file(s) — 15 written</span></code></pre>
+      </div>
+      <div class="term doc-panel" id="panel-react" role="tabpanel" aria-labelledby="tab-react" hidden>
+        <div class="term-bar"><span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="term-title">--framework react</span><button class="copy-btn" type="button" data-copy-text="#fwReact">Copy</button></div>
+        <pre><code id="fwReact"><span class="prompt">$</span> node tools/mue.js add btn-buttons <span class="flag">--framework</span> react --into ../demo-app --create
+<span class="out">added 1 react binding(s) into ../demo-app
+btn-buttons — Buttons (stable)
+  frameworks/react/components/button.jsx  [written]
+  install: copy frameworks/react into your project — no npm package is published
+  import:  import { Mue* } from "./frameworks/react/index.js"
+  verified: … (the full verification line is printed here; it is quoted in plain
+            text on the agent guide and in frameworks/registry.json)
+
+package files: 3 — 15 shared layer file(s) (15 written)
+
+NOTES
+  · the gallery for this stack lives in the kit at frameworks/react/preview/
+    gallery.html; it is not copied because it is a preview, not a dependency.
+  · react/index.js was written with 33 module reference(s) left out — those
+    components are not in this install. Add their ids, or copy
+    frameworks/react/components/ wholesale, to get the complete entry point.</span></code></pre>
+      </div>
+      <div class="term doc-panel" id="panel-vue" role="tabpanel" aria-labelledby="tab-vue" hidden>
+        <div class="term-bar"><span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="term-title">--framework vue</span><button class="copy-btn" type="button" data-copy-text="#fwVue">Copy</button></div>
+        <pre><code id="fwVue"><span class="prompt">$</span> node tools/mue.js add btn-buttons <span class="flag">--framework</span> vue --into ../demo-app --create
+<span class="out">added 1 vue binding(s) into ../demo-app
+btn-buttons — Buttons (stable)
+  frameworks/vue/components/MueButton.vue  [written]
+  install: copy frameworks/vue into your project — no npm package is published
+  import:  import { Mue* } from "./frameworks/vue/index.js"
+  verified: … (full line printed; quoted on the agent guide)
+
+package files: 3 — 15 shared layer file(s) (15 written)
+
+NOTES
+  · vue/index.js was written with 36 module reference(s) left out — those
+    components are not in this install.</span></code></pre>
+      </div>
+      <div class="term doc-panel" id="panel-wc" role="tabpanel" aria-labelledby="tab-wc" hidden>
+        <div class="term-bar"><span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="term-title">--framework web-components</span><button class="copy-btn" type="button" data-copy-text="#fwWc">Copy</button></div>
+        <pre><code id="fwWc"><span class="prompt">$</span> node tools/mue.js add btn-buttons <span class="flag">--framework</span> web-components --into ../demo-app --create
+<span class="out">added 1 web-components binding(s) into ../demo-app
+btn-buttons — Buttons (stable)
+  frameworks/web-components/components/mue-button.js  [written]
+  install: &lt;script type="module" src="frameworks/web-components/index.js"&gt;&lt;/script&gt;
+  import:  import "./frameworks/web-components/index.js" (registers every mue-* tag)
+  tag:     &lt;mue-button&gt;
+  verified: … (full line printed; quoted on the agent guide)
+
+package files: 3 — 15 shared layer file(s) (15 written)
+
+NOTES
+  · web-components/index.js was written with 39 module reference(s) left out —
+    those components are not in this install.</span></code></pre>
+      </div>
+      <p class="note">All four blocks were run against the repository at this commit, and the Web Components port needs no bundler and no framework runtime — that is what <a href="/web-components">the Web Components page</a> covers. The <span class="mono">verified:</span> line is long: it names the build command, the browsers, the widths, the themes, the probe counts and what was never run — so it is elided here and printed in full by the command itself, quoted on <a href="/agents">the agent guide</a> and stored in <span class="mono">frameworks/registry.json</span>.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="sec-title">Step 06 — gate the edit</h2>
+      <div class="grid-2" style="margin-top:1.6rem">
+        <div>
+          <p class="sec-lede" style="font-size:0.96rem">The failure this exists to catch is the invented class: an agent writes <span class="mono">class=&ldquo;card card-fancy&rdquo;</span>, nothing breaks loudly, and the page ships with an unstyled element. <span class="mono">check</span> reads the markup against the sheet and reports what it cannot resolve; <span class="mono">doctor</span> reads the library itself, so a catalog entry that points at a moved file surfaces before it misleads the next agent.</p>
+          <h3 style="font-size:1.1rem;margin-top:1.8rem">Scaffold instead of pasting</h3>
+          <p class="sec-lede" style="font-size:0.96rem"><span class="mono">scaffold</span> writes a whole page wired to the shared sheets, with the markup of the ids you name lifted from their own previews — the fastest way to start a screen without starting from a blank file.</p>
+        </div>
+        <div class="term">
+          <div class="term-bar"><span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="term-title">check · doctor · scaffold</span><button class="copy-btn" type="button" data-copy-text="#gateOut">Copy</button></div>
+          <pre><code id="gateOut"><span class="prompt">#</span> is every class in the copied file real?
+node tools/mue.js check ../demo-app/mue/ui-cards.html
+<span class="out">1 files checked · 0 with issues</span>
+
+<span class="prompt">#</span> is the library itself consistent?
+node tools/mue.js doctor
+<span class="out">54 previews · 41 use the shared sheet · 13 still self-contained</span>
+<span class="out">31 regions in styles/components.css</span>
+<span class="out">no structural problems found</span>
+
+<span class="prompt">#</span> start a page from two existing previews
+node tools/mue.js scaffold pricing.html <span class="flag">--use</span> btn-buttons ui-cards
+<span class="out">wrote pricing.html
+  links engine.css + components.css + mue.js relative to the output
+  · ui-cards: markup lifted from components/cards/cards.html
+  · btn-buttons: markup lifted from components/buttons/buttons.html</span></code></pre>
+        </div>
+      </div>
+      <p class="note"><span class="mono">doctor</span> also prints a conversion backlog: the 13 example pages that still carry their own <span class="mono">&lt;style&gt;</span> block instead of using the shared sheet. They render correctly — the list is a record of what has not been migrated, not a defect report. In the <span class="mono">scaffold</span> block the written path is shown as typed; the tool prints it resolved against your working directory.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="sec-title">Every command</h2>
+      <p class="sec-lede">The wording is the CLI&rsquo;s own, taken from <span class="mono">mue help</span>. Each one accepts <span class="mono">--json</span> except <span class="mono">help</span> and <span class="mono">serve</span>.</p>
+      <div class="ref">
+        <div class="entry"><span class="key">search &lt;words&gt;</span><span class="val">find a preview by what it looks like. <span class="mono">--framework</span> restricts it to stacks that really have source.</span></div>
+        <div class="entry"><span class="key">list [--group x]</span><span class="val">every id, category and path in the library — 54 rows.</span></div>
+        <div class="entry"><span class="key">show &lt;id|path&gt;</span><span class="val">header, what to link, and the copy-ready markup. <span class="mono">--framework react|vue|web-components</span> prints that binding&rsquo;s source, package note, install line, verification note and the contract harvested from its own <span class="mono">MUE:META</span>.</span></div>
+        <div class="entry"><span class="key">regions</span><span class="val">the 31 CSS copy units in <span class="mono">styles/components.css</span>, each with its line range and classes.</span></div>
+        <div class="entry"><span class="key">region &lt;name&gt;…</span><span class="val">the exact CSS of one or more copy units, with a <span class="mono">/* ==== region x ==== */</span> header.</span></div>
+        <div class="entry"><span class="key">usage .class</span><span class="val">which region defines it and which previews use it.</span></div>
+        <div class="entry"><span class="key">tokens [--filter x]</span><span class="val">every custom property with its value and the file that declares it.</span></div>
+        <div class="entry"><span class="key">head &lt;file|id&gt;</span><span class="val">the structured <span class="mono">MUE:META</span> block of one preview, parsed into fields.</span></div>
+        <div class="entry"><span class="key">scaffold &lt;out&gt; --use a,b</span><span class="val">a page wired to the shared sheets with that markup in it.</span></div>
+        <div class="entry"><span class="key">add &lt;id&gt;… --into &lt;dir&gt;</span><span class="val">install the component plus the layers it needs. <span class="mono">--framework</span> installs that stack&rsquo;s source instead; <span class="mono">--minimal</span>, <span class="mono">--force</span>, <span class="mono">--create</span> and <span class="mono">--all-components</span> / <span class="mono">--all-&lt;group&gt;</span> control what is written where.</span></div>
+        <div class="entry"><span class="key">stack [react]</span><span class="val">which frameworks exist here for real, with their source files — and which ids are documented but not built.</span></div>
+        <div class="entry"><span class="key">registry</span><span class="val">the whole library as one JSON document: ids, paths, categories, variants, token files, breakpoints and the audit note for each.</span></div>
+        <div class="entry"><span class="key">check &lt;file|all&gt;</span><span class="val">unresolved classes, broken headers, missing metadata.</span></div>
+        <div class="entry"><span class="key">doctor</span><span class="val">catalog, header and stylesheet consistency, plus the conversion backlog.</span></div>
+        <div class="entry"><span class="key">serve</span><span class="val">the visual lab at <span class="mono">http://127.0.0.1:8791</span> — every preview, the token studio and the command palette, served from the files on disk.</span></div>
+        <div class="entry"><span class="key">help</span><span class="val">the list above, in the CLI&rsquo;s own words.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="sec-title">Give the CLI to your agent</h2>
+      <div class="grid-2" style="margin-top:1.6rem">
+        <div>
+          <p class="sec-lede" style="font-size:0.96rem">Two files carry the same knowledge the CLI has, in the form agents read: <span class="mono">AGENTS.md</span> is the rule set for anything working inside this repository, <span class="mono">SKILL.md</span> is the portable pack for an agent working somewhere else. Copy the real bytes — these buttons fetch the deployed file, not a transcription of it.</p>
+          <p class="sec-lede" style="font-size:0.96rem;margin-top:0.9rem">Put them wherever your agent already looks: a skills directory, a rules file, or a line in your project&rsquo;s <span class="mono">AGENTS.md</span> pointing at the checkout. What matters is that the agent reads the reuse rule and the command surface before it writes markup, not which folder the file sits in.</p>
+        </div>
+        <div>
+          <div class="doc-tabs" role="tablist" aria-label="Which instruction file to copy">
+            <button class="tab" role="tab" type="button" id="tab-skill" aria-selected="true" aria-controls="panel-skill">SKILL.md</button>
+            <button class="tab" role="tab" type="button" id="tab-agents" aria-selected="false" aria-controls="panel-agents">AGENTS.md</button>
+          </div>
+          <div class="term doc-panel" id="panel-skill" role="tabpanel" aria-labelledby="tab-skill">
+            <div class="term-bar"><span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="term-title">SKILL.md · portable pack</span><button class="copy-btn" type="button" data-copy-src="/engine/SKILL.md" data-id="skill-file">Copy</button></div>
+            <pre><code><span class="out">The complete file, copied from /engine/SKILL.md — the same bytes that ship in the
+repository. Read it first at:
+https://github.com/STEVOHCODER/master-ui-engine/blob/main/SKILL.md</span></code></pre>
+          </div>
+          <div class="term doc-panel" id="panel-agents" role="tabpanel" aria-labelledby="tab-agents" hidden>
+            <div class="term-bar"><span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="term-title">AGENTS.md · repo law</span><button class="copy-btn" type="button" data-copy-src="/engine/AGENTS.md" data-id="agents-file">Copy</button></div>
+            <pre><code><span class="out">The complete file, copied from /engine/AGENTS.md — the same bytes that ship in
+the repository. Read it first at:
+https://github.com/STEVOHCODER/master-ui-engine/blob/main/AGENTS.md</span></code></pre>
+          </div>
+        </div>
+      </div>
+      <p class="note">Both files are versioned with the code they describe. A documentation page can go stale a week after a command changes; these two change in the same commit.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="sec-title">Troubleshooting</h2>
+      <p class="sec-lede">Word for word, because the text is the useful part — each one already names the fix.</p>
+      <div class="spec" style="margin-top:1.8rem">
+        <div class="row"><span class="num">1</span><h3>Target folder is missing</h3><p><span class="mono">mue: C:\path\to\app does not exist — re-run with --create, or point --into an existing project</span><br><span class="mono">--create</span> makes the directory. It refuses without the flag so a typo in <span class="mono">--into</span> cannot write a project somewhere you did not mean.</p></div>
+        <div class="row"><span class="num">2</span><h3>A mistyped id</h3><p><span class="mono">added 0 component(s) into …</span> then <span class="mono">NOTES · ui-card: not in the catalog — see "mue search ui-card"</span><br>This one is quiet on purpose: a partial install still installs what it recognised, and the note names what it did not. Re-run with the id from <span class="mono">mue list</span>.</p></div>
+        <div class="row"><span class="num">3</span><h3>A stack with no source</h3><p><span class="mono">mue: no svelte binding is implemented for ui-cards (planned, plan: frameworks/svelte/ARCHITECTURE.md) — "mue stack svelte" lists what is real, and nothing was written.</span><br>Svelte and Angular are documented and unimplemented. Nothing falls back to HTML and gets labelled as a framework.</p></div>
+        <div class="row"><span class="num">4</span><h3>An id that does not resolve</h3><p><span class="mono">mue: no preview named "nonsense". Run: mue list</span> — and with several close matches it answers <span class="mono">Did you mean: ui-cards, ui-tables…?</span> instead.</p></div>
+        <div class="row"><span class="num">5</span><h3>A search that finds nothing</h3><p><span class="mono">mue: no preview matches "zzzzqqq". Try: mue regions, or mue list --group Components</span><br>Two ways back to the inventory, because an empty result usually means the query was a product noun rather than a screen.</p></div>
+        <div class="row"><span class="num">6</span><h3>A wrong flag or command</h3><p><span class="mono">mue: unknown command "ad". Run: node tools/mue.js help</span> and <span class="mono">mue: usage: mue add &lt;id&gt;[,&lt;id&gt;] [--framework react|vue|web-components] --into ../my-project [--minimal] [--force] [--create]</span><br>Missing arguments print their own full usage line rather than exiting quietly.</p></div>
+        <div class="row"><span class="num">7</span><h3>A region name that does not exist</h3><p><span class="mono">mue: unknown region(s): zzz. Known: tokens, chrome, buttons, fields, choice, cards, badges, tabs, …</span><br>The whole list of 31 comes back in the error, so the next call is one keystroke away.</p></div>
+        <div class="row"><span class="num">8</span><h3>Node itself is missing</h3><p>Nothing here has a dependency to install, so the only environment failure is <span class="mono">node</span> not being on your PATH. <span class="mono">node -v</span> answers, then <span class="mono">node tools/mue.js help</span> confirms the checkout is intact.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="sec-title">What this page does not claim</h2>
+      <div class="spec" style="margin-top:1.5rem">
+        <div class="row"><span class="num">!</span><h3>Nothing here is a published package</h3><p><span class="mono">mue-react</span>, <span class="mono">mue-vue</span> and <span class="mono">mue-web-components</span> are named in the registry as the packages these files would become. Publishing them is on the roadmap in <span class="mono">README.md</span> and has not happened, so <span class="mono">npm i mue-react</span> will not work today. The installer copies files instead.</p></div>
+        <div class="row"><span class="num">!</span><h3>Output is from one commit</h3><p>Every block was run on this repository on 2026-11-01 with Node <span class="mono">v24.11.1</span> on Windows. The <span class="mono">verified:</span> and count lines come from the files as they stand; a later commit can change them, which is why the CLI prints its own answers rather than relying on this page.</p></div>
+        <div class="row"><span class="num">!</span><h3>Stable means probed, not adopted</h3><p>A <span class="mono">stable</span> label rests on the preview being built, rendered and driven in headless Chrome and Edge at 1280px and 390px in light and dark, plus axe-core runs. Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. <span class="mono">docs/framework-support.md</span> keeps that list honest.</p></div>
+      </div>
+      <div class="cta-row">
+        <a class="btn-primary" href="/web-components">Web Components: 43 tags, no build step</a>
+        <a class="btn-ghost" href="/library">Browse the 54 previews</a>
+        <a class="btn-ghost" href="/agents">Agent guide</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="shell">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="nav-brand" href="/">MASTER-UI-<span>ENGINE</span></a>
+        <p class="note" style="max-width:32ch">A reusable interface engine for AI coding agents.</p>
+      </div>
+      <div class="foot-col"><h3>Explore</h3><ul>
+        <li><a href="/library">Component library</a></li>
+        <li><a href="/templates">Templates</a></li>
+        <li><a href="/#showcase">Live previews</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>Docs</h3><ul>
+        <li><a href="/cli">CLI reference</a></li>
+        <li><a href="/web-components">Web Components</a></li>
+        <li><a href="/agents">Agent guide</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>Repository</h3><ul>
+        <li><a href="https://github.com/STEVOHCODER/master-ui-engine">Source on GitHub</a></li>
+        <li><a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/tools/mue.js">tools/mue.js</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        <li><a href="/privacy">Privacy</a></li>
+        <li><a href="/sitemap.xml">Sitemap</a></li>
+      </ul></div>
+    </div>
+    <div class="foot-note"><span>© 2026 MASTER-UI-ENGINE · MIT</span><span>Every block on this page is <span class="mono">node tools/mue.js …</span> output</span></div>
+  </div>
+</footer>
+
+<script defer src="/engine/styles/mue.js"></script>
+<script defer src="/assets/analytics.js"></script>
+<script defer src="/assets/web.js"></script>
+</body>
+</html>

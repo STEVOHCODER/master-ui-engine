@@ -61,17 +61,18 @@ node tools/mue.js stack
   angular:           0/54 entries live, 14 documented as planned
 ```
 
-- **HTML/CSS/JS** — `components/*`, `examples/*`, `templates/*`. Everything is available.
-- **React 19** — `frameworks/react/` (16 components: button, input, textarea, select,
-  checkbox, radio, switch, card, badge, dialog, dropdown, tabs, accordion, table,
-  notification, avatar). `node tools/mue.js show <id> --framework react` prints that
-  binding's contract and its full source.
-- **Vue 3** — `frameworks/vue/`, the same sixteen as `<script setup>` SFCs.
+- **HTML/CSS/JS** — `components/*`, `examples/*`, `templates/*`. All 54 catalog entries exist.
+- **React 19** — `frameworks/react/`, 34 `.jsx` modules. `node tools/mue.js show <id>
+  --framework react` prints that binding's contract and its full source.
+- **Vue 3** — `frameworks/vue/`, 37 `<script setup>` SFCs over the same entries.
 - **Any framework that can render custom elements, and vanilla too** —
-  `frameworks/web-components/`: 21 light-DOM `<mue-*>` tags, no build step, no shadow root.
+  `frameworks/web-components/`: 40 modules registering 43 light-DOM `<mue-*>` tags, no build
+  step, no shadow root, no runtime dependency.
+- **Coverage, per stack, is 33 of the 54 catalog entries** — `node tools/mue.js registry --json`
+  names the entry behind each binding, and `node tools/mue.js stack` prints the counts.
 - **Svelte and Angular** — no source. `frameworks/svelte/ARCHITECTURE.md` and
   `frameworks/angular/ARCHITECTURE.md` describe how they would be built. For those
-  projects, and for the 40 catalogued entries with no binding, port the vanilla markup
+  projects, and for the 21 catalogued entries with no binding, port the vanilla markup
   and the token variables; the CSS is framework-agnostic and translates directly.
 
 A binding is not a second design system. It writes the classes already defined in

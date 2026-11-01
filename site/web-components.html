@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>43 Web Components With No Build Step | MASTER-UI-ENGINE</title>
+<meta name="description" content="Load 43 mue-* custom elements with one script tag: no shadow roots, no bundler, no framework runtime. Tags, attributes, events and the markup each renders.">
+<link rel="canonical" href="https://masterinterface.xyz/web-components">
+<meta name="google-site-verification" content="tcEkZsfCtJvpGwOo7fmJlAD91_HAHV_ME0NYM211-o8">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Web Components: 43 custom elements, no build step">
+<meta property="og:description" content="One script tag registers mue-button, mue-input, mue-card, mue-datatable and 39 more. They build real child nodes in the light DOM, so your existing styles/components.css and the html.dark theme flip reach them with no ::part plumbing. Full tag, attribute and event reference, the rendered markup verbatim, and the headless-Chrome probe results behind every claim.">
+<meta property="og:url" content="https://masterinterface.xyz/web-components">
+<meta property="og:image" content="https://masterinterface.xyz/assets/img/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0c0f'/%3E%3Crect x='7' y='7' width='8' height='8' fill='%23c9f24a'/%3E%3Crect x='17' y='7' width='8' height='8' fill='%23f5f4f0'/%3E%3Crect x='7' y='17' width='8' height='8' fill='%23f5f4f0'/%3E%3Crect x='17' y='17' width='8' height='8' fill='%23c9f24a'/%3E%3C/svg%3E">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/engine/design-tokens/engine.css">
+<link rel="stylesheet" href="/assets/web.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://masterinterface.xyz/#site",
+      "url": "https://masterinterface.xyz/",
+      "name": "MASTER-UI-ENGINE",
+      "publisher": { "@id": "https://masterinterface.xyz/#org" },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://masterinterface.xyz/#org",
+      "name": "MASTER-UI-ENGINE",
+      "url": "https://masterinterface.xyz/",
+      "sameAs": ["https://github.com/STEVOHCODER/master-ui-engine"]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://masterinterface.xyz/web-components#page",
+      "url": "https://masterinterface.xyz/web-components",
+      "name": "Web Components — 43 mue-* tags, no build step",
+      "isPartOf": { "@id": "https://masterinterface.xyz/#site" },
+      "description": "How to load and use the MASTER-UI-ENGINE Web Components port: installation four ways, the markup each element renders, the complete tag, attribute and event reference, a live gallery, and the browser checks behind every claim."
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "url": "https://masterinterface.xyz/" },
+        { "@type": "ListItem", "position": 2, "name": "Web Components", "url": "https://masterinterface.xyz/web-components" }
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "Web Components: 43 custom elements that use your own stylesheet",
+      "description": "Light-DOM custom elements for the MASTER-UI-ENGINE token and component layers: 40 modules, 43 registered tags, 11 events, zero runtime dependencies.",
+      "url": "https://masterinterface.xyz/web-components",
+      "isPartOf": { "@id": "https://masterinterface.xyz/#site" },
+      "author": { "@id": "https://masterinterface.xyz/#org" },
+      "license": "https://opensource.org/licenses/MIT"
+    }
+  ]
+}
+</script>
+</head>
+<body class="page doc-page">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <a class="nav-brand" href="/">MASTER-UI-<span>ENGINE</span></a>
+  <nav class="nav-links" id="navLinks" aria-label="Main">
+    <a class="nav-link" href="/library">Library</a>
+    <a class="nav-link" href="/templates">Templates</a>
+    <a class="nav-link" href="/#frameworks">Frameworks</a>
+    <a class="nav-link" href="/agents">Agent guide</a>
+    <a class="nav-link" href="/cli">CLI</a>
+    <a class="nav-link" href="/web-components" aria-current="page">Web Components</a>
+    <a class="nav-link" href="/faq">FAQ</a>
+    <a class="btn-primary" href="https://github.com/STEVOHCODER/master-ui-engine" data-event="github_click">View on GitHub</a>
+  </nav>
+  <span class="nav-spacer"></span>
+  <button class="theme-toggle" data-theme-toggle data-event="theme_switch" aria-pressed="false">Dark mode</button>
+  <button class="menu-toggle" data-menu-toggle="#navLinks" aria-expanded="false" aria-controls="navLinks" aria-label="Menu"><i></i><i></i><i></i></button>
+</header>
+
+<main id="main">
+  <section class="section flush">
+    <div class="shell" style="max-width:54rem">
+      <p class="eyebrow">Documentation · Web Components</p>
+      <h1 style="font-size:clamp(1.9rem,4.4vw,2.9rem);max-width:24ch">43 custom elements that use your stylesheet instead of their own.</h1>
+      <p class="lede" style="margin-top:1.2rem">The <span class="mono">mue-*</span> elements are plain ES modules with no shadow roots. They add markup and behaviour inside your document, so <span class="mono">styles/components.css</span>, the design tokens and the <span class="mono">html.dark</span> flip reach them without <span class="mono">::part</span> or <span class="mono">adoptedStyleSheets</span> plumbing. One <span class="mono">&lt;script type="module"&gt;</span> registers every tag. Nothing is hosted, nothing is published to npm, and nothing needs a build.</p>
+      <div class="metrics" style="margin-top:2.2rem">
+        <div class="metric"><b>43</b><span>tags registered</span></div>
+        <div class="metric"><b>40</b><span>element modules</span></div>
+        <div class="metric"><b>11</b><span>mue-* events</span></div>
+        <div class="metric"><b>0</b><span>runtime dependencies</span></div>
+      </div>
+      <div class="cta-row">
+        <a class="btn-primary" href="#gallery">Open the live gallery</a>
+        <a class="btn-ghost" href="https://github.com/STEVOHCODER/master-ui-engine/tree/main/frameworks/web-components">Browse the source</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="sec-title">Load them four ways</h2>
+      <p class="sec-lede" style="max-width:70ch">Pick the one that matches the project you already have. The first needs no tooling at all, which is the point of this port.</p>
+
+      <div class="doc-tabs" role="tablist" aria-label="How to load the elements">
+        <button role="tab" type="button" id="tab-html" aria-controls="panel-html" aria-selected="true">Plain HTML</button>
+        <button role="tab" type="button" id="tab-bundle" aria-controls="panel-bundle" aria-selected="false">Bundler</button>
+        <button role="tab" type="button" id="tab-cli" aria-controls="panel-cli" aria-selected="false">From the CLI</button>
+        <button role="tab" type="button" id="tab-npm" aria-controls="panel-npm" aria-selected="false">npm file:</button>
+      </div>
+
+      <div class="term doc-panel" id="panel-html" role="tabpanel" aria-labelledby="tab-html">
+        <div class="term-bar"><span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="term-title">a page that renders</span><button class="copy-btn" type="button" data-copy-text="#wcHtml">Copy</button></div>
+        <pre><code id="wcHtml"><span class="out">&lt;!doctype html&gt;</span>
+&lt;<span class="flag">html</span> lang=<span class="str">"en"</span>&gt;
+&lt;head&gt;
+  &lt;meta charset=<span class="str">"utf-8"</span>&gt;
+  &lt;meta name=<span class="str">"viewport"</span> content=<span class="str">"width=device-width, initial-scale=1"</span>&gt;
+  <span class="prompt">--&gt;</span> &lt;link rel=<span class="flag">stylesheet</span> href=<span class="str">"design-tokens/engine.css"</span>&gt;
+  &lt;link rel=<span class="flag">stylesheet</span> href=<span class="str">"styles/components.css"</span>&gt;
+  &lt;script src=<span class="str">"styles/mue.js"</span> defer&gt;&lt;/script&gt;
+  <span class="prompt">--&gt;</span> &lt;script type=<span class="str">"module"</span> src=<span class="str">"frameworks/web-components/index.js"</span>&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body class=<span class="str">"page"</span>&gt;
+  &lt;<span class="flag">mue-button</span> variant=<span class="str">"primary"</span>&gt;Save changes&lt;/<span class="flag">mue-button</span>&gt;
+  &lt;<span class="flag">mue-input</span> label=<span class="str">"Email"</span> type=<span class="str">"email"</span> name=<span class="str">"email"</span>
+            helper=<span class="str">"Never shared with third parties."</span>&gt;&lt;/<span class="flag">mue-input</span>&gt;
+  &lt;<span class="flag">mue-card</span> variant=<span class="str">"elevated"</span>&gt;
+    &lt;div class=<span class="str">"card-body"</span>&gt;…&lt;/div&gt;
+  &lt;/<span class="flag">mue-card</span>&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+      </div>
+
+      <div class="term doc-panel" id="panel-bundle" role="tabpanel" aria-labelledby="tab-bundle" hidden>
+        <div class="term-bar"><span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="term-title">with a build</span><button class="copy-btn" type="button" data-copy-text="#wcBundle">Copy</button></div>
+        <pre><code id="wcBundle"><span class="prompt">// every element, registered on import</span>
+<span class="flag">import</span> <span class="str">"./frameworks/web-components/index.js"</span>;
+
+<span class="prompt">// or one element only, so the other 39 modules never reach the bundle</span>
+<span class="flag">import</span> <span class="str">"./frameworks/web-components/components/mue-dialog.js"</span>;
+
+<span class="prompt">// loading index.js twice is harmless:</span>
+<span class="prompt">// every module guards with customElements.get(tag) before defining.</span>
+
+<span class="prompt">// the two stylesheets are still yours to import</span>
+<span class="flag">import</span> <span class="str">"./design-tokens/engine.css"</span>;
+<span class="flag">import</span> <span class="str">"./styles/components.css"</span>;</code></pre>
+      </div>
+
+      <div class="term doc-panel" id="panel-cli" role="tabpanel" aria-labelledby="tab-cli">
+        <div class="term-bar"><span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="term-title">mue add --framework web-components</span><button class="copy-btn" type="button" data-copy-text="#wcCli">Copy</button></div>
+        <pre><code id="wcCli"><span class="prompt">$</span> node tools/mue.js add btn-buttons <span class="flag">--framework</span> web-components --into ../demo-app --create
+<span class="out">added 1 web-components binding(s) into ../demo-app
+btn-buttons — Buttons (stable)
+  frameworks/web-components/components/mue-button.js  [written]
+  install: &lt;script type="module" src="frameworks/web-components/index.js"&gt;&lt;/script&gt;
+  import:  import "./frameworks/web-components/index.js" (registers every mue-* tag)
+  tag:     &lt;mue-button&gt;
+  verified: … (full line printed; quoted on the agent guide)
+
+package files: 3 — 15 shared layer file(s) (15 written)
+
+NOTES
+  · web-components/index.js was written with 39 module reference(s) left out —
+    those components are not in this install.</span></code></pre>
+      </div>
+
+      <div class="term doc-panel" id="panel-npm" role="tabpanel" aria-labelledby="tab-npm" hidden>
+        <div class="term-bar"><span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="term-title">local install</span><button class="copy-btn" type="button" data-copy-text="#wcNpm">Copy</button></div>
+        <pre><code id="wcNpm"><span class="prompt">$</span> npm i file:./frameworks/web-components
+<span class="prompt">$</span> node -e "import('mue-web-components')"
+
+<span class="out">works, but reads the folder in place.</span></code></pre>
+      </div>
+
+      <p class="note">The <span class="mono">file:</span> install is the weakest of the four: it registers <span class="mono">mue-web-components</span> as a link to the folder inside the checkout rather than a copy, so deleting or moving the repository breaks the import. It is also not a published package — <span class="mono">npm i mue-web-components</span> will fail, because nothing has been published. The <a href="/cli">CLI page</a> explains why this project installs files instead of resolving a registry.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="sec-title">What an element actually renders</h2>
+      <p class="sec-lede" style="max-width:68ch">Dumped from the browser after the modules registered, not written by hand. This is the contract: the host builds real child nodes out of the classes in <span class="mono">styles/components.css</span>, and the theme sheet sees them because they are in the document.</p>
+      <div class="term" style="margin-top:1.8rem">
+        <div class="term-bar"><span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="term-title">outerHTML, three elements</span><button class="copy-btn" type="button" data-copy-text="#wcDom">Copy</button></div>
+        <pre><code id="wcDom"><span class="prompt">&lt;mue-button variant="primary"&gt;</span>&lt;button type=<span class="str">"button"</span> class=<span class="str">"btn-primary"</span>&gt;Save changes&lt;/button&gt;<span class="prompt">&lt;/mue-button&gt;</span>
+
+<span class="prompt">&lt;mue-input label="Email" type="email" name="email" helper="…"&gt;</span>&lt;div class=<span class="str">"field"</span>&gt;
+  &lt;label class=<span class="str">"field-label"</span> <span class="flag">for</span>=<span class="str">"mue-input-1"</span>&gt;Email&lt;/label&gt;
+  &lt;input <span class="flag">id</span>=<span class="str">"mue-input-1"</span> type=<span class="str">"email"</span> placeholder=<span class="str">""</span> name=<span class="str">"email"</span>&gt;
+  &lt;p class=<span class="str">"field-helper"</span> id=<span class="str">"mue-input-1-helper"</span>&gt;Never shared with third parties.&lt;/p&gt;
+&lt;/div&gt;<span class="prompt">&lt;/mue-input&gt;</span>
+
+<span class="prompt">&lt;mue-card variant="elevated"</span> class=<span class="str">"card card-elevated"</span>&gt;…<span class="prompt">&lt;/mue-card&gt;</span></code></pre>
+      </div>
+      <div class="ref">
+        <div class="entry"><span class="key">No shadow root</span><span class="val">Every host in the suite reports <span class="mono">shadowRoot === null</span>. That is a design decision, not a gap — <span class="mono">frameworks/web-components/README.md</span> documents it under &ldquo;Why light DOM&rdquo;.</span></div>
+        <div class="entry"><span class="key">The host is the component</span><span class="val"><span class="mono">mue-card</span> gains <span class="mono">class="card card-elevated"</span> on itself rather than wrapping your children in a div, so your own classes sit beside the ones it adds.</span></div>
+        <div class="entry"><span class="key">Real form controls</span><span class="val"><span class="mono">mue-button</span> renders a <span class="mono">&lt;button type="button"&gt;</span>; <span class="mono">mue-input</span> renders an <span class="mono">&lt;input&gt;</span> whose <span class="mono">id</span> is bound to a <span class="mono">&lt;label for&gt;</span>, so keyboard focus, form submission and a screen reader&rsquo;s accessible name all come from HTML rather than from ARIA emulation.</span></div>
+        <div class="entry"><span class="key">The cost</span><span class="val">Because the host rebuilds its children, the child markup per element is fixed and documented. You cannot nest arbitrary content inside <span class="mono">mue-button</span> and expect it to survive — the gallery shows what each element accepts.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="gallery">
+    <div class="shell">
+      <h2 class="sec-title">The gallery, live in your browser</h2>
+      <p class="sec-lede" style="max-width:68ch">This is <span class="mono">frameworks/web-components/preview/gallery.html</span> from the repository, running in the frame below. Switch theme with the toggle in the header and the elements inside the frame repaint — they are reading the same document-level rules as the rest of the site.</p>
+      <div class="frame" data-live-frame style="margin-top:1.8rem">
+        <div class="frame-bar">
+          <span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="frame-url" data-frame-url>engine/frameworks/web-components/preview/gallery</span>
+          <span class="frame-size" data-frame-size>1280 px</span>
+        </div>
+        <div class="frame-stage" data-frame-stage>
+          <iframe class="frame-view" data-frame-view title="Live preview: MASTER-UI-ENGINE Web Components gallery, 43 mue-* elements" src="/engine/frameworks/web-components/preview/gallery" loading="lazy" style="position:absolute;inset-block-start:0;inset-inline-start:0"></iframe>
+        </div>
+        <div class="frame-tabs">
+          <div class="frame-widths" role="group" aria-label="Preview width">
+            <button type="button" data-width="1280" aria-pressed="true">1280</button>
+            <button type="button" data-width="768" aria-pressed="false">768</button>
+            <button type="button" data-width="390" aria-pressed="false">390</button>
+          </div>
+        </div>
+      </div>
+      <p class="note">The same elements are also listed in the searchable <a href="/library">library</a>; <span class="mono">/preview?id=…</span> opens any catalog entry with the source panel beside it.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="sec-title">Element reference</h2>
+      <p class="sec-lede" style="max-width:68ch">All 43 registered tags, read out of the 40 modules in <span class="mono">frameworks/web-components/components/</span>. Two modules ship more than one tag: <span class="mono">mue-sidebar.js</span> registers three and <span class="mono">mue-guidance.js</span> registers two. &ldquo;slot children&rdquo; means the element expects you to write its inner markup; the classes it looks for are in the gallery.</p>
+      <div class="table-scroll">
+        <table class="ref-table">
+          <thead><tr><th scope="col">Tag</th><th scope="col">Attributes read by the module</th><th scope="col">Emits</th><th scope="col">Module</th><th scope="col">Catalog entry</th></tr></thead>
+          <tbody>
+            <tr><td>&lt;mue-accordion&gt;</td><td class="attr">— slot children</td><td class="attr">—</td><td class="attr">mue-accordion.js</td><td class="attr"><a href="/preview?id=ui-sections">ui-sections</a></td></tr>
+            <tr><td>&lt;mue-accordion-item&gt;</td><td class="attr">open, label</td><td class="attr">mue-change</td><td class="attr">mue-accordion-item.js</td><td class="attr">no catalog entry</td></tr>
+            <tr><td>&lt;mue-avatar&gt;</td><td class="attr">src, alt, initials, name</td><td class="attr">—</td><td class="attr">mue-avatar.js</td><td class="attr">no catalog entry</td></tr>
+            <tr><td>&lt;mue-avatar-group&gt;</td><td class="attr">label</td><td class="attr">—</td><td class="attr">mue-avatar-group.js</td><td class="attr">no catalog entry</td></tr>
+            <tr><td>&lt;mue-badge&gt;</td><td class="attr">variant, solid, dot</td><td class="attr">—</td><td class="attr">mue-badge.js</td><td class="attr"><a href="/preview?id=ui-descriptions">ui-descriptions</a></td></tr>
+            <tr><td>&lt;mue-breadcrumbs&gt;</td><td class="attr">items, separator, label</td><td class="attr">—</td><td class="attr">mue-breadcrumbs.js</td><td class="attr"><a href="/preview?id=nav-breadcrumbs">nav-breadcrumbs</a></td></tr>
+            <tr><td>&lt;mue-button&gt;</td><td class="attr">variant, size, state, type, disabled, block, icon, aria-label</td><td class="attr">—</td><td class="attr">mue-button.js</td><td class="attr"><a href="/preview?id=btn-buttons">btn-buttons</a></td></tr>
+            <tr><td>&lt;mue-card&gt;</td><td class="attr">variant, interactive, selected</td><td class="attr">—</td><td class="attr">mue-card.js</td><td class="attr"><a href="/preview?id=ui-cards">ui-cards</a></td></tr>
+            <tr><td>&lt;mue-charts&gt;</td><td class="attr">type, title, desc, values, labels, colors, legend, summary</td><td class="attr">—</td><td class="attr">mue-charts.js</td><td class="attr"><a href="/preview?id=ui-charts">ui-charts</a></td></tr>
+            <tr><td>&lt;mue-checkbox&gt;</td><td class="attr">label, name, value, checked, disabled</td><td class="attr">mue-change</td><td class="attr">mue-checkbox.js</td><td class="attr"><a href="/preview?id=frm-checkboxes">frm-checkboxes</a></td></tr>
+            <tr><td>&lt;mue-datatable&gt;</td><td class="attr">— slot children</td><td class="attr">mue-select, mue-expand, mue-sort, mue-filter</td><td class="attr">mue-datatable.js</td><td class="attr"><a href="/preview?id=ui-datatable">ui-datatable</a></td></tr>
+            <tr><td>&lt;mue-date-picker&gt;</td><td class="attr">label, type, name, value, min, max, step, placeholder, helper, message, state, disabled, required</td><td class="attr">mue-change</td><td class="attr">mue-date-picker.js</td><td class="attr"><a href="/preview?id=frm-date-picker">frm-date-picker</a></td></tr>
+            <tr><td>&lt;mue-dialog&gt;</td><td class="attr">open, title</td><td class="attr">mue-open, mue-close</td><td class="attr">mue-dialog.js</td><td class="attr"><a href="/preview?id=ui-dialogs">ui-dialogs</a></td></tr>
+            <tr><td>&lt;mue-dropdown&gt;</td><td class="attr">open</td><td class="attr">mue-select, mue-open, mue-close</td><td class="attr">mue-dropdown.js</td><td class="attr"><a href="/preview?id=ui-dropdowns">ui-dropdowns</a></td></tr>
+            <tr><td>&lt;mue-dropzone&gt;</td><td class="attr">— slot children</td><td class="attr">mue-remove, mue-change</td><td class="attr">mue-dropzone.js</td><td class="attr"><a href="/preview?id=frm-dropzone">frm-dropzone</a></td></tr>
+            <tr><td>&lt;mue-empty&gt;</td><td class="attr">icon, title, desc, label</td><td class="attr">—</td><td class="attr">mue-empty.js</td><td class="attr"><a href="/preview?id=fb-empty">fb-empty</a></td></tr>
+            <tr><td>&lt;mue-error&gt;</td><td class="attr">title, desc, inline, label</td><td class="attr">—</td><td class="attr">mue-error.js</td><td class="attr"><a href="/preview?id=fb-error">fb-error</a></td></tr>
+            <tr><td>&lt;mue-fab&gt;</td><td class="attr">static, reveal</td><td class="attr">mue-close, mue-step</td><td class="attr">mue-guidance.js</td><td class="attr"><a href="/preview?id=ui-guidance">ui-guidance</a></td></tr>
+            <tr><td>&lt;mue-footer&gt;</td><td class="attr">brand, desc, copyright, columns, social, label</td><td class="attr">—</td><td class="attr">mue-footer.js</td><td class="attr"><a href="/preview?id=ui-footers">ui-footers</a></td></tr>
+            <tr><td>&lt;mue-guidance&gt;</td><td class="attr">current</td><td class="attr">mue-close, mue-step</td><td class="attr">mue-guidance.js</td><td class="attr"><a href="/preview?id=ui-guidance">ui-guidance</a></td></tr>
+            <tr><td>&lt;mue-header-nav&gt;</td><td class="attr">brand</td><td class="attr">mue-navigate</td><td class="attr">mue-header-nav.js</td><td class="attr"><a href="/preview?id=nav-header">nav-header</a></td></tr>
+            <tr><td>&lt;mue-input&gt;</td><td class="attr">label, type, name, value, placeholder, helper, message, state, disabled, required</td><td class="attr">mue-change</td><td class="attr">mue-input.js</td><td class="attr"><a href="/preview?id=frm-input-fields">frm-input-fields</a></td></tr>
+            <tr><td>&lt;mue-modals&gt;</td><td class="attr">open, title, width</td><td class="attr">mue-close, mue-open</td><td class="attr">mue-modals.js</td><td class="attr"><a href="/preview?id=ui-modals">ui-modals</a></td></tr>
+            <tr><td>&lt;mue-nav-menu&gt;</td><td class="attr">label</td><td class="attr">mue-select, mue-navigate</td><td class="attr">mue-nav-menu.js</td><td class="attr"><a href="/preview?id=nav-menu">nav-menu</a></td></tr>
+            <tr><td>&lt;mue-notification&gt;</td><td class="attr">type, variant, title, message, open</td><td class="attr">mue-close</td><td class="attr">mue-notification.js</td><td class="attr"><a href="/preview?id=ui-notifications">ui-notifications</a></td></tr>
+            <tr><td>&lt;mue-pagination&gt;</td><td class="attr">total, page, window, label</td><td class="attr">mue-page-change</td><td class="attr">mue-pagination.js</td><td class="attr"><a href="/preview?id=nav-pagination">nav-pagination</a></td></tr>
+            <tr><td>&lt;mue-popover&gt;</td><td class="attr">trigger, placement, icon, open</td><td class="attr">mue-close, mue-open</td><td class="attr">mue-popover.js</td><td class="attr"><a href="/preview?id=ui-popover">ui-popover</a></td></tr>
+            <tr><td>&lt;mue-progress&gt;</td><td class="attr">label, value, min, max, variant, striped, indeterminate</td><td class="attr">mue-change</td><td class="attr">mue-progress.js</td><td class="attr"><a href="/preview?id=fb-progress">fb-progress</a></td></tr>
+            <tr><td>&lt;mue-radio&gt;</td><td class="attr">label, name, value, checked, disabled</td><td class="attr">mue-change</td><td class="attr">mue-radio.js</td><td class="attr"><a href="/preview?id=frm-radio-buttons">frm-radio-buttons</a></td></tr>
+            <tr><td>&lt;mue-radio-group&gt;</td><td class="attr">label, name, value, disabled</td><td class="attr">mue-change</td><td class="attr">mue-radio-group.js</td><td class="attr">no catalog entry</td></tr>
+            <tr><td>&lt;mue-rating&gt;</td><td class="attr">value, max, caption, label, interactive, name</td><td class="attr">mue-change</td><td class="attr">mue-rating.js</td><td class="attr"><a href="/preview?id=ui-rating">ui-rating</a></td></tr>
+            <tr><td>&lt;mue-select&gt;</td><td class="attr">label, name, value, helper, message, state, disabled, required</td><td class="attr">mue-change</td><td class="attr">mue-select.js</td><td class="attr"><a href="/preview?id=frm-select-menus">frm-select-menus</a></td></tr>
+            <tr><td>&lt;mue-sidebar&gt;</td><td class="attr">— slot children</td><td class="attr">mue-navigate</td><td class="attr">mue-sidebar.js</td><td class="attr"><a href="/preview?id=nav-sidebar">nav-sidebar</a></td></tr>
+            <tr><td>&lt;mue-sidebar-heading&gt;</td><td class="attr">— slot children</td><td class="attr">mue-navigate</td><td class="attr">mue-sidebar.js</td><td class="attr"><a href="/preview?id=nav-sidebar">nav-sidebar</a></td></tr>
+            <tr><td>&lt;mue-sidebar-link&gt;</td><td class="attr">— slot children</td><td class="attr">mue-navigate</td><td class="attr">mue-sidebar.js</td><td class="attr"><a href="/preview?id=nav-sidebar">nav-sidebar</a></td></tr>
+            <tr><td>&lt;mue-skeleton&gt;</td><td class="attr">variant, width</td><td class="attr">—</td><td class="attr">mue-skeleton.js</td><td class="attr"><a href="/preview?id=fb-skeleton">fb-skeleton</a></td></tr>
+            <tr><td>&lt;mue-stepper&gt;</td><td class="attr">current</td><td class="attr">mue-step</td><td class="attr">mue-stepper.js</td><td class="attr"><a href="/preview?id=fb-stepper">fb-stepper</a></td></tr>
+            <tr><td>&lt;mue-switch&gt;</td><td class="attr">label, name, value, checked, disabled</td><td class="attr">mue-change</td><td class="attr">mue-switch.js</td><td class="attr"><a href="/preview?id=frm-switches">frm-switches</a></td></tr>
+            <tr><td>&lt;mue-tab&gt;</td><td class="attr">— slot children</td><td class="attr">—</td><td class="attr">mue-tab.js</td><td class="attr">no catalog entry</td></tr>
+            <tr><td>&lt;mue-table&gt;</td><td class="attr">striped, compact</td><td class="attr">mue-sort</td><td class="attr">mue-table.js</td><td class="attr"><a href="/preview?id=ui-tables">ui-tables</a></td></tr>
+            <tr><td>&lt;mue-tabpanel&gt;</td><td class="attr">— slot children</td><td class="attr">—</td><td class="attr">mue-tabpanel.js</td><td class="attr">no catalog entry</td></tr>
+            <tr><td>&lt;mue-tabs&gt;</td><td class="attr">selected, label</td><td class="attr">mue-change</td><td class="attr">mue-tabs.js</td><td class="attr"><a href="/preview?id=nav-tabs">nav-tabs</a></td></tr>
+            <tr><td>&lt;mue-textarea&gt;</td><td class="attr">label, name, value, placeholder, helper, message, state, disabled, required, rows</td><td class="attr">mue-change</td><td class="attr">mue-textarea.js</td><td class="attr">no catalog entry</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">Attribute and event lists were read out of the 40 modules in <span class="mono">frameworks/web-components/components/</span>; the &ldquo;Module&rdquo; column names the file, so any row can be checked in seconds. The <span class="mono">Catalog entry</span> column comes from <span class="mono">frameworks/registry.json</span>, which points each catalog id at one web-components source file: 36 of the 43 tags are named that way, the other 7 (<span class="mono">mue-accordion-item</span>, <span class="mono">mue-avatar</span>, <span class="mono">mue-avatar-group</span>, <span class="mono">mue-radio-group</span>, <span class="mono">mue-tab</span>, <span class="mono">mue-tabpanel</span>, <span class="mono">mue-textarea</span>) are registered and shown in the gallery but no catalog entry points at their file. Those links open the vanilla preview page, so its source panel prints HTML rather than a <span class="mono">mue-*</span> tag — the gallery above is where the element form is shown.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="sec-title">The 11 events</h2>
+      <p class="sec-lede" style="max-width:68ch">Every event is a <span class="mono">CustomEvent</span> that bubbles from the host, so one listener on a container is enough. Names are prefixed because a bare <span class="mono">change</span> would collide with the native event on the <span class="mono">&lt;input&gt;</span> inside.</p>
+      <div class="ref" style="margin-top:1.4rem">
+        <div class="entry"><span class="key">mue-change</span><span class="val">The value changed — inputs, textareas, selects, checkboxes, radios, switches, rating, progress, tabs, date picker, dropzone. Carries the new value in <span class="mono">event.detail</span>.</span></div>
+        <div class="entry"><span class="key">mue-open · mue-close</span><span class="val">Overlay lifecycle for <span class="mono">mue-dialog</span>, <span class="mono">mue-modals</span>, <span class="mono">mue-popover</span>, <span class="mono">mue-dropdown</span>, and <span class="mono">mue-notification</span> / <span class="mono">mue-fab</span> / <span class="mono">mue-guidance</span> on the close side.</span></div>
+        <div class="entry"><span class="key">mue-select</span><span class="val">An option was chosen — <span class="mono">mue-dropdown</span>, <span class="mono">mue-nav-menu</span>, <span class="mono">mue-datatable</span> row selection.</span></div>
+        <div class="entry"><span class="key">mue-navigate</span><span class="val">A link inside a navigation element was activated: <span class="mono">mue-header-nav</span>, <span class="mono">mue-nav-menu</span> and the three sidebar tags.</span></div>
+        <div class="entry"><span class="key">mue-sort · mue-filter · mue-expand</span><span class="val">Table interactions owned by <span class="mono">mue-datatable</span> — column sort, query filter, row disclosure.</span></div>
+        <div class="entry"><span class="key">mue-page-change</span><span class="val">Pagination moved, with the new page on <span class="mono">mue-pagination</span>.</span></div>
+        <div class="entry"><span class="key">mue-remove</span><span class="val">A file was taken out of the <span class="mono">mue-dropzone</span> list.</span></div>
+        <div class="entry"><span class="key">mue-step</span><span class="val">The active step changed on <span class="mono">mue-stepper</span>, and on the <span class="mono">mue-guidance</span> and <span class="mono">mue-fab</span> tour controls.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="sec-title">What was run to say any of this</h2>
+      <p class="sec-lede" style="max-width:68ch">A throwaway project holding nothing but the output of <span class="mono">mue add --framework web-components</span>, served over <span class="mono">http://127.0.0.1</span> and driven in headless Chrome. Twelve assertions, twelve passes, re-run the same day this page was written.</p>
+      <div class="table-scroll">
+        <table class="ref-table">
+          <thead><tr><th scope="col">Check</th><th scope="col">Value the browser reported</th></tr></thead>
+          <tbody>
+            <tr><td>3 tags registered</td><td class="attr"><span class="mono">mue-button</span>, <span class="mono">mue-input</span>, <span class="mono">mue-card</span> all defined by <span class="mono">index.js</span></td></tr>
+            <tr><td>Light DOM</td><td class="attr"><span class="mono">shadowRoot === null</span> on every host</td></tr>
+            <tr><td>Button is a button</td><td class="attr"><span class="mono">BUTTON</span>, <span class="mono">type="button"</span>, <span class="mono">class="btn-primary"</span>, background <span class="mono">rgb(36, 99, 235)</span>, text <span class="mono">rgb(255, 255, 255)</span>, radius <span class="mono">8px</span></td></tr>
+            <tr><td>Label is bound</td><td class="attr"><span class="mono">label[for="mue-input-1"]</span> matches <span class="mono">input#mue-input-1</span>, <span class="mono">type="email"</span></td></tr>
+            <tr><td>Card uses the sheet</td><td class="attr"><span class="mono">class="card card-elevated"</span>, radius <span class="mono">16px</span>, background <span class="mono">rgb(255, 255, 255)</span></td></tr>
+            <tr><td>Token resolves</td><td class="attr"><span class="mono">--color-primary-500: 221 83% 53%</span> on <span class="mono">:root</span>, body <span class="mono">rgb(248, 250, 252)</span></td></tr>
+            <tr><td><span class="mono">mue-change</span> fires</td><td class="attr">typing into the input delivered <span class="mono">["a@b.co"]</span></td></tr>
+            <tr><td>Click reaches the host</td><td class="attr">1 listener call, <span class="mono">disabled === false</span></td></tr>
+            <tr><td>No overflow at 1280px</td><td class="attr">scroll width 1280 = client width 1280, card 461px</td></tr>
+            <tr><td>No overflow at 390px</td><td class="attr">scroll width 390 = client width 390, card 358px</td></tr>
+            <tr><td><span class="mono">html.dark</span> reaches them</td><td class="attr">page <span class="mono">rgb(10, 14, 21)</span>, button <span class="mono">rgb(95, 145, 252)</span>, card <span class="mono">rgb(35, 42, 52)</span></td></tr>
+            <tr><td>Console</td><td class="attr">clean — no errors, no warnings from the modules</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">Plus the wider pass that backs the <span class="mono">stable</span> label: every preview page built and rendered in Chrome and Edge at 1280px and 390px in light and dark, with axe-core runs over the same pages. See <span class="mono">docs/framework-support.md</span> for the full statement.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="sec-title">What this page does not claim</h2>
+      <div class="spec" style="margin-top:1.5rem">
+        <div class="row"><span class="num">!</span><h3>Not published to npm</h3><p><span class="mono">mue-web-components</span> is the name the folder would ship under; it is not on the registry. Installation is a file copy from a git checkout, described on the <a href="/cli">CLI page</a>. Publishing is on the roadmap in <span class="mono">README.md</span> and has not happened.</p></div>
+        <div class="row"><span class="num">!</span><h3>No framework interop verified</h3><p>The React and Vue ports are independent implementations of the same tokens and component classes, written separately. They do not wrap these elements and these elements do not wrap them. No mixed-framework project has been built or tested, so nothing here promises that a React app can mount <span class="mono">&lt;mue-card&gt;</span> and keep its props in sync.</p></div>
+        <div class="row"><span class="num">!</span><h3>Never run on some engines</h3><p>Chrome and Edge only. Not run: Safari, Firefox, a screen reader, a real touch device, server-side rendering, and a published-package install. Custom elements and <span class="mono">form</span>-associated behaviour differ across engines, so a Safari result is genuinely unknown rather than assumed good.</p></div>
+        <div class="row"><span class="num">!</span><h3>Light DOM is a trade, not a win</h3><p>Your document stylesheet reaches the elements — that is the benefit. The price is that document-level CSS also reaches <em>into</em> them, and the host rebuilds its children, so a global <span class="mono">button { }</span> rule can override <span class="mono">btn-primary</span>. The gallery is the reference for which markup each element expects.</p></div>
+        <div class="row"><span class="num">!</span><h3>The table describes the current commit</h3><p>Attribute lists were harvested from <span class="mono">frameworks/web-components/components/</span> on 2026-11-01. Run <span class="mono">node tools/mue.js usage &lt;id&gt; --framework web-components</span> and the tool prints what the files say today, which is the version you should trust.</p></div>
+      </div>
+      <div class="cta-row">
+        <a class="btn-primary" href="/library">Browse the 54 previews</a>
+        <a class="btn-ghost" href="/cli">CLI reference</a>
+        <a class="btn-ghost" href="/agents">Agent guide</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="shell">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="nav-brand" href="/">MASTER-UI-<span>ENGINE</span></a>
+        <p class="note" style="max-width:32ch">A reusable interface engine for AI coding agents.</p>
+      </div>
+      <div class="foot-col"><h3>Explore</h3><ul>
+        <li><a href="/library">Component library</a></li>
+        <li><a href="/templates">Templates</a></li>
+        <li><a href="/#showcase">Live previews</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>Docs</h3><ul>
+        <li><a href="/cli">CLI reference</a></li>
+        <li><a href="/web-components">Web Components</a></li>
+        <li><a href="/agents">Agent guide</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>Repository</h3><ul>
+        <li><a href="https://github.com/STEVOHCODER/master-ui-engine/tree/main/frameworks/web-components">frameworks/web-components</a></li>
+        <li><a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/frameworks/web-components/README.md">Port README</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        <li><a href="/privacy">Privacy</a></li>
+        <li><a href="/sitemap.xml">Sitemap</a></li>
+      </ul></div>
+    </div>
+    <div class="foot-note"><span>© 2026 MASTER-UI-ENGINE · MIT</span><span>Every value on this page was read from a running browser</span></div>
+  </div>
+</footer>
+
+<script defer src="/engine/styles/mue.js"></script>
+<script defer src="/assets/analytics.js"></script>
+<script defer src="/assets/web.js"></script>
+</body>
+</html>

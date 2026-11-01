@@ -6,6 +6,8 @@
     { "source": "/templates", "destination": "/templates.html" },
     { "source": "/preview", "destination": "/preview.html" },
     { "source": "/agents", "destination": "/agents.html" },
+    { "source": "/cli", "destination": "/cli.html" },
+    { "source": "/web-components", "destination": "/web-components.html" },
     { "source": "/faq", "destination": "/faq.html" },
     { "source": "/privacy", "destination": "/privacy.html" }
   ],

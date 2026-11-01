@@ -23,6 +23,8 @@ Contact: open an issue on the GitHub repository — there is no sales team and n
 - [Library](https://masterinterface.xyz/library): search and filter the 54 entries; every preview is the real file, not a screenshot.
 - [Templates](https://masterinterface.xyz/templates): 6 starter pages and 15 worked screens, rendered live.
 - [Agent integration guide](https://masterinterface.xyz/agents): the three surfaces an agent uses — instruction files, the `mue` CLI, one machine-readable registry.
+- [CLI reference](https://masterinterface.xyz/cli): every `mue` command with the output it printed when it was run — install, search, add, check, doctor, scaffold, and the failure strings verbatim.
+- [Web Components](https://masterinterface.xyz/web-components): the 43 `mue-*` custom elements — how to load them four ways, what each renders in the light DOM, attributes, events, and the headless-Chrome checks behind the claims.
 - [FAQ](https://masterinterface.xyz/faq): testing scope, what `stable` means and does not mean, licence terms, framework coverage.
 - [Visual lab](https://masterinterface.xyz/engine/showcase): browse all previews with a command palette, viewport and theme controls.
 - [Token studio](https://masterinterface.xyz/engine/showcase/studio): edit the token ramps and read the resulting WCAG contrast ratios.
