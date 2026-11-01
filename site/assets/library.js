@@ -21,6 +21,51 @@
   var KIND_ORDER = ["COMPONENT", "EXAMPLE", "TEMPLATE"];
   var KIND_PARAM = { components: "COMPONENT", examples: "EXAMPLE", templates: "TEMPLATE" };
 
+  /* Framework bindings. The design lives in styles/components.css; a binding is
+     markup plus behaviour for one framework over those same classes. Status is
+     never inferred here: it is read from frameworks/registry.json through the
+     catalog, and an entry with no binding for a framework is absent, not hidden. */
+  var FW_ORDER = ["vanilla", "react", "vue", "web-components", "svelte", "angular"];
+  var FW_LABEL = {
+    vanilla: "HTML/CSS/JS",
+    react: "React",
+    vue: "Vue",
+    "web-components": "Web Components",
+    svelte: "Svelte",
+    angular: "Angular"
+  };
+  var FW_LIVE = { stable: "live", experimental: "live", planned: "planned", unsupported: "absent" };
+
+  function bindingList(item) {
+    var out = [];
+    var table = item && item.frameworks ? item.frameworks : {};
+    for (var i = 0; i < FW_ORDER.length; i++) {
+      var name = FW_ORDER[i];
+      if (name === "vanilla") {
+        var base = { status: "stable", source: item.path, preview: item.path };
+        var recorded = table.vanilla || {};
+        for (var vk in recorded) {
+          if (recorded[vk] !== null && recorded[vk] !== undefined) base[vk] = recorded[vk];
+        }
+        if (!base.source) base.source = item.path;
+        if (!base.preview) base.preview = item.path;
+        out.push({ name: "vanilla", status: base.status || "stable", binding: base });
+        continue;
+      }
+      if (table[name]) out.push({ name: name, status: String(table[name].status || "unsupported"), binding: table[name] });
+    }
+    return out;
+  }
+
+  function liveBindings(item) {
+    var list = bindingList(item);
+    var out = [];
+    for (var i = 0; i < list.length; i++) {
+      if (FW_LIVE[list[i].status] === "live") out.push(list[i].name);
+    }
+    return out;
+  }
+
   var THUMB_WIDTH = 1280; /* the iframe viewport the thumbnail is scaled from */
   var THUMB_HEIGHT = 800;
 
@@ -203,7 +248,8 @@
       item.name, item.id, item.category, item.group, item.kind, item.summary,
       item.framework, item.designSystem, item.path, item.license,
       listText(item.variants, 40), listText(item.breakpoints, 40),
-      item.theming, item.verified
+      item.theming, item.verified,
+      Object.keys(item.frameworks || {}).join(" "), item.supportMatrix || ""
     ].join(" ").toLowerCase();
   }
 
@@ -241,8 +287,8 @@
   }
 
   /* Fetch the real file out of /engine and put it on the clipboard. */
-  function copyMarkup(item, done) {
-    var url = engineUrl(item);
+  function copyFile(path, item, done, noun) {
+    var url = ENGINE_BASE + String(path);
     var req;
     try { req = new XMLHttpRequest(); } catch (e) { req = null; }
 
@@ -254,8 +300,8 @@
           finish({ ok: false, stage: "clipboard", text: "The file was fetched, but your browser blocked the clipboard. Select the source on GitHub and copy it from there." });
           return;
         }
-        track("copy_code", { id: String(item.id) });
-        finish({ ok: true, stage: "copied", text: "Copied " + characterCount(text) + " of markup." });
+        track("copy_code", { id: String(item.id), target: String(path) });
+        finish({ ok: true, stage: "copied", text: "Copied " + characterCount(text) + " of " + noun + "." });
       }, function () {
         finish({ ok: false, stage: "clipboard", text: "The file was fetched, but your browser blocked the clipboard." });
       });
@@ -287,6 +333,8 @@
     }
     finish({ ok: false, stage: "fetch", text: "This browser cannot fetch the file. Nothing was copied." });
   }
+
+  function copyMarkup(item, done) { copyFile(item.path, item, done, "markup"); }
 
   function characterCount(text) {
     var n = String(text).length;
@@ -376,6 +424,22 @@
     );
     parts.push("Theming: " + (item.theming ? String(item.theming) : "not recorded in the catalog") + ".");
     return parts.join(" ");
+  }
+
+  /* Which frameworks this entry exists in, straight from the registry-backed
+     catalog. A binding that is planned is labelled planned — the chip never
+     implies a file that is not in the repository. */
+  function frameworkChips(item) {
+    var list = bindingList(item);
+    if (list.length < 2) return null;
+    var box = make("div", "lib-fw");
+    for (var i = 0; i < list.length; i++) {
+      var entry = list[i];
+      var state = FW_LIVE[entry.status] || "absent";
+      var label = FW_LABEL[entry.name] + " · " + entry.status;
+      box.appendChild(chip(label, "lib-chip lib-chip-fw is-" + state));
+    }
+    return box;
   }
 
   function techChips(item) {
@@ -495,7 +559,13 @@
     /* Build the facets from the data. */
     var kinds = kindsPresent(items);
     var cats = facet(items, "category");
-    var fws = facet(items, "framework");
+    var fwCounts = {};
+    for (var f = 0; f < items.length; f++) {
+      var live = liveBindings(items[f]);
+      for (var g = 0; g < live.length; g++) fwCounts[live[g]] = (fwCounts[live[g]] || 0) + 1;
+    }
+    var fws = [];
+    for (var h = 0; h < FW_ORDER.length; h++) if (fwCounts[FW_ORDER[h]]) fws.push(FW_ORDER[h]);
 
     function fillOptions(sel, values, labelFn) {
       for (var i = 0; i < values.length; i++) {
@@ -512,18 +582,25 @@
       return (KIND_LABEL[k] || k) + " (" + n + ")";
     });
     fillOptions(catSel, cats);
-    fillOptions(fwSel, fws);
+    fillOptions(fwSel, fws, function (n) { return FW_LABEL[n] + " (" + fwCounts[n] + ")"; });
 
     var summary = $id("lib-summary");
     if (summary) {
       var bits = [];
+      var ported = 0;
       for (var s = 0; s < kinds.length; s++) {
         var n = 0;
         for (var t = 0; t < items.length; t++) if (items[t].kind === kinds[s]) n++;
         bits.push(n + " " + (KIND_LABEL[kinds[s]] || String(kinds[s])).toLowerCase());
       }
-      summary.textContent = items.length + " catalogued entries — " + bits.join(", ") +
-        ". The cards, the filters and these counts come from showcase/data/component-catalog.json" +
+      for (var p = 0; p < items.length; p++) if (liveBindings(items[p]).length > 1) ported++;
+      var names = fws.slice(1).map(function (name) { return FW_LABEL[name]; });
+      var joined = names.length === 1 ? names[0] : names.slice(0, -1).join(", ") + " and " + names[names.length - 1];
+      var portNote = fws.length > 1
+        ? " " + ported + (ported === 1 ? " of them is also shipped" : " of them are also shipped") + " as " + joined + " components over the same stylesheet."
+        : " Every entry is HTML/CSS/JS with no build step.";
+      summary.textContent = items.length + " catalogued entries — " + bits.join(", ") + "." + portNote +
+        " The cards, the filters and these counts come from showcase/data/component-catalog.json" +
         (catalog.generated ? " (generated " + catalog.generated + ")" : "") +
         ", so they cannot drift away from the files they preview.";
     }
@@ -538,7 +615,7 @@
         hint = make("span", "lib-facet-hint");
         sel.parentNode.appendChild(hint);
       }
-      hint.textContent = "Every catalogued " + noun + " is " + (values[0] || "—") + ", so there is nothing to narrow.";
+      hint.textContent = "Every catalogued " + noun + " is " + (FW_LABEL[values[0]] || values[0] || "—") + ", so there is nothing to narrow.";
     }
     markSingle(catSel, cats, "entry");
     markSingle(fwSel, fws, "entry");
@@ -597,7 +674,7 @@
     function matches(item) {
       if (state.kind !== "all" && item.kind !== state.kind) return false;
       if (state.category !== "all" && String(item.category || "").toLowerCase() !== state.category.toLowerCase()) return false;
-      if (state.framework !== "all" && String(item.framework || "").toLowerCase() !== state.framework.toLowerCase()) return false;
+      if (state.framework !== "all" && liveBindings(item).indexOf(state.framework) === -1) return false;
       if (state.q) {
         var words = state.q.toLowerCase().split(/\s+/);
         var hay = haystack(item);
@@ -629,6 +706,8 @@
       box.appendChild(metaLine("id", String(item.id)));
       box.appendChild(metaLine("file", String(item.path), "lib-meta lib-meta-mono"));
       box.appendChild(variantList(item, 6));
+      var fw = frameworkChips(item);
+      if (fw) box.appendChild(fw);
       box.appendChild(assuranceLine(item));
       box.appendChild(actionsRow(item));
       return box;
@@ -1027,6 +1106,249 @@
         else doc.documentElement.setAttribute("data-mue-theme", preset);
       }
     });
+
+    /* ---- framework bindings -------------------------------------------------
+       One resource, several houses. The tabs are built from the registry-backed
+       catalog, so a framework appears only when the repository really holds it;
+       a planned port is labelled planned and renders no frame. */
+    var fwBox = $id("pv-fw");
+    var fwTabs = $id("pv-fw-tabs");
+    var fwBody = $id("pv-fw-body");
+    var fwNote = $id("pv-fw-note");
+    var stageWrap = $id("pv-stage-wrap");
+    var bindings = bindingList(item);
+
+    function factLine(label, value, mono) {
+      if (!value) return null;
+      var line = make("p", "pv-fw-fact");
+      line.appendChild(make("span", "lib-meta-key", label));
+      line.appendChild(make("span", mono ? "lib-meta-val mono" : "lib-meta-val", String(value)));
+      return line;
+    }
+
+    function copyButton(label, path, noun) {
+      var btn = make("button", "lib-btn lib-btn-ghost");
+      btn.type = "button";
+      var note = make("span", "lib-copy-note");
+      note.setAttribute("role", "status");
+      btn.appendChild(make("span", null, label));
+      on(btn, "click", function () {
+        btn.disabled = true;
+        note.textContent = "Loading " + path + " …";
+        copyFile(path, item, function (res) {
+          btn.disabled = false;
+          note.className = "lib-copy-note " + (res.ok ? "is-ok" : "is-fail");
+          note.textContent = res.text;
+        }, noun);
+      });
+      var wrap = make("span", "pv-fw-copy");
+      wrap.appendChild(btn);
+      wrap.appendChild(note);
+      return wrap;
+    }
+
+    function plainCopyButton(label, text) {
+      var btn = make("button", "lib-btn lib-btn-ghost");
+      btn.type = "button";
+      var note = make("span", "lib-copy-note");
+      note.setAttribute("role", "status");
+      btn.appendChild(make("span", null, label));
+      on(btn, "click", function () {
+        writeClipboard(text).then(function (ok) {
+          note.className = "lib-copy-note " + (ok ? "is-ok" : "is-fail");
+          note.textContent = ok ? "Copied." : "Your browser blocked the clipboard — select the line and copy it by hand.";
+          if (ok) track("copy_code", { id: String(item.id), target: "install:" + text });
+        });
+      });
+      var wrap = make("span", "pv-fw-copy");
+      wrap.appendChild(btn);
+      wrap.appendChild(note);
+      return wrap;
+    }
+
+    function showFrame(url, title) {
+      if (stageWrap) stageWrap.hidden = false;
+      iframe.setAttribute("src", url);
+      iframe.setAttribute("title", title);
+      if (urlEl) urlEl.textContent = url;
+      if (openNew) openNew.href = url;
+    }
+
+    function selectBinding(entry, counted) {
+      for (var t = 0; t < fwTabs.children.length; t++) {
+        var tab = fwTabs.children[t];
+        var isOn = tab.getAttribute("data-fw") === entry.name;
+        tab.setAttribute("aria-selected", String(isOn));
+        tab.tabIndex = isOn ? 0 : -1;
+      }
+      fwBody.textContent = "";
+      fwNote.textContent = "";
+
+      var binding = entry.binding || {};
+      var state = FW_LIVE[entry.status] || "absent";
+
+      if (entry.name !== "vanilla") {
+        fwBody.appendChild(factLine("status", entry.status + " — " + (state === "live" ? "the frame below renders this binding" : "no binding in the repository yet")));
+      }
+      if (binding.package) fwBody.appendChild(factLine("package", binding.package, true));
+      if (binding.install) {
+        fwBody.appendChild(factLine("install", binding.install, true));
+        fwBody.appendChild(plainCopyButton("Copy install", binding.install));
+      }
+      if (binding.import) {
+        fwBody.appendChild(factLine(entry.name === "web-components" ? "load" : "import", binding.import, true));
+        fwBody.appendChild(plainCopyButton("Copy import", binding.import));
+      }
+      if (binding.tag) fwBody.appendChild(factLine("markup", binding.tag, true));
+      /* The contract is harvested from each source file's MUE:META by
+         tools/audit/framework-parity.mjs — the same fields an agent reads before it
+         writes markup, shown here so nobody has to open the file to check them. */
+      var spec = binding.spec || {};
+      ["variants", "props", "states", "a11y", "keyboard", "events"].forEach(function (field) {
+        if (spec[field]) fwBody.appendChild(factLine(field, spec[field]));
+      });
+      if (binding.architecture) {
+        var arch = make("a", "lib-btn lib-btn-ghost");
+        arch.href = GITHUB_BASE + binding.architecture;
+        arch.target = "_blank";
+        arch.rel = "noreferrer";
+        arch.appendChild(make("span", null, "Read the porting plan"));
+        fwBody.appendChild(arch);
+      }
+      if (binding.verified) fwBody.appendChild(factLine("verified", binding.verified));
+      else if (state === "live") fwBody.appendChild(factLine("verified", "No verification note recorded for this binding."));
+
+      var sourceFiles = binding.sources || (binding.source ? [binding.source] : []);
+      if (state === "live" && sourceFiles.length) {
+        for (var sf = 0; sf < sourceFiles.length; sf++) {
+          fwBody.appendChild(copyButton("Copy " + String(sourceFiles[sf]).split("/").pop(), sourceFiles[sf], "component source"));
+        }
+        fwBody.appendChild(factLine("files", sourceFiles.length + " in this binding", true));
+        var gh = make("a", "lib-btn lib-btn-ghost");
+        gh.href = GITHUB_BASE + (entry.name === "vanilla" ? item.path : "frameworks/" + entry.name);
+        gh.target = "_blank";
+        gh.rel = "noreferrer";
+        gh.appendChild(make("span", null, "View on GitHub"));
+        fwBody.appendChild(gh);
+      }
+
+      if (entry.name === "vanilla") {
+        showFrame(engineUrl(item), "Live preview: " + String(item.name));
+        src.href = githubUrl(item);
+        if (fwNote) fwNote.textContent = "The frame is the vanilla file the catalog names, served from /engine/… — the same file a copy-and-paste user gets.";
+      } else if (state === "live" && binding.preview) {
+        var previewUrl = ENGINE_BASE + binding.preview;
+        showFrame(previewUrl, "Live preview: " + FW_LABEL[entry.name] + " binding of " + String(item.name));
+        src.href = GITHUB_BASE + (binding.sources ? binding.sources[0] : binding.source);
+        if (fwNote) {
+          fwNote.textContent = "This frame runs the " + FW_LABEL[entry.name] + " component, built from the files in frameworks/" +
+            entry.name + "/ and styled by the same styles/components.css as the HTML version. Resizing and theme buttons drive it the same way.";
+        }
+        if (counted) track("component_preview_open", { id: String(item.id), target: "framework:" + entry.name });
+      } else {
+        if (stageWrap) stageWrap.hidden = true;
+        if (fwNote) {
+          fwNote.textContent = "No " + FW_LABEL[entry.name] + " component exists in this repository, so there is nothing to render. " +
+            (binding.architecture ? "The documented plan for it is linked above; the tab is here to show that gap, not to paper over it." : "");
+        }
+        src.href = GITHUB_BASE + "frameworks";
+        if (counted) track("component_preview_open", { id: String(item.id), target: "framework-gap:" + entry.name });
+      }
+
+      var params = { id: String(item.id) };
+      if (entry.name !== "vanilla") params.fw = entry.name;
+      try {
+        history.replaceState(null, "", location.pathname + "?" + Object.keys(params).map(function (k) {
+          return encodeURIComponent(k) + "=" + encodeURIComponent(params[k]);
+        }).join("&"));
+      } catch (e) { /* a blocked history write only costs the deep link */ }
+      paintWidth();
+    }
+
+    if (fwBox && fwTabs && fwBody && bindings.length > 1) {
+      fwBox.hidden = false;
+      var wantedFw = String(query.fw || "").toLowerCase();
+      var chosenBinding = bindings[0];
+      for (var bi = 0; bi < bindings.length; bi++) {
+        (function (entry, index) {
+          var tab = make("button", "pv-fw-tab");
+          tab.type = "button";
+          tab.setAttribute("role", "tab");
+          tab.setAttribute("data-fw", entry.name);
+          tab.id = "pv-fw-tab-" + entry.name;
+          tab.appendChild(make("span", null, FW_LABEL[entry.name]));
+          tab.appendChild(make("span", "pv-fw-state", entry.name === "vanilla" ? "stable" : entry.status));
+          tab.tabIndex = -1;
+          on(tab, "click", function () { selectBinding(entry, true); tab.focus(); });
+          on(tab, "keydown", function (event) {
+            var delta = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
+            if (!delta) return;
+            event.preventDefault();
+            var next = (index + delta + bindings.length) % bindings.length;
+            selectBinding(bindings[next], true);
+            fwTabs.children[next].focus();
+          });
+          fwTabs.appendChild(tab);
+        })(bindings[bi], bi);
+        if (bindings[bi].name === wantedFw) chosenBinding = bindings[bi];
+      }
+      selectBinding(chosenBinding, false);
+    } else if (fwBox) {
+      fwBox.hidden = true;
+    }
+
+    /* Related entries: whatever else the catalog files under the same category,
+       counted from the data rather than curated by hand. */
+    var relatedBox = $id("pv-related");
+    var relatedList = $id("pv-related-list");
+    var relatedNote = $id("pv-related-note");
+    if (relatedBox && relatedList) {
+      var others = itemsOf(catalog).filter(function (other) {
+        return other.id !== item.id && String(other.category || "") === String(item.category || "");
+      });
+      var why = "category";
+      if (!others.length) {
+        /* Most catalogued entries are one-per-category, so siblings are usually
+           none. Fall back to the entries that travel with this one — the ones the
+           registry ships in the same frameworks — which is the useful pairing. */
+        var mine = liveBindings(item);
+        if (mine.length) {
+          others = itemsOf(catalog).filter(function (other) {
+            if (other.id === item.id || String(other.kind || "") !== String(item.kind || "")) return false;
+            var theirs = liveBindings(other);
+            for (var f = 0; f < theirs.length; f++) {
+              if (mine.indexOf(theirs[f]) > -1) return true;
+            }
+            return false;
+          });
+          why = "bindings";
+        }
+      }
+      relatedList.textContent = "";
+      if (others.length) {
+        relatedBox.hidden = false;
+        for (var r = 0; r < others.length && r < 8; r++) {
+          (function (other) {
+            var a = make("a", "lib-btn lib-btn-ghost");
+            a.href = "/preview.html?id=" + encodeURIComponent(other.id);
+            a.appendChild(make("span", null, String(other.name)));
+            on(a, "click", function () { track(previewEventFor(other), { id: String(other.id), target: "related:" + String(item.id) }); });
+            relatedList.appendChild(a);
+          })(others[r]);
+        }
+        if (relatedNote) {
+          var shown = Math.min(others.length, 8);
+          relatedNote.textContent = why === "category"
+            ? (others.length > 8
+              ? "Showing 8 of " + others.length + " other entries the catalog files under " + String(item.category) + "."
+              : "The catalog files " + others.length + " other " + String(item.kind).toLowerCase() + (others.length === 1 ? "" : "s") + " under " + String(item.category) + ".")
+            : (shown + (others.length > 8 ? " of " + others.length : "") + " " + String(item.kind).toLowerCase() + (others.length === 1 ? "" : "s") +
+              " shipped in the same " + liveBindings(item).length + " frameworks as this one.");
+        }
+      } else {
+        relatedBox.hidden = true;
+      }
+    }
 
     window.addEventListener("resize", paintWidth);
     paintWidth();

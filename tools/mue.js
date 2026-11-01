@@ -5,6 +5,8 @@
 
      node tools/mue.js search "pricing table"
      node tools/mue.js show tbl-pricing
+     node tools/mue.js show btn-buttons --framework react
+     node tools/mue.js stack
      node tools/mue.js region buttons cards
      node tools/mue.js usage .btn-primary
      node tools/mue.js regions
@@ -419,6 +421,9 @@ function pad(s, n) {
 
 cmd.search = (args, flags, json) => {
   if (!args.length) return fail('usage: mue search "pricing table"');
+  const fwRaw = String(flags.framework || flags.fw || '').toLowerCase();
+  const wantFw = fwRaw ? ALIASES[fwRaw] : null;
+  if (fwRaw && !wantFw) return fail(`unknown framework "${fwRaw}". Known: ${Object.keys(ALIASES).join(', ')}.`);
   const q = args.join(' ').toLowerCase();
   const terms = q.split(/[\s,]+/).filter(Boolean);
   const scored = catalog()
@@ -446,28 +451,32 @@ cmd.search = (args, flags, json) => {
       return { item, meta, score, why };
     })
     .filter((r) => r.score > 0)
+    .filter((r) => !wantFw || liveFrameworkNames(r.item).includes(wantFw))
     .sort((a, b) => b.score - a.score)
     .slice(0, Number(flags.limit || 10));
 
   if (!scored.length) {
-    return fail(`no preview matches "${q}". Try: mue regions, or mue list --group Components`);
+    return fail(`no preview matches "${q}"${wantFw ? ` in the ${wantFw} stack` : ''}. Try: mue regions, or mue list --group Components`);
   }
-  emit(json, scored.map(r => ({ ...pick(r.item, 'id', 'name', 'group', 'path', 'summary'), score: r.score, matchedOn: r.why, regions: sheetRegions(r.meta), theme: r.meta.fields.THEME || r.item.theming })), (rows) =>
+  emit(json, scored.map(r => ({ ...pick(r.item, 'id', 'name', 'group', 'path', 'summary'), score: r.score, matchedOn: r.why, regions: sheetRegions(r.meta), frameworks: liveFrameworkNames(r.item), theme: r.meta.fields.THEME || r.item.theming })), (rows) =>
     rows
       .map(
         (r) =>
           `${pad(r.id, 22)} ${pad(r.name, 22)} ${r.path}\n` +
           (r.summary ? `  ${r.summary}\n` : '') +
           `  regions: ${r.regions.length ? r.regions.join(', ') : 'none yet — page is self-contained'}\n` +
+          `  stacks: ${r.frameworks.join(', ')}\n` +
           `  matched: ${r.matchedOn.join(', ')}`
       )
-      .join('\n') + `\n\n"mue show <id>" prints the markup and the CSS it needs.`
+      .join('\n') + `\n\n"mue show <id>" prints the markup and the CSS it needs.\n"mue show <id> --framework react" prints that binding's source instead.`
   );
 };
 
 cmd.show = (args, flags, json) => {
   const item = resolveItem(args);
   if (!item) return notFound(args);
+  const wantedFw = String(flags.framework || flags.fw || '').toLowerCase();
+  if (wantedFw) return showBinding(item, wantedFw, json);
   const meta = readMeta(item.path);
   const regions = sheetRegions(meta);
   const markup = extractMarkup(item.path);
@@ -513,6 +522,139 @@ cmd.show = (args, flags, json) => {
   } else {
     process.stdout.write(JSON.stringify(out, null, 2) + '\n');
   }
+};
+
+/* The framework answers live in frameworks/registry.json, merged into the
+   catalog by tools/audit/framework-parity.mjs. One design, several houses: the
+   classes never change, only the markup that writes them. */
+const LIVE_STATUS = ['stable', 'experimental'];
+const ALIASES = { html: 'vanilla', css: 'vanilla', vanilla: 'vanilla', react: 'react', vue: 'vue', svelte: 'svelte', angular: 'angular', wc: 'web-components', 'web-components': 'web-components', elements: 'web-components' };
+
+function bindingOf(item, framework) {
+  const name = ALIASES[framework];
+  if (!name) return null;
+  if (name === 'vanilla') return { framework: 'vanilla', status: 'stable', source: item.path, preview: item.path };
+  const binding = (item.frameworks || {})[name];
+  return binding ? Object.assign({ framework: name }, binding) : { framework: name, status: 'unsupported' };
+}
+
+function liveFrameworkNames(item) {
+  const out = new Set(['vanilla']);
+  for (const [name, b] of Object.entries(item.frameworks || {})) {
+    if (LIVE_STATUS.includes(b.status)) out.add(name);
+  }
+  return [...out];
+}
+
+function showBinding(item, framework, json) {
+  const binding = bindingOf(item, framework);
+  const live = LIVE_STATUS.includes(binding.status);
+  if (!live) {
+    const lines = [
+      `${item.name} — ${binding.framework}: ${binding.status}`,
+      `This repository has no ${binding.framework} component for ${item.id}. Nothing here is a placeholder for one.`,
+      binding.architecture ? `Documented plan: ${binding.architecture}` : 'No porting plan is recorded for this component either.',
+      'The vanilla file is real and copy-ready: node tools/mue.js show ' + item.id,
+    ];
+    return emit(json, { id: item.id, framework: binding.framework, status: binding.status, implemented: false, architecture: binding.architecture || null, vanilla: item.path }, () => lines.join('\n'));
+  }
+  const source = binding.source ? read(binding.source) : null;
+  const payload = {
+    id: item.id,
+    name: item.name,
+    framework: binding.framework,
+    status: binding.status,
+    implemented: true,
+    package: binding.package || null,
+    install: binding.install || null,
+    import: binding.import || null,
+    tag: binding.tag || null,
+    sourceFile: binding.source || null,
+    preview: binding.preview ? pathToFileURL(path.join(ROOT, binding.preview)).href : null,
+    verified: binding.verified || null,
+    spec: binding.spec || null,
+    source,
+  };
+  emit(
+    json,
+    payload,
+    () => [
+      `${item.name} — ${binding.framework} (${binding.status})`,
+      payload.package ? `  package    ${payload.package}` : null,
+      payload.install ? `  install    ${payload.install}` : null,
+      payload.import ? `  import     ${payload.import}` : null,
+      payload.tag ? `  markup     ${payload.tag}` : null,
+      payload.sourceFile ? `  file       ${payload.sourceFile}` : null,
+      payload.verified ? `  verified   ${payload.verified}` : '  verified   no check recorded for this binding',
+      ...(payload.spec
+        ? ['', 'CONTRACT (harvested from the MUE:META block of the file below)']
+            .concat(
+              Object.keys(payload.spec)
+                .filter((key) => payload.spec[key])
+                .map((key) => `  ${key.padEnd(12)} ${payload.spec[key]}`)
+            )
+        : []),
+      '',
+      'SOURCE',
+      ...String(source || '(no source file recorded)').split('\n').map((l) => '  ' + l),
+    ].filter(Boolean).join('\n')
+  );
+}
+
+cmd.stack = (args, flags, json) => {
+  const items = catalog().items;
+  const names = new Set(['vanilla']);
+  for (const item of items) for (const key of Object.keys(item.frameworks || {})) names.add(key);
+  const order = ['vanilla', 'react', 'vue', 'web-components', 'svelte', 'angular'].filter((n) => names.has(n));
+  const wanted = ALIASES[String(args[0] || '').toLowerCase()];
+  if (args[0] && !wanted) return fail(`unknown stack "${args[0]}". Known: ${order.join(', ')}.`);
+
+  if (!wanted) {
+    const rows = order.map((name) => {
+      let live = 0;
+      let planned = 0;
+      for (const item of items) {
+        const binding = bindingOf(item, name);
+        if (LIVE_STATUS.includes(binding.status)) live++;
+        else if (binding.status === 'planned') planned++;
+      }
+      return { framework: name, components: live, planned, of: items.length };
+    });
+    return emit(
+      json,
+      { stacks: rows, catalog: items.length },
+      () => ['Which stacks this repository really ships.',
+        ...rows.map((r) => `  ${pad(r.framework + ':', 18)} ${r.components}/${r.of} entries live${r.planned ? `, ${r.planned} documented as planned` : ''}`),
+        '',
+        'Read one: node tools/mue.js show <id> --framework react'].join('\n')
+    );
+  }
+
+  const hits = items.filter((item) => LIVE_STATUS.includes(bindingOf(item, wanted).status));
+  const gaps = items.filter((item) => bindingOf(item, wanted).status === 'planned');
+  return emit(
+    json,
+    {
+      framework: wanted,
+      components: hits.map((item) => {
+        const b = bindingOf(item, wanted);
+        return { id: item.id, name: item.name, source: b.source, install: b.install || null, import: b.import || null, tag: b.tag || null, verified: b.verified || null };
+      }),
+      planned: gaps.map((item) => ({ id: item.id, architecture: bindingOf(item, wanted).architecture || null })),
+    },
+    () => [
+      `${wanted}: ${hits.length} of ${items.length} catalogued entries exist as source in this repository.`,
+      ...hits.map((item) => {
+        const b = bindingOf(item, wanted);
+        return `  ${pad(item.id + ':', 22)} ${b.source}`;
+      }),
+      gaps.length ? `\n  documented, not built (${gaps.length}): ${gaps.map((i) => i.id).join(', ')}` : '',
+      '',
+      `Get one with its source: node tools/mue.js show <id> --framework ${wanted}`,
+    ]
+      .filter(Boolean)
+      .join('\n')
+  );
 };
 
 function notFound(args) {
@@ -997,6 +1139,7 @@ cmd.help = () => {
 
   search "<words>"        find a preview by what it looks like
   show <id|path>          header, what to link, and the copy-ready markup
+  show <id> --framework x that binding's source instead (react, vue, web-components…)
   regions                 the ${regionMap().length} CSS copy units in styles/components.css
   region <name>...        the exact CSS of a copy unit
   usage .class            which region defines it, which previews use it
@@ -1004,6 +1147,7 @@ cmd.help = () => {
   head <file|id>          structured MUE:META for one preview
   scaffold <out> --use a,b  a page wired to the shared sheet with that markup
   add <id>... --into <dir>  install the component + the layers it needs into your project
+  stack [react]           which frameworks exist here for real, and their source files
   registry               the whole library as one JSON document (machine endpoint)
   check <file|all>        unresolved classes, broken headers, missing metadata
   doctor                  catalog/header/sheet consistency + conversion backlog

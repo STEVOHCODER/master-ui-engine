@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BEGIN MUE:META
+  COMPONENT: Web Components preview
+  ID: wc-preview
+  GROUP: Frameworks > Web Components
+  CATEGORY: frameworks
+  FRAMEWORK: Web Components (custom elements, plain ES modules, no build step)
+  DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
+  DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (theme toggle) + ../index.js (registers every mue-* element)
+  SHEET: styles/components.css — this page adds no component stylesheet; the demo scaffolding below only positions previews
+  THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
+  VARIANTS: one data-mue-section per component of the shared sixteen (16 sections); see ../registry.js for the attribute and event list
+  A11Y: same page chrome as the vanilla previews; each element documents its own roles, labels and keyboard path in its MUE:META
+  KEYBOARD: tabs, dropdown, dialog and accordion keyboard paths are owned by the elements themselves and exercised in the headless run
+  VERIFIED: served over http in headless Chrome (puppeteer-core); zero page errors, the only console entry is the /favicon.ico 404; see ../README.md
+  LICENSE: MIT
+  ATTRIBUTION: MASTER-UI-ENGINE contributors
+END MUE:META -->
+<title>Web Components | MASTER-UI-ENGINE</title>
+<link rel="stylesheet" href="../../../design-tokens/engine.css">
+<link rel="stylesheet" href="../../../styles/components.css">
+<script src="../../../styles/mue.js" defer></script>
+<script type="module" src="../index.js"></script>
+<style>
+  /* Demo scaffolding only: how preview blocks sit next to each other. No rule here
+     restyles a component — the elements emit classes defined in styles/components.css. */
+  .variant-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: var(--space-4);
+  }
+  .variant-grid h3 {
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin: 0 0 var(--space-2);
+  }
+  .demo-col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  #event-log {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    min-height: 4.5rem;
+    padding: var(--space-3);
+    border-radius: var(--radius-base);
+    background: var(--tint-primary);
+    overflow: auto;
+  }
+</style>
+</head>
+<body class="page">
+<div class="shell">
+  <header class="masthead">
+    <div>
+      <div class="brand">MASTER-UI-ENGINE</div>
+      <div class="meta">Frameworks &gt; Web Components</div>
+    </div>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+      <span data-theme-state>Dark mode</span><span class="dot" aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <h1>Web Components</h1>
+  <p class="subtitle">The shared sixteen as light-DOM custom elements. No build step, no runtime
+    dependency, no shadow root — <code>&lt;mue-*&gt;</code> upgrades the markup you write and applies
+    the same classes the vanilla previews use, so the one stylesheet styles every framework.</p>
+
+  <div class="meta-card">
+    <div class="meta">
+      <b>Name:</b> Web Components bindings<br>
+      <b>Package:</b> mue-web-components (frameworks/web-components)<br>
+      <b>Install:</b> &lt;script type="module" src="frameworks/web-components/index.js"&gt;<br>
+      <b>Runtime dependency:</b> none (custom elements + the shared sheet)<br>
+      <b>Shadow DOM:</b> no — light DOM, so document classes apply<br>
+      <b>Defined in:</b> styles/components.css (classes only)<br>
+      <b>License:</b> MIT
+    </div>
+  </div>
+
+  <div class="section" data-mue-section="button">
+    <h2>1 · Button</h2>
+    <p><code>mue-button</code> renders a real <code>&lt;button&gt;</code>. <code>variant</code>,
+      <code>size</code>, <code>state</code>, <code>block</code> and <code>icon</code> map to the
+      modifier classes in the sheet; <code>disabled</code> is the native attribute.</p>
+    <div class="variant-grid">
+      <div>
+        <h3>Solid</h3>
+        <div class="demo-area">
+          <mue-button variant="primary">Primary</mue-button>
+          <mue-button variant="secondary">Secondary</mue-button>
+          <mue-button variant="success">Success</mue-button>
+          <mue-button variant="danger">Danger</mue-button>
+        </div>
+      </div>
+      <div>
+        <h3>Quiet</h3>
+        <div class="demo-area">
+          <mue-button variant="outline">Outline</mue-button>
+          <mue-button variant="ghost">Ghost</mue-button>
+          <mue-button variant="link">Link</mue-button>
+        </div>
+      </div>
+      <div>
+        <h3>Sizes, states</h3>
+        <div class="demo-area">
+          <mue-button variant="primary" size="sm">Small</mue-button>
+          <mue-button variant="primary" size="lg">Large</mue-button>
+          <mue-button variant="primary" state="loading">Saving</mue-button>
+          <mue-button variant="primary" disabled>Disabled</mue-button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" data-mue-section="input">
+    <h2>2 · Input</h2>
+    <p><code>mue-input</code> owns the label/helper/error structure: <code>label</code> is joined by
+      <code>for</code>/<code>id</code>, <code>state="error"</code> sets <code>aria-invalid</code> and
+      points <code>aria-describedby</code> at the message. Emits <code>mue-change</code>.</p>
+    <div class="variant-grid">
+      <mue-input label="Email" type="email" name="email" value="steve@example.com" helper="Never shared with third parties."></mue-input>
+      <mue-input label="Password" type="password" name="password" state="error" message="At least 12 characters."></mue-input>
+    </div>
+  </div>
+
+  <div class="section" data-mue-section="textarea">
+    <h2>3 · Textarea</h2>
+    <p><code>mue-textarea</code> is the same field contract as the input, plus <code>rows</code>.</p>
+    <div class="variant-grid">
+      <mue-textarea label="Release notes" name="notes" rows="4" value="Buttons, fields, dialogs and tables now ship as custom elements."></mue-textarea>
+    </div>
+  </div>
+
+  <div class="section" data-mue-section="select">
+    <h2>4 · Select</h2>
+    <p><code>mue-select</code> upgrades the authored <code>&lt;option&gt;</code>s into a native
+      <code>&lt;select&gt;</code>, so OS type-ahead and screen readers keep working untouched.</p>
+    <div class="variant-grid">
+      <mue-select label="Plan" name="plan" value="pro">
+        <option value="free">Free</option>
+        <option value="pro">Pro</option>
+        <option value="team">Team</option>
+      </mue-select>
+    </div>
+  </div>
+
+  <div class="section" data-mue-section="checkbox">
+    <h2>5 · Checkbox</h2>
+    <p><code>mue-checkbox</code> keeps a native input inside its own label, so Space toggles and the
+      checked state is announced; each change emits <code>mue-change</code>.</p>
+    <div class="variant-grid">
+      <div class="demo-col">
+        <mue-checkbox id="cb-terms" name="terms" value="yes" checked>I accept the MIT licence terms</mue-checkbox>
+        <mue-checkbox name="news" value="1">Email me release notes</mue-checkbox>
+        <mue-checkbox name="off" disabled>Unavailable option</mue-checkbox>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" data-mue-section="radio">
+    <h2>6 · Radio group</h2>
+    <p><code>mue-radio-group</code> wraps <code>mue-radio</code> options in a labelled
+      <code>&lt;fieldset&gt;</code> and shares one <code>name</code>, so arrow keys move the choice.</p>
+    <div class="variant-grid">
+      <mue-radio-group label="Delivery" name="delivery" value="standard">
+        <mue-radio value="standard">Standard · free</mue-radio>
+        <mue-radio value="express">Express · 12 USD</mue-radio>
+        <mue-radio value="pickup">Pickup · today</mue-radio>
+      </mue-radio-group>
+    </div>
+  </div>
+
+  <div class="section" data-mue-section="switch">
+    <h2>7 · Switch</h2>
+    <p><code>mue-switch</code> is a native checkbox given <code>role="switch"</code> and
+      <code>aria-checked</code>; the visible track is decorative. Space flips it.</p>
+    <div class="variant-grid">
+      <div class="demo-col">
+        <mue-switch id="switch-demo" name="dark" value="on" checked>Reduce motion</mue-switch>
+        <mue-switch name="beta" value="on">Beta features</mue-switch>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" data-mue-section="card">
+    <h2>8 · Card</h2>
+    <p>Author children stay in the light DOM, so any markup that works in the vanilla preview works
+      here; <code>interactive</code> and <code>selected</code> add the modifier and the aria state.</p>
+    <div class="variant-grid">
+      <mue-card variant="elevated" interactive>
+        <div class="card-body">
+          <span class="card-tag">Binding</span>
+          <h3 class="card-title">One design, several houses</h3>
+          <p class="card-desc">The element adds markup and behaviour. It never adds a stylesheet.</p>
+          <div class="card-actions">
+            <a class="btn-primary" href="../README.md">Read the contract</a>
+          </div>
+        </div>
+      </mue-card>
+    </div>
+  </div>
+
+  <div class="section" data-mue-section="badge">
+    <h2>9 · Badge</h2>
+    <p><code>mue-badge</code> conveys state through text, not colour alone; the optional dot is
+      <code>aria-hidden</code>.</p>
+    <div class="variant-grid">
+      <div class="demo-area">
+        <mue-badge variant="success">Stable</mue-badge>
+        <mue-badge variant="warning" dot>Experimental</mue-badge>
+        <mue-badge variant="neutral" solid>Planned</mue-badge>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" data-mue-section="avatar">
+    <h2>10 · Avatar</h2>
+    <p><code>mue-avatar</code> renders an image (keeps <code>alt</code>) or real-text initials;
+      <code>mue-avatar-group</code> stacks them under a labelled <code>role="group"</code>.</p>
+    <div class="variant-grid">
+      <div class="demo-area">
+        <mue-avatar name="Nina Kobey"></mue-avatar>
+        <mue-avatar initials="MC" name="Marco Chen"></mue-avatar>
+        <mue-avatar-group label="4 collaborators">
+          <mue-avatar initials="AK"></mue-avatar>
+          <mue-avatar initials="JD"></mue-avatar>
+          <mue-avatar initials="RS"></mue-avatar>
+          <mue-avatar initials="TP"></mue-avatar>
+        </mue-avatar-group>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" data-mue-section="dialog">
+    <h2>11 · Dialog</h2>
+    <p><code>mue-dialog</code> traps focus, closes on Escape and returns it to the trigger;
+      <code>[slot="footer"]</code> children move into the dialog footer.</p>
+    <div class="variant-grid">
+      <div class="demo-col">
+        <button class="btn-primary" type="button" id="open-dialog">Open dialog</button>
+        <mue-dialog id="dialog-demo" title="Ship this binding">
+          <p>Nothing is claimed to work until the headless check has actually run against it.
+            This dialog is that element, with its own title, close control and focus trap.</p>
+          <div slot="footer">
+            <button class="btn-ghost" type="button" data-close>Cancel</button>
+            <button class="btn-primary" type="button" id="dialog-confirm">Confirm</button>
+          </div>
+        </mue-dialog>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" data-mue-section="dropdown">
+    <h2>12 · Dropdown</h2>
+    <p><code>mue-dropdown</code> follows the menu pattern: the trigger carries
+      <code>aria-haspopup</code>/<code>aria-expanded</code>, arrows walk the rows, and choosing one
+      emits <code>mue-select</code> then closes.</p>
+    <div class="variant-grid">
+      <div class="demo-col">
+        <mue-dropdown id="dropdown-demo" label="Actions" variant="outline">
+          <button class="menu-item" type="button" role="menuitem" value="copy">Copy markup</button>
+          <div class="menu-divider" role="separator"></div>
+          <button class="menu-item" type="button" role="menuitem" value="duplicate">Duplicate</button>
+          <button class="menu-item" type="button" role="menuitem" value="delete">Delete</button>
+        </mue-dropdown>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" data-mue-section="tabs">
+    <h2>13 · Tabs</h2>
+    <p><code>mue-tabs</code> pairs each <code>mue-tab</code> with the <code>mue-tabpanel</code> at the
+      same index and marks its tablist <code>data-mue-bound</code>, so the vanilla script never
+      double-wires it. Arrow keys move focus, Home/End jump, Enter/Space activate.</p>
+    <div class="variant-grid">
+      <mue-tabs id="tabs-demo" label="Preview tabs" selected="0">
+        <mue-tab>Markup</mue-tab>
+        <mue-tab>Classes</mue-tab>
+        <mue-tab>Tokens</mue-tab>
+        <mue-tabpanel><p>The element writes the same class names the vanilla preview does.</p></mue-tabpanel>
+        <mue-tabpanel><p>Every class is defined in styles/components.css — the parity audit rejects any that are not.</p></mue-tabpanel>
+        <mue-tabpanel><p>Colour, radius, spacing and motion come from design-tokens.</p></mue-tabpanel>
+      </mue-tabs>
+    </div>
+  </div>
+
+  <div class="section" data-mue-section="accordion">
+    <h2>14 · Accordion</h2>
+    <p><code>mue-accordion-item</code> triggers are real buttons with <code>aria-expanded</code> and
+      <code>aria-controls</code>; single-open by default, add <code>multiple</code> for several.</p>
+    <div class="variant-grid">
+      <mue-accordion id="accordion-demo">
+        <mue-accordion-item label="Does this add a stylesheet?" open>No. Bindings emit classes; the single source of truth stays in styles/components.css.</mue-accordion-item>
+        <mue-accordion-item label="Is there a build step?">No. Import the index once and the tags are defined; loading it twice is harmless.</mue-accordion-item>
+        <mue-accordion-item label="Do the elements use Shadow DOM?">No — light DOM, so document-level classes and theme tokens apply without piercing.</mue-accordion-item>
+      </mue-accordion>
+    </div>
+  </div>
+
+  <div class="section" data-mue-section="table">
+    <h2>15 · Table</h2>
+    <p><code>mue-table</code> upgrades an authored <code>&lt;table&gt;</code>, wraps it in
+      <code>.table-wrap</code> and sorts the columns that carry <code>data-sort</code>, emitting
+      <code>mue-sort</code>.</p>
+    <div class="variant-grid">
+      <mue-table striped>
+        <table>
+          <thead>
+            <tr>
+              <th data-sort="">Component</th>
+              <th data-sort="">Binding</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Button</td><td>mue-button</td><td>verified</td></tr>
+            <tr><td>Dialog</td><td>mue-dialog</td><td>verified</td></tr>
+            <tr><td>Tabs</td><td>mue-tabs</td><td>verified</td></tr>
+          </tbody>
+        </table>
+      </mue-table>
+    </div>
+  </div>
+
+  <div class="section" data-mue-section="notification">
+    <h2>16 · Notification</h2>
+    <p><code>mue-notification</code> keeps the sheet's two shapes: a persistent <code>alert</code> and
+      a <code>toast</code> shown by setting <code>open</code>, dismissed by its own button.</p>
+    <div class="variant-grid">
+      <div class="demo-col">
+        <mue-notification type="alert" variant="success" title="Binding verified" message="Every class this element emits exists in the shared sheet."></mue-notification>
+        <mue-notification type="alert" variant="warning" title="Planned" message="Svelte and Angular have an architecture, not a component."></mue-notification>
+        <button class="btn-outline" type="button" id="show-toast">Show toast</button>
+        <mue-notification id="toast-demo" type="toast" variant="info" title="Copied" message="React binding source is on the clipboard." timeout="4000"></mue-notification>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Live events</h2>
+    <p>Every custom element emits on the host with a <code>detail</code> payload. Clicking, typing or
+      toggling anything above appends the real event here — nothing in this log is invented.</p>
+    <pre id="event-log" role="log" aria-live="polite">Waiting for interaction…</pre>
+  </div>
+
+  <div class="demo-area">
+    <a class="btn-ghost" href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/docs/framework-support.md">Support matrix</a>
+    <a class="btn-ghost" href="../../../frameworks/web-components/README.md">Package README</a>
+    <a class="btn-ghost" href="../../../frameworks/web-components/registry.js">Machine-readable element registry</a>
+  </div>
+</div>
+<script type="module">
+  const log = document.getElementById("event-log");
+  const push = (line) => {
+    log.textContent = (log.textContent === "Waiting for interaction…" ? "" : log.textContent + "\n") + line;
+    log.scrollTop = log.scrollHeight;
+  };
+  ["mue-change", "mue-select", "mue-open", "mue-close", "mue-sort"].forEach((name) =>
+    document.addEventListener(name, (e) => {
+      const host = e.target.tagName ? e.target.tagName.toLowerCase() : "mue";
+      push(host + " " + name + " " + JSON.stringify(e.detail ?? {}));
+    })
+  );
+
+  const dialog = document.getElementById("dialog-demo");
+  document.getElementById("open-dialog").addEventListener("click", () => { dialog.open = true; });
+  document.getElementById("dialog-confirm").addEventListener("click", () => { dialog.open = false; });
+
+  const toast = document.getElementById("toast-demo");
+  document.getElementById("show-toast").addEventListener("click", () => { toast.open = true; });
+</script>
+</body>
+</html>

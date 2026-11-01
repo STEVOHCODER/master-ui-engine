@@ -128,3 +128,33 @@ header.
 
 All third-party licenses and attribution requirements are documented per-file
 in the metadata blocks of `components/`, `examples/`, and `templates/`.
+
+## Provenance of `frameworks/`
+
+The React, Vue and Web Components bindings are original work written against this
+repository's own classes. They are not re-skinned or translated copies of another
+component library, and every source file says so in its header:
+
+```bash
+node tools/audit/framework-parity.mjs | grep "licences in the tree"
+  note   licences in the tree — vanilla: MIT | react: MIT | vue: MIT | web-components: MIT
+  note   attribution in the tree — vanilla: MASTER-UI-ENGINE contributors | react: … | vue: … | web-components: …
+```
+
+The audit fails a file that declares no `LICENSE` or no `ATTRIBUTION` field, so a
+later port that *is* derived from someone else's component has to say so in the same
+place the tool reads.
+
+Third-party code does appear in two places, and neither is a component:
+
+- `frameworks/react/preview/preview.js` and `frameworks/vue/preview/dist/preview.js`
+  are build artifacts that bundle the React DOM and Vue runtime so the previews open
+  without a CDN. React is MIT, Vue is MIT. `node build.mjs` in each package regenerates
+  them from the resolved versions in that folder's `package-lock.json`
+  (react / react-dom 19.3.1, vue 3.5.44, vite 8.3.5, @vitejs/plugin-vue 6.0.10,
+  esbuild 0.28.2 — all devDependencies, never shipped to a consumer of a component).
+- `node_modules/` under those packages is a local install; `site/build.mjs` refuses to
+  copy it into the deployment.
+
+Nothing in `frameworks/` is published to npm yet, so "install" means copy the folder,
+and the MIT terms of the engine apply to the whole tree.

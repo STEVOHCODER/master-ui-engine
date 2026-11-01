@@ -4,15 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MASTER-UI-ENGINE — stop your coding agent from producing generic UI/UX</title>
-<meta name="description" content="Open-source UI engine for AI coding agents: 54 live component, example and template previews, 31 copy-ready CSS units, one token layer, one CLI. Give OpenCode, Codex, Claude Code and affordable open models reusable interface resources instead of inventing generic UI from scratch. MIT licensed.">
-<meta name="keywords" content="UI components for AI coding agents, AI coding agent design system, reusable UI components, open-source UI library, professional UI templates, design system for AI agents, reduce repetitive UI generation, shadcn alternative, OpenCode components, frontend development with AI">
+<meta name="description" content="Open-source UI engine for AI coding agents: 54 live component, example and template previews, 31 copy-ready CSS units, one token layer, one CLI, and React, Vue and Web Components bindings for 14 components. Give OpenCode, Codex, Claude Code and affordable open models reusable interface resources instead of inventing generic UI from scratch. MIT licensed.">
+<meta name="keywords" content="UI components for AI coding agents, AI coding agent design system, reusable UI components, open-source UI library, professional UI templates, design system for AI agents, reduce repetitive UI generation, shadcn alternative, React design tokens, Vue component bindings, web components design system, OpenCode components, frontend development with AI">
 <link rel="canonical" href="https://master-ui-engine.vercel.app/">
 <meta name="theme-color" content="#0b0c0f" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f5f4f0" media="(prefers-color-scheme: light)">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="MASTER-UI-ENGINE">
 <meta property="og:title" content="Stop your coding agent from producing generic UI/UX interfaces">
-<meta property="og:description" content="54 live previews, 31 copy-ready CSS units, one token layer and one CLI your agent can call. MIT licensed, no framework required.">
+<meta property="og:description" content="54 live previews, 31 copy-ready CSS units, one token layer, one CLI your agent can call — plus React, Vue and Web Components bindings for 14 of them. MIT licensed, no framework required for the engine itself.">
 <meta property="og:url" content="https://master-ui-engine.vercel.app/">
 <meta property="og:image" content="https://master-ui-engine.vercel.app/assets/img/og.png">
 <meta property="og:image:width" content="1200">
@@ -40,15 +40,17 @@
       "url": "https://master-ui-engine.vercel.app/",
       "license": "https://opensource.org/licenses/MIT",
       "sameAs": "https://github.com/STEVOHCODER/master-ui-engine",
-      "description": "A reusable UI engine for AI coding agents: 54 live previews (33 components, 15 examples, 6 templates), a shared token layer, 31 copy-ready CSS units and a command-line interface agents can call instead of generating generic interfaces from scratch.",
+      "description": "A reusable UI engine for AI coding agents: 54 live previews (33 components, 15 examples, 6 templates), a shared token layer, 31 copy-ready CSS units, React, Vue and Web Components bindings for 14 components, and a command-line interface agents can call instead of generating generic interfaces from scratch.",
       "featureList": [
         "54 live component, example and template previews",
         "One shared design-token layer with light and dark themes",
         "31 copy-ready CSS units in a single stylesheet",
-        "mue CLI: search, show, region, add, registry, check, doctor",
+        "React, Vue and Web Components bindings for 14 components, sharing the same stylesheet",
+        "Svelte and Angular documented as plans with no source, labelled as such in the support matrix",
+        "mue CLI: search, show, region, add, stack, registry, check, doctor",
         "SKILL.md and AGENTS.md so coding agents reuse previews instead of inventing UI",
         "WCAG AA contrast audited in light and dark, no overflow at 375/768/1280",
-        "MIT licensed, no vendored third-party code"
+        "MIT licensed on all four stacks; the only third-party code is the React and Vue runtimes inside the two committed preview bundles"
       ],
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
     },
@@ -58,7 +60,12 @@
         {
           "@type": "Question",
           "name": "Does MASTER-UI-ENGINE need React, npm or a CDN?",
-          "acceptedAnswer": { "@type": "Answer", "text": "No. Every preview is plain HTML, CSS and JavaScript wired to one token file and one component stylesheet. You can copy a unit into any project." }
+          "acceptedAnswer": { "@type": "Answer", "text": "No. The engine itself is plain HTML, CSS and JavaScript wired to one token file and one component stylesheet, and every preview on this site loads no CDN. The React, Vue and Web Components ports are optional: you take the framework only if your app already uses it." }
+        },
+        {
+          "@type": "Question",
+          "name": "Which frameworks have real source in the repository?",
+          "acceptedAnswer": { "@type": "Answer", "text": "React, Vue and Web Components: 14 of the 33 component entries are ported in all three, each labelled experimental, each with a live in-repo preview built and checked with headless Chrome. Svelte and Angular have architecture documents and no source files, and the support matrix labels them planned. The other 19 component entries are HTML/CSS/JS only." }
         },
         {
           "@type": "Question",
@@ -89,6 +96,7 @@
   <nav class="nav-links" id="navLinks" aria-label="Main">
     <a class="nav-link" href="/library">Library</a>
     <a class="nav-link" href="/templates">Templates</a>
+    <a class="nav-link" href="/#frameworks">Frameworks</a>
     <a class="nav-link" href="/#how">How it works</a>
     <a class="nav-link" href="/agents">Agent guide</a>
     <a class="nav-link" href="/#docs" data-event="documentation_click">Docs</a>
@@ -118,6 +126,7 @@
           <li><b>6</b> templates</li>
           <li><b>31</b> copy-ready CSS units</li>
           <li><b>0</b> required frameworks</li>
+          <li><b>3</b> optional framework ports</li>
         </ul>
       </div>
 
@@ -237,10 +246,64 @@
     </div>
   </section>
 
+  <!-- FRAMEWORK BINDINGS -->
+  <section class="section" id="frameworks">
+    <div class="shell">
+      <p class="eyebrow">03 — Same design, other houses</p>
+      <h2 class="sec-title">Fourteen of those components also exist as React, Vue and Web Components.</h2>
+      <p class="sec-lede">A port is not a second design system. <span class="mono">design-tokens/engine.css</span> and <span class="mono">styles/components.css</span> stay the only place colour, spacing, radius and motion are decided; a framework folder contributes markup, focus handling and state for that framework. No binding ships its own stylesheet, its own theme or a CDN request — the React and Vue galleries below run on bundles built inside this repository and committed with it.</p>
+
+      <div class="frame reveal" data-live-frame style="margin-top:2.5rem">
+        <div class="frame-bar">
+          <span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="frame-url" data-frame-url>engine/frameworks/react/preview/index.html</span>
+          <span class="frame-size" data-frame-size>1280 px</span>
+        </div>
+        <div class="frame-stage" data-frame-stage>
+          <iframe class="frame-view" data-frame-view title="Live preview: React bindings gallery" src="/engine/frameworks/react/preview/index.html" loading="lazy" style="position:absolute;inset-block-start:0;inset-inline-start:0"></iframe>
+        </div>
+        <div class="frame-tabs">
+          <div class="frame-tab-group" role="tablist" aria-label="Framework galleries">
+            <button role="tab" type="button" aria-selected="true" data-src="/engine/frameworks/react/preview/index.html" data-track="framework:react">React</button>
+            <button role="tab" type="button" aria-selected="false" data-src="/engine/frameworks/vue/preview/index.html" data-track="framework:vue">Vue</button>
+            <button role="tab" type="button" aria-selected="false" data-src="/engine/frameworks/web-components/preview/index.html" data-track="framework:web-components">Web Components</button>
+          </div>
+          <div class="frame-widths" role="group" aria-label="Preview width">
+            <button type="button" data-width="1280" aria-pressed="true">1280</button>
+            <button type="button" data-width="768" aria-pressed="false">768</button>
+            <button type="button" data-width="375" aria-pressed="false">375</button>
+          </div>
+        </div>
+      </div>
+      <p class="note">Three real galleries, one per stack, running the same shared stylesheet. Svelte and Angular have architecture documents and zero source files, so they are absent from this frame and labelled <span class="mono">planned</span> in the support matrix instead of faked.</p>
+
+      <div class="spec" style="margin-top:2.5rem">
+        <div class="row"><span class="num">01</span><h3>React <span class="tag">experimental</span></h3><p>14 components under <span class="mono">frameworks/react/</span> — buttons, inputs, textareas, selects, checkboxes, radios, switches, cards, badges, avatars, dialogs, dropdowns, tabs, accordions, tables and notifications. Built with esbuild, exercised in headless Chrome on 2026-11-01: 16 gallery sections, zero remote requests, no double-bound vanilla script. Not published to npm — you copy the folder.</p></div>
+        <div class="row"><span class="num">02</span><h3>Vue <span class="tag">experimental</span></h3><p>The same 14 as single-file components in <span class="mono">frameworks/vue/</span>, built with Vite (25 modules, a 103 KB committed bundle) and checked in headless Chrome the same day with no console errors. Composition <span class="mono">&lt;script setup&gt;</span>, emits declared, native attributes fall through.</p></div>
+        <div class="row"><span class="num">03</span><h3>Web Components <span class="tag">experimental</span></h3><p>21 <span class="mono">&lt;mue-*&gt;</span> elements in <span class="mono">frameworks/web-components/</span>, deliberately light DOM so the document&rsquo;s classes and theme tokens reach them — no shadow root, no duplicated CSS. Ten are interaction-verified by real clicks and key presses; eleven are registered and defined-only, and <span class="mono">registry.js</span> records which is which.</p></div>
+        <div class="row"><span class="num">04</span><h3>Svelte and Angular <span class="tag">planned</span></h3><p>No source. <span class="mono">frameworks/svelte/ARCHITECTURE.md</span> and <span class="mono">frameworks/angular/ARCHITECTURE.md</span> set out how each would bind to the same classes, and the parity audit refuses to let a planned entry claim a file. The site renders those tabs as absent rather than showing an empty shell.</p></div>
+        <div class="row"><span class="num">05</span><h3>Retrieval by stack <span class="tag">agent surface</span></h3><p>An agent asks for a stack and gets the implementation, not a guess: <span class="mono">node tools/mue.js stack</span> prints what each framework actually covers; <span class="mono">mue show ui-cards --framework vue</span> prints that binding&rsquo;s source, package, verified note and the contract harvested from the file&rsquo;s <span class="mono">MUE:META</span> block; <span class="mono">mue search "switch" --framework react</span> filters by port. A port without a recorded check is reported as unverified.</p></div>
+      </div>
+
+      <div class="showcase-meta" style="margin-top:1.5rem">
+        <span class="chip">14 components ported</span>
+        <span class="chip">3 stacks with source</span>
+        <span class="chip">1 shared stylesheet</span>
+        <span class="chip">0 CDN requests in preview</span>
+        <span class="chip">parity audit enforced</span>
+      </div>
+      <div class="link-row">
+        <a href="/library?framework=react">Browse the ported entries</a>
+        <a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/docs/framework-support.md">Read the support matrix</a>
+        <a href="https://github.com/STEVOHCODER/master-ui-engine/tree/main/frameworks">Open frameworks/ on GitHub</a>
+      </div>
+    </div>
+  </section>
+
   <!-- TEMPLATES -->
   <section class="section" id="templates">
     <div class="shell">
-      <p class="eyebrow">03 — Templates</p>
+      <p class="eyebrow">04 — Templates</p>
       <h2 class="sec-title">Complete starting points, not hero images of them.</h2>
       <p class="sec-lede">Six templates and fifteen worked examples ship with the repository. These frames are the running pages, scaled down.</p>
       <div class="tpl-grid" style="margin-top:2.5rem">
@@ -300,13 +363,13 @@
   <!-- WHY / BENEFITS -->
   <section class="section" id="why">
     <div class="shell">
-      <p class="eyebrow">04 — Why developers keep it in the repo</p>
+      <p class="eyebrow">05 — Why developers keep it in the repo</p>
       <h2 class="sec-title">Less reinventing. More building.</h2>
       <div class="spec" style="margin-top:2.5rem">
         <div class="row"><span class="num">01</span><h3>Better output from affordable models</h3><p>A small open-weight model does not have to invent a design system. It retrieves a preview that already resolves contrast, spacing and states, then edits it. That raises the floor — it does not turn a 7B model into a frontier model, and we will not pretend otherwise.</p></div>
         <div class="row"><span class="num">02</span><h3>Fewer tokens spent on structure</h3><p>Generation is the expensive part of UI work. When the table, the sidebar and the form already exist as one file path, the prompt becomes “adapt this” instead of “produce 400 lines of markup and CSS”. No fixed saving percentage is published because there is no benchmark behind it.</p></div>
         <div class="row"><span class="num">03</span><h3>Deterministic starting points</h3><p>Every resource has an id, a category, a variant list and a path an agent can name in a prompt. <span class="mono">mue search "admin sidebar"</span> returns candidates; <span class="mono">mue show ui-cards</span> returns the markup. Same input, same retrieval, on every run.</p></div>
-        <div class="row"><span class="num">04</span><h3>One place, licensing already checked</h3><p>The engine ships its own vanilla token system — nothing is vendored from shadcn/ui, Ant Design, Nuxt UI, daisyUI, Flowbite or Creative Tim. <span class="mono">RESOURCES.md</span> records each of them with its license, framework and whether its source is legally incorporable, so reuse does not become a legal surprise later.<span class="tag">no hidden dependencies</span></p></div>
+        <div class="row"><span class="num">04</span><h3>One place, licensing already checked <span class="tag">no hidden dependencies</span></h3><p>Every stack in this repository is the engine&rsquo;s own work — nothing is vendored from shadcn/ui, Ant Design, Nuxt UI, daisyUI, Flowbite or Creative Tim, and <span class="mono">RESOURCES.md</span> records each of them with its license, framework and whether its source is legally incorporable. The only third-party code anywhere on the site is the React and Vue runtimes inside the two committed framework bundles; <span class="mono">frameworks/</span> ships no <span class="mono">node_modules</span>.</p></div>
         <div class="row"><span class="num">05</span><h3>Design systems that travel</h3><p>Colour, type scale, spacing, radii, shadows and motion are custom properties in one file. Change nine values and every preview follows, in light and dark. Themes are separate files, not find-and-replace.</p></div>
         <div class="row"><span class="num">06</span><h3>Motion you can turn off with one switch</h3><p>Hover lift, press depth and reveal distance are composite tokens, and a single reduced-motion block zeroes them. Authors are told not to write their own media queries, so accessibility does not depend on whoever generated the page.</p></div>
         <div class="row"><span class="num">07</span><h3>Agent-oriented by default</h3><p><span class="mono">AGENTS.md</span> sets the rule, <span class="mono">SKILL.md</span> packages it for skill-aware agents, and <span class="mono">mue registry --json</span> exposes the whole library as one machine document. Works with any agent that can read files or run a command — OpenCode, Codex, Claude Code, Cursor, or a plain terminal.</p></div>
@@ -318,7 +381,7 @@
   <!-- HOW IT WORKS -->
   <section class="section" id="how">
     <div class="shell">
-      <p class="eyebrow">05 — How it works</p>
+      <p class="eyebrow">06 — How it works</p>
       <h2 class="sec-title">Six steps from “make it look good” to a page that does.</h2>
       <ol class="steps reveal" style="margin-top:2.5rem">
         <li><span class="num">STEP 01</span><h3>Explore the library</h3><p>Filter 54 previews by kind, category or what the screen looks like.</p></li>
@@ -351,6 +414,17 @@
 <span class="prompt">$</span> node tools/mue.js add ui-cards btn-buttons <span class="flag">--into ../app</span>
 <span class="out">installed components + the layers they need</span>
 
+<span class="prompt">$</span> node tools/mue.js show ui-cards <span class="flag">--framework</span> vue
+<span class="out">Cards — vue (experimental)</span>
+<span class="out">  file       frameworks/vue/components/MueCard.vue</span>
+<span class="out">  verified   node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors</span>
+<span class="out">  CONTRACT   variants · a11y · keyboard · dependencies · license MIT</span>
+
+<span class="prompt">$</span> node tools/mue.js stack
+<span class="out">vanilla:        54/54 entries live</span>
+<span class="out">react:          14/54   vue: 14/54   web-components: 14/54</span>
+<span class="out">svelte:          0/54 entries live, 14 documented as planned</span>
+
 <span class="prompt">$</span> node tools/mue.js registry <span class="flag">--json</span> &gt; mue-registry.json
 <span class="out">54 items: ids, paths, variants, tokens, audit notes</span>
 
@@ -377,7 +451,7 @@
   <section class="section" id="docs">
     <div class="shell grid-2">
       <div>
-        <p class="eyebrow">06 — Documentation</p>
+        <p class="eyebrow">07 — Documentation</p>
         <h2 class="sec-title">Read it in the repository, not in a marketing page.</h2>
         <p class="sec-lede">Four files carry the contract. They are versioned with the code, so they cannot disagree with it.</p>
         <div class="cta-row">
@@ -389,9 +463,9 @@
       </div>
       <div>
         <ul class="mark-list pos" style="gap:1rem">
-          <li><b>MIT licensed.</b> No vendored third-party code; attribution obligations are recorded per resource.</li>
-          <li><b>What ships:</b> 33 component previews, 15 worked examples, 6 templates, the token layer, one 120 KB component stylesheet, the <span class="mono">mue</span> CLI and the visual lab.</li>
-          <li><b>Compatibility:</b> anything that reads files or runs a command. React, Vue and Svelte users copy the markup and tokens; no runtime bridge is claimed.</li>
+          <li><b>MIT licensed.</b> Original source on the vanilla, React, Vue and Web Components stacks; the only third-party code is the React and Vue runtimes bundled into two preview pages. Attribution obligations are recorded per resource and checked by <span class="mono">node tools/audit/framework-parity.mjs</span>.</li>
+          <li><b>What ships:</b> 33 component previews, 15 worked examples, 6 templates, the token layer, one 120 KB component stylesheet, 14 of those components as React, Vue and Web Components source, the <span class="mono">mue</span> CLI and the visual lab.</li>
+          <li><b>Compatibility:</b> anything that reads files or runs a command. The engine needs no framework; if your app is React, Vue or custom elements, the port is already in the repo, labelled experimental with the check that produced that label.</li>
           <li><b>No invented proof:</b> there are no testimonials, no star counts, no download figures on this page. Check the repository instead.</li>
           <li><b>Contribute:</b> <a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a> states how a new preview is registered and audited.</li>
         </ul>
@@ -402,13 +476,14 @@
   <!-- FAQ -->
   <section class="section" id="faq">
     <div class="shell">
-      <p class="eyebrow">07 — Questions</p>
+      <p class="eyebrow">08 — Questions</p>
       <h2 class="sec-title">Answered plainly.</h2>
       <div class="faq" style="margin-top:2rem">
-        <div class="faq-item"><button class="faq-q" type="button" data-disclosure aria-controls="a1" aria-expanded="false">Does it need React, npm or a CDN?</button><p class="faq-a" id="a1">No. Every preview is plain HTML, CSS and JavaScript wired to <span class="mono">design-tokens/engine.css</span> and <span class="mono">styles/components.css</span>. Drop the two files in and copy the unit you need.</p></div>
+        <div class="faq-item"><button class="faq-q" type="button" data-disclosure aria-controls="a1" aria-expanded="false">Does it need React, npm or a CDN?</button><p class="faq-a" id="a1">No. Every preview is plain HTML, CSS and JavaScript wired to <span class="mono">design-tokens/engine.css</span> and <span class="mono">styles/components.css</span>. Drop the two files in and copy the unit you need. The framework ports are optional, and even their galleries load nothing from a CDN — the React and Vue bundles are built and committed in the repository.</p></div>
         <div class="faq-item"><button class="faq-q" type="button" data-disclosure aria-controls="a2" aria-expanded="false">How is this different from any component library?</button><p class="faq-a" id="a2">It is built for the person doing the typing: an agent. The unit of reuse is a whole preview plus its token dependencies plus a CLI that names them, rather than a component API you import.</p></div>
         <div class="faq-item"><button class="faq-q" type="button" data-disclosure aria-controls="a3" aria-expanded="false">Will a cheap open model really produce professional UI?</button><p class="faq-a" id="a3">It produces consistent UI, which is most of the complaint. The model stops inventing structure and starts adapting something audited. Layout judgement, content and brand work are still yours.</p></div>
-        <div class="faq-item"><button class="faq-q" type="button" data-disclosure aria-controls="a4" aria-expanded="false">Are shadcn/ui, Ant Design or Nuxt UI included?</button><p class="faq-a" id="a4">No code is vendored from them. The engine borrows the token naming convention from shadcn/ui and <span class="mono">RESOURCES.md</span> indexes those libraries with licenses and redistribution status so future imports stay legal.</p></div>
+        <div class="faq-item"><button class="faq-q" type="button" data-disclosure aria-controls="a7" aria-expanded="false">Is there a React or Vue version?</button><p class="faq-a" id="a7">For 14 components, yes — React and Vue each have real source in <span class="mono">frameworks/</span>, plus a Web Components build of the same set, all sharing the engine stylesheet rather than carrying their own. They are labelled <span class="mono">experimental</span>, not stable: they compile and pass a headless-Chrome behaviour run, and have not had a screen-reader, Safari or production-project pass. Svelte and Angular are documented plans with no source files.</p></div>
+        <div class="faq-item"><button class="faq-q" type="button" data-disclosure aria-controls="a4" aria-expanded="false">Are shadcn/ui, Ant Design or Nuxt UI included?</button><p class="faq-a" id="a4">No code is vendored from them. The engine borrows the token naming convention from shadcn/ui and <span class="mono">RESOURCES.md</span> indexes those libraries with licenses and redistribution status so future imports stay legal. The framework ports are the repository&rsquo;s own components; the React and Vue runtimes appear only inside the two committed preview bundles.</p></div>
         <div class="faq-item"><button class="faq-q" type="button" data-disclosure aria-controls="a5" aria-expanded="false">Is there a paid plan?</button><p class="faq-a" id="a5">The library is MIT and free. Premium template packs, install support and agency work are under consideration and are not for sale here — nothing on this page takes money.</p></div>
         <div class="faq-item"><button class="faq-q" type="button" data-disclosure aria-controls="a6" aria-expanded="false">What do you measure about visitors?</button><p class="faq-a" id="a6">Page paths, a coarse country from the host, the referrer hostname and an anonymous id in your browser's storage — enough to see reach and which previews get opened. No IP addresses, no user-agent strings, no page contents. <a href="/privacy">Read the notice</a>.</p></div>
       </div>
@@ -468,7 +543,7 @@
     <div class="foot-note">
       <span>© 2026 MASTER-UI-ENGINE · MIT</span>
       <span>Every preview on this page is a live page from the repository</span>
-      <span>No vendored third-party components</span>
+      <span>No vendored components — framework previews bundle only the React and Vue runtimes</span>
     </div>
   </div>
 </footer>

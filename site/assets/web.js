@@ -52,11 +52,17 @@
       if (view.setAttribute) view.title = "Live preview: " + name;
     }
 
+    function activate(tab) {
+      setSrc(tab.getAttribute("data-src"), tab.textContent.trim());
+      tabs.forEach(function (other) { other.setAttribute("aria-selected", String(other === tab)); });
+      track("component_preview_open", { id: tab.getAttribute("data-track") || tab.textContent.trim().toLowerCase() });
+    }
+
+    /* Arrow keys and the roving tabIndex are already handled for every
+       [role=tablist] by /engine/styles/mue.js; only the iframe source and the
+       selection state are ours here. */
     tabs.forEach(function (tab) {
-      tab.addEventListener("click", function () {
-        setSrc(tab.getAttribute("data-src"), tab.textContent.trim());
-        track("component_preview_open", { id: tab.textContent.trim().toLowerCase() });
-      });
+      tab.addEventListener("click", function () { activate(tab); });
     });
 
     widths.forEach(function (btn) {
@@ -221,8 +227,7 @@
   }
 
   function boot() {
-    var root = $("[data-live-frame]");
-    if (root) liveFrame(root);
+    $all("[data-live-frame]").forEach(liveFrame);
     showcase();
     copyButtons();
     declaredEvents();

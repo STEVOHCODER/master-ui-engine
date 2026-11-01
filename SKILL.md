@@ -38,11 +38,58 @@ node tools/mue.js tokens --filter tint
   --tint-primary               hsla(var(--color-primary-500) / 0.12)  design-tokens/colors/semantic.css
 node tools/mue.js head <file|id>         # MUE:META fields, links, scripts, head-comment count
 node tools/mue.js scaffold page.html --use ui-cards btn-buttons
-node tools/mue.js check all              # 46 files checked · 0 with issues
+node tools/mue.js check all              # 54 files checked · 0 with issues
 node tools/mue.js doctor                 # 54 previews · 41 use the shared sheet · 13 still self-contained
 ```
 
 `--json` on any of them. `help` lists every command.
+
+## The framework commands (real output)
+
+```bash
+node tools/mue.js stack
+  vanilla:           54/54 entries live
+  react:             14/54 entries live
+  vue:               14/54 entries live
+  web-components:    14/54 entries live
+  svelte:            0/54 entries live, 14 documented as planned
+  angular:           0/54 entries live, 14 documented as planned
+
+node tools/mue.js search "dialog" --framework react
+  ui-dialogs             Dialogs                components/dialogs/dialogs.html
+    regions: overlays
+    stacks: vanilla, react, vue, web-components
+    matched: name
+
+node tools/mue.js show ui-cards --framework vue
+  Cards — vue (experimental)
+    package    mue-vue
+    install    copy frameworks/vue into your project — no npm package is published
+    import     import { Mue* } from "./frameworks/vue/index.js"
+    file       frameworks/vue/components/MueCard.vue
+    verified   node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: …
+  CONTRACT (harvested from the MUE:META block of the file below)
+    variants     variant prop = space-separated list of elevated|outlined|featured|interactive …
+    a11y         <article> landmark per the preview; …
+    keyboard     none of its own — interactive cards get the sheet :focus-visible ring …
+    license      MIT
+  SOURCE
+    <the whole file>
+
+node tools/mue.js show ui-cards --framework svelte
+  Cards — svelte: planned
+  This repository has no svelte component for ui-cards. Nothing here is a placeholder for one.
+  Documented plan: frameworks/svelte/ARCHITECTURE.md
+  The vanilla file is real and copy-ready: node tools/mue.js show ui-cards
+```
+
+Ask for the stack first (`stack`), then the component in that stack
+(`show <id> --framework <name>`). A binding never carries a stylesheet: it writes the
+classes in `styles/components.css`, so the token rules below apply to React, Vue and Web
+Components exactly as they apply to HTML. `experimental` means built and driven in
+headless Chrome, not published to npm and not audited by axe-core.
+`node tools/audit/framework-parity.mjs` fails when a binding invents a class, drops its
+`MUE:META` contract, or claims a status without naming the check that produced it.
 
 ## Install into another project
 

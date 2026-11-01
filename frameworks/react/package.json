@@ -1,0 +1,44 @@
+{
+  "name": "mue-react",
+  "version": "0.1.0",
+  "description": "React 19 bindings for MASTER-UI-ENGINE: thin, honest components over design-tokens/engine.css and styles/components.css. No new stylesheet, no new colour.",
+  "type": "module",
+  "main": "index.js",
+  "module": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./components/*": "./components/*.jsx",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "components/",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "node build.mjs",
+    "preview": "node build.mjs && node ../../tools/audit/serve.js"
+  },
+  "keywords": [
+    "design-system",
+    "master-ui-engine",
+    "react",
+    "css-tokens",
+    "accessible"
+  ],
+  "license": "MIT",
+  "author": "MASTER-UI-ENGINE contributors",
+  "sideEffects": false,
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  }
+}

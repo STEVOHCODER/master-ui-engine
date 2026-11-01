@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>How to give a coding agent reusable UI components — MASTER-UI-ENGINE</title>
-<meta name="description" content="A practical guide to making OpenCode, Codex, Claude Code, Cursor or any terminal agent reuse UI components, design tokens and templates instead of generating generic interfaces: AGENTS.md, SKILL.md, the mue CLI and one JSON registry endpoint.">
+<meta name="description" content="A practical guide to making OpenCode, Codex, Claude Code, Cursor or any terminal agent reuse UI components, design tokens and templates instead of generating generic interfaces: AGENTS.md, SKILL.md, the mue CLI with framework retrieval for React, Vue and Web Components, and one JSON registry endpoint.">
 <link rel="canonical" href="https://master-ui-engine.vercel.app/agents">
 <meta property="og:type" content="article">
 <meta property="og:title" content="How to give a coding agent reusable UI components">
-<meta property="og:description" content="Three surfaces an agent can use: the instruction files, the mue CLI, and one machine-readable registry. With copy-paste prompt patterns.">
+<meta property="og:description" content="Three surfaces an agent can use: the instruction files, the mue CLI, and one machine-readable registry — including asking the CLI for a React, Vue or Web Components binding and getting its source, contract and verification note. With copy-paste prompt patterns.">
 <meta property="og:url" content="https://master-ui-engine.vercel.app/agents">
 <meta property="og:image" content="https://master-ui-engine.vercel.app/assets/img/og.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -30,6 +30,7 @@
   <nav class="nav-links" id="navLinks" aria-label="Main">
     <a class="nav-link" href="/library">Library</a>
     <a class="nav-link" href="/templates">Templates</a>
+    <a class="nav-link" href="/#frameworks">Frameworks</a>
     <a class="nav-link" href="/#how">How it works</a>
     <a class="nav-link" href="/agents" aria-current="page">Agent guide</a>
     <a class="nav-link" href="/#docs" data-event="documentation_click">Docs</a>
@@ -54,9 +55,49 @@
       <h2 class="sec-title">Three surfaces, one repository</h2>
       <div class="spec" style="margin-top:2rem">
         <div class="row"><span class="num">01</span><h3>Instruction files</h3><p><span class="mono">AGENTS.md</span> states the rule — reuse a preview, never invent generic UI — plus the token and motion conventions an agent must follow. <span class="mono">SKILL.md</span> packages the same knowledge for agents that load skills. Both are versioned with the code, so they cannot drift away from it.</p></div>
-        <div class="row"><span class="num">02</span><h3>The <span class="mono">mue</span> CLI</h3><p>Any agent with a terminal can call it: <span class="mono">search</span> for what a screen looks like, <span class="mono">show</span> for copy-ready markup, <span class="mono">region</span> for the exact CSS of one unit, <span class="mono">tokens</span> for custom properties, <span class="mono">add</span> to install a component with the layers it needs, <span class="mono">check</span> to catch unresolved classes. Every command accepts <span class="mono">--json</span>.</p></div>
+        <div class="row"><span class="num">02</span><h3>The <span class="mono">mue</span> CLI</h3><p>Any agent with a terminal can call it: <span class="mono">search</span> for what a screen looks like, <span class="mono">show</span> for copy-ready markup, <span class="mono">stack</span> for which frameworks actually have source, <span class="mono">region</span> for the exact CSS of one unit, <span class="mono">tokens</span> for custom properties, <span class="mono">add</span> to install a component with the layers it needs, <span class="mono">check</span> to catch unresolved classes. Every command accepts <span class="mono">--json</span>, and <span class="mono">search</span> and <span class="mono">show</span> accept <span class="mono">--framework</span>.</p></div>
         <div class="row"><span class="num">03</span><h3>One machine document</h3><p><span class="mono">node tools/mue.js registry --json</span> returns all 54 resources with ids, paths, categories, variants, token files, breakpoints and the audit note recorded for each. Feed it into a context window once and the agent stops guessing what exists. The repository also documents how to wrap the CLI as an MCP server if your agent prefers tools over files.</p></div>
       </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="sec-title">Ask for a stack, get that stack</h2>
+      <p class="sec-lede" style="max-width:70ch">Fourteen components exist as React, Vue and Web Components source as well as HTML. The CLI is what tells an agent which is which, so it never has to guess whether a port is real or invent an API for one that is not.</p>
+      <div class="grid-2" style="margin-top:2rem">
+        <div>
+          <h3 style="font-size:1.15rem">What a binding carries</h3>
+          <p class="sec-lede" style="font-size:0.96rem"><span class="mono">show ui-cards --framework vue</span> prints the file, the package, the import path, the verified note, and the contract harvested from that file&rsquo;s own <span class="mono">MUE:META</span> header — variants, props, states, a11y rules, keyboard behaviour, dependencies and licence. One call gives an agent the spec and the source, and <span class="mono">--json</span> gives the same as data.</p>
+          <h3 style="font-size:1.15rem;margin-top:1.8rem">What a binding never carries</h3>
+          <p class="sec-lede" style="font-size:0.96rem">No stylesheet of its own, no second theme system, no re-skinned third-party library. A binding writes the classes already defined in <span class="mono">styles/components.css</span>; <span class="mono">node tools/audit/framework-parity.mjs</span> fails the build when one writes a class the shared sheet does not define, or claims a check it cannot name.</p>
+          <h3 style="font-size:1.15rem;margin-top:1.8rem">What &ldquo;planned&rdquo; means here</h3>
+          <p class="sec-lede" style="font-size:0.96rem">Svelte and Angular have architecture documents and zero source files, so <span class="mono">stack</span> reports them as <span class="mono">0/54 entries live, 14 documented as planned</span> and <span class="mono">show &lt;id&gt; --framework svelte</span> answers &ldquo;this repository has no svelte component&rdquo; plus the vanilla file to use instead. An agent can tell &ldquo;not built&rdquo; apart from &ldquo;not claimed&rdquo; without reading the code.</p>
+        </div>
+        <div class="term">
+          <div class="term-bar"><span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="term-title">framework retrieval</span><button class="copy-btn" type="button" data-copy-text="#fwText">Copy</button></div>
+          <pre><code id="fwText"><span class="prompt">#</span> which stacks does this repo really ship?
+node tools/mue.js stack
+<span class="out">vanilla 54/54 · react 14/54 · vue 14/54</span>
+<span class="out">web-components 14/54 · svelte 0/54 (planned)</span>
+
+<span class="prompt">#</span> the vue binding: source, install, contract
+node tools/mue.js show ui-cards <span class="flag">--framework</span> vue
+<span class="out">file  frameworks/vue/components/MueCard.vue</span>
+<span class="out">CONTRACT  variants · a11y · keyboard · dependencies · MIT</span>
+
+<span class="prompt">#</span> only entries that exist in react
+node tools/mue.js search <span class="flag">"switch"</span> <span class="flag">--framework</span> react
+<span class="out">frm-switches  Switches  1 variant</span>
+<span class="out">stacks: vanilla, react, vue, web-components</span>
+
+<span class="prompt">#</span> asked for a stack that has no source
+node tools/mue.js show ui-cards <span class="flag">--framework</span> svelte
+<span class="out">Cards — svelte: planned</span>
+<span class="out">Documented plan: frameworks/svelte/ARCHITECTURE.md</span></code></pre>
+        </div>
+      </div>
+      <p class="note">Output taken from these commands as they run in the repository today. A binding labelled <span class="mono">experimental</span> has a recorded headless-Chrome check, not a production adoption report — see <span class="mono">docs/framework-support.md</span> for what was and was not run.</p>
     </div>
   </section>
 
@@ -126,7 +167,8 @@ node tools/mue.js registry <span class="flag">--json</span> &gt; mue-registry.js
       <div class="spec" style="margin-top:1.5rem">
         <div class="row"><span class="num">!</span><h3>It does not raise a model's ceiling</h3><p>A small open model still reasons less well than a frontier model. Reuse raises its <em>floor</em>: the interface starts from something already audited instead of something improvised.</p></div>
         <div class="row"><span class="num">!</span><h3>It does not remove testing</h3><p>Components copied into a new project need to be checked in that project. <span class="mono">mue check</span> finds unresolved classes and missing metadata; it cannot judge whether your content makes sense.</p></div>
-        <div class="row"><span class="num">!</span><h3>It does not vendor other libraries</h3><p>No shadcn/ui, Ant Design, Nuxt UI or daisyUI code ships here. The engine borrows the token naming convention from shadcn/ui and keeps a license-checked index of those libraries in <span class="mono">RESOURCES.md</span> so future imports stay legal.</p></div>
+        <div class="row"><span class="num">!</span><h3>It does not vendor other libraries</h3><p>No shadcn/ui, Ant Design, Nuxt UI or daisyUI code ships here — including in the React, Vue and Web Components ports, which are this repository&rsquo;s own components writing the engine&rsquo;s own classes. The engine borrows the token naming convention from shadcn/ui and keeps a license-checked index of those libraries in <span class="mono">RESOURCES.md</span> so future imports stay legal. The one piece of third-party code on the site is the React and Vue runtimes inside the two committed preview bundles; <span class="mono">frameworks/</span> contains no <span class="mono">node_modules</span>.</p></div>
+        <div class="row"><span class="num">!</span><h3>Framework ports are not battle-tested</h3><p>A port labelled <span class="mono">experimental</span> compiles and passed a headless-Chrome behaviour run recorded in <span class="mono">frameworks/registry.json</span>. It has not been through axe-core, Safari, Firefox, a screen reader, touch testing or SSR, and it is not published to npm. If your agent needs a stable React library, this is not that yet — say so rather than finding out in production.</p></div>
         <div class="row"><span class="num">!</span><h3>It is not a design replacement</h3><p>Brand, hierarchy, copy and information architecture are still human work. What disappears is the repetitive part: the ninth table, the fourth empty state, the third date picker.</p></div>
       </div>
       <div class="cta-row">

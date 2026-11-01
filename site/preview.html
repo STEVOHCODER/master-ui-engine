@@ -25,6 +25,7 @@
   <nav class="nav-links" id="navLinks" aria-label="Main">
     <a class="nav-link" href="/library">Library</a>
     <a class="nav-link" href="/templates">Templates</a>
+    <a class="nav-link" href="/#frameworks">Frameworks</a>
     <a class="nav-link" href="/#how">How it works</a>
     <a class="nav-link" href="/agents">Agent guide</a>
     <a class="nav-link" href="/#docs" data-event="documentation_click">Docs</a>
@@ -70,7 +71,16 @@
           </div>
         </div>
 
-        <div class="pv-stage-wrap">
+        <div class="pv-fw" id="pv-fw" hidden>
+          <div class="pv-fw-top">
+            <span class="pv-label">Bindings in this repository</span>
+            <div class="pv-fw-tabs" role="tablist" aria-label="Which framework this resource exists in" id="pv-fw-tabs"></div>
+          </div>
+          <div class="pv-fw-body" id="pv-fw-body"></div>
+          <p class="pv-note" id="pv-fw-note"></p>
+        </div>
+
+        <div class="pv-stage-wrap" id="pv-stage-wrap">
           <div class="frame">
             <div class="frame-bar">
               <span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span>
@@ -101,6 +111,12 @@
             </div>
           </div>
           <p class="pv-note" id="pv-note">The frame above is the resource's own file, served from <span class="mono">/engine/…</span>. The width buttons resize the frame it renders into; the theme buttons set <span class="mono">html.dark</span> on the preview document itself.</p>
+
+          <div class="pv-related" id="pv-related" hidden>
+            <span class="pv-label">Neighbours in the same category</span>
+            <div class="pv-links" id="pv-related-list"></div>
+            <p class="pv-note" id="pv-related-note"></p>
+          </div>
 
           <div class="pv-install" id="pv-install" hidden>
             <span class="pv-label">Install it from a clone of the repository</span>
@@ -158,7 +174,7 @@
     <div class="foot-note">
       <span>© 2026 MASTER-UI-ENGINE · MIT</span>
       <span>Every preview on this page is a live page from the repository</span>
-      <span>No vendored third-party components</span>
+      <span>No vendored components — framework previews bundle only the React and Vue runtimes</span>
     </div>
   </div>
 </footer>

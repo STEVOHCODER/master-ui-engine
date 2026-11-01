@@ -1,0 +1,31 @@
+{
+  "name": "mue-vue",
+  "version": "0.1.0",
+  "description": "Vue 3 bindings for MASTER-UI-ENGINE. Thin .vue components over the shared classes in styles/components.css - no new stylesheet, no extra runtime dependency.",
+  "type": "module",
+  "license": "MIT",
+  "exports": {
+    ".": "./index.js"
+  },
+  "files": [
+    "components",
+    "index.js"
+  ],
+  "keywords": [
+    "vue",
+    "vue3",
+    "design-system",
+    "MASTER-UI-ENGINE"
+  ],
+  "devDependencies": {
+    "@vitejs/plugin-vue": "6.0.10",
+    "vite": "8.3.5",
+    "vue": "3.5.44"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.0"
+  },
+  "scripts": {
+    "build": "node build.mjs"
+  }
+}

@@ -8,8 +8,9 @@ const SITE = dirname(fileURLToPath(import.meta.url));
 const REPO = resolve(SITE, "..");
 const OUT = join(SITE, "engine");
 
-const TREES = ["styles", "design-tokens", "components", "examples", "templates", "showcase"];
-const isWebFile = (src) => !/[\\/]\.?[^\\/]*\.(ps1|sh|cmd|bat)$/i.test(src);
+const TREES = ["styles", "design-tokens", "components", "examples", "templates", "showcase", "frameworks"];
+const DEV_DIRS = /(^|[\\/])(node_modules|\.git|\.cache|[A-Za-z0-9._-]+cache)([\\/]|$)/;
+const isWebFile = (src) => !DEV_DIRS.test(src) && !/[\\/]\.?[^\\/]*\.(ps1|sh|cmd|bat)$/i.test(src);
 
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });

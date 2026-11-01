@@ -15,7 +15,10 @@ site/
   api/        track.js  stats.js  subscribe.js  _lib.js  _admin.js  admin/login.js  admin/session.js  admin/data.js
   tools/      admin-credentials.mjs <- creates the owner password hash locally (not deployed)
   engine/     <- copied from styles/, design-tokens/, components/, examples/,
-                templates/, showcase/ by site/build.mjs (generated, not committed)
+                templates/, showcase/, frameworks/ by site/build.mjs (generated, not committed).
+                node_modules/, *.lock and the PowerShell helpers are refused by the copier;
+                the two framework preview bundles are committed build artifacts, so the
+                deployed previews make no CDN request.
   vercel.json cleanUrls + the extensionless rewrites + security headers
   package.json  "type": "module", the @supabase/supabase-js dependency, build/start scripts
   serve.mjs   local dev server: static files with the same clean URLs, and

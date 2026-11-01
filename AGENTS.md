@@ -49,13 +49,34 @@ Inspect the target project to determine:
 
 ### 2. IDENTIFY FRAMEWORK
 
-The library ships vanilla HTML/CSS/JS only:
-- `components/*` — single-component previews that work anywhere
-- `examples/*` — complete page previews
-- `templates/*` — starter application shells
+Ask the repository which stacks it actually ships before you decide to port anything:
 
-For a React/Vue/Svelte project, port the markup and the token variables; the
-CSS in each preview is framework-agnostic and translates directly.
+```bash
+node tools/mue.js stack
+  vanilla:           54/54 entries live
+  react:             14/54 entries live
+  vue:               14/54 entries live
+  web-components:    14/54 entries live
+  svelte:            0/54 entries live, 14 documented as planned
+  angular:           0/54 entries live, 14 documented as planned
+```
+
+- **HTML/CSS/JS** — `components/*`, `examples/*`, `templates/*`. Everything is available.
+- **React 19** — `frameworks/react/` (16 components: button, input, textarea, select,
+  checkbox, radio, switch, card, badge, dialog, dropdown, tabs, accordion, table,
+  notification, avatar). `node tools/mue.js show <id> --framework react` prints that
+  binding's contract and its full source.
+- **Vue 3** — `frameworks/vue/`, the same sixteen as `<script setup>` SFCs.
+- **Any framework that can render custom elements, and vanilla too** —
+  `frameworks/web-components/`: 21 light-DOM `<mue-*>` tags, no build step, no shadow root.
+- **Svelte and Angular** — no source. `frameworks/svelte/ARCHITECTURE.md` and
+  `frameworks/angular/ARCHITECTURE.md` describe how they would be built. For those
+  projects, and for the 40 catalogued entries with no binding, port the vanilla markup
+  and the token variables; the CSS is framework-agnostic and translates directly.
+
+A binding is not a second design system. It writes the classes already defined in
+`styles/components.css` and ships no stylesheet of its own; `tools/audit/framework-parity.mjs`
+fails the build if it invents one.
 
 ### 3. UNDERSTAND BRAND
 

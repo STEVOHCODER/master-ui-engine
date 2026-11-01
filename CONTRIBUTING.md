@@ -36,6 +36,49 @@ Thank you for helping build a reusable UI/UX library for AI coding agents.
 9. **Open a pull request** with a clear description of what was added or
    changed, and a screenshot of the preview in light and dark.
 
+## Framework bindings
+
+A binding is a port of an existing component into React, Vue, Web Components,
+Svelte or Angular. It is not a second design system, and the audit says so in
+code. The rules:
+
+1. **No CSS in a binding.** The port writes the classes already defined in
+   `styles/components.css` and links the same two files the vanilla preview
+   links. A variant maps onto the modifier class that already exists (a
+   `variant` prop becomes `card-outlined`, not a new rule). If a class you need
+   is missing, add it to the shared sheet first and let every stack use it.
+2. **Every binding file starts with a `MUE:META` block**, the same convention as
+   an HTML preview, carrying `FRAMEWORK`, `PORTS:` (the vanilla file it came
+   from), `DEPENDENCIES:`, `SHEET:`, the variant/prop/a11y/keyboard/event lists
+   and — required — `LICENSE:` and `ATTRIBUTION:`. The parity audit fails a
+   binding that declares no licence or no attribution, and `mue show <id>
+   --framework <name>` prints that contract back to whoever is consuming it.
+3. **Register the port, then let the tool write the catalog.** Add the component
+   to `frameworks/registry.json` with its source paths, package name, install
+   note, import line and a `verified` note, then run
+   `node tools/audit/framework-parity.mjs --write`. It checks that every path is
+   a real file, every class the binding writes exists in the shared layer, every
+   `stable`/`experimental` binding names the command or browser run that
+   verified it, that a `planned` entry claims no source files, and that
+   `showcase/data/component-catalog.json` matches the registry. Edit the catalog
+   by hand and the next run overwrites it.
+4. **Status is earned, not asserted.** `experimental` means the source builds
+   and a headless-browser behaviour run is recorded with a date. `stable` adds a
+   production adoption expectation — screen-reader, Safari/Firefox and real
+   project use. `planned` means an architecture document and nothing else. If
+   your element is registered but never exercised, say so in its status (the Web
+   Components package marks untested elements `defined-only` for exactly this
+   reason).
+5. **Ship a preview that needs no network.** Each implemented package has a
+   gallery page under `frameworks/<name>/preview/`. React and Vue galleries are
+   built in-repo (`node build.mjs`) and the bundles are committed, so the
+   deployed preview makes zero CDN requests. Do not commit `node_modules`,
+   lockfiles for the site build, or a CDN tag.
+6. **Attribution and licence.** All four stacks here are the repository's own
+   MIT-licensed work. Taking a component from shadcn/ui, Ant Design or anywhere
+   else means recording it in the `ATTRIBUTION` field, in the catalog entry and
+   in `RESOURCES.md`, and checking the source licence is redistributable first.
+
 ## Design principles
 
 - Reuse over reinvention
@@ -55,3 +98,5 @@ Thank you for helping build a reusable UI/UX library for AI coding agents.
 - [ ] Accessible (keyboard, ARIA, AA contrast in light and dark)
 - [ ] Responsive at mobile / tablet / desktop with no horizontal overflow
 - [ ] License and attribution documented
+- [ ] Framework port (if any): no stylesheet of its own, `MUE:META` present, registered in `frameworks/registry.json`, `node tools/audit/framework-parity.mjs` exits 0
+- [ ] Framework port status matches a recorded check — `experimental` needs the command or browser run named, `planned` needs no source files
