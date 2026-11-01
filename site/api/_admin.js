@@ -1,8 +1,10 @@
-/* Shared owner-authentication primitives.
+/* Shared owner-authentication primitives, used by every owner route.
 
    The expected password is stored only as a salted scrypt hash in
    ADMIN_PASSWORD_HASH. ADMIN_SESSION_SECRET signs an owner session; neither
-   secret is exposed to the browser. */
+   secret is exposed to the browser. There is no edge middleware in this
+   project — Vercel runs middleware only for Next.js — so each function calls
+   adminSession() itself before it reads anything. */
 
 import { createHmac, randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
 
@@ -167,7 +169,3 @@ export default function handler(_req, res) {
   res.setHeader("Cache-Control", "no-store");
   res.end(JSON.stringify({ ok: false, reason: "not_found" }));
 }
-
-/* Node-only module, shared by the login, session, data and stats functions.
-   Vercel's edge middleware verifies the same cookie with Web Crypto instead,
-   because node:crypto is not available there. */

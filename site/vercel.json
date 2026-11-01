@@ -10,6 +10,10 @@
     { "source": "/admin/login", "destination": "/admin-login.html" },
     { "source": "/privacy", "destination": "/privacy.html" }
   ],
+  "redirects": [
+    { "source": "/analytics", "destination": "/admin", "permanent": false },
+    { "source": "/analytics.html", "destination": "/admin", "permanent": false }
+  ],
   "headers": [
     {
       "source": "/(.*)",

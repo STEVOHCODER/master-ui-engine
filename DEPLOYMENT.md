@@ -12,7 +12,6 @@ site/
   admin.html  admin-login.html  privacy.html
   assets/     web.css  web.js  library.css  library.js  admin.css  admin.js  analytics.js  img/
   api/        track.js  stats.js  subscribe.js  _lib.js  _admin.js  admin/login.js  admin/session.js  admin/data.js
-  middleware.js                     <- edge route guard for /admin and /api/stats
   tools/      admin-credentials.mjs <- creates the owner password hash locally (not deployed)
   engine/     <- copied from styles/, design-tokens/, components/, examples/,
                 templates/, showcase/ by site/build.mjs (generated, not committed)
@@ -170,12 +169,24 @@ instrument is broken, not the marketing.
    functions and `middleware.js` verifies the same signature with Web Crypto at
    the edge, because `node:crypto` does not exist there.
 
-3. **Middleware in front of the routes.** `site/middleware.js` matches `/admin`,
-   `/admin/login`, `/api/stats` and `/api/admin/:path*`. Without a valid cookie,
-   an HTML request is redirected to `/admin/login` and an API request gets a
-   `401 { ok: false, error: "authentication_required" }`. `/analytics` now
-   redirects to `/admin`. Each function re-checks the session anyway, so a
-   routing change cannot silently expose the data.
+3. **Authorisation inside every owner route.** There is no edge middleware
+   here: Vercel only runs `middleware.js` for a Next.js project, and adding the
+   `next` dependency to this static site turns the build into a Next.js build
+   that fails ("Couldn't find any `pages` or `app` directory"). Instead every
+   owner route checks the cookie itself. `api/stats.js`, `api/admin/data.js` and
+   `api/admin/session.js` call `adminSession(req, process.env)` before touching
+   the database and answer `401 { ok: false, error: "authentication_required" }`
+   without it; `admin.html` asks `GET /api/admin/session` first and bounces to
+   `/admin/login` when the answer is `signed_in: false`. `vercel.json` redirects
+   the old public `/analytics` path to `/admin`, and `robots.txt` plus the
+   `noindex` header keep both admin pages out of search.
+
+   What that means in practice: the two admin HTML files are static shells with
+   no numbers in them, so they are world-readable markup, while every figure and
+   every row is served only to a holder of a valid signed cookie. If you want
+   the pages themselves gated too, turn on Vercel → Settings → Deployment
+   Protection for `/admin/*` only and keep `/api/track` and `/api/subscribe`
+   out of the protected paths, so real visitors are never challenged on a beacon.
 
 4. **Rate limiting that the owner cannot lock out.** `api/admin/login.js` reads
    today's counter from `web_rate_hits` first, then verifies the password and
@@ -192,11 +203,8 @@ Records are reachable from the console itself: `api/admin/data.js` lists page
 views, events and waitlist rows newest-first and erases one visitor (views,
 events and membership rows) or one address on request. The Supabase role used by
 the functions needs `delete` on those tables, which `supabase/schema.sql` grants.
-
-If Vercel refuses to build `middleware.js` for your framework preset, the site
-still fails closed: the functions answer `401` on their own, so the dashboard
-renders its "session expired" state instead of data. Delete the file and route
-protection then lives entirely in `api/_admin.js`.
+Erasure is a `DELETE` with an `Origin` check and no confirmation token, so the
+console asks before it sends, and the rows are gone.
 
 ### 5. Canonical URLs and the last mile
 

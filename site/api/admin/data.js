@@ -4,8 +4,8 @@
    DELETE ?vid=<anonymous id>            erase all records for that visitor
    DELETE ?subscriber=<email>           remove one waitlist address
 
-   Middleware already blocks unauthenticated calls, but this route verifies the
-   session again so a future routing change cannot accidentally expose records. */
+   GET and DELETE both verify the session cookie before they touch a table, so
+   this route stays closed even if the routing in front of it changes. */
 
 import { adminConfigured, adminSession } from "../_admin.js";
 import {
