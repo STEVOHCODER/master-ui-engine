@@ -62,12 +62,16 @@ node tools/mue.js search "dialog" --framework react
     matched: name
 
 node tools/mue.js show ui-cards --framework vue
-  Cards — vue (experimental)
+  Cards — vue (stable)
     package    mue-vue
     install    copy frameworks/vue into your project — no npm package is published
     import     import { Mue* } from "./frameworks/vue/index.js"
     file       frameworks/vue/components/MueCard.vue
-    verified   node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: …
+    verified   node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then
+               frameworks/vue/preview/gallery.html driven in headless Chrome and Edge
+               2026-11-01: 46/46 probes at 1280px and 390px, light and dark, 0 console
+               errors; axe-core 0 serious/critical in 8 runs. Not run: Safari, Firefox,
+               a screen reader, a touch device, SSR, npm publish.
   CONTRACT (harvested from the MUE:META block of the file below)
     variants     variant prop = space-separated list of elevated|outlined|featured|interactive …
     a11y         <article> landmark per the preview; …
@@ -86,8 +90,11 @@ node tools/mue.js show ui-cards --framework svelte
 Ask for the stack first (`stack`), then the component in that stack
 (`show <id> --framework <name>`). A binding never carries a stylesheet: it writes the
 classes in `styles/components.css`, so the token rules below apply to React, Vue and Web
-Components exactly as they apply to HTML. `experimental` means built and driven in
-headless Chrome, not published to npm and not audited by axe-core.
+Components exactly as they apply to HTML. `stable` means the source builds or serves,
+renders in its own gallery and was driven there in headless Chrome and Edge — behaviour
+probes at two widths in both themes, plus axe-core. It does not mean published to npm, and
+no binding has been checked on Safari, Firefox, a screen reader, a touch device or under
+server-side rendering; the `verified` note names whichever of those is missing.
 `node tools/audit/framework-parity.mjs` fails when a binding invents a class, drops its
 `MUE:META` contract, or claims a status without naming the check that produced it.
 

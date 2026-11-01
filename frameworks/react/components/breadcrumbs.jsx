@@ -15,7 +15,7 @@
   KEYBOARD: links are native anchors, so Tab reaches each level and Enter follows it; the current page is not focusable, exactly as in the preview. No key is intercepted
   EVENTS: onClick per item when onNavigate is passed — the href still navigates, the callback is additive
   RESPONSIVE: the row wraps as the trail grows; rendered at 1280px and 390px in the gallery
-  VERIFIED: node build.mjs rebuilt preview/preview.js with this module and it was driven in headless Chrome (puppeteer-core) 2026-11-03 — both trails render, the current span carries aria-current="page", separators are aria-hidden; no new CSS is asserted
+  VERIFIED: node build.mjs rebuilt preview/preview.js with this module and it was driven in headless Chrome (puppeteer-core) 2026-11-01 — both trails render, the current span carries aria-current="page", separators are aria-hidden; no new CSS is asserted
   LICENSE: MIT
   ATTRIBUTION: MASTER-UI-ENGINE contributors
 END MUE:META */

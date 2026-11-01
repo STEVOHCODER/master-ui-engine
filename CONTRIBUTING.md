@@ -62,10 +62,13 @@ code. The rules:
    verified it, that a `planned` entry claims no source files, and that
    `showcase/data/component-catalog.json` matches the registry. Edit the catalog
    by hand and the next run overwrites it.
-4. **Status is earned, not asserted.** `experimental` means the source builds
-   and a headless-browser behaviour run is recorded with a date. `stable` adds a
-   production adoption expectation — screen-reader, Safari/Firefox and real
-   project use. `planned` means an architecture document and nothing else. If
+4. **Status is earned, not asserted.** `stable` means the source builds or serves, renders in
+   its own preview, and was driven there in headless Chrome **and** Edge — behaviour probes at
+   1280px and 390px in light and dark, plus axe-core at both widths — with each of those
+   commands named in the `verified` note and dated. `experimental` is what a binding sits at
+   until that matrix exists for it. Neither label claims npm publication, Safari, Firefox, a
+   screen reader, a touch device or server-side rendering, and a `verified` note that hides
+   one of those gaps is a defect. `planned` means an architecture document and nothing else. If
    your element is registered but never exercised, say so in its status (the Web
    Components package marks untested elements `defined-only` for exactly this
    reason).

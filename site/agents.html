@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>How to give a coding agent reusable UI components — MASTER-UI-ENGINE</title>
-<meta name="description" content="A practical guide to making OpenCode, Codex, Claude Code, Cursor or any terminal agent reuse UI components, design tokens and templates instead of generating generic interfaces: AGENTS.md, SKILL.md, the mue CLI with framework retrieval for React, Vue and Web Components, and one JSON registry endpoint.">
+<meta name="description" content="A practical guide to making OpenCode, Codex, Claude Code, Cursor or any terminal agent reuse UI components, design tokens and templates instead of generating generic interfaces: AGENTS.md, SKILL.md, the mue CLI with stable React, Vue and Web Components retrieval for all 33 components, and one JSON registry endpoint.">
 <link rel="canonical" href="https://master-ui-engine.vercel.app/agents">
 <meta property="og:type" content="article">
 <meta property="og:title" content="How to give a coding agent reusable UI components">
@@ -73,14 +73,14 @@
           <h3 style="font-size:1.15rem;margin-top:1.8rem">What a binding never carries</h3>
           <p class="sec-lede" style="font-size:0.96rem">No stylesheet of its own, no second theme system, no re-skinned third-party library. A binding writes the classes already defined in <span class="mono">styles/components.css</span>; <span class="mono">node tools/audit/framework-parity.mjs</span> fails the build when one writes a class the shared sheet does not define, or claims a check it cannot name.</p>
           <h3 style="font-size:1.15rem;margin-top:1.8rem">What &ldquo;planned&rdquo; means here</h3>
-          <p class="sec-lede" style="font-size:0.96rem">Svelte and Angular have architecture documents and zero source files, so <span class="mono">stack</span> reports them as <span class="mono">0/54 entries live, 14 documented as planned</span> and <span class="mono">show &lt;id&gt; --framework svelte</span> answers &ldquo;this repository has no svelte component&rdquo; plus the vanilla file to use instead. An agent can tell &ldquo;not built&rdquo; apart from &ldquo;not claimed&rdquo; without reading the code.</p>
+          <p class="sec-lede" style="font-size:0.96rem">Svelte and Angular have architecture documents and zero source files, so <span class="mono">stack</span> reports them as <span class="mono">0/54 entries live, 33 documented as planned</span> and <span class="mono">show &lt;id&gt; --framework svelte</span> answers <span class="mono">Cards — svelte: planned</span> plus the path to the plan, never a placeholder file. An agent can tell &ldquo;not built&rdquo; apart from &ldquo;not claimed&rdquo; without reading the code.</p>
         </div>
         <div class="term">
           <div class="term-bar"><span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="term-title">framework retrieval</span><button class="copy-btn" type="button" data-copy-text="#fwText">Copy</button></div>
           <pre><code id="fwText"><span class="prompt">#</span> which stacks does this repo really ship?
 node tools/mue.js stack
-<span class="out">vanilla 54/54 · react 14/54 · vue 14/54</span>
-<span class="out">web-components 14/54 · svelte 0/54 (planned)</span>
+<span class="out">vanilla 54/54 · react 33/54 · vue 33/54</span>
+<span class="out">web-components 33/54 · svelte 0/54 (planned)</span>
 
 <span class="prompt">#</span> the vue binding: source, install, contract
 node tools/mue.js show ui-cards <span class="flag">--framework</span> vue
@@ -98,7 +98,7 @@ node tools/mue.js show ui-cards <span class="flag">--framework</span> svelte
 <span class="out">Documented plan: frameworks/svelte/ARCHITECTURE.md</span></code></pre>
         </div>
       </div>
-      <p class="note">Output taken from these commands as they run in the repository today. A binding labelled <span class="mono">experimental</span> has a recorded headless-Chrome check, not a production adoption report — see <span class="mono">docs/framework-support.md</span> for what was and was not run.</p>
+      <p class="note">Output taken from these commands as they run in the repository today. A binding labelled <span class="mono">stable</span> was built, rendered in its own gallery and driven there in headless Chrome and Edge — behaviour probes at 1280px and 390px in light and dark, plus axe-core — with the command recorded in its verification note. It is not a production adoption report: <span class="mono">docs/framework-support.md</span> names the browsers, screen readers and SSR runs that were never done.</p>
     </div>
   </section>
 
@@ -169,7 +169,7 @@ node tools/mue.js registry <span class="flag">--json</span> &gt; mue-registry.js
         <div class="row"><span class="num">!</span><h3>It does not raise a model's ceiling</h3><p>A small open model still reasons less well than a frontier model. Reuse raises its <em>floor</em>: the interface starts from something already audited instead of something improvised.</p></div>
         <div class="row"><span class="num">!</span><h3>It does not remove testing</h3><p>Components copied into a new project need to be checked in that project. <span class="mono">mue check</span> finds unresolved classes and missing metadata; it cannot judge whether your content makes sense.</p></div>
         <div class="row"><span class="num">!</span><h3>It does not vendor other libraries</h3><p>No shadcn/ui, Ant Design, Nuxt UI or daisyUI code ships here — including in the React, Vue and Web Components ports, which are this repository&rsquo;s own components writing the engine&rsquo;s own classes. The engine borrows the token naming convention from shadcn/ui and keeps a license-checked index of those libraries in <span class="mono">RESOURCES.md</span> so future imports stay legal. The one piece of third-party code on the site is the React and Vue runtimes inside the two committed preview bundles; <span class="mono">frameworks/</span> contains no <span class="mono">node_modules</span>.</p></div>
-        <div class="row"><span class="num">!</span><h3>Framework ports are not battle-tested</h3><p>A port labelled <span class="mono">experimental</span> compiles and passed a headless-Chrome behaviour run recorded in <span class="mono">frameworks/registry.json</span>. It has not been through axe-core, Safari, Firefox, a screen reader, touch testing or SSR, and it is not published to npm. If your agent needs a stable React library, this is not that yet — say so rather than finding out in production.</p></div>
+        <div class="row"><span class="num">!</span><h3>Framework ports are checked, not production-proven</h3><p>A port labelled <span class="mono">stable</span> builds, renders in its own gallery and was driven there in headless Chrome and Edge — behaviour probes at 1280px and 390px in light and dark, plus axe-core — and <span class="mono">frameworks/registry.json</span> carries the command that says so. What no port has had yet: Safari, Firefox, a screen reader, a touch device, server-side rendering, a real product adopting it, or an npm release. If your agent needs a battle-tested component library, this is not that — say so rather than finding out in production.</p></div>
         <div class="row"><span class="num">!</span><h3>It is not a design replacement</h3><p>Brand, hierarchy, copy and information architecture are still human work. What disappears is the repetitive part: the ninth table, the fourth empty state, the third date picker.</p></div>
       </div>
       <div class="cta-row">

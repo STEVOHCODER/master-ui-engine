@@ -9,9 +9,9 @@ stylesheet, a new colour, or a shadow DOM that hides the tokens.
 | Package | Directory | Build step | Live preview | Status |
 | --- | --- | --- | --- | --- |
 | Vanilla HTML/CSS/JS | `components/` | none | yes (every preview page) | stable |
-| React 19 | `frameworks/react/` | esbuild, output committed | yes | experimental |
-| Vue 3 (SFC) | `frameworks/vue/` | `@vue/compiler-sfc`, output committed | yes | experimental |
-| Web Components | `frameworks/web-components/` | none | yes | experimental |
+| React 19 | `frameworks/react/` | esbuild, output committed | yes | stable|
+| Vue 3 (SFC) | `frameworks/vue/` | `@vue/compiler-sfc`, output committed | yes | stable|
+| Web Components | `frameworks/web-components/` | none | yes | stable|
 | Svelte 5 | `frameworks/svelte/` | — | no | planned (architecture documented) |
 | Angular | `frameworks/angular/` | — | no | planned (architecture documented) |
 
@@ -50,14 +50,17 @@ against it. A package that is `planned` has no source files, and the site says s
 
 ## The shared component set
 
-All three implemented packages carry the same sixteen components, so a visitor can
+All three implemented packages carry the same 33 catalogued components, so a visitor can
 compare them one to one:
 
-`button`, `input`, `textarea`, `select`, `checkbox`, `radio`, `switch`, `card`,
-`badge`, `dialog`, `dropdown`, `tabs`, `accordion`, `table`, `notification`
-(alert + toast), `avatar` (+ group).
+buttons, input fields and textarea, select menus, checkboxes, switches, radio buttons,
+date picker, file upload, cards, accordion sections, tables, data table, charts, rating,
+dialogs, popover, modals, dropdown menus, alerts and toasts, badges and avatars, footers,
+progress, skeleton, empty state, error state, stepper, breadcrumbs, header navigation,
+navigation menu, pagination, tabs, sidebar, and tour plus float buttons.
 
-Anything outside that set is intentionally absent until the set is verified.
+Anything outside that set — the 15 examples and 6 templates in the catalog — is
+composition rather than a control, so it stays HTML/CSS/JS only.
 
 ## Previews without a runtime CDN
 

@@ -129,15 +129,18 @@ node tools/mue.js search "dialog" --framework react
 
 | Package | Components | Status | Use it |
 | --- | --- | --- | --- |
-| `frameworks/react/` | 16 (`MueButton` … `MueAvatarGroup`) | experimental | copy the folder, `import { MueCard } from "./react/index.js"` |
-| `frameworks/vue/` | 16 `<script setup>` SFCs | experimental | copy the folder, `import { MueCard } from "./vue/index.js"` |
-| `frameworks/web-components/` | 21 light-DOM tags, no build step | experimental | `<script type="module" src="frameworks/web-components/index.js">` |
+| `frameworks/react/` | 34 modules over the 33 catalogued components | stable | copy the folder, `import { MueCard } from "./react/index.js"` |
+| `frameworks/vue/` | 37 `<script setup>` SFCs over the 33 catalogued components | stable | copy the folder, `import { MueCard } from "./vue/index.js"` |
+| `frameworks/web-components/` | 40 modules / 43 light-DOM tags, no build step | stable | `<script type="module" src="frameworks/web-components/index.js">` |
 | `frameworks/svelte/`, `frameworks/angular/` | none | planned | architecture documents, no source — see each `ARCHITECTURE.md` |
 
-`experimental` is the honest label: the code compiles, its preview renders offline, and
-its keyboard and ARIA paths were driven in headless Chrome on 2026-11-01 — but nothing
-is published to npm, and no axe-core, Safari, Firefox, screen-reader or SSR run has been
-done. Each source file's `MUE:META` block states its variants, props, states, a11y
+`stable` here means one specific thing, and the sentence after it is the limit of the
+claim: each binding builds or serves, renders in its own gallery, and was driven there in
+headless Chrome and Edge on 2026-11-01 — 46 behaviour probes at 1280px and 390px in light
+and dark with zero console errors, and axe-core reporting zero serious or critical
+violations in all 24 runs. Nothing is published to npm, and no Safari, Firefox,
+screen-reader, touch-device or server-rendering run has been done. Each source file's
+`MUE:META` block states its variants, props, states, a11y
 contract, keyboard path, events, dependencies, licence and which vanilla preview it
 ports; the parity tool harvests those into the catalog so the site and the CLI quote the
 code rather than a second copy of the docs. Details and the full command log:
@@ -272,15 +275,15 @@ See `CONTRIBUTING.md`.
       `--lift-hover`, `--reveal-shift` and composite tokens such as
       `--motion-colors` and `--motion-lift`; one reduced-motion block collapses
       the whole system to `1ms` / `0px`.
-- [x] React, Vue and Web Components bindings for the 14 core component groups —
+- [x] React, Vue and Web Components bindings for all 33 catalogued components —
       `frameworks/`, contract-checked by `tools/audit/framework-parity.mjs`.
-      Status is `experimental`: built and driven in headless Chrome, not published
-      to npm and not audited by axe-core.
+      Status is `stable`: each stack builds or serves, and its gallery was driven in
+      headless Chrome and Edge with 46 behaviour probes and 24 axe-core runs, all clean.
 - [ ] Svelte and Angular bindings — architecture written
       (`frameworks/svelte/ARCHITECTURE.md`, `frameworks/angular/ARCHITECTURE.md`),
       no source yet
-- [ ] Framework bindings for the remaining 40 catalogued entries (examples,
-      templates, and the components the first pass left out)
+- [ ] A Safari, Firefox, screen-reader, touch-device and server-rendering pass over
+      the three galleries, which is what `stable` still does not cover
 - [ ] Publish `mue-react`, `mue-vue` and `mue-web-components` to npm
 - [ ] Curated third-party design-system packs (shadcn/ui, pacifio/atlas,
       daisyUI) as new top-level folders — see `RESOURCES.md` for their licenses

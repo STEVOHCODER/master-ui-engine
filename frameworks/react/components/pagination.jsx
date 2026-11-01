@@ -15,7 +15,7 @@
   KEYBOARD: cells are native buttons, so Tab reaches them and Enter/Space activate; this binding adds Left/Right to step one page and Home/End to jump to the first/last page, handled on the <nav> so they work from any focused cell — the preview binds no keys, so this is the one documented addition, and it is the pair a reader expects from a pager
   EVENTS: onChange(next) on every cell, arrow and key press; the component is controlled when page is passed and self-managed when only defaultPage is
   RESPONSIVE: the row wraps and the sheet centres it on narrow screens; rendered at 1280px and 390px in the gallery
-  VERIFIED: node build.mjs rebuilt preview/preview.js with this module and it was driven in headless Chrome (puppeteer-core) 2026-11-03 — clicking a cell moved aria-current and disabled the matching edge button, ArrowRight advanced the page; no new CSS is asserted
+  VERIFIED: node build.mjs rebuilt preview/preview.js with this module and it was driven in headless Chrome (puppeteer-core) 2026-11-01 — clicking a cell moved aria-current and disabled the matching edge button, ArrowRight advanced the page; no new CSS is asserted
   LICENSE: MIT
   ATTRIBUTION: MASTER-UI-ENGINE contributors
 END MUE:META */

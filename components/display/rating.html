@@ -16,7 +16,9 @@
   VARIANTS: 5 out of 5, 4 out of 5, 3.5 out of 5 with a half star, score plus review count, inline review row, keyboard-only radio group
   MOTION: durations and easings come from design-tokens/motion/scale.css; nothing here hardcodes a time
   RESPONSIVE: the group is inline-flex, so five 44px stars fit a 320px screen with room for the review count to wrap
-  VERIFIED: WCAG AA contrast in light + dark and no overflow at 320/375/768/1200
+  VERIFIED: node tools/audit/serve.js --port 8791, then tools/audit/harness.js in headless
+    Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at
+    320/375/768/1280 in light and dark, shared sheet and styles/mue.js both linked, 0 console errors
   CATALOG: showcase/data/component-catalog.json#ui-rating
   LICENSE: MIT
   ATTRIBUTION: MASTER-UI-ENGINE contributors

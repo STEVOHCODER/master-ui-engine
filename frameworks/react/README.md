@@ -6,9 +6,10 @@ package adds markup, props and the keyboard/ARIA behaviour documented in the mat
 `components/**/*.html` preview. There is no second stylesheet, no CSS-in-JS, no icon package,
 no `classnames`, no runtime dependency beyond React itself.
 
-Per [`frameworks/README.md`](../README.md) the sixteen shared components are all this package
-carries. Everything below was rendered and driven in headless Chrome on **2026-11-01**;
-the results are in [Verified](#verified) rather than in adjectives.
+Per [`frameworks/README.md`](../README.md) every catalogued component is carried here:
+34 modules over the 33 entries. Everything below was rendered and driven in headless Chrome
+and Edge on **2026-11-01**; the results are in [Verified](#verified) rather than in
+adjectives.
 
 ## Install
 
@@ -223,13 +224,15 @@ tablist and nothing is double-wired.
 
 ## Verified
 
-Headless Chrome 25.16.0 (puppeteer-core, local Chrome binary), 2026-11-01, on
-`file:///D:/…/frameworks/react/preview/gallery.html`. Check scripts live outside the repo.
+Headless Chrome 25.16.0 and Headless Edge (both puppeteer-core, local binaries), 2026-11-01,
+on `http://127.0.0.1:8791/frameworks/react/preview/gallery.html` served by
+`node tools/audit/serve.js --port 8791`. Check scripts live outside the repo.
 
-Gallery: **16/16 sections found** (Button, Input, Textarea, Select, Checkbox, Radio group,
-Switch, Card, Badge, Dialog, Dropdown, Tabs, Accordion, Table, Notification, Avatar),
-**0 proof failures** (each section renders its sheet selector), **103 distinct class tokens in
-the live DOM, 0 of them undefined** in `styles/components.css` / `design-tokens/engine.css`.
+Gallery: **34 `<Section>` blocks rendered**, and **46/46 behaviour probes pass at 1280px and
+again at 390px**, in light and in dark, with **0 console errors**. **axe-core reports 0
+serious or critical violations in 8 runs** (both widths × both themes × both browsers).
+`node tools/audit/check-classes.js frameworks/react/preview/gallery.html` gives
+`UNRESOLVED(0)`, `DUPES(0)`, `RAWPRIM 0`, `HARDCODED-MOTION 0`.
 
 Console: **0 errors, 0 warnings, 0 page errors, 0 non-`file:` requests.**
 
@@ -254,24 +257,30 @@ Interactions driven in the browser (all passed):
   it after the slide-out.
 - Theme — the masthead toggle (plain HTML, driven by `styles/mue.js`) added `html.dark` with the
   React tree still mounted, and the choice was restored from localStorage after a reload.
-- Static server pass over `http://127.0.0.1:…` rendered all 16 sections with no page errors.
-- `node tools/audit/check-classes.js frameworks/react/preview/gallery.html` exits clean: one HEAD
-  comment, all three links, `UNRESOLVED(0)`, `DUPES(0)`, `RAWPRIM 0`, `HARDCODED-MOTION 0`.
-- `npm pack --dry-run` produces a valid `mue-react-0.1.0.tgz` (18 files: `index.js`, the sixteen
-  `components/*.jsx`, `package.json`, this README); no preview bundle or `node_modules` inside.
+- Data table — search narrows to the matching row, a header click publishes `aria-sort`, the
+  header checkbox marks every row on the page `.is-selected` and moves the selection count, and
+  the status filter's Apply drops non-matching rows (`.is-filtered` on its column).
+- Navigation menu — its dropdown cell opens with focus on the first row, **ArrowDown** walks it,
+  **Escape** closes and returns focus to the trigger; at 390px the drawer opens first, because
+  the cell lives inside it.
+- `npm pack --dry-run` produces a valid `mue-react-0.1.0.tgz` (37 files, 60.5 kB packed:
+  `index.js`, `package.json`, this README and the 34 `components/*.jsx`); no preview bundle and
+  no `node_modules` inside.
 - `esbuild index.js --bundle --external:react --external:react-dom` resolves the whole module
-  graph (30.6 kB), so the entry has no broken import.
+  graph (119.7 kB), so the entry has no broken import.
 
 ## Not verified / known limits
 
 - The native `<select>` popup was **not** automated — it is browser chrome. Only the closed box,
   `onChange` and the ARIA wiring were checked.
-- No WCAG contrast measurement and no viewport/reduced-motion sweep for this package; the vanilla
-  previews carry those claims, and the React port inherits the same tokens rather than re-proving them.
-- `tools/audit/framework-parity.mjs`, named in `frameworks/README.md` as the variant checker, does
-  not exist in the repo yet, so cross-framework parity could not be machine-checked; nor is there a
-  `docs/framework-support.md` to record this run in. Both are outside this folder, so this package
-  did not create them.
+- axe-core now covers this gallery — 8 runs, both widths, both themes, Chrome and Edge, all
+  clean of serious and critical. What is still **not** measured here is a manual WCAG contrast
+  sweep of this package in isolation and a `prefers-reduced-motion` emulation pass; the engine
+  owns the tokens and `design-tokens/motion/scale.css` carries the reduced-motion rule, and the
+  React port inherits both rather than re-proving them.
+- `node tools/audit/framework-parity.mjs` machine-checks this folder against the registry: it
+  exits `OK 0 error(s)` over 33 components, and `docs/framework-support.md` records the result
+  row by row.
 - Published-install was not exercised against a registry: `npm i file:…` and `npm pack` were checked,
   `npm publish` was not.
 - This is a **source-only** package: a consumer without JSX transpilation of `node_modules` will fail

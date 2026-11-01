@@ -60,7 +60,7 @@ window.MUE_CATALOG = {
           }
         },
         "react": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/react/components/button.jsx",
           "sources": [
             "frameworks/react/components/button.jsx"
@@ -71,7 +71,7 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-react",
           "architecture": null,
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven",
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
           "spec": {
             "variants": "variant=primary|secondary|outline|ghost|danger|success|link, size=sm|lg|icon|base, block, loading, spinner, disabled",
             "a11y": "a real <button> (or <a> when href is set), so :disabled and native activation stay the browser's; type defaults to \"button\" so a button inside a form never submits by accident; loading sets aria-busy and keeps its width because the sweep is an absolutely positioned .bar; the .spinner glyph is aria-hidden; an icon-only button must be given an aria-label by the caller (the sheet cannot supply a name)",
@@ -84,7 +84,7 @@ window.MUE_CATALOG = {
           }
         },
         "vue": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/vue/components/MueButton.vue",
           "sources": [
             "frameworks/vue/components/MueButton.vue"
@@ -95,7 +95,7 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-vue",
           "architecture": null,
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven",
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
           "spec": {
             "variants": "variant prop = primary|secondary|outline|ghost|danger|success|link; size = sm|lg; block; iconOnly; loading; disabled",
             "a11y": "real <button>; aria-busy while loading; icon-only rows require an aria-label (fallthrough attr); decorative SVG stays aria-hidden",
@@ -107,7 +107,7 @@ window.MUE_CATALOG = {
           }
         },
         "web-components": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/web-components/components/mue-button.js",
           "sources": [
             "frameworks/web-components/components/mue-button.js"
@@ -118,7 +118,7 @@ window.MUE_CATALOG = {
           "tag": "mue-button",
           "package": "mue-web-components",
           "architecture": null,
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven",
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
           "spec": {
             "variants": "variant=primary|secondary|outline|ghost|danger|success|link, size=sm|lg, icon (bool), block (bool), state=loading, disabled (bool)",
             "props": "variant, size, state, type, disabled, block, icon",
@@ -164,7 +164,7 @@ window.MUE_CATALOG = {
         "vue",
         "web-components"
       ],
-      "supportMatrix": "react:experimental vue:experimental web-components:experimental svelte:planned angular:planned"
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "frm-input-fields",
@@ -214,7 +214,7 @@ window.MUE_CATALOG = {
           }
         },
         "react": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/react/components/input.jsx",
           "sources": [
             "frameworks/react/components/input.jsx",
@@ -226,7 +226,7 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-react",
           "architecture": null,
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven",
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
           "spec": {
             "variants": "type=text|email|password|search|date|…, state=error|success|null, disabled, with icon, with addon, helper text, validation message / rows, state=error|success|null, disabled, helper text, validation message",
             "a11y": "the control is a real <input> inside a <label class=\"field-label\" for> so placeholder text is never the only name; state lives on the .field wrapper (is-error / is-success) exactly as the preview does, which is what repaints border AND message together; an error or success message adds aria-invalid and aria-describedby to that message; the decorative icon SVG is aria-hidden / same .field column as MueInput so label, control and message cannot drift; real <textarea> with a <label for>; error/success sets aria-invalid plus aria-describedby on the message; resize: vertical and min-height come from the sheet, not from an inline style",
@@ -239,7 +239,7 @@ window.MUE_CATALOG = {
           }
         },
         "vue": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/vue/components/MueInput.vue",
           "sources": [
             "frameworks/vue/components/MueInput.vue",
@@ -251,7 +251,7 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-vue",
           "architecture": null,
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven",
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
           "spec": {
             "variants": "type = any native input type; is-error via error prop; is-success via success prop; disabled / rows prop; is-error via error prop; is-success via success prop; disabled",
             "a11y": "label joined by for/id (useId fallback); aria-invalid=\"true\" + aria-describedby -> field-msg when error; aria-describedby kept on success",
@@ -263,7 +263,7 @@ window.MUE_CATALOG = {
           }
         },
         "web-components": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/web-components/components/mue-input.js",
           "sources": [
             "frameworks/web-components/components/mue-input.js",
@@ -275,7 +275,7 @@ window.MUE_CATALOG = {
           "tag": "mue-input, mue-textarea",
           "package": "mue-web-components",
           "architecture": null,
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven",
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
           "spec": {
             "variants": "type=text|email|password|search|tel|url|number, state=(none)|error|success, disabled",
             "props": "label, type, name, value, placeholder, helper, message, state, disabled, required, rows / label, name, value, placeholder, helper, message, state, disabled, required, rows",
@@ -321,7 +321,7 @@ window.MUE_CATALOG = {
         "vue",
         "web-components"
       ],
-      "supportMatrix": "react:experimental vue:experimental web-components:experimental svelte:planned angular:planned"
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "frm-select-menus",
@@ -367,7 +367,7 @@ window.MUE_CATALOG = {
           }
         },
         "react": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/react/components/select.jsx",
           "sources": [
             "frameworks/react/components/select.jsx"
@@ -378,7 +378,7 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-react",
           "architecture": null,
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven",
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
           "spec": {
             "variants": "default, is-error, disabled, options-as-array or <option> children",
             "a11y": "a real native <select>, so the browser owns the option list, the closed box is the only thing styled, and screen readers get the platform picker for free; <label class=\"field-label\" for> names it; error state sets aria-invalid + aria-describedby; the chevron SVG is aria-hidden and pointer-events:none in the sheet",
@@ -391,7 +391,7 @@ window.MUE_CATALOG = {
           }
         },
         "vue": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/vue/components/MueSelect.vue",
           "sources": [
             "frameworks/vue/components/MueSelect.vue"
@@ -402,7 +402,7 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-vue",
           "architecture": null,
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven",
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
           "spec": {
             "variants": "options prop (strings or {label,value}); is-error via error prop; disabled",
             "a11y": "native <select> keeps OS keyboard/AT behaviour; label joined by for/id (useId fallback); aria-invalid=\"true\" + aria-describedby -> field-msg when error; chevron is aria-hidden and pointer-events:none in the sheet",
@@ -414,7 +414,7 @@ window.MUE_CATALOG = {
           }
         },
         "web-components": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/web-components/components/mue-select.js",
           "sources": [
             "frameworks/web-components/components/mue-select.js"
@@ -425,7 +425,7 @@ window.MUE_CATALOG = {
           "tag": "mue-select",
           "package": "mue-web-components",
           "architecture": null,
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven",
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
           "spec": {
             "variants": "state=(none)|error|success, disabled",
             "props": "label, name, value, helper, message, state, disabled, required",
@@ -471,7 +471,7 @@ window.MUE_CATALOG = {
         "vue",
         "web-components"
       ],
-      "supportMatrix": "react:experimental vue:experimental web-components:experimental svelte:planned angular:planned"
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "frm-checkboxes",
@@ -515,7 +515,7 @@ window.MUE_CATALOG = {
           }
         },
         "react": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/react/components/checkbox.jsx",
           "sources": [
             "frameworks/react/components/checkbox.jsx"
@@ -526,7 +526,7 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-react",
           "architecture": null,
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven",
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
           "spec": {
             "variants": "default, checked, disabled; grouped via MueCheckboxGroup (.checkbox-group)",
             "a11y": "a native <input type=\"checkbox\"> wrapped in its own <label>, so the whole 44px row is clickable and the checked state is announced by the platform; the visible .box is aria-hidden decoration containing an aria-hidden tick; controlled (checked+onChange) and uncontrolled (defaultChecked) both work because the input is real",
@@ -539,7 +539,7 @@ window.MUE_CATALOG = {
           }
         },
         "vue": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/vue/components/MueCheckbox.vue",
           "sources": [
             "frameworks/vue/components/MueCheckbox.vue"
@@ -550,7 +550,7 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-vue",
           "architecture": null,
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven",
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
           "spec": {
             "variants": "checked / unchecked via v-model; disabled",
             "a11y": "native <input type=\"checkbox\"> wrapped in its own <label> (whole row clickable); tick svg is aria-hidden; checked state announced by the real input. Note: the vanilla preview's .choice-desc line is preview-local CSS, so the description slot renders as plain unclassed text here.",
@@ -562,7 +562,7 @@ window.MUE_CATALOG = {
           }
         },
         "web-components": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/web-components/components/mue-checkbox.js",
           "sources": [
             "frameworks/web-components/components/mue-checkbox.js"
@@ -573,7 +573,7 @@ window.MUE_CATALOG = {
           "tag": "mue-checkbox",
           "package": "mue-web-components",
           "architecture": null,
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven",
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
           "spec": {
             "variants": "checked (bool), disabled (bool)",
             "props": "label, name, value, checked, disabled, indeterminate",
@@ -619,7 +619,7 @@ window.MUE_CATALOG = {
         "vue",
         "web-components"
       ],
-      "supportMatrix": "react:experimental vue:experimental web-components:experimental svelte:planned angular:planned"
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "frm-switches",
@@ -664,7 +664,7 @@ window.MUE_CATALOG = {
           }
         },
         "react": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/react/components/switch.jsx",
           "sources": [
             "frameworks/react/components/switch.jsx"
@@ -675,7 +675,7 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-react",
           "architecture": null,
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven",
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
           "spec": {
             "variants": "default, on, off, disabled",
             "a11y": "a real <input type=\"checkbox\"> stretched over the whole row and made transparent, so the row is one big hit target, the state is announced by the platform and .switch-label carries the visible name through the wrapping <label>; the .track is aria-hidden decoration. NOTE: the preview keeps checkbox semantics and adds no role=\"switch\", so neither does this binding — that is a deliberate port decision, not an oversight",
@@ -688,7 +688,7 @@ window.MUE_CATALOG = {
           }
         },
         "vue": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/vue/components/MueSwitch.vue",
           "sources": [
             "frameworks/vue/components/MueSwitch.vue"
@@ -699,7 +699,7 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-vue",
           "architecture": null,
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven",
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
           "spec": {
             "variants": "on/off via v-model; disabled",
             "a11y": "native <input type=\"checkbox\"> wrapped in its <label>; track is aria-hidden; checked = on, announced automatically",
@@ -711,7 +711,7 @@ window.MUE_CATALOG = {
           }
         },
         "web-components": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/web-components/components/mue-switch.js",
           "sources": [
             "frameworks/web-components/components/mue-switch.js"
@@ -722,7 +722,7 @@ window.MUE_CATALOG = {
           "tag": "mue-switch",
           "package": "mue-web-components",
           "architecture": null,
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven",
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
           "spec": {
             "variants": "checked/on (bool), disabled (bool)",
             "props": "label, name, value, checked, disabled",
@@ -768,7 +768,7 @@ window.MUE_CATALOG = {
         "vue",
         "web-components"
       ],
-      "supportMatrix": "react:experimental vue:experimental web-components:experimental svelte:planned angular:planned"
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "frm-radio-buttons",
@@ -812,7 +812,7 @@ window.MUE_CATALOG = {
           }
         },
         "react": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/react/components/radio.jsx",
           "sources": [
             "frameworks/react/components/radio.jsx"
@@ -823,7 +823,7 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-react",
           "architecture": null,
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven",
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
           "spec": {
             "variants": "default, selected, disabled; MueRadioGroup for the whole answer set",
             "a11y": "a real <fieldset class=\"radiogroup\"> with a <legend> names the group, exactly as the preview does; exclusivity comes from the shared name attribute, not from JS; each option is a <label> wrapping its own input so the whole 44px row is clickable; the visible circle is an aria-hidden .box whose dot is a pseudo-element",
@@ -836,7 +836,7 @@ window.MUE_CATALOG = {
           }
         },
         "vue": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/vue/components/MueRadioGroup.vue",
           "sources": [
             "frameworks/vue/components/MueRadioGroup.vue"
@@ -847,7 +847,7 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-vue",
           "architecture": null,
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven",
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
           "spec": {
             "variants": "options = [{label, value, disabled?}] (or strings); selected value via v-model",
             "a11y": "<fieldset> + <legend> name the question; shared name attribute makes the group exclusive; real radio inputs so checked state and arrow-key navigation come free",
@@ -859,7 +859,7 @@ window.MUE_CATALOG = {
           }
         },
         "web-components": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/web-components/components/mue-radio.js",
           "sources": [
             "frameworks/web-components/components/mue-radio.js",
@@ -871,7 +871,7 @@ window.MUE_CATALOG = {
           "tag": "mue-radio, mue-radio-group",
           "package": "mue-web-components",
           "architecture": null,
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven",
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
           "spec": {
             "variants": "checked (bool), disabled (bool)",
             "props": "label, name, value, checked, disabled / label, name, value, disabled",
@@ -917,7 +917,7 @@ window.MUE_CATALOG = {
         "vue",
         "web-components"
       ],
-      "supportMatrix": "react:experimental vue:experimental web-components:experimental svelte:planned angular:planned"
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "frm-date-picker",
@@ -938,7 +938,141 @@ window.MUE_CATALOG = {
       "engineLinked": true,
       "breakpoints": [],
       "theming": "light + dark toggle (html.dark, persisted in localStorage)",
-      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+      "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
+      "frameworks": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/forms/date-picker/date-picker.html",
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": null,
+          "architecture": null,
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/forms/date-picker/date-picker.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues.",
+          "spec": {
+            "variants": "default, min-max, required",
+            "responsive": "the field is full-width and shrinks with its container; the calendar popover is drawn by the platform",
+            "dependencies": "design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)",
+            "sheet": "styles/components.css#fields — the field, label, helper and message classes below are defined there",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "react": {
+          "status": "stable",
+          "source": "frameworks/react/components/date-picker.jsx",
+          "sources": [
+            "frameworks/react/components/date-picker.jsx"
+          ],
+          "preview": "frameworks/react/preview/gallery.html",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "tag": null,
+          "package": "mue-react",
+          "architecture": null,
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
+          "spec": {
+            "variants": "default, constrained (min and/or max), required with a validation message",
+            "props": "id, label (required-looking text for .field-label), value (controlled, ISO yyyy-mm-dd) / defaultValue (uncontrolled), min, max, required (sets the native attribute plus aria-required), state (\"error\" | \"success\" | undefined, drives .is-error/.is-success on the wrapper), message (.field-msg, wired with aria-describedby and aria-invalid), helper (.field-helper), disabled, name, className, onChange(value, date) where date is a Date or null, plus any other prop spread on the <input>",
+            "states": "empty, filled, error (.is-error + aria-invalid=\"true\"), success (.is-success), disabled; out-of-range days are not markup — min/max are enforced by the platform picker exactly as the preview documents",
+            "a11y": "a real <label class=\"field-label\" for> so the control is never named by a placeholder, aria-describedby only when a message exists, aria-required with the native required attribute, and the visible state colour is duplicated by the message text so error is never colour-only",
+            "keyboard": "nothing is intercepted — Arrow keys step the focused day/month/year segment, Up/Down change it, PageUp/PageDown jump a year, typing digits fills a segment and Escape closes the platform calendar. The preview ships no script of its own (its only local CSS tints the picker glyph), so this binding deliberately does not re-implement that calendar in the DOM; the documented deviation is recorded in frameworks/react/README.md",
+            "events": "onChange(value, date) fires with the raw yyyy-mm-dd string and a parsed Date (null when the field is incomplete or invalid); native input/invalid events pass through via rest",
+            "responsive": ".field input is width:100% with min-width:0 from the sheet, so it shrinks inside a narrow form; rendered at 1280px and 390px in the gallery",
+            "dependencies": "styles/components.css#fields + design-tokens/engine.css (both linked by the host page); no other module in this package",
+            "ports": "components/forms/date-picker/date-picker.html (Default run, With-constraints run — the constrained pair is stacked in .stack as the preview stacks it)",
+            "sheet": "styles/components.css#fields — the whole component is one .field holding a native <input type=\"date\">; the sheet owns .field, .field-label, .field-helper, .field-msg, .is-error, .is-success, the control, its focus ring and the state colours",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "vue": {
+          "status": "stable",
+          "source": "frameworks/vue/components/MueDatePicker.vue",
+          "sources": [
+            "frameworks/vue/components/MueDatePicker.vue"
+          ],
+          "preview": "frameworks/vue/preview/gallery.html",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "tag": null,
+          "package": "mue-vue",
+          "architecture": null,
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
+          "spec": {
+            "variants": "default, constrained (min/max), required (with an error message); disabled",
+            "a11y": "label joined by for/id (useId fallback); aria-required mirrors the required prop; aria-invalid=\"true\" + aria-describedby -> field-msg when error, kept on success; the native picker carries its own accessible segments",
+            "keyboard": "native <input type=\"date\"> — digits and arrows edit one segment at a time and the platform calendar popover is keyboard/touch operable. The vanilla preview implements no custom calendar, so no Escape/arrow-day path is added here. PORTED FROM: components/forms/date-picker/date-picker.html",
+            "dependencies": "styles/components.css#fields only — this SFC ships no CSS of its own",
+            "sheet": "styles/components.css#fields — field, field-label, field-helper, field-msg, field.is-error, field.is-success",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "web-components": {
+          "status": "stable",
+          "source": "frameworks/web-components/components/mue-date-picker.js",
+          "sources": [
+            "frameworks/web-components/components/mue-date-picker.js"
+          ],
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "tag": "mue-date-picker",
+          "package": "mue-web-components",
+          "architecture": null,
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
+          "spec": {
+            "variants": "state=(none)|error|success, disabled, required, constrained (min/max)",
+            "props": "label, type (date|datetime-local|month|week|time), name, value, min, max, step, placeholder, helper, message, state, disabled, required",
+            "states": "state=error adds .is-error + aria-invalid=\"true\" + aria-describedby on the message; state=success adds .is-success; the native constraint-validity UI (out-of-range days greyed) comes from min/max, which the element forwards untouched",
+            "a11y": "label joined by for/id; required adds required + aria-required; min/max are forwarded so the platform picker enforces the range and announces it; the message is referenced by aria-describedby; disabled drops the input from the tab order",
+            "keyboard": "the full date path is native — the picker opens from the field or its glyph, day/segment movement is Up/Down, month movement is PageUp/PageDown, Escape closes the platform popover; nothing here reimplements that, so nothing can drift from it",
+            "events": "mue-change {detail:{value,name,state}} when the native input fires change",
+            "responsive": "the field is full width and shrinks with its container; the sheet's @media (hover: none) rule grows the control to --control-h-lg on touch",
+            "dependencies": "design-tokens/engine.css, styles/components.css",
+            "ports": "components/forms/date-picker/date-picker.html",
+            "sheet": "styles/components.css#fields — the host renders <div class=\"field [is-error] [is-success]\"> <label class=\"field-label\" for> <input type=\"date\"> <p class=\"field-helper\"> | <p class=\"field-msg\">. The calendar surface itself is the platform's, exactly as in the vanilla preview: this element adds no popover markup and no CSS for the picker glyph.",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "svelte": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        },
+        "angular": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        }
+      },
+      "frameworkKeys": [
+        "vanilla",
+        "react",
+        "vue",
+        "web-components"
+      ],
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "frm-dropzone",
@@ -960,7 +1094,141 @@ window.MUE_CATALOG = {
       "engineLinked": true,
       "breakpoints": [],
       "theming": "light + dark toggle (html.dark, persisted in localStorage)",
-      "verified": "WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01"
+      "verified": "WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01",
+      "frameworks": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/forms/file-upload.html",
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": null,
+          "architecture": null,
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/forms/file-upload.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues.",
+          "spec": {
+            "variants": "multi-file, single avatar, drag-over state, populated file list",
+            "responsive": "the target is a fluid block, rows truncate the file name and keep the size and remove button on one line at 320px",
+            "dependencies": "design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)",
+            "sheet": "styles/components.css#dropzone (with #fields, #buttons, #badges, #utilities, #chrome) — every class below is defined there, so pasted markup arrives styled",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "react": {
+          "status": "stable",
+          "source": "frameworks/react/components/file-upload.jsx",
+          "sources": [
+            "frameworks/react/components/file-upload.jsx"
+          ],
+          "preview": "frameworks/react/preview/gallery.html",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "tag": null,
+          "package": "mue-react",
+          "architecture": null,
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
+          "spec": {
+            "variants": "multi-file with accept list, single image, drag-over demo, and the three static rows the preview lists",
+            "props": "MueDropzone — id, label (the .sr-only name the input is tied to with htmlFor — never the decoration text inside the box), name, multiple, accept, disabled, title (node, defaults to the preview's \"Drop files here or browse files\"), hint, icon (node; the preview swaps a different glyph per use), files (array of File or {name,size} for a static demo row), onFilesChange(files: FileList) from browse and drop, onRemove(file, index) from a list row, listLabel, max, className, wrapClassName, rest spread on the <input>. MueFileRow — name, size (bytes or a preformatted string), icon, onRemove, removeLabel. MueFileList — files, onRemove, label. formatSize(bytes) is exported for hosts that need the same wording",
+            "states": "idle, keyboard/pointer focus (.dropzone:focus-within ring from the sheet), .is-dragging (added on dragover, cleared on dragleave and drop — the one state the preview says CSS cannot reach on its own), populated (the .dropzone-list appears once there is a file)",
+            "a11y": "the control is a real <input type=\"file\"> so Tab, Enter and the OS picker work with no script; it is named by a .sr-only <label for>, not by the visible .dropzone-title; the remove button carries a .sr-only name that includes the file it removes (\"Remove brief.pdf\") so the row is not ambiguous; size and count are text, not colour",
+            "keyboard": "Tab reaches the input (it covers the whole box, so the focus ring lands on the target via :focus-within) and Enter/Space opens the picker; each remove button is a native <button> so Enter/Space deletes that row; nothing else is intercepted",
+            "events": "onFilesChange(FileList) on browse-change and on drop (a drop assigns input.files exactly as the preview's script does, then reports it); onRemove(file, index) per row; the native input's onChange/onDrag/onDrop are still overridable through rest",
+            "responsive": ".file-name truncates with an ellipsis while .file-size and the remove button are flex:none, so the row survives 390px; the box is grid/centre so it just gets taller; rendered at 1280px and 390px in the gallery",
+            "dependencies": "styles/components.css#dropzone + #fields + #utilities (.sr-only) + design-tokens/engine.css (all linked by the host page); no other module in this package",
+            "ports": "components/forms/file-upload.html (Project-exports run with its three .file-row entries, the Drag-over run, the single-file run, and the \"Wiring it up\" script block: dragover / dragleave / drop / change)",
+            "sheet": "styles/components.css#dropzone — .dropzone (position:relative target), input.dropzone-input (stretched over the box at zero opacity), .dropzone.is-dragging, .dropzone-icon, .dropzone-title, .dropzone-link, .dropzone-hint, .dropzone-list, .file-row, .file-icon, .file-name, .file-size, .file-remove; #fields for the label, #utilities for .sr-only",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "vue": {
+          "status": "stable",
+          "source": "frameworks/vue/components/MueDropzone.vue",
+          "sources": [
+            "frameworks/vue/components/MueDropzone.vue"
+          ],
+          "preview": "frameworks/vue/preview/gallery.html",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "tag": null,
+          "package": "mue-vue",
+          "architecture": null,
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
+          "spec": {
+            "variants": "multiple (with a populated list) or single (accept=\"image/*\"); the drag-over state .is-dragging is toggled by this component",
+            "a11y": "the control is a real <input type=\"file\"> stretched across the target; it is labelled by a .sr-only <label>, not by the decoration inside the box; :focus-within rings the whole target; each remove button carries a .sr-only name that includes the file it removes",
+            "keyboard": "Tab reaches the input (Enter opens the OS picker) and each remove button (Enter/Space removes that row) PORTED FROM: components/forms/file-upload.html",
+            "dependencies": "styles/components.css#dropzone (+ #fields, #buttons, #badges, #utilities) — this SFC ships no CSS of its own",
+            "sheet": "styles/components.css#dropzone — field, sr-only, dropzone, dropzone.is-dragging, dropzone-input, dropzone-icon, dropzone-title, dropzone-link, dropzone-hint, dropzone-list, file-row, file-icon, file-name, file-size, file-remove, spread, badge",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "web-components": {
+          "status": "stable",
+          "source": "frameworks/web-components/components/mue-dropzone.js",
+          "sources": [
+            "frameworks/web-components/components/mue-dropzone.js"
+          ],
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "tag": "mue-dropzone",
+          "package": "mue-web-components",
+          "architecture": null,
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
+          "spec": {
+            "variants": "single, multiple, accept-constrained, populated list, .is-dragging (drag-over)",
+            "props": "label, name, accept, multiple (bool), title, browse, hint, disabled",
+            "states": ".is-dragging toggles on the .dropzone while a drag is over it (dragover adds, dragleave/drop removes) — the only state the sheet cannot reach on its own; each accepted file renders one .file-row with its name, byte size and a remove control",
+            "a11y": "the input is labelled by an .sr-only <label> joined by for/id, never by the decoration text in the box; the icon and glyphs are aria-hidden; every remove button carries an .sr-only name that includes the file it removes; long names use .truncate and the size and button stay on one line",
+            "keyboard": "the picker, Tab and Enter are the native file input's — nothing here reimplements them; the drop/drag path is pointer-driven and only ever supplements the same input",
+            "events": "mue-change {detail:{count,files:[names]}}, mue-remove {detail:{name,index}}",
+            "responsive": "the target is a fluid block inside a full-width .field; rows keep name, size and the 44px remove button on one line down to 320px (styles/components.css#dropzone)",
+            "dependencies": "design-tokens/engine.css, styles/components.css",
+            "ports": "components/forms/file-upload.html",
+            "sheet": "styles/components.css#dropzone (+ #fields, #utilities) — the host renders <div class=\"field\"><label class=\"sr-only\" for> <div class=\"dropzone\"> <input class=\"dropzone-input\" type=\"file\"> <span class=\"dropzone-icon\"> <span class=\"dropzone-title\">…<span class=\"dropzone-link\">…</span></span> <span class=\"dropzone-hint\"> </div></div> plus <ul class=\"dropzone-list\"><li class=\"file-row\"> <span class=\"file-icon\"> <span class=\"file-name truncate\"> <span class=\"file-size\"> <button class=\"file-remove\">. The control is the real file input; the element adds no CSS.",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "svelte": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        },
+        "angular": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        }
+      },
+      "frameworkKeys": [
+        "vanilla",
+        "react",
+        "vue",
+        "web-components"
+      ],
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "ui-cards",
@@ -1006,10 +1274,11 @@ window.MUE_CATALOG = {
           }
         },
         "react": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/react/components/card.jsx",
           "sources": [
-            "frameworks/react/components/card.jsx"
+            "frameworks/react/components/card.jsx",
+            "frameworks/react/components/badge.jsx"
           ],
           "preview": "frameworks/react/preview/gallery.html",
           "install": "copy frameworks/react into your project — no npm package is published",
@@ -1017,20 +1286,20 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-react",
           "architecture": null,
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven",
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
           "spec": {
-            "variants": "variant=elevated|outlined|featured|base, interactive, selected, asLink (href), slots: MueCardMedia / MueCardHeader / MueCardBody / MueCardTitle / MueCardDesc / MueCardTag / MueCardActions",
-            "a11y": "<article class=\"card\"> by default, <a class=\"card\"> when href is set (a.card is styled in the sheet, so a link card needs no extra class); a card with onSelect becomes role=\"button\" + tabindex=\"0\" + aria-pressed, which are exactly the selectors .card[role=\"button\"] and .card-interactive.is-selected already target; media SVG placeholders keep aria-hidden + focusable=\"false\" from the preview; text slots are min-width:0 in the sheet so a long title wraps instead of widening the card",
-            "keyboard": "a link card is focusable by being a link; an onSelect card answers Enter and Space and shows .card-interactive:focus-visible; hover lift and media pop are :hover rules in the sheet",
-            "dependencies": "styles/components.css#cards (with #badges, #buttons, #utilities for .spread) + design-tokens/engine.css (linked by the host page)",
-            "ports": "components/cards/cards.html (default / elevated / featured / interactive product card)",
-            "sheet": "styles/components.css#cards — .card .card-elevated .card-outlined .card-featured .card-interactive .card[role=button] .card[aria-pressed=true] .card-media .card-body .card-head/.card-header .card-title .card-desc/.card-text .card-tag .card-actions .price",
+            "variants": "variant=elevated|outlined|featured|base, interactive, selected, asLink (href), slots: MueCardMedia / MueCardHeader / MueCardBody / MueCardTitle / MueCardDesc / MueCardTag / MueCardActions / variant=neutral|primary|success|warning|error|danger|info|solid, dot",
+            "a11y": "<article class=\"card\"> by default, <a class=\"card\"> when href is set (a.card is styled in the sheet, so a link card needs no extra class); a card with onSelect becomes role=\"button\" + tabindex=\"0\" + aria-pressed, which are exactly the selectors .card[role=\"button\"] and .card-interactive.is-selected already target; media SVG placeholders keep aria-hidden + focusable=\"false\" from the preview; text slots are min-width:0 in the sheet so a long title wraps instead of widening the card / a badge is text, so it carries its own name — colour only reinforces it and never replaces it, which is why the classes are tint/text pairs from the sheet; the optional .dot is aria-hidden decoration; a status badge inside a table cell stays readable because the cell keeps its words",
+            "keyboard": "a link card is focusable by being a link; an onSelect card answers Enter and Space and shows .card-interactive:focus-visible; hover lift and media pop are :hover rules in the sheet / none — a badge is not interactive. For a removable/toggleable pill the sheet has .chip with aria-pressed, which belongs to a filter control, not to this component",
+            "dependencies": "styles/components.css#cards (with #badges, #buttons, #utilities for .spread) + design-tokens/engine.css (linked by the host page) / styles/components.css#badges + design-tokens/engine.css (linked by the host page)",
+            "ports": "components/cards/cards.html (default / elevated / featured / interactive product card) / components/cards/cards.html (New / count pills), components/tables/tables.html (status column)",
+            "sheet": "styles/components.css#cards — .card .card-elevated .card-outlined .card-featured .card-interactive .card[role=button] .card[aria-pressed=true] .card-media .card-body .card-head/.card-header .card-title .card-desc/.card-text .card-tag .card-actions .price / styles/components.css#badges — .badge .badge-primary .badge-success .badge-warning .badge-error .badge-danger .badge-info .badge-solid and the .dot marker",
             "license": "MIT",
             "attribution": "MASTER-UI-ENGINE contributors"
           }
         },
         "vue": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/vue/components/MueCard.vue",
           "sources": [
             "frameworks/vue/components/MueCard.vue"
@@ -1041,7 +1310,7 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-vue",
           "architecture": null,
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven",
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
           "spec": {
             "variants": "variant prop = space-separated list of elevated|outlined|featured|interactive (the card-* classes in the sheet)",
             "a11y": "<article> landmark per the preview; media slot should hold aria-hidden decorative svg; links/buttons inside actions stay real elements",
@@ -1053,7 +1322,7 @@ window.MUE_CATALOG = {
           }
         },
         "web-components": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/web-components/components/mue-card.js",
           "sources": [
             "frameworks/web-components/components/mue-card.js"
@@ -1064,7 +1333,7 @@ window.MUE_CATALOG = {
           "tag": "mue-card",
           "package": "mue-web-components",
           "architecture": null,
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven",
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
           "spec": {
             "variants": "variant=none|elevated|outlined|featured|interactive, selected (bool), interactive (bool)",
             "props": "variant, selected, interactive",
@@ -1110,7 +1379,7 @@ window.MUE_CATALOG = {
         "vue",
         "web-components"
       ],
-      "supportMatrix": "react:experimental vue:experimental web-components:experimental svelte:planned angular:planned"
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "ui-sections",
@@ -1162,7 +1431,7 @@ window.MUE_CATALOG = {
           }
         },
         "react": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/react/components/accordion.jsx",
           "sources": [
             "frameworks/react/components/accordion.jsx"
@@ -1173,7 +1442,7 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-react",
           "architecture": null,
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven",
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
           "spec": {
             "variants": "exclusive (one panel open, the FAQ default) and exclusive={false} (several open, the vanilla data-exclusive=\"off\" case); defaultOpen accepts one id or a list",
             "a11y": "the header is a real <button> carrying aria-expanded and aria-controls; the panel is a plain div with that id, matching the preview — .accordion-panel > div with overflow:hidden is what collapses it, so a closed panel is height 0 rather than display:none, exactly as the sheet intends; the plus glyph is aria-hidden and focusable=\"false\" so it never takes a separate stop",
@@ -1186,7 +1455,7 @@ window.MUE_CATALOG = {
           }
         },
         "vue": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/vue/components/MueAccordion.vue",
           "sources": [
             "frameworks/vue/components/MueAccordion.vue"
@@ -1197,7 +1466,7 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-vue",
           "architecture": null,
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven",
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
           "spec": {
             "variants": "items = [{title, content}] or strings; exclusive prop (default true, one panel open — same rule as styles/mue.js initDisclosure)",
             "a11y": "trigger is a real button with aria-expanded kept in sync and aria-controls -> panel id; the plus icon is aria-hidden",
@@ -1209,7 +1478,7 @@ window.MUE_CATALOG = {
           }
         },
         "web-components": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/web-components/components/mue-accordion.js",
           "sources": [
             "frameworks/web-components/components/mue-accordion.js",
@@ -1221,7 +1490,7 @@ window.MUE_CATALOG = {
           "tag": "mue-accordion",
           "package": "mue-web-components",
           "architecture": null,
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven",
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
           "spec": {
             "variants": "multiple (bool) — otherwise one panel open at a time / open (bool)",
             "props": "multiple / label, open",
@@ -1267,7 +1536,7 @@ window.MUE_CATALOG = {
         "vue",
         "web-components"
       ],
-      "supportMatrix": "react:experimental vue:experimental web-components:experimental svelte:planned angular:planned"
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "ui-tables",
@@ -1312,7 +1581,7 @@ window.MUE_CATALOG = {
           }
         },
         "react": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/react/components/table.jsx",
           "sources": [
             "frameworks/react/components/table.jsx"
@@ -1323,7 +1592,7 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-react",
           "architecture": null,
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven",
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
           "spec": {
             "variants": "striped, compact, caption, ariaLabel, sortable per column, custom cell renderer",
             "a11y": "a real <table> with <caption> or aria-label, scope=\"col\" on every header and the same tabindex=\"0\" + title + aria-sort the preview publishes when a column becomes sortable; cell content is passed through, so a status badge or a row-action button in a cell is the sheet's own .badge / .btn-link markup, not a table-specific fork; .card .table-wrap already drops the double frame when a table sits inside a card",
@@ -1336,7 +1605,7 @@ window.MUE_CATALOG = {
           }
         },
         "vue": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/vue/components/MueTable.vue",
           "sources": [
             "frameworks/vue/components/MueTable.vue"
@@ -1347,7 +1616,7 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-vue",
           "architecture": null,
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven",
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
           "spec": {
             "variants": "striped, compact; columns = [{key, label, sortable?}]; per-cell markup via #cell-<key> scoped slots",
             "a11y": "caption or aria-label describes the table; th scope=\"col\"; sorting publishes aria-sort and swaps data-sort asc|desc|none; striping is decoration — status text carries meaning",
@@ -1359,7 +1628,7 @@ window.MUE_CATALOG = {
           }
         },
         "web-components": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/web-components/components/mue-table.js",
           "sources": [
             "frameworks/web-components/components/mue-table.js"
@@ -1370,7 +1639,7 @@ window.MUE_CATALOG = {
           "tag": "mue-table",
           "package": "mue-web-components",
           "architecture": null,
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven",
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
           "spec": {
             "variants": "striped (bool), compact (bool)",
             "props": "striped, compact",
@@ -1416,7 +1685,7 @@ window.MUE_CATALOG = {
         "vue",
         "web-components"
       ],
-      "supportMatrix": "react:experimental vue:experimental web-components:experimental svelte:planned angular:planned"
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "ui-charts",
@@ -1438,7 +1707,141 @@ window.MUE_CATALOG = {
       "variants": [
         "Bar chart",
         "Line chart"
-      ]
+      ],
+      "frameworks": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/charts/charts.html",
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": null,
+          "architecture": null,
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/charts/charts.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues.",
+          "spec": {
+            "variants": "Bar chart, Line chart",
+            "responsive": "the SVG keeps its viewBox ratio inside a fluid frame, so it shrinks to 320px without a breakpoint",
+            "dependencies": "design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)",
+            "sheet": "styles/components.css#charts — frame, axis text, bar growth, line draw and legend are defined there; only the series colours are page-local",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "react": {
+          "status": "stable",
+          "source": "frameworks/react/components/charts.jsx",
+          "sources": [
+            "frameworks/react/components/charts.jsx"
+          ],
+          "preview": "frameworks/react/preview/gallery.html",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "tag": null,
+          "package": "mue-react",
+          "architecture": null,
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
+          "spec": {
+            "variants": "bar chart with per-bar tone (the preview mixes primary with one success and one warning bar), line chart with points, optional prior series and area wash, plus a legend",
+            "props": "MueBarChart — title (also the <title> and .chart-title), desc (<desc> text), data (array of {label, value, tone}), height (viewBox height, default 180), width (viewBox width, default 700), gridLines (number of .grid-line rules, default 0), valueFormat (fn(value) -> string appended to the <title> for readers), caption (node after the svg), legend (array of {label, tone} rendered through MueChartLegend), className, id. MueLineChart — same minus gridLines, plus prior (array of numbers drawn as the dashed .prior comparison series), area (default true, the .area wash under the line), pointRadius (default 3). MueChartLegend — items (array of {label, tone}), className. Both charts scale the data into the viewBox themselves, so the numbers are data, not coordinates",
+            "states": "static artwork only — nothing hovers, selects or tooltips here; the bar growth and line draw are the sheet's own keyframes, so they run once per mount and collapse under prefers-reduced-motion",
+            "a11y": "<figure class=\"chart\"> + <figcaption class=\"chart-title\">, and the SVG is role=\"img\" with aria-labelledby pointing at generated <title> and <desc> ids exactly as the preview does; each chart appends the value series to the description when valueFormat is passed so the numbers are readable without the picture; the legend is text plus a coloured mark, so colour is never the only carrier",
+            "keyboard": "none — a chart is not focusable and the preview makes it none either; a host that needs a data table should render one (this package ships MueTable for that)",
+            "events": "none",
+            "responsive": "the artwork is viewBox-scaled and .chart svg is width:100%;height:auto, so it keeps its ratio at any column width — two charts in a .grid-auto stack once a column no longer fits; rendered at 1280px and 390px in the gallery",
+            "dependencies": "styles/components.css#charts + design-tokens/engine.css (both linked by the host page); no other module in this package — no chart library, no CDN, the artwork is plain SVG",
+            "ports": "components/charts/charts.html (Bar chart run with its six bars and axis labels, Line chart run, Responsive-behaviour note, and the .legend from its Markup block)",
+            "sheet": "styles/components.css#charts — .chart (fluid frame), .chart svg { width:100%; height:auto }, .chart-title, .axis / .chart text, .chart .bar + .bar-primary/.bar-success/.bar-warning (fill + grow-in), .chart .line (draw-in), .chart .point, .chart .prior, .chart .area, .chart .grid-line, .legend, .legend-item, .legend-dot",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "vue": {
+          "status": "stable",
+          "source": "frameworks/vue/components/MueChart.vue",
+          "sources": [
+            "frameworks/vue/components/MueChart.vue"
+          ],
+          "preview": "frameworks/vue/preview/gallery.html",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "tag": null,
+          "package": "mue-vue",
+          "architecture": null,
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
+          "spec": {
+            "variants": "type = bar (with an optional legend) | line (with points + a trend note); bar tones primary|success|warning",
+            "a11y": "<svg role=\"img\"> with <title> and <desc> joined by aria-labelledby; the axis labels, bar positions and the trend note carry the data so colour is never the only signal; the legend dot is aria-hidden decoration beside a text label",
+            "keyboard": "none — a chart is not interactive; it is a labelled image",
+            "dependencies": "styles/components.css#charts only — this SFC ships no CSS of its own",
+            "sheet": "styles/components.css#charts — chart, chart-title, bar, bar-primary|bar-success|bar-warning, axis, line, point, legend, legend-item, legend-dot",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "web-components": {
+          "status": "stable",
+          "source": "frameworks/web-components/components/mue-charts.js",
+          "sources": [
+            "frameworks/web-components/components/mue-charts.js"
+          ],
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "tag": "mue-charts",
+          "package": "mue-web-components",
+          "architecture": null,
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
+          "spec": {
+            "variants": "bar (single + multi-colour series), line, with legend, with caption",
+            "props": "type (bar|line), title, desc, values (csv numbers), labels (csv strings), colors (csv primary|success|warning per bar, default primary), legend (csv name=token), summary",
+            "states": "re-renders when any data attribute changes; the grow-up and line-draw animations are the sheet's and re-play on each re-render",
+            "a11y": "the svg is role=\"img\" with a <title> and <desc> joined by aria-labelledby, so a screen reader reads the chart as one labelled graphic; axis labels are real <text>, colour is never the only signal (bars carry position + label, the line carries point markers)",
+            "keyboard": "none required — the chart is a static graphic, not an interactive control, matching the vanilla preview which adds no focusable behaviour to the svg",
+            "events": "none (data-driven, no interaction to report)",
+            "responsive": "the .chart frame is a flex column with min-width:0 and the sheet sets .chart svg{width:100%;height:auto}, so the viewBox-scaled artwork shrinks to 320px untouched",
+            "dependencies": "design-tokens/engine.css, styles/components.css",
+            "ports": "components/charts/charts.html",
+            "sheet": "styles/components.css#charts — the host renders <figure class=\"chart\"><figcaption class=\"chart-title\"> + <svg viewBox=\"0 0 700 180\" role=\"img\" aria-labelledby> with <title>/<desc> and, for bars, <rect class=\"bar bar-primary|bar-success| bar-warning\"> plus <text class=\"axis\"> labels, or for a line a <polyline class=\"line\"> with <circle class=\"point\"> markers; a <div class=\"legend\"><span class=\"legend-item\"><span class= \"legend-dot\"> + label and an optional unclassed <p> caption close it. The sheet paints .bar-primary/.bar-success/.bar-warning/.point/.line/.axis/.legend; only the legend-dot colour is set inline, exactly as the vanilla page does. The vanilla caption carries class=\"value\", which no shared stylesheet defines (so it renders unstyled there), and this binding emits the same paragraph with no class rather than inventing one. No stylesheet is added.",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "svelte": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        },
+        "angular": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        }
+      },
+      "frameworkKeys": [
+        "vanilla",
+        "react",
+        "vue",
+        "web-components"
+      ],
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "ui-rating",
@@ -1461,7 +1864,142 @@ window.MUE_CATALOG = {
       "engineLinked": true,
       "breakpoints": [],
       "theming": "light + dark toggle (html.dark, persisted in localStorage)",
-      "verified": "WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01"
+      "verified": "WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01",
+      "frameworks": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/display/rating.html",
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": null,
+          "architecture": null,
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/display/rating.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues.",
+          "spec": {
+            "variants": "5 out of 5, 4 out of 5, 3.5 out of 5 with a half star, score plus review count, inline review row, keyboard-only radio group",
+            "responsive": "the group is inline-flex, so five 44px stars fit a 320px screen with room for the review count to wrap",
+            "dependencies": "design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)",
+            "sheet": "styles/components.css#rating (with #display, #fields, #badges, #utilities, #chrome) — every class below is defined there, so pasted markup arrives styled",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "react": {
+          "status": "stable",
+          "source": "frameworks/react/components/rating.jsx",
+          "sources": [
+            "frameworks/react/components/rating.jsx"
+          ],
+          "preview": "frameworks/react/preview/gallery.html",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "tag": null,
+          "package": "mue-react",
+          "architecture": null,
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
+          "spec": {
+            "variants": "5.0 / 4.0 / 3.5 star rows (the preview's three) and the five-star radio group",
+            "props": "MueRating — value (number, halves allowed), max (default 5), label (aria-label override; default \"<value> out of <max> stars\"), showValue (default true, the .rating-value number), caption (node appended after the value, e.g. the preview's \"312 reviews\"), children (appended last, e.g. a .badge), className, rest spread on the <p>. MueRatingInput — name (the form field), value (controlled) / defaultValue (uncontrolled), max, legend (.sr-only group name, default \"Rate from 1 to N stars\"), disabled, onChange(value), className, children (appended inside the fieldset), rest spread on the <fieldset>",
+            "states": "read-only (no interaction, .star.is-filled / .star.is-half derived from value) and interactive (the native radio's :checked drives the fill through the sheet's :has() rules, so React never has to paint a hover state)",
+            "a11y": "the read-only row is role=\"img\" with an aria-label that spells the score out and an aria-hidden star row, exactly as the preview argues; the input is a real <fieldset> + <legend> radio group so each star keeps its own accessible name (\"4 stars, radio button, checked\") and the chosen value is the one that submits with the form",
+            "keyboard": "Tab enters the radio group and native arrow keys move within it (Right/Up raise, Left/Down lower) with Space committing — nothing is intercepted, so the group behaves like every other radiogroup a reader already knows",
+            "events": "onChange(value: number) on the input branch (undefined when the group is cleared by a host); the read-only branch fires nothing",
+            "responsive": "both branches are inline-flex rows and the stars are fixed 44px targets, so five of them clear 390px; rendered at 1280px and 390px in the gallery",
+            "dependencies": "styles/components.css#rating + #fields (.field-helper, .sr-only) + design-tokens/engine.css (both linked by the host page); no other module in this package",
+            "ports": "components/display/rating.html (Read-only run incl. its half star, Rate-this-kit radio group run)",
+            "sheet": "styles/components.css#rating — .rating, .rating-stars, .star, .star.is-filled, .star.is-half, .rating-value, .rating-input, .rating-radio, .rating-star (44px target, focus ring via .rating-radio:focus-visible + .rating-star)",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "vue": {
+          "status": "stable",
+          "source": "frameworks/vue/components/MueRating.vue",
+          "sources": [
+            "frameworks/vue/components/MueRating.vue",
+            "frameworks/vue/components/MueRatingInput.vue"
+          ],
+          "preview": "frameworks/vue/preview/gallery.html",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "tag": null,
+          "package": "mue-vue",
+          "architecture": null,
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
+          "spec": {
+            "variants": "whole stars, a half star (is-half), score + trailing caption (e.g. \"312 reviews\"); score may be omitted / any max (default 5); the selected value is the one that submits with the form",
+            "a11y": "the <p> carries role=\"img\" and an aria-label such as \"3.5 out of 5 stars\"; the star glyphs inside are aria-hidden, so a reader states the score once rather than counting glyphs; half steps are always shown beside the numeric score / five radios in natural 1-5 DOM order so arrow keys move in the direction the stars are drawn; every input keeps a .sr-only name (\"3 stars\"), so the group reads as an ordinary radio set to assistive tech; :focus-visible rings the star, never the clipped input",
+            "keyboard": "none — a read-only rating is a labelled graphic, not a control PORTED FROM: components/display/rating.html / native radio group — Tab enters, Right/Up raise, Left/Down lower, Space commits; no JavaScript is intercepted PORTED FROM: components/display/rating.html",
+            "dependencies": "styles/components.css#rating only — this SFC ships no CSS of its own",
+            "sheet": "styles/components.css#rating — rating, rating-stars, star, star.is-filled, star.is-half, rating-value / styles/components.css#rating — rating-input (fieldset), sr-only legend, rating-radio (input), rating-star (label)",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "web-components": {
+          "status": "stable",
+          "source": "frameworks/web-components/components/mue-rating.js",
+          "sources": [
+            "frameworks/web-components/components/mue-rating.js"
+          ],
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "tag": "mue-rating",
+          "package": "mue-web-components",
+          "architecture": null,
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
+          "spec": {
+            "variants": "read-only whole, read-only half star, interactive radio group",
+            "props": "value (number), max (int, default 5), caption, label (legend text), interactive (bool), name",
+            "states": "read-only re-renders on value change (is-filled / is-half per star, aria-label updated); interactive keeps a native radio per star so :checked and the fill come from the sheet",
+            "a11y": "read-only is role=\"img\" with an aria-label that spells the score (\"3.5 out of 5 stars\") and the glyphs are aria-hidden, so a reader never counts stars; interactive is a real fieldset/legend radio group where each input carries an .sr-only name (\"3 stars\") and arrows change the value",
+            "keyboard": "interactive uses the native radio group — Tab enters it, Right/Up raise, Left/Down lower, Space commits, and the chosen value submits with the form; read-only is a graphic and takes no keys",
+            "events": "mue-change {detail:{value}} when an interactive star is chosen",
+            "responsive": "inline-flex group of 44px (--control-h) star targets; five fit a 320px line with the caption wrapping (styles/components.css#rating)",
+            "dependencies": "design-tokens/engine.css, styles/components.css",
+            "ports": "components/display/rating.html",
+            "sheet": "styles/components.css#rating (+ #utilities) — read-only mode renders <p class=\"rating\" role=\"img\" aria-label=\"N out of M stars\"><span class=\"rating-stars\" aria-hidden= \"true\"><span class=\"star is-filled|is-half\">★</span>…</span><span class=\"rating-value\">N.N</span> <span>caption</span></p>. Interactive mode renders <fieldset class=\"rating-input\"><legend class= \"sr-only\">label</legend> then, in natural 1..M order, <input class=\"rating-radio\" type=\"radio\"> + <label class=\"rating-star\"><span aria-hidden=\"true\">★</span><span class=\"sr-only\">N stars</span> </label> per step. Half steps and the fill-up-to-star are the sheet's .is-half gradient and :has() rules; the element adds no CSS.",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "svelte": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        },
+        "angular": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        }
+      },
+      "frameworkKeys": [
+        "vanilla",
+        "react",
+        "vue",
+        "web-components"
+      ],
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "ui-dialogs",
@@ -1504,7 +2042,7 @@ window.MUE_CATALOG = {
           }
         },
         "react": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/react/components/dialog.jsx",
           "sources": [
             "frameworks/react/components/dialog.jsx"
@@ -1515,7 +2053,7 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-react",
           "architecture": null,
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven",
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
           "spec": {
             "variants": "controlled only (open + onClose); width maps to the documented --modal-w override on the panel; slots: title / children / footer",
             "a11y": "role=\"dialog\", aria-modal=\"true\" and aria-labelledby on the panel; every input inside keeps its own .field-label because placeholder text is not a label; the close glyph is a real button with an aria-label; the scrim itself never receives focus; a closed overlay is inert plus visibility:hidden, so its inputs are unreachable by keyboard or screen reader; the body scrolls inside .dialog-body instead of growing the page",
@@ -1528,7 +2066,7 @@ window.MUE_CATALOG = {
           }
         },
         "vue": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/vue/components/MueDialog.vue",
           "sources": [
             "frameworks/vue/components/MueDialog.vue"
@@ -1539,7 +2077,7 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-vue",
           "architecture": null,
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven",
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
           "spec": {
             "variants": "one panel; width override belongs to the sheet's --modal-w default, no inline values",
             "a11y": "role=\"dialog\", aria-modal=\"true\", aria-labelledby -> dialog-title; closed overlay is visibility:hidden by the sheet so its inputs leave the tab order; scrim click dismisses; close button has aria-label",
@@ -1551,7 +2089,7 @@ window.MUE_CATALOG = {
           }
         },
         "web-components": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/web-components/components/mue-dialog.js",
           "sources": [
             "frameworks/web-components/components/mue-dialog.js"
@@ -1562,7 +2100,7 @@ window.MUE_CATALOG = {
           "tag": "mue-dialog",
           "package": "mue-web-components",
           "architecture": null,
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven",
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
           "spec": {
             "variants": "open (bool)",
             "props": "title, open, labelledBy (optional id override)",
@@ -1608,7 +2146,7 @@ window.MUE_CATALOG = {
         "vue",
         "web-components"
       ],
-      "supportMatrix": "react:experimental vue:experimental web-components:experimental svelte:planned angular:planned"
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "ui-popover",
@@ -1631,7 +2169,141 @@ window.MUE_CATALOG = {
       "engineLinked": true,
       "breakpoints": [],
       "theming": "light + dark toggle (html.dark, persisted in localStorage)",
-      "verified": "WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01"
+      "verified": "WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01",
+      "frameworks": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/dialogs/popover.html",
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": null,
+          "architecture": null,
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/dialogs/popover.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues.",
+          "spec": {
+            "variants": "annotation above a term, checklist surface, aligned start and end, opens below, hover-only tooltip comparison",
+            "responsive": "max-width is min(20rem, 80vw), and .popover-start / .popover-end keep a surface on a near-edge trigger inside the viewport",
+            "dependencies": "design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)",
+            "sheet": "styles/components.css#popover (with #feedback, #buttons, #badges, #utilities, #chrome) — every class below is defined there, so pasted markup arrives styled",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "react": {
+          "status": "stable",
+          "source": "frameworks/react/components/popover.jsx",
+          "sources": [
+            "frameworks/react/components/popover.jsx"
+          ],
+          "preview": "frameworks/react/preview/gallery.html",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "tag": null,
+          "package": "mue-react",
+          "architecture": null,
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
+          "spec": {
+            "variants": "title+body, title+body+list, anchored start/end for a near-edge trigger, flipped below, plus the one-line tooltip",
+            "props": "MuePopover — title (.popover-title), body (.popover-body), list (array of nodes, each an <li> with the preview's tick glyph), placement (\"above\" | \"below\" | \"start\" | \"end\", mapped to .popover-below/.popover-start/.popover-end; \"above\" writes no class), open (controlled) / defaultOpen (uncontrolled, the preview's pinned sample), onOpenChange, trigger (button content), icon (node appended inside the button), labelled (aria-label for the trigger when its text is not enough), children (appended inside the surface), surfaceId, className, wrapClassName, triggerClassName, rest spread on the surface. MueTooltip — label, below (default false), open (pins .is-visible for a screenshot or a scripted state), children (the focusable trigger), className. MuePopoverTitle / MuePopoverBody / MuePopoverList are the raw slots for hand-composed surfaces",
+            "states": "closed (the sheet keeps the surface visibility:hidden so its links leave the tab order), hover/focus-within open (pure CSS, no JS), and .is-open pinned (this binding toggles it on tap so touch users get a path the preview says the app must supply)",
+            "a11y": "the trigger is a real <button> carrying aria-describedby pointing at the surface id and aria-expanded mirroring the pinned state, the surface is role=\"note\" exactly as the preview marks it, decorative glyphs are aria-hidden, and Escape returns focus to the trigger so the keyboard user is never left on a hidden node",
+            "keyboard": "Tab reaches the trigger and the sheet's :focus-within opens the surface; while pinned open, Escape closes it and refocuses the trigger (the preview names this as the application's job). A pointer tap toggles the pinned state, which is the touch path the preview says hover cannot provide",
+            "events": "onOpenChange(open) from a tap, an outside pointerdown while pinned, or Escape; controlled when open is passed, self-managed when only defaultOpen is",
+            "responsive": ".popover is max-width min(20rem, 80vw) and .tooltip min(18rem, 80vw); anchored placements keep a near-edge trigger inside the container, which is why the preview prefers them; rendered at 1280px and 390px in the gallery",
+            "dependencies": "styles/components.css#popover + #feedback (the tooltip half) + design-tokens/engine.css (both linked by the host page); no other module in this package",
+            "ports": "components/dialogs/popover.html (Annotation-on-a-term run, Content-not-just-a-sentence run incl. .popover-list, Placements-and-pinned run, Tooltip run)",
+            "sheet": "styles/components.css#popover — .popover-wrap (+ .is-open), .popover-trigger, .popover, .popover-title, .popover-body, .popover-list, .popover-below, .popover-start, .popover-end; and #feedback — .tooltip-wrap, .tooltip, .tooltip.is-visible, .tooltip-below",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "vue": {
+          "status": "stable",
+          "source": "frameworks/vue/components/MuePopover.vue",
+          "sources": [
+            "frameworks/vue/components/MuePopover.vue"
+          ],
+          "preview": "frameworks/vue/preview/gallery.html",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "tag": null,
+          "package": "mue-vue",
+          "architecture": null,
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
+          "spec": {
+            "variants": "placement via props.placement = space-separated start|end|below; content is text or an optional checklist (items)",
+            "a11y": "the trigger is a real <button> that points at the surface with aria-describedby (the note is announced with the control); the surface is role=\"note\"; a closed surface is visibility:hidden by the sheet, so its links leave the tab order",
+            "keyboard": "hover/Tab-open is pure CSS (:hover, :focus-within). This binding adds the tap/pin path the sheet exposes via .is-open: Enter/Space on the trigger toggles it, Escape closes and returns focus to the trigger, and an outside click dismisses PORTED FROM: components/dialogs/popover.html",
+            "dependencies": "styles/components.css#popover only — this SFC ships no CSS of its own",
+            "sheet": "styles/components.css#popover — popover-wrap, popover-wrap.is-open, popover-trigger, popover, popover-below, popover-start, popover-end, popover-title, popover-body, popover-list",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "web-components": {
+          "status": "stable",
+          "source": "frameworks/web-components/components/mue-popover.js",
+          "sources": [
+            "frameworks/web-components/components/mue-popover.js"
+          ],
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "tag": "mue-popover",
+          "package": "mue-web-components",
+          "architecture": null,
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
+          "spec": {
+            "variants": "default (opens above), below, start-anchored, end-anchored, pinned open (.is-open), titled note, checklist surface (author supplies .popover-list children)",
+            "props": "trigger (button text), placement (csv of below|start|end), icon (info|region|check), open (bool)",
+            "states": ".is-open on the wrap is the one class the sheet already turns into a visible surface; toggled by click, cleared by Escape or click-outside",
+            "a11y": "the trigger is a real <button> that points at the surface via aria-describedby so the note is announced with the control; the closed surface is visibility:hidden so its links leave the tab order until it opens; the surface keeps role=\"note\"",
+            "keyboard": "Tab to the trigger opens it through the sheet's :focus-within; Escape closes a click-opened surface and returns focus to the trigger",
+            "events": "mue-open {detail:{trigger}}, mue-close {detail:{reason:'toggle'|'escape'|'outside'}}",
+            "responsive": "surface max-width is min(20rem,80vw) and .popover-start/.popover-end keep a panel on a near-edge trigger inside the viewport (styles/components.css#popover)",
+            "dependencies": "design-tokens/engine.css, styles/components.css",
+            "ports": "components/dialogs/popover.html",
+            "sheet": "styles/components.css#popover — the host renders <span class=\"popover-wrap\"> <button class=\"popover-trigger\" type=\"button\" aria-describedby> + <span class=\"popover\" role= \"note\"> (+ .popover-below/.popover-start/.popover-end from the placement attribute); author children move into the surface, so .popover-title/.popover-body/.popover-list markup the author writes is preserved. Reveal is pure CSS: :hover, :focus-within and .is-open all open the same surface; the element only toggles .is-open for tap/scripted use. Adds no CSS.",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "svelte": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        },
+        "angular": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        }
+      },
+      "frameworkKeys": [
+        "vanilla",
+        "react",
+        "vue",
+        "web-components"
+      ],
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "ui-modals",
@@ -1650,7 +2322,143 @@ window.MUE_CATALOG = {
       "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
       "variants": [
         "Create item modal"
-      ]
+      ],
+      "frameworks": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/modals/modals.html",
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": null,
+          "architecture": null,
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/modals/modals.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues.",
+          "spec": {
+            "variants": "Create item modal (form modal)",
+            "responsive": "width is min(35rem,100%) and the body scrolls inside max-height 85vh; below 640px the sheet turns it into a bottom sheet with stretched footer buttons",
+            "dependencies": "design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)",
+            "sheet": "styles/components.css#overlays (with #buttons, #fields) — every class below is defined there, so pasted markup arrives styled",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "react": {
+          "status": "stable",
+          "source": "frameworks/react/components/modal.jsx",
+          "sources": [
+            "frameworks/react/components/modal.jsx",
+            "frameworks/react/components/dialog.jsx"
+          ],
+          "preview": "frameworks/react/preview/gallery.html",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "tag": null,
+          "package": "mue-react",
+          "architecture": null,
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
+          "spec": {
+            "variants": "the create-item form modal the preview ships (title + body + Cancel/Create footer) and a slotless body-only panel for anything that does not need a header / controlled only (open + onClose); width maps to the documented --modal-w override on the panel; slots: title / children / footer",
+            "props": "open (controlled) / defaultOpen (uncontrolled), onClose and onOpenChange(next), trigger (node — when given, the binding renders the preview's aria-haspopup=\"dialog\" opener for you), triggerVariant (default \"primary\", mapped to the sheet's btn-* set), triggerClassName, title, labelledBy, id (panel id, defaults to a useId() one; the trigger's aria-controls points at it), width (the documented --modal-w value, e.g. \"35rem\"; the sheet defaults to 32rem), closeLabel (default \"Close dialog\"), footer (node rendered in .modal-footer), className, children (.modal-body content), overlayProps spread on the .overlay, plus the remaining rest spread on the panel",
+            "states": "closed (overlay without .is-open, so the sheet hides it AND this binding marks it inert), open (focus inside, page scroll locked, scrim live), scrim-click and close-button dismiss both call onClose",
+            "a11y": "role=\"dialog\", aria-modal=\"true\", aria-labelledby on the panel; the title target is an <h2> so the panel is reachable in the heading outline (documented deviation from the preview's <span class=\"modal-title\">); the close glyph is a real button with an aria-label; the scrim never receives focus; a closed overlay is inert plus visibility:hidden so its inputs are unreachable; the body scrolls inside .modal-body instead of growing the page, and the footer stays pinned exactly as the preview describes / role=\"dialog\", aria-modal=\"true\" and aria-labelledby on the panel; every input inside keeps its own .field-label because placeholder text is not a label; the close glyph is a real button with an aria-label; the scrim itself never receives focus; a closed overlay is inert plus visibility:hidden, so its inputs are unreachable by keyboard or screen reader; the body scrolls inside .dialog-body instead of growing the page",
+            "keyboard": "Escape closes (document-level, capture phase, while open — the same listener shape styles/mue.js uses); Tab cycles the panel's visible focusables and wraps at both ends; on open focus moves to the first visible control inside the panel on the next frame; on close focus returns to whatever had it before (the trigger, in the uncontrolled case); page scroll is locked with html.mue-locked for as long as the modal is open / Escape closes (document-level while open, like the shared script); Tab cycles the panel and wraps at both ends; focus moves to the first visible control on open and returns to the trigger on close; page scroll is locked with html.mue-locked for as long as the dialog is open",
+            "events": "onClose() from Escape, the scrim, the close button and any footer button the host wires; onOpenChange(next) fires for both directions; controlled when open is passed, self-managed when only defaultOpen is",
+            "responsive": "the panel is width:min(--modal-w, 100%) and the sheet turns it into a bottom sheet under 640px; rendered at 1280px and 390px in the gallery",
+            "dependencies": "styles/components.css#overlays (with #buttons, #fields, #utilities) + design-tokens/engine.css + the html.mue-locked scroll lock in engine.css (all linked by the host page); no other module in this package / styles/components.css#overlays (with #buttons, #fields) + design-tokens/engine.css + the html.mue-locked scroll lock in engine.css (linked by the host page)",
+            "ports": "components/modals/modals.html (Create-item modal: trigger, panel, .stack of .field blocks, pinned footer) and the focus-trap behaviour styles/mue.js runs on [data-dialog]/[data-open]/[data-close] there / components/modals/modals.html (form modal, focus trap, scrim dismiss)",
+            "sheet": "styles/components.css#overlays — .overlay + .is-open, .modal (shared panel rules with .dialog), .modal-header, .modal-title, .modal-body, .modal-footer, .modal-close, the --modal-w knob, the <640px bottom-sheet treatment, and .overlay:not(.is-open) which is what takes a closed modal out of the tab order / styles/components.css#overlays — .overlay .is-open .dialog .dialog-header .dialog-title .dialog-body .dialog-footer .dialog-close; .overlay:not(.is-open) is what takes a closed dialog out of the tab order",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "vue": {
+          "status": "stable",
+          "source": "frameworks/vue/components/MueModal.vue",
+          "sources": [
+            "frameworks/vue/components/MueModal.vue",
+            "frameworks/vue/components/MueDialog.vue"
+          ],
+          "preview": "frameworks/vue/preview/gallery.html",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "tag": null,
+          "package": "mue-vue",
+          "architecture": null,
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
+          "spec": {
+            "variants": "one panel; width belongs to the sheet's --modal-w default (the preview passes 35rem via the modalWidth prop, a value not a class) / one panel; width override belongs to the sheet's --modal-w default, no inline values",
+            "a11y": "role=\"dialog\", aria-modal=\"true\", aria-labelledby -> modal-title; a closed overlay is visibility:hidden by the sheet so its inputs leave the tab order; scrim click dismisses; close button has aria-label / role=\"dialog\", aria-modal=\"true\", aria-labelledby -> dialog-title; closed overlay is visibility:hidden by the sheet so its inputs leave the tab order; scrim click dismisses; close button has aria-label",
+            "keyboard": "Escape closes; Tab cycles the panel wrapping at both ends; focus lands on the first control when opened and returns to the previously focused element when closed (ported from styles/mue.js initDialogs) PORTED FROM: components/modals/modals.html + styles/mue.js#dialogs",
+            "dependencies": "styles/components.css#overlays (overlay/modal/header/title/body/footer/close) + #buttons, #fields — this SFC ships no CSS of its own / styles/components.css#overlays (overlay/dialog/header/title/body/footer/close) + design-tokens/engine.css html.mue-locked scroll lock",
+            "sheet": "styles/components.css#overlays — overlay.is-open, modal, modal-header, modal-title, modal-body, modal-footer, modal-close / styles/components.css#overlays — overlay.is-open, dialog, dialog-header, dialog-title, dialog-body, dialog-footer, dialog-close",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "web-components": {
+          "status": "stable",
+          "source": "frameworks/web-components/components/mue-modals.js",
+          "sources": [
+            "frameworks/web-components/components/mue-modals.js"
+          ],
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "tag": "mue-modals",
+          "package": "mue-web-components",
+          "architecture": null,
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
+          "spec": {
+            "variants": "form modal (create item), width override, footer action set",
+            "props": "title, open (bool), width (CSS length, applied as --modal-w inline)",
+            "states": ".is-open on the overlay is the single visible state the sheet knows; html.mue-locked (design-tokens/engine.css) locks page scroll while open, matching styles/mue.js",
+            "a11y": "role=\"dialog\" + aria-modal=\"true\" + aria-labelledby to the title; the close glyph carries an aria-label; the scrim never receives focus; every input is labelled in the body — placeholder is never the label",
+            "keyboard": "Escape closes; Tab / Shift+Tab are trapped and wrap inside the panel; focus moves to the first control on open and returns to the opener on close",
+            "events": "mue-open {detail:{title}}, mue-close {detail:{reason:'escape'|'close'|'scrim'|'footer'}}",
+            "responsive": "panel width is min(--modal-w,100%) and the body scrolls inside max-height 85vh; below 640px the sheet turns it into a bottom sheet with stretched footer buttons (components.css#overlays)",
+            "dependencies": "design-tokens/engine.css, styles/components.css",
+            "ports": "components/modals/modals.html",
+            "sheet": "styles/components.css#overlays — the host renders <div class=\"overlay\"><div class=\"modal\" role=\"dialog\" aria-modal=\"true\" aria-labelledby [--modal-w?]> <div class=\"modal-header\"><span class=\"modal-title\">+<button class=\"modal-close\">·</div><div class=\"modal-body\">…author children…</div><div class=\"modal-footer\">[slot=footer]</div></div></div>. A <button slot=\"trigger\"> stays outside the overlay (a real opener). Closed overlays are visibility:hidden in the sheet, so the form leaves the tab order; the element never sets --modal-w unless the width attribute is given, exactly as the vanilla panel override does. Adds no CSS.",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "svelte": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        },
+        "angular": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        }
+      },
+      "frameworkKeys": [
+        "vanilla",
+        "react",
+        "vue",
+        "web-components"
+      ],
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "ui-dropdowns",
@@ -1692,7 +2500,7 @@ window.MUE_CATALOG = {
           }
         },
         "react": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/react/components/dropdown.jsx",
           "sources": [
             "frameworks/react/components/dropdown.jsx"
@@ -1703,7 +2511,7 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-react",
           "architecture": null,
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven",
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
           "spec": {
             "variants": "triggerVariant=primary|secondary|outline|ghost|danger|success|link, rows with or without an inline SVG icon, divider, danger row",
             "a11y": "the trigger is a real button with aria-haspopup=\"true\" and aria-expanded kept in sync; rows are real focusable buttons inside <ul class=\"dropdown-menu\"> so the 44px row and the tint hover arrive together; a closed menu is aria-hidden=\"true\" and inert, which is also the state the sheet keys its opening transition off; decorative icons are aria-hidden and the label carries the meaning; opening moves focus to the first row, exactly like the shared script",
@@ -1716,7 +2524,7 @@ window.MUE_CATALOG = {
           }
         },
         "vue": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/vue/components/MueDropdown.vue",
           "sources": [
             "frameworks/vue/components/MueDropdown.vue"
@@ -1727,7 +2535,7 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-vue",
           "architecture": null,
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven",
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
           "spec": {
             "variants": "items = [{label, danger?, divider?}] or strings; trigger row is a btn-outline (variant via prop)",
             "a11y": "aria-haspopup=\"true\" on the trigger; aria-expanded kept in sync; menu aria-hidden mirrored; rows are real buttons so focus + 44px row + tint arrive together; icons stay aria-hidden (put them in the label slot)",
@@ -1739,7 +2547,7 @@ window.MUE_CATALOG = {
           }
         },
         "web-components": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/web-components/components/mue-dropdown.js",
           "sources": [
             "frameworks/web-components/components/mue-dropdown.js"
@@ -1750,7 +2558,7 @@ window.MUE_CATALOG = {
           "tag": "mue-dropdown",
           "package": "mue-web-components",
           "architecture": null,
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven",
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
           "spec": {
             "variants": "variant (trigger button)=primary|secondary|outline|ghost|danger|success, label",
             "props": "label, variant, open",
@@ -1796,7 +2604,7 @@ window.MUE_CATALOG = {
         "vue",
         "web-components"
       ],
-      "supportMatrix": "react:experimental vue:experimental web-components:experimental svelte:planned angular:planned"
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "ui-notifications",
@@ -1839,7 +2647,7 @@ window.MUE_CATALOG = {
           }
         },
         "react": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/react/components/notification.jsx",
           "sources": [
             "frameworks/react/components/notification.jsx"
@@ -1850,7 +2658,7 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-react",
           "architecture": null,
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven",
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
           "spec": {
             "variants": "MueAlert (success|error|warning|info, static in place) and MueToast (success|error|warning|info|danger, dismissible, auto-dismiss), composed with MueToastStack / MueToastRegion",
             "a11y": "both carry role=\"alert\" so the text is announced, exactly like the preview; the icon glyph is decorative and aria-hidden with a text title beside it, so meaning is icon + words and never colour alone; the dismiss control is a real button with aria-label=\"Dismiss\" and the sheet's focus ring; nothing here steals focus, so a toast never traps the keyboard; MueToastRegion is position:fixed in the sheet and stays pointer-events:none except on the toasts themselves",
@@ -1863,7 +2671,7 @@ window.MUE_CATALOG = {
           }
         },
         "vue": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/vue/components/MueNotification.vue",
           "sources": [
             "frameworks/vue/components/MueNotification.vue"
@@ -1874,7 +2682,7 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-vue",
           "architecture": null,
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven",
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
           "spec": {
             "variants": "mode = alert (static, inline) | toast (animated, dismisses); variant = success|error|warning|info (toast also supports danger)",
             "a11y": "role=\"alert\" so the text is announced; icon is decorative (aria-hidden) with a text title beside it; the dismiss control is a real button with aria-label; a toast never steals focus",
@@ -1886,7 +2694,7 @@ window.MUE_CATALOG = {
           }
         },
         "web-components": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/web-components/components/mue-notification.js",
           "sources": [
             "frameworks/web-components/components/mue-notification.js"
@@ -1897,7 +2705,7 @@ window.MUE_CATALOG = {
           "tag": "mue-notification",
           "package": "mue-web-components",
           "architecture": null,
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven",
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
           "spec": {
             "variants": "type=alert|toast, variant=success|error|danger|warning|info, solid n/a",
             "props": "type, variant, title, message, open (toast visibility), timeout (ms; toast auto-dismiss only when set — no duration is hardcoded in the component)",
@@ -1943,7 +2751,7 @@ window.MUE_CATALOG = {
         "vue",
         "web-components"
       ],
-      "supportMatrix": "react:experimental vue:experimental web-components:experimental svelte:planned angular:planned"
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "ui-footers",
@@ -1965,7 +2773,141 @@ window.MUE_CATALOG = {
       "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
       "variants": [
         "Default"
-      ]
+      ],
+      "frameworks": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/footers/footers.html",
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": null,
+          "architecture": null,
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/footers/footers.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues.",
+          "spec": {
+            "variants": "Default (multi-column + bottom bar)",
+            "responsive": "columns auto-fit from ~11rem and wrap as the width narrows — no fixed breakpoint needed",
+            "dependencies": "design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)",
+            "sheet": "styles/components.css#footers — .footer (auto-fit column grid), .footer-heading and .footer-links live there",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "react": {
+          "status": "stable",
+          "source": "frameworks/react/components/footer.jsx",
+          "sources": [
+            "frameworks/react/components/footer.jsx"
+          ],
+          "preview": "frameworks/react/preview/gallery.html",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "tag": null,
+          "package": "mue-react",
+          "architecture": null,
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
+          "spec": {
+            "variants": "full marketing footer (brand + columns + bottom bar) or a bare footer of link columns; a social entry with an inline SVG keeps its aria-label, and one without falls back to the two-letter label text the preview uses",
+            "props": "MueFooter — brand, desc, columns (array of {title, links:[{label, href, onClick?}]}), bottom (node or string), social (array of {label, href, icon?}), as (\"footer\" | \"div\", default footer), className, plus any other prop spread on the landmark. Slots: MueFooterColumn (title, links), MueFooterLinks (links), MueFooterBrand (as, default div like the preview), MueFooterDesc, MueFooterBottom, MueFooterSocial",
+            "states": "hover and focus recolour on every link are the sheet's rules; there is no component state to carry",
+            "a11y": "a semantic <footer> landmark by default (role=\"contentinfo\" comes with it); each column's links are a <ul class=\"footer-links\"> under a heading that is a real <h2 class=\"footer-heading\"> scoped by aria-labelledby on the list; social cells are links whose accessible name is the network, never the glyph; the copyright line is text",
+            "keyboard": "every link is a native anchor — Tab reaches them in reading order, Enter follows, focus-visible rings come from the sheet; nothing is intercepted",
+            "events": "none invented; onClick can be passed per link through the item object",
+            "responsive": "the grid is auto-fit at a ~11rem minimum, so four columns drop to one without a breakpoint; the bottom bar spans the grid and wraps its two halves; rendered at 1280px and 390px in the gallery",
+            "dependencies": "styles/components.css#footers (with #utilities for .sr-only) + design-tokens/engine.css (both linked by the host page); no other module in this package",
+            "ports": "components/footers/footers.html (Default: brand block, three link columns, bottom bar with social)",
+            "sheet": "styles/components.css#footers — .footer/.site-footer (auto-fit column grid), .footer-heading, .footer-links, .footer-brand, .footer-desc, .footer-bottom, .footer-social",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "vue": {
+          "status": "stable",
+          "source": "frameworks/vue/components/MueFooter.vue",
+          "sources": [
+            "frameworks/vue/components/MueFooter.vue"
+          ],
+          "preview": "frameworks/vue/preview/gallery.html",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "tag": null,
+          "package": "mue-vue",
+          "architecture": null,
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
+          "spec": {
+            "variants": "brand block + data-driven link columns + a bottom bar with copyright and social links; every part is optional",
+            "a11y": "semantic <footer> landmark; link columns are real <ul>/<a>; a social chip keeps its short visible code and adds an .sr-only expansion of the service name, because an aria-label that drops the visible text fails WCAG 2.5.3 (label in name)",
+            "keyboard": "none beyond native link focus — the sheet lays the columns in an auto-fit grid, so this adds no behaviour PORTED FROM: components/footers/footers.html",
+            "dependencies": "styles/components.css#footers only — this SFC ships no CSS of its own",
+            "sheet": "styles/components.css#footers — footer, footer-brand, footer-desc, footer-heading, footer-links, footer-bottom, footer-social",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "web-components": {
+          "status": "stable",
+          "source": "frameworks/web-components/components/mue-footer.js",
+          "sources": [
+            "frameworks/web-components/components/mue-footer.js"
+          ],
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "tag": "mue-footer",
+          "package": "mue-web-components",
+          "architecture": null,
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
+          "spec": {
+            "variants": "default multi-column with bottom bar and social row",
+            "props": "brand, desc, copyright, columns (JSON array of {title, links:[{label,href}]}), social (JSON array of {label, href, text}), label (landmark name)",
+            "states": "re-renders whenever any content attribute changes, so a page can update links without a rebuild — the auto-fit grid itself is the sheet's responsive behaviour",
+            "a11y": "a single contentinfo landmark; the brand and copyright are text, every column link and social link is a real <a href>; social glyphs carry an aria-label so they are not colour/letter-only",
+            "keyboard": "plain links — Tab reaches each column and social link in DOM order; nothing is trapped",
+            "events": "none (a static landmark; the only \"behaviour\" is attribute-driven re-render)",
+            "responsive": "the .footer grid is auto-fit from ~11rem so columns collapse four → one as the width narrows with no breakpoint; the bottom bar spans 1/-1 (components.css#footers)",
+            "dependencies": "design-tokens/engine.css, styles/components.css",
+            "ports": "components/footers/footers.html",
+            "sheet": "styles/components.css#footers — the host upgrades itself to <footer class=\"footer\" role=\"contentinfo\"> and emits a brand block (div.footer-brand + p.footer-desc), one column per entry (div.footer-heading + ul.footer-links > li > a) and a bottom bar (div.footer-bottom > span + div.footer-social > a + span.sr-only). .footer, .footer-heading, .footer-links, .footer-brand, .footer-desc, .footer-bottom and .footer-social are all defined in the shared sheet; the element adds no CSS.",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "svelte": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        },
+        "angular": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        }
+      },
+      "frameworkKeys": [
+        "vanilla",
+        "react",
+        "vue",
+        "web-components"
+      ],
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "fb-progress",
@@ -1986,7 +2928,141 @@ window.MUE_CATALOG = {
         "Determinate",
         "Indeterminate",
         "Interactive demo"
-      ]
+      ],
+      "frameworks": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/feedback/progress.html",
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": null,
+          "architecture": null,
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/feedback/progress.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues.",
+          "spec": {
+            "variants": "Determinate, Indeterminate, Interactive demo",
+            "responsive": "tracks are 100% width and the buttons wrap, so nothing overflows at 320px",
+            "dependencies": "design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)",
+            "sheet": "styles/components.css#feedback — every class below is defined there, so pasted markup arrives styled",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "react": {
+          "status": "stable",
+          "source": "frameworks/react/components/progress.jsx",
+          "sources": [
+            "frameworks/react/components/progress.jsx"
+          ],
+          "preview": "frameworks/react/preview/gallery.html",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "tag": null,
+          "package": "mue-react",
+          "architecture": null,
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
+          "spec": {
+            "variants": "a bare .track, and .progress-group with the .progress-label row (name on one side, .percent on the other) exactly as the preview draws it",
+            "props": "value, min (default 0), max (default 100), tone (\"success\" | \"warning\" | none — any other string is ignored so no undefined class is emitted), striped, indeterminate, label (aria-label for a lone track), labelId (aria-labelledby, set for you by MueProgressGroup), showPercent (default true), className, plus any other prop spread on the role=\"progressbar\" element",
+            "states": "determinate (aria-valuenow tracks the clamped value), indeterminate (no aria-valuenow, the sheet sweeps the bar itself), success / warning / striped tones on the track",
+            "a11y": "role=\"progressbar\" with aria-valuemin/valuemax always and aria-valuenow only when the value is measurable; the visible name is the .progress-label span wired by aria-labelledby (the preview's own pairing) or aria-label for a lone track; the percent text and the label mean the state is never colour-only",
+            "keyboard": "none intercepted — a progress bar is not an interactive control; the demo buttons in the gallery are ordinary <button>s so Tab/Enter reach them",
+            "events": "no DOM events of its own; value is a plain prop, so the host re-renders it (the preview's [data-progress] click handler becomes a useState + onClick in the gallery)",
+            "responsive": "the track is width:100% and the label row is a flex pair, so nothing overflows at 390px; rendered at 1280px and 390px in the gallery",
+            "dependencies": "styles/components.css#feedback + design-tokens/engine.css (both linked by the host page); no other module in this package",
+            "ports": "components/feedback/progress.html (Determinate run, Indeterminate run, Interactive demo run)",
+            "sheet": "styles/components.css#feedback — .progress/.track, .track > .bar { width: var(--value, 0%) }, .progress-success, .progress-warning, .progress-striped, .progress-indeterminate, .progress-group, .progress-label, .progress-label .percent",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "vue": {
+          "status": "stable",
+          "source": "frameworks/vue/components/MueProgress.vue",
+          "sources": [
+            "frameworks/vue/components/MueProgress.vue"
+          ],
+          "preview": "frameworks/vue/preview/gallery.html",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "tag": null,
+          "package": "mue-vue",
+          "architecture": null,
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
+          "spec": {
+            "variants": "determinate (value drives --value), success, warning, striped, indeterminate (no value)",
+            "a11y": "role=\"progressbar\" with aria-valuenow/min/max updated live; the label is associated via aria-labelledby; indeterminate uses aria-label only; the percent number is shown so state never rides on colour alone",
+            "keyboard": "none — this is a status readout. The parent demo drives the value, matching the preview's button row PORTED FROM: components/feedback/progress.html",
+            "dependencies": "styles/components.css#feedback only — this SFC ships no CSS of its own",
+            "sheet": "styles/components.css#feedback — progress-group, progress-label, percent, track, bar, progress-success, progress-warning, progress-striped, progress-indeterminate",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "web-components": {
+          "status": "stable",
+          "source": "frameworks/web-components/components/mue-progress.js",
+          "sources": [
+            "frameworks/web-components/components/mue-progress.js"
+          ],
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "tag": "mue-progress",
+          "package": "mue-web-components",
+          "architecture": null,
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
+          "spec": {
+            "variants": "determinate (primary / success / warning / striped), indeterminate",
+            "props": "label, value, min (default 0), max (default 100), variant (primary|success|warning), striped (bool), indeterminate (bool)",
+            "states": "setting value re-paints the SAME bar so the sheet's width transition runs; percent text and aria-valuenow track the value; indeterminate has no value",
+            "a11y": "role=\"progressbar\" with aria-valuenow/valuemin/valuemax updated as the value changes; the percent label is joined by aria-labelledby; colour is never the only signal (label + number say it)",
+            "keyboard": "none — a progress indicator is a live region, not a control",
+            "events": "mue-change {detail:{value, percent}} when the value property or attribute changes",
+            "responsive": "tracks are 100% wide and fill via --value, so nothing overflows at 320px",
+            "dependencies": "design-tokens/engine.css, styles/components.css",
+            "ports": "components/feedback/progress.html",
+            "sheet": "styles/components.css#feedback — determinate renders <div class=\"progress-group\"><div class=\"progress-label\"><span id>+<span class=\"percent\"></div><div class=\"track\" role=\"progressbar\" aria-labelledby aria-valuenow/min/max>(+.progress-success/.progress-warning/.progress-striped from variant/striped)<div class=\"bar\" style=\"--value:N%\"></div></div></div>. Indeterminate renders a bare <div class=\"track progress-indeterminate\" role=\"progressbar\" aria-label><div class=\"bar\">. The bar fill, success/warning colours, the striped overlay and the indeterminate sweep are all in the sheet; only --value is set inline, exactly as the vanilla bar does. No CSS is added.",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "svelte": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        },
+        "angular": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        }
+      },
+      "frameworkKeys": [
+        "vanilla",
+        "react",
+        "vue",
+        "web-components"
+      ],
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "fb-skeleton",
@@ -2007,7 +3083,141 @@ window.MUE_CATALOG = {
         "Card skeleton",
         "List skeleton",
         "Button skeleton"
-      ]
+      ],
+      "frameworks": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/feedback/skeleton.html",
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": null,
+          "architecture": null,
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/feedback/skeleton.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues.",
+          "spec": {
+            "variants": "Card skeleton, List skeleton, Button skeleton",
+            "responsive": "shapes are fluid (percent widths inside a flexible row), so they never overflow at 320px",
+            "dependencies": "design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)",
+            "sheet": "styles/components.css#feedback — every class below is defined there, so pasted markup arrives styled",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "react": {
+          "status": "stable",
+          "source": "frameworks/react/components/skeleton.jsx",
+          "sources": [
+            "frameworks/react/components/skeleton.jsx"
+          ],
+          "preview": "frameworks/react/preview/gallery.html",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "tag": null,
+          "package": "mue-react",
+          "architecture": null,
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
+          "spec": {
+            "variants": "the three the preview demos: a .card holding .skeleton-img + .skeleton-body, a .skeleton-row holding an avatar and a .stack of lines, and a lone .skeleton-btn",
+            "props": "MueSkeleton — shape (text|title|avatar|img|btn|row|body, default text; any other string falls back to the bare .skeleton so no undefined class is emitted), width (the preview's own inline style=\"width:40%\" knob, only a length string), className, children, rest spread on the div; MueSkeletonBody — children; MueSkeletonRow — avatar (default true), lines (default 2), children; MueSkeletonCard — lines (default 2), children",
+            "states": "loading only — the host swaps the skeleton for real content; the shimmer is a ::after sweep owned by the sheet",
+            "a11y": "every shape is aria-hidden because it carries no meaning, and the composite wrappers expose the loading state through the host's live region — the preview's advice is to announce loading with aria-live=\"polite\", so MueSkeletonBody accepts role/aria-live props via rest",
+            "keyboard": "none — a skeleton is inert placeholder content and nothing is focusable inside it",
+            "events": "none",
+            "responsive": "shapes are fluid (percent widths inside a flex row) so they never overflow at 390px; rendered at 1280px and 390px in the gallery",
+            "dependencies": "styles/components.css#feedback + design-tokens/engine.css (both linked by the host page); no other module in this package",
+            "ports": "components/feedback/skeleton.html (Card skeleton run, List skeleton run, Button skeleton run)",
+            "sheet": "styles/components.css#feedback — .skeleton (shimmer block), .skeleton-text, .skeleton-title, .skeleton-avatar, .skeleton-img, .skeleton-btn, .skeleton-row, .skeleton-body, plus .card and .stack from the same sheet for the composites",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "vue": {
+          "status": "stable",
+          "source": "frameworks/vue/components/MueSkeleton.vue",
+          "sources": [
+            "frameworks/vue/components/MueSkeleton.vue"
+          ],
+          "preview": "frameworks/vue/preview/gallery.html",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "tag": null,
+          "package": "mue-vue",
+          "architecture": null,
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
+          "spec": {
+            "variants": "card (image + body lines), list (avatar + two-line stack), button, and a bare text/title line via lines count",
+            "a11y": "root carries role=\"status\" and an aria-label (\"Loading\"), the placeholder shapes are aria-hidden so a reader hears one announcement, not a list of bars",
+            "keyboard": "none — a skeleton is inert. Swap it for real content when data arrives, keeping the same layout to avoid shift PORTED FROM: components/feedback/skeleton.html",
+            "dependencies": "styles/components.css#feedback (+ #cards, #utilities for the card/list frames) — this SFC ships no CSS of its own",
+            "sheet": "styles/components.css#feedback — skeleton, skeleton-img, skeleton-body, skeleton-title, skeleton-text, skeleton-avatar, skeleton-btn, skeleton-row",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "web-components": {
+          "status": "stable",
+          "source": "frameworks/web-components/components/mue-skeleton.js",
+          "sources": [
+            "frameworks/web-components/components/mue-skeleton.js"
+          ],
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "tag": "mue-skeleton",
+          "package": "mue-web-components",
+          "architecture": null,
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
+          "spec": {
+            "variants": "text, title, avatar, img, btn, row (list item), card",
+            "props": "variant (default text), width (optional CSS length, inline width override)",
+            "states": "a purely static placeholder — swaps shapes when the variant attribute changes; the shimmer run/stop is the sheet's (and pauses under prefers-reduced-motion)",
+            "a11y": "the placeholders are decorative (aria-hidden=\"true\"), so a reader hears the loading message or the real content, not a pile of empty boxes; the vanilla page lists aria-live as guidance for the container that swaps them in, which is not implemented by this element",
+            "keyboard": "none — a non-interactive placeholder",
+            "events": "none",
+            "responsive": "shapes use fluid/percent widths inside a flexible row, so they never overflow at 320px",
+            "dependencies": "design-tokens/engine.css, styles/components.css",
+            "ports": "components/feedback/skeleton.html",
+            "sheet": "styles/components.css#feedback — atomic shapes set the host to class=\"skeleton skeleton-text| skeleton-title|skeleton-avatar|skeleton-img|skeleton-btn\"; variant=row renders <div class=\"row skeleton-row\"><div class=\"skeleton skeleton-avatar\"></div><div class=\"stack\">title + text + 40% text</div></div>; variant=card renders <div class=\"card\"><div class=\"skeleton skeleton-img\"></div><div class=\"skeleton-body\">title + text + 40% text</div></div>. The shimmer (.skeleton::after), each shape size, .skeleton-row, .stack, .row and .card are all in the sheet; only an optional width override is inline, mirroring the vanilla's width:40% blocks. No CSS added.",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "svelte": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        },
+        "angular": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        }
+      },
+      "frameworkKeys": [
+        "vanilla",
+        "react",
+        "vue",
+        "web-components"
+      ],
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "fb-empty",
@@ -2027,7 +3237,141 @@ window.MUE_CATALOG = {
       "variants": [
         "No results found",
         "Get started"
-      ]
+      ],
+      "frameworks": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/feedback/empty-state.html",
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": null,
+          "architecture": null,
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/feedback/empty-state.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues.",
+          "spec": {
+            "variants": "No results found, Get started",
+            "responsive": "the panel is capped at 420px and centered; it shrinks with the viewport and never overflows at 320px",
+            "dependencies": "design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)",
+            "sheet": "styles/components.css#feedback — every class below is defined there, so pasted markup arrives styled",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "react": {
+          "status": "stable",
+          "source": "frameworks/react/components/empty-state.jsx",
+          "sources": [
+            "frameworks/react/components/empty-state.jsx"
+          ],
+          "preview": "frameworks/react/preview/gallery.html",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "tag": null,
+          "package": "mue-react",
+          "architecture": null,
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
+          "spec": {
+            "variants": "with/without icon, with/without description, one action or two (the preview demos a \"Browse all\" primary plus a \"Clear filters\" outline)",
+            "props": "title, desc, icon (node — the preview uses an aria-hidden glyph/emoji here), actions (node or array of nodes, wrapped in .row), variant (\"empty\" | \"empty-state\", default \"empty\" — the class the preview's own copy-paste markup uses; both are the same rule in the sheet), role (default \"status\", pass null for a purely decorative panel), label (aria-label, default \"Empty state\"), className, children (appended after the actions, for anything extra the preview's markup allowed), plus any other prop spread on the panel",
+            "states": "empty only — the host renders it when its data set has nothing to show; the entrance fade is owned by the sheet",
+            "a11y": "role=\"status\" so a screen reader is told when the list empties, aria-label=\"Empty state\" names the panel exactly as the preview does, the icon is aria-hidden because the meaning is in the title and description, and every action is a real <button> or <a role=\"button\">",
+            "keyboard": "none intercepted — the actions keep native Tab order and Enter/Space activation",
+            "events": "none of its own; onClick/onKeyDown belong to whatever nodes are passed as actions",
+            "responsive": "the panel is a centred flex column and .empty-desc is capped at 42ch, so the text wraps rather than overflowing at 390px; rendered at 1280px and 390px in the gallery",
+            "dependencies": "styles/components.css#feedback + #buttons + #utilities + design-tokens/engine.css (all linked by the host page); no other module in this package",
+            "ports": "components/feedback/empty-state.html (No results run, First-time use run)",
+            "sheet": "styles/components.css#feedback — .empty-state and .empty (one shared rule set: dashed card, centred column, mue-fade-in entrance), .empty-icon, .empty-title, .empty-desc, and the .row the preview puts the actions in",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "vue": {
+          "status": "stable",
+          "source": "frameworks/vue/components/MueEmptyState.vue",
+          "sources": [
+            "frameworks/vue/components/MueEmptyState.vue"
+          ],
+          "preview": "frameworks/vue/preview/gallery.html",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "tag": null,
+          "package": "mue-vue",
+          "architecture": null,
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
+          "spec": {
+            "variants": "no-results and first-time-use; the icon is an emoji glyph or a slotted SVG; actions are slotted buttons",
+            "a11y": "role=\"status\" with an aria-label; the decorative icon is aria-hidden so meaning lives in the title + description; actions are real buttons in the default slot",
+            "keyboard": "none added — every escape-route is a native button, so it is reachable by Tab PORTED FROM: components/feedback/empty-state.html",
+            "dependencies": "styles/components.css#feedback (+ #buttons, #utilities for the action row) — this SFC ships no CSS of its own",
+            "sheet": "styles/components.css#feedback — empty, empty-icon, empty-title, empty-desc",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "web-components": {
+          "status": "stable",
+          "source": "frameworks/web-components/components/mue-empty.js",
+          "sources": [
+            "frameworks/web-components/components/mue-empty.js"
+          ],
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "tag": "mue-empty",
+          "package": "mue-web-components",
+          "architecture": null,
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
+          "spec": {
+            "variants": "no-results, first-time-use, and any custom title/desc/glyph/action set",
+            "props": "icon (decorative glyph, default 👁), title, desc, label (status name, default \"Empty state\")",
+            "states": "the panel enters with the sheet's mue-fade-in; title/desc/icon/label update in place when the attributes change while keeping relocated actions, so a swap-in never re-creates the buttons",
+            "a11y": "role=\"status\" with an aria-label; the icon is decorative (aria-hidden) so meaning lives in the heading + description; every action is a real button/link, keyboard reachable inside the row",
+            "keyboard": "actions are the author's own buttons/links — Tab reaches them in order; the element adds no key handling of its own",
+            "events": "none (a message panel; actions are plain author controls)",
+            "responsive": "the .empty panel is a centred flex column with a capped description, so it shrinks with the viewport and never overflows at 320px",
+            "dependencies": "design-tokens/engine.css, styles/components.css",
+            "ports": "components/feedback/empty-state.html",
+            "sheet": "styles/components.css#feedback — the host upgrades to <div class=\"empty\" role=\"status\" aria-label> and emits <div class=\"empty-icon\" aria-hidden>(glyph), <h2 class=\"empty-title\">, <p class=\"empty-desc\"> and a <div class=\"row\"> that holds the author's action buttons/links. .empty, .empty-icon, .empty-title, .empty-desc and .row are all defined in the sheet; the panel's centring/fade-in is the sheet's. No CSS is added.",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "svelte": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        },
+        "angular": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        }
+      },
+      "frameworkKeys": [
+        "vanilla",
+        "react",
+        "vue",
+        "web-components"
+      ],
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "fb-error",
@@ -2046,7 +3390,141 @@ window.MUE_CATALOG = {
       "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
       "variants": [
         "Something went wrong"
-      ]
+      ],
+      "frameworks": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/feedback/error-state.html",
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": null,
+          "architecture": null,
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/feedback/error-state.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues.",
+          "spec": {
+            "variants": "Something went wrong",
+            "responsive": "the inline card stacks icon over body below 640px; the form column is width-capped and never overflows at 320px",
+            "dependencies": "design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)",
+            "sheet": "styles/components.css#feedback (+ #fields, #buttons) — the centred .error-state comes from the sheet; only the .error-inline layout is page-local",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "react": {
+          "status": "stable",
+          "source": "frameworks/react/components/error-state.jsx",
+          "sources": [
+            "frameworks/react/components/error-state.jsx"
+          ],
+          "preview": "frameworks/react/preview/gallery.html",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "tag": null,
+          "package": "mue-react",
+          "architecture": null,
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
+          "spec": {
+            "variants": "inline row (icon beside .error-body) and centred column; either may carry one or two recovery actions",
+            "props": "title, desc, icon (node, defaults to the preview's error glyph SVG), actions (node or array, wrapped in .row), inline (default true — false gives the centred column variant from the preview's Markup block, where the icon slot is .empty-icon as it is there), role (default \"alert\", pass null to drop it), heading (tag for the title, default \"h2\"), className, children, plus any other prop spread on the panel",
+            "states": "error (present) only — the host renders it after a failed request and removes it when the retry succeeds",
+            "a11y": "role=\"alert\" so the message is announced without moving focus, the decorative icon is aria-hidden because the wording carries the meaning, the title is a real heading so the panel is findable in the outline, and recovery is a native <button> / <a role=\"button\">",
+            "keyboard": "none intercepted — the action buttons keep native Tab order and Enter/Space activation. The preview notes that focus should land near the error when it appears; that is the host's call, and it is reachable because the buttons are ordinary focusable elements",
+            "events": "none of its own; onClick belongs to whatever nodes are passed as actions",
+            "responsive": "the inline branch is a flex row, so the copy wraps beside the icon; the sheet's own media query stacks .error-inline into a column on narrow screens; rendered at 1280px and 390px in the gallery",
+            "dependencies": "styles/components.css#feedback + design-tokens/engine.css (both linked by the host page); no other module in this package",
+            "ports": "components/feedback/error-state.html (Page error run, and the centred panel from its Markup block). The preview's \"Form error (inline)\" run is a .field.is-error + .field-msg, which this package already ships as <MueInput state=\"error\" message=\"…\">, so nothing is duplicated here",
+            "sheet": "styles/components.css#feedback — .error-state, .error-inline, .error-icon, .error-body, .empty-title, .empty-desc, .empty-icon, and the .row the preview puts the recovery actions in",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "vue": {
+          "status": "stable",
+          "source": "frameworks/vue/components/MueErrorState.vue",
+          "sources": [
+            "frameworks/vue/components/MueErrorState.vue"
+          ],
+          "preview": "frameworks/vue/preview/gallery.html",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "tag": null,
+          "package": "mue-vue",
+          "architecture": null,
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
+          "spec": {
+            "variants": "centered page error (default) and left-aligned inline card (inline prop = true, icon + body + actions)",
+            "a11y": "role=\"alert\" so the failure is announced; the icon is aria-hidden and colour never carries the message alone — the title + description say it; actions are real buttons/links",
+            "keyboard": "none added — retry / contact-support actions are native controls, keyboard reachable PORTED FROM: components/feedback/error-state.html",
+            "dependencies": "styles/components.css#feedback (+ #buttons, #utilities for the action row) — this SFC ships no CSS of its own",
+            "sheet": "styles/components.css#feedback — error-state, error-inline, error-icon, error-body; empty-title/empty-desc reused for the text",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "web-components": {
+          "status": "stable",
+          "source": "frameworks/web-components/components/mue-error.js",
+          "sources": [
+            "frameworks/web-components/components/mue-error.js"
+          ],
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "tag": "mue-error",
+          "package": "mue-web-components",
+          "architecture": null,
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
+          "spec": {
+            "variants": "centred panel, inline card (error-inline), with/without recovery actions",
+            "props": "title, desc, inline (bool), label (aria-label; defaults to the title)",
+            "states": "title/desc/inline patch in place, so the alert region is not re-created when a message changes; the icon stays decorative",
+            "a11y": "role=\"alert\" announces the failure; the icon svg is aria-hidden; actions are real buttons/links; the message is text, not colour-only (the sheet tints with --tint-error so it holds in dark too)",
+            "keyboard": "recovery actions are the author's own controls — Tab reaches them; the element adds none",
+            "events": "none (a message panel)",
+            "responsive": "the inline card stacks icon over body below 640px and the panel is width-capped, so it never overflows at 320px (components.css#feedback)",
+            "dependencies": "design-tokens/engine.css, styles/components.css",
+            "ports": "components/feedback/error-state.html",
+            "sheet": "styles/components.css#feedback — the host upgrades to <div class=\"error-state\" role=\"alert\"> (adding .error-inline for the row variant) and emits <div class=\"error-icon\" aria-hidden>(alert-circle svg) + <div class=\"error-body\"><h2 class= \"empty-title\"> + <p class=\"empty-desc\"> + <div class=\"row\"> of the author's recovery actions. .error-state, .error-inline, .error-icon, .error-body and the reused .empty-title/.empty-desc/.row are all defined in the sheet; colour never carries the message alone (icon + wording do too). No CSS is added.",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "svelte": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        },
+        "angular": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        }
+      },
+      "frameworkKeys": [
+        "vanilla",
+        "react",
+        "vue",
+        "web-components"
+      ],
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "fb-stepper",
@@ -2072,7 +3550,141 @@ window.MUE_CATALOG = {
         "<=640px"
       ],
       "theming": "light + dark toggle (html.dark, persisted in localStorage)",
-      "verified": "WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01"
+      "verified": "WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01",
+      "frameworks": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/feedback/stepper.html",
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": null,
+          "architecture": null,
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/feedback/stepper.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues.",
+          "spec": {
+            "variants": "four-step checkout, three-step onboarding, completed, current, upcoming, changelog timeline",
+            "responsive": "vertical rail with the label beside the dot under 640px, dots in a row with the rail between them above it",
+            "dependencies": "design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)",
+            "sheet": "styles/components.css#stepper (with #display, #buttons, #badges, #utilities, #chrome) — every class below is defined there, so pasted markup arrives styled",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "react": {
+          "status": "stable",
+          "source": "frameworks/react/components/stepper.jsx",
+          "sources": [
+            "frameworks/react/components/stepper.jsx"
+          ],
+          "preview": "frameworks/react/preview/gallery.html",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "tag": null,
+          "package": "mue-react",
+          "architecture": null,
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
+          "spec": {
+            "variants": "the four-step mid-flow rail, the three-step completed rail, and the changelog timeline that reads backwards through the same three states",
+            "props": "MueStepper — steps (array of {name, text, dot?, state?}; state overrides the derived one, dot replaces the number/check content), current (1-based step number, controlled) / defaultCurrent (uncontrolled), label (<ol> aria-label, default \"Progress\"), onChange(step) — required for the keyboard path, vertical (adds nothing; the sheet picks the axis at its own 40rem breakpoint), className, plus rest spread on the <ol>. MueStepperItem is the single <li> for hand-composed rails. MueTimeline — items (array of {title, meta, text, state}), children, className, rest on the <ul>; MueTimelineItem is the single <li>",
+            "states": "is-done (filled dot with the check glyph, so progress survives greyscale), is-current (ringed dot + aria-current=\"step\"), is-upcoming (dashed) — derived from `current` unless a step declares its own state; the last step keeps is-current on a finished flow exactly as the preview argues",
+            "a11y": "a real <ol> so reading order is step order, the active item carries aria-current=\"step\", the dot numbers and check glyphs are aria-hidden because .stepper-name is the accessible name (nothing is announced twice), and the three states differ by shape not only colour as the preview lists",
+            "keyboard": "the preview ships no script (it says state swapping is two class toggles), so this binding adds one documented path: when onChange is present the <ol> takes tabindex=\"0\" and answers ArrowRight/ArrowDown (next step), ArrowLeft/ArrowUp (previous), Home (first) and End (last), each calling onChange — the global :focus-visible ring in engine.css marks the focused rail, and nothing is intercepted without onChange",
+            "events": "onChange(step) from the arrow keys and from clicking an item when onChange is set; controlled when current is passed, self-managed when only defaultCurrent is",
+            "responsive": "the sheet is vertical under 40rem and horizontal above it, with .stepper-label min-width:0 so a long name wraps rather than widening the row; rendered at 1280px and 390px in the gallery",
+            "dependencies": "styles/components.css#stepper + #display (.timeline) + design-tokens/engine.css (global :focus-visible ring and .sr-only), all linked by the host page; no other module in this package",
+            "ports": "components/feedback/stepper.html (Four-steps-mid-flow run, Short-flow-all-the-way-through run, the related changelog .timeline run, and its Accessibility list)",
+            "sheet": "styles/components.css#stepper — .stepper (the rail), .stepper-item + .is-done/.is-current/.is-upcoming, .stepper-dot (the current one is ringed, the upcoming dashed), .stepper-label, .stepper-name, .stepper-text; #display — .timeline, .timeline-item + the same three state classes, .timeline-title, .timeline-meta",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "vue": {
+          "status": "stable",
+          "source": "frameworks/vue/components/MueStepper.vue",
+          "sources": [
+            "frameworks/vue/components/MueStepper.vue"
+          ],
+          "preview": "frameworks/vue/preview/gallery.html",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "tag": null,
+          "package": "mue-vue",
+          "architecture": null,
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
+          "spec": {
+            "variants": "horizontal/vertical stepper (the sheet picks by width) and the related changelog timeline (variant=\"timeline\"); the active index is the model",
+            "a11y": "a real <ol>/<ul> so reading order is step order; the current item carries aria-current=\"step\"; dot numbers and check glyphs are aria-hidden because the label text is the accessible name; done/current/upcoming differ by shape, not colour alone",
+            "keyboard": "the vanilla preview swaps the three state classes by hand; this binding makes that state a model and adds Back/Next buttons plus ArrowLeft/ArrowRight to move the current step — an added affordance, honestly labelled PORTED FROM: components/feedback/stepper.html",
+            "dependencies": "styles/components.css#stepper (+ #display for the timeline variant, #badges, #buttons, #utilities) — this SFC ships no CSS of its own",
+            "sheet": "styles/components.css#stepper — stepper, stepper-item, is-done, is-current, is-upcoming, stepper-dot, stepper-label, stepper-name, stepper-text; #display — timeline, timeline-item, timeline-title, timeline-meta",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "web-components": {
+          "status": "stable",
+          "source": "frameworks/web-components/components/mue-stepper.js",
+          "sources": [
+            "frameworks/web-components/components/mue-stepper.js"
+          ],
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "tag": "mue-stepper",
+          "package": "mue-web-components",
+          "architecture": null,
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
+          "spec": {
+            "variants": "mid-flow (done → current → upcoming), completed (last is current)",
+            "props": "current (1-based index of the active step, default 1; clamped to the number of steps)",
+            "states": "setting current moves .is-done / .is-current / .is-upcoming and the aria-current=\"step\" marker across the steps and re-fills each dot (check for done, its number otherwise)",
+            "a11y": "a real <ol> keeps reading order = step order; the active step carries aria-current=\"step\"; dot numbers and the check glyph are aria-hidden so the step name in the label is the accessible name and nothing is announced twice; done/current/upcoming differ by shape (filled-ring-number), not colour alone",
+            "keyboard": "none — a status rail, not an interactive control (the surrounding wizard owns Back/Next)",
+            "events": "mue-step {detail:{current, total}} when the current step changes",
+            "responsive": "vertical rail with the label beside the dot under 640px, dots in a row above it; one media query in the sheet (components.css#stepper)",
+            "dependencies": "design-tokens/engine.css, styles/components.css",
+            "ports": "components/feedback/stepper.html",
+            "sheet": "styles/components.css#stepper — the author supplies an <ol class=\"stepper\"> of <li> steps (each a <span class=\"stepper-label\"> with <span class=\"stepper-name\"> and optional <span class=\"stepper-text\">). The element wraps the list, adds a leading <span class=\"stepper-dot\" aria-hidden> per step and sets the one state class per step the sheet already knows — .is-done (check glyph), .is-current (number, plus aria-current=\"step\") or .is-upcoming (number). .stepper, .stepper-item, .stepper-dot, .stepper-label, .stepper-name, .stepper-text and the three state classes are all defined in the sheet; the rail is drawn there. No CSS is added.",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "svelte": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        },
+        "angular": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        }
+      },
+      "frameworkKeys": [
+        "vanilla",
+        "react",
+        "vue",
+        "web-components"
+      ],
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "nav-breadcrumbs",
@@ -2092,7 +3704,141 @@ window.MUE_CATALOG = {
       "variants": [
         "Default",
         "Compact"
-      ]
+      ],
+      "frameworks": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/navigation/breadcrumbs.html",
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": null,
+          "architecture": null,
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/navigation/breadcrumbs.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues.",
+          "spec": {
+            "variants": "Default, Compact",
+            "responsive": "fluid flex row that wraps as the trail grows; no breakpoint needed",
+            "dependencies": "design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)",
+            "sheet": "styles/components.css#navigation — .breadcrumbs, its links, .separator and [aria-current] live there",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "react": {
+          "status": "stable",
+          "source": "frameworks/react/components/breadcrumbs.jsx",
+          "sources": [
+            "frameworks/react/components/breadcrumbs.jsx"
+          ],
+          "preview": "frameworks/react/preview/gallery.html",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "tag": null,
+          "package": "mue-react",
+          "architecture": null,
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
+          "spec": {
+            "variants": "default (rsaquo separators) and compact (slash separators plus the preview's inline --text-xs size), long trails that wrap onto new lines",
+            "props": "items (array of {label, href, current} — the last entry is the current page unless one is flagged), label (nav aria-label, default \"Breadcrumb\"), separator (glyph string, default \"›\"), compact (boolean), onNavigate (fn(item, index, event)), className, plus any other prop spread on the <nav>",
+            "states": "current (aria-current=\"page\"), link (item.href); hover and focus colour are the sheet's own rules",
+            "a11y": "a real <nav aria-label=\"Breadcrumb\"> landmark; the current step is a plain <span aria-current=\"page\"> with no href, so it is not offered as a link; every separator glyph is aria-hidden=\"true\" because .breadcrumbs .separator carries no meaning a reader should count; items are emitted as keyed Fragments so the DOM is the preview's flat child list (link, separator, link, separator, current) with no wrapper element between them",
+            "keyboard": "links are native anchors, so Tab reaches each level and Enter follows it; the current page is not focusable, exactly as in the preview. No key is intercepted",
+            "events": "onClick per item when onNavigate is passed — the href still navigates, the callback is additive",
+            "responsive": "the row wraps as the trail grows; rendered at 1280px and 390px in the gallery",
+            "dependencies": "styles/components.css#navigation + design-tokens/engine.css (both linked by the host page); no other module in this package",
+            "ports": "components/navigation/breadcrumbs.html (Default, Compact)",
+            "sheet": "styles/components.css#navigation — .breadcrumbs (flex row that wraps), .breadcrumbs a, .separator, .breadcrumbs [aria-current=\"page\"]",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "vue": {
+          "status": "stable",
+          "source": "frameworks/vue/components/MueBreadcrumbs.vue",
+          "sources": [
+            "frameworks/vue/components/MueBreadcrumbs.vue"
+          ],
+          "preview": "frameworks/vue/preview/gallery.html",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "tag": null,
+          "package": "mue-vue",
+          "architecture": null,
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
+          "spec": {
+            "variants": "default trail; the last entry renders as the current page (a span, not a link); separator glyph is a prop",
+            "a11y": "<nav aria-label=\"Breadcrumb\"> landmark; the current crumb carries aria-current=\"page\"; separators are aria-hidden; each ancestor is a real <a> so link semantics survive",
+            "keyboard": "native link focus; the binding emits select (and suppresses the href jump) when an ancestor crumb is activated, so a consumer can route PORTED FROM: components/navigation/breadcrumbs.html",
+            "dependencies": "styles/components.css#navigation only — this SFC ships no CSS of its own",
+            "sheet": "styles/components.css#navigation — breadcrumbs, separator, [aria-current]",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "web-components": {
+          "status": "stable",
+          "source": "frameworks/web-components/components/mue-breadcrumbs.js",
+          "sources": [
+            "frameworks/web-components/components/mue-breadcrumbs.js"
+          ],
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "tag": "mue-breadcrumbs",
+          "package": "mue-web-components",
+          "architecture": null,
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
+          "spec": {
+            "variants": "default trail, compact trail (author sizes it), from an items attribute or from authored <a>/<span> children",
+            "props": "items (comma list; each \"Label\" or \"Label::href\" — last entry is the current page), separator (glyph, default ‹ ›-style \"›\"), label (nav name, default \"Breadcrumb\")",
+            "states": "changing items/separator re-renders the trail and re-marks the final crumb as the current page; links are real anchors so they stay focusable",
+            "a11y": "the host carries aria-label=\"Breadcrumb\" (no <nav> element is created, so this is not a landmark); the current page carries aria-current=\"page\"; separators are aria-hidden so a reader hears the locations, not the glyphs",
+            "keyboard": "plain links — Tab walks the crumbs, Enter follows the href; the element adds none",
+            "events": "none (links navigate on their own)",
+            "responsive": "a fluid flex row that wraps as the trail grows; no breakpoint needed (components.css#navigation)",
+            "dependencies": "design-tokens/engine.css, styles/components.css",
+            "ports": "components/navigation/breadcrumbs.html",
+            "sheet": "styles/components.css#navigation — the host element itself carries class=\"breadcrumbs\" and an aria-label (it stays a <mue-breadcrumbs>, the sheet selector is the bare class), and lays out the trail as <a href> links separated by <span class=\"separator\" aria-hidden>, with the last entry rendered as <span aria-current=\"page\">. .breadcrumbs, its <a> and [aria-current] rules and .separator are all defined in the sheet. No CSS is added.",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "svelte": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        },
+        "angular": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        }
+      },
+      "frameworkKeys": [
+        "vanilla",
+        "react",
+        "vue",
+        "web-components"
+      ],
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "nav-header",
@@ -2113,7 +3859,141 @@ window.MUE_CATALOG = {
       "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
       "variants": [
         "Default"
-      ]
+      ],
+      "frameworks": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/navigation/header-nav.html",
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": null,
+          "architecture": null,
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/navigation/header-nav.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues.",
+          "spec": {
+            "variants": "Default (brand, links, user actions, hamburger)",
+            "responsive": "below 768px the hamburger appears and the links collapse into an absolutely-positioned drawer that .is-open reveals; styles/mue.js wires the toggle (data-menu-toggle) and the scroll shadow",
+            "dependencies": "design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)",
+            "sheet": "styles/components.css#navigation (.site-header/.navbar, .nav-brand, .nav-links, .nav-link, .nav-spacer, .hamburger) plus #buttons (.btn-outline) and #display (.avatar)",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "react": {
+          "status": "stable",
+          "source": "frameworks/react/components/navbar.jsx",
+          "sources": [
+            "frameworks/react/components/navbar.jsx"
+          ],
+          "preview": "frameworks/react/preview/gallery.html",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "tag": null,
+          "package": "mue-react",
+          "architecture": null,
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
+          "spec": {
+            "variants": "site-header (role=banner, brand, actions, hamburger) and navbar (a plain labelled nav, with or without a dropdown cell)",
+            "props": "MueHeaderNav — brand, brandHref, links ([{label, href, current}]), actions (node, e.g. a .btn and an .avatar), search ({label, placeholder, value, defaultValue, onChange}) rendered in .nav-search, open/defaultOpen/onOpenChange (drawer), scrolled (controlled shadow; measured when omitted), className. MueNavMenu — label, items ([{label, href, current, menu:[{label, href, divider, onSelect}]}]), same drawer props. Slots: MueNavLink, MueNavBrand, MueNavSpacer, MueNavSearch",
+            "states": "drawer open (.is-open + aria-expanded), dropdown open (.dropdown.is-open + aria-expanded), current link (aria-current=\"page\"), scrolled shadow (.is-scrolled past 8px), and a closed menu that is aria-hidden + inert",
+            "a11y": "<header role=\"banner\"> / <nav aria-label> landmarks; the hamburger is a real button with aria-controls + aria-expanded pointing at the list id from useId; the active cell pairs a colour with a tint background; the dropdown trigger keeps aria-haspopup/aria-expanded and its surface is a <ul class=\"dropdown-menu\"> of links; a closed surface is inert so its rows leave the tab order; the search cell is labelled by a .sr-only label because a placeholder is not a label; the hamburger glyph is decoration and the button's name is \"Toggle navigation\"",
+            "keyboard": "Tab walks the cells in reading order and Enter follows a link; the hamburger opens the drawer and Escape closes it and returns focus to the button; inside an open dropdown ArrowDown/ArrowUp walk the rows and wrap, Home/End jump, Escape closes and restores focus to the trigger, a click outside closes it. styles/mue.js binds both of these only at boot, which is why the bindings own them",
+            "events": "onOpenChange(open) for the drawer, onSelect(item, event) per nav cell and per menu row — href navigation is never prevented; the scroll shadow is read from window.scrollY in a rAF-throttled listener, the same threshold styles/mue.js uses",
+            "responsive": "below 768px the sheet hides the hamburger's sibling list and reveals it as a full-width drawer when .is-open lands on .nav-links; the bar itself wraps onto two rows; rendered at 1280px and 390px in the gallery",
+            "dependencies": "styles/components.css#navigation (with #dropdown for the menu surface, #fields for the search slot, #buttons and #display for the actions an app puts in `actions`) + design-tokens/engine.css (both linked by the host page); no other module in this package",
+            "ports": "components/navigation/header-nav.html (brand + links + actions + hamburger) and components/navigation/navigation-menu.html (default navbar, navbar with a dropdown)",
+            "sheet": "styles/components.css#navigation — .site-header/.navbar (sticky bar, .is-scrolled shadow), .nav-brand, .nav-links (+ .is-open drawer under 768px), .nav-item, .nav-link ([aria-current=\"page\"]), .nav-spacer, .nav-search (--nav-search-max-w), .hamburger + #dropdown — .dropdown.is-open .dropdown-menu, .menu-item, .menu-divider",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "vue": {
+          "status": "stable",
+          "source": "frameworks/vue/components/MueHeaderNav.vue",
+          "sources": [
+            "frameworks/vue/components/MueHeaderNav.vue"
+          ],
+          "preview": "frameworks/vue/preview/gallery.html",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "tag": null,
+          "package": "mue-vue",
+          "architecture": null,
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
+          "spec": {
+            "variants": "brand + inline links on wide viewports; below 768px the sheet hides the links and the hamburger reveals a .is-open drawer; a #actions slot holds the user controls",
+            "a11y": "<header role=\"banner\"> landmark; the hamburger is a real button with aria-controls + aria-expanded pointing at the list; links are native <a> and the active one gets aria-current=\"page\"",
+            "keyboard": "Escape closes the drawer and returns focus to the hamburger; an outside click closes it (ported from styles/mue.js). The scroll shadow (>8px) is added by this binding, matching the vanilla script PORTED FROM: components/navigation/header-nav.html + styles/mue.js#nav",
+            "dependencies": "styles/components.css#navigation (+ #buttons, #display) — this SFC ships no CSS of its own",
+            "sheet": "styles/components.css#navigation — site-header, navbar, nav-brand, nav-links, nav-item, nav-link, nav-spacer, hamburger; #display — avatar; drawer reveal via nav-links.is-open, shadow via site-header.is-scrolled",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "web-components": {
+          "status": "stable",
+          "source": "frameworks/web-components/components/mue-header-nav.js",
+          "sources": [
+            "frameworks/web-components/components/mue-header-nav.js"
+          ],
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "tag": "mue-header-nav",
+          "package": "mue-web-components",
+          "architecture": null,
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
+          "spec": {
+            "variants": "default header, with user actions (sign-in button + avatar)",
+            "props": "brand (nav-brand text)",
+            "states": "hamburger toggles .is-open on the links (aria-expanded tracks it); a passive scroll listener adds .is-scrolled past 8px, matching the vanilla page",
+            "a11y": "<header role=\"banner\"> landmark; the brand is a real link; each nav entry is an <a class= \"nav-link\"> and the active one keeps aria-current=\"page\"; the hamburger carries aria-controls + aria-expanded + aria-label pointing at the links list; links are 44px with a visible focus ring",
+            "keyboard": "links/brand/actions are ordinary tabbable controls; the hamburger is a real button so Enter/Space open the drawer; a focused link that leaves the drawer closes it",
+            "events": "mue-navigate {detail:{href, label}} when a nav link is activated",
+            "responsive": "below 768px the links collapse behind the hamburger into the drawer; otherwise a single row with the spacer pushing the actions right (components.css#navigation)",
+            "dependencies": "design-tokens/engine.css, styles/components.css",
+            "ports": "components/navigation/header-nav.html",
+            "sheet": "styles/components.css#navigation (+ #buttons, #display) — the host upgrades to <header class=\"site-header\" role=\"banner\"> with <a class=\"nav-brand\">, <ul class=\"nav-links\"> of <li class=\"nav-item\"><a class=\"nav-link\">, a <div class=\"nav-spacer\">, a <div class=\"row\"> of the author's [slot=\"actions\"], and a built <button class=\"hamburger\" aria-controls aria-expanded>. Below 768px the sheet turns .nav-links into a drawer revealed by .is-open; past 8px it grows a shadow via .is-scrolled. All those classes come from the sheet; no CSS is added. The element owns the toggle/scroll behaviour itself (it does NOT use data-menu-toggle), so the global script never double-wires it.",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "svelte": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        },
+        "angular": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        }
+      },
+      "frameworkKeys": [
+        "vanilla",
+        "react",
+        "vue",
+        "web-components"
+      ],
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "nav-menu",
@@ -2135,7 +4015,141 @@ window.MUE_CATALOG = {
       "variants": [
         "Default",
         "With dropdown"
-      ]
+      ],
+      "frameworks": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/navigation/navigation-menu.html",
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": null,
+          "architecture": null,
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/navigation/navigation-menu.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues.",
+          "spec": {
+            "variants": "Default, With dropdown",
+            "responsive": "below 768px links collapse into an absolutely-positioned drawer opened by the hamburger (styles/mue.js), and .nav-link cells stay 44px tall",
+            "dependencies": "design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)",
+            "sheet": "styles/components.css#navigation (.navbar, .nav-links, .nav-item, .nav-link, .nav-spacer, .hamburger) + #dropdown (.dropdown, .dropdown-menu, .menu-item)",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "vue": {
+          "status": "stable",
+          "source": "frameworks/vue/components/MueNavMenu.vue",
+          "sources": [
+            "frameworks/vue/components/MueNavMenu.vue"
+          ],
+          "preview": "frameworks/vue/preview/gallery.html",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "tag": null,
+          "package": "mue-vue",
+          "architecture": null,
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
+          "spec": {
+            "variants": "plain links and/or dropdown items (a link with a children array); a hamburger reveals the whole list as a drawer below 768px",
+            "a11y": "<nav aria-label> landmark; each dropdown trigger is a button with aria-haspopup + aria-expanded kept in sync; the active link carries aria-current=\"page\"; the menu mirrors aria-hidden to its open state",
+            "keyboard": "opening a dropdown focuses its first item; ArrowUp/ArrowDown walk and wrap the items; Escape closes the menu (focus back to the trigger) and, if open, the drawer; a click outside closes both. Ported from styles/mue.js (drawer + [data-dropdown]) PORTED FROM: components/navigation/navigation-menu.html + styles/mue.js#dropdowns",
+            "dependencies": "styles/components.css#navigation (+ #dropdown) — this SFC ships no CSS of its own",
+            "sheet": "styles/components.css#navigation — navbar, nav-links, nav-item, nav-link, nav-spacer, hamburger; #dropdown — dropdown, dropdown.is-open, dropdown-menu, menu-item, menu-item.danger, menu-divider",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "web-components": {
+          "status": "stable",
+          "source": "frameworks/web-components/components/mue-nav-menu.js",
+          "sources": [
+            "frameworks/web-components/components/mue-nav-menu.js"
+          ],
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "tag": "mue-nav-menu",
+          "package": "mue-web-components",
+          "architecture": null,
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
+          "spec": {
+            "variants": "default menu, with dropdown",
+            "props": "label (nav name, default \"Main navigation\")",
+            "states": "hamburger toggles .is-open on the links (drawer below 768px); each dropdown toggles .dropdown.is-open + aria-expanded + menu aria-hidden; a passive scroll listener adds .is-scrolled past 8px; active link keeps aria-current=\"page\"",
+            "a11y": "<nav aria-label> landmark; nav links are real <a> (aria-current=\"page\" marks the active one); a dropdown trigger exposes aria-haspopup/aria-expanded and its menu is role=\"menu\" with menu-item links; arrows stay 44px with a visible focus ring; the hamburger carries aria-controls/expanded/label",
+            "keyboard": "links/tab-natural; the hamburger is a button (Enter/Space opens the drawer); a dropdown trigger is a button, opening focuses its first row and ArrowUp/ArrowDown walk and wrap the rows, Home/End jump; Escape closes the menu and returns focus to the trigger, or closes the drawer when no menu is open; a click outside closes both. Mirrors styles/mue.js#[data-dropdown]",
+            "events": "mue-navigate {detail:{href,label}} on a nav link; mue-select {detail:{value,label}} on a menu item",
+            "responsive": "below 768px the list collapses behind the hamburger into the sheet's drawer; otherwise a row with the spacer pushing actions right; .navbar is sticky (relaxed only in a preview frame)",
+            "dependencies": "design-tokens/engine.css, styles/components.css",
+            "ports": "components/navigation/navigation-menu.html",
+            "sheet": "styles/components.css#navigation + #dropdown — the host upgrades to <nav class=\"navbar\" aria-label>. Authored <a class=\"nav-link\"> and <div class=\"dropdown\"> children are wrapped in <li class=\"nav-item\"> and moved into a <ul class=\"nav-links\">, followed by a <div class=\"nav-spacer\"> and a built <button class=\"hamburger\">. A dropdown the author supplies is <div class=\"dropdown\"><button class=\"nav-link\" aria-haspopup aria-expanded><ul class=\"dropdown-menu\" role=\"menu\" aria-hidden><li><a class=\"menu-item\">. .navbar/.nav-links/.nav-item/.nav-link/.nav-spacer/ .hamburger/.dropdown/.dropdown-menu/.menu-item and the .is-open / .is-scrolled states all come from the sheet; the element drives those states itself (no data-menu-toggle, no data-dropdown), so the global script never double-wires it. Adds no CSS.",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "react": {
+          "status": "stable",
+          "source": "frameworks/react/components/navbar.jsx",
+          "sources": [
+            "frameworks/react/components/navbar.jsx"
+          ],
+          "preview": "frameworks/react/preview/gallery.html",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "tag": null,
+          "package": "mue-react",
+          "architecture": null,
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
+          "spec": {
+            "variants": "site-header (role=banner, brand, actions, hamburger) and navbar (a plain labelled nav, with or without a dropdown cell)",
+            "props": "MueHeaderNav — brand, brandHref, links ([{label, href, current}]), actions (node, e.g. a .btn and an .avatar), search ({label, placeholder, value, defaultValue, onChange}) rendered in .nav-search, open/defaultOpen/onOpenChange (drawer), scrolled (controlled shadow; measured when omitted), className. MueNavMenu — label, items ([{label, href, current, menu:[{label, href, divider, onSelect}]}]), same drawer props. Slots: MueNavLink, MueNavBrand, MueNavSpacer, MueNavSearch",
+            "states": "drawer open (.is-open + aria-expanded), dropdown open (.dropdown.is-open + aria-expanded), current link (aria-current=\"page\"), scrolled shadow (.is-scrolled past 8px), and a closed menu that is aria-hidden + inert",
+            "a11y": "<header role=\"banner\"> / <nav aria-label> landmarks; the hamburger is a real button with aria-controls + aria-expanded pointing at the list id from useId; the active cell pairs a colour with a tint background; the dropdown trigger keeps aria-haspopup/aria-expanded and its surface is a <ul class=\"dropdown-menu\"> of links; a closed surface is inert so its rows leave the tab order; the search cell is labelled by a .sr-only label because a placeholder is not a label; the hamburger glyph is decoration and the button's name is \"Toggle navigation\"",
+            "keyboard": "Tab walks the cells in reading order and Enter follows a link; the hamburger opens the drawer and Escape closes it and returns focus to the button; inside an open dropdown ArrowDown/ArrowUp walk the rows and wrap, Home/End jump, Escape closes and restores focus to the trigger, a click outside closes it. styles/mue.js binds both of these only at boot, which is why the bindings own them",
+            "events": "onOpenChange(open) for the drawer, onSelect(item, event) per nav cell and per menu row — href navigation is never prevented; the scroll shadow is read from window.scrollY in a rAF-throttled listener, the same threshold styles/mue.js uses",
+            "responsive": "below 768px the sheet hides the hamburger's sibling list and reveals it as a full-width drawer when .is-open lands on .nav-links; the bar itself wraps onto two rows; rendered at 1280px and 390px in the gallery",
+            "dependencies": "styles/components.css#navigation (with #dropdown for the menu surface, #fields for the search slot, #buttons and #display for the actions an app puts in `actions`) + design-tokens/engine.css (both linked by the host page); no other module in this package",
+            "ports": "components/navigation/header-nav.html (brand + links + actions + hamburger) and components/navigation/navigation-menu.html (default navbar, navbar with a dropdown)",
+            "sheet": "styles/components.css#navigation — .site-header/.navbar (sticky bar, .is-scrolled shadow), .nav-brand, .nav-links (+ .is-open drawer under 768px), .nav-item, .nav-link ([aria-current=\"page\"]), .nav-spacer, .nav-search (--nav-search-max-w), .hamburger + #dropdown — .dropdown.is-open .dropdown-menu, .menu-item, .menu-divider",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "svelte": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        },
+        "angular": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        }
+      },
+      "frameworkKeys": [
+        "vanilla",
+        "vue",
+        "web-components",
+        "react"
+      ],
+      "supportMatrix": "vue:stable web-components:stable react:stable svelte:planned angular:planned"
     },
     {
       "id": "nav-pagination",
@@ -2157,7 +4171,141 @@ window.MUE_CATALOG = {
       "variants": [
         "Default",
         "With ellipsis"
-      ]
+      ],
+      "frameworks": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/navigation/pagination.html",
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": null,
+          "architecture": null,
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/navigation/pagination.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues.",
+          "spec": {
+            "variants": "Default, With ellipsis",
+            "responsive": "the row wraps onto new lines; centred below 480px",
+            "dependencies": "design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)",
+            "sheet": "styles/components.css#navigation — .pagination, its a/button cells, the active and disabled states live there",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "react": {
+          "status": "stable",
+          "source": "frameworks/react/components/pagination.jsx",
+          "sources": [
+            "frameworks/react/components/pagination.jsx"
+          ],
+          "preview": "frameworks/react/preview/gallery.html",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "tag": null,
+          "package": "mue-react",
+          "architecture": null,
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
+          "spec": {
+            "variants": "short run (every page is a cell, exactly the preview's default section) and long run (first, last and a window around the current page, with .ellipsis where cells were dropped — the preview's second section shown statically, here derived from the count)",
+            "props": "pages (count), page (controlled current), defaultPage (uncontrolled current), onChange (fn(next)), label (nav aria-label, default \"Pagination\"), prevLabel/nextLabel, maxCells (window size before the run collapses to ellipses, default 7), className, plus any other prop spread on the <nav>",
+            "states": "current (aria-current=\"true\"), previous/next disabled at the ends (native disabled, so they leave the tab order), collapsed gaps (.ellipsis, aria-hidden)",
+            "a11y": "<nav aria-label=\"Pagination\"> landmark; the current page is a button with aria-current=\"true\", the same attribute the sheet styles; edge arrows carry aria-labels (\"Previous page\"/\"Next page\") because their glyphs are punctuation; an ellipsis is decoration and is aria-hidden; every cell is a 44px button via --control-h",
+            "keyboard": "cells are native buttons, so Tab reaches them and Enter/Space activate; this binding adds Left/Right to step one page and Home/End to jump to the first/last page, handled on the <nav> so they work from any focused cell — the preview binds no keys, so this is the one documented addition, and it is the pair a reader expects from a pager",
+            "events": "onChange(next) on every cell, arrow and key press; the component is controlled when page is passed and self-managed when only defaultPage is",
+            "responsive": "the row wraps and the sheet centres it on narrow screens; rendered at 1280px and 390px in the gallery",
+            "dependencies": "styles/components.css#navigation + design-tokens/engine.css (both linked by the host page); no other module in this package",
+            "ports": "components/navigation/pagination.html (Default run, With ellipsis run)",
+            "sheet": "styles/components.css#navigation — .pagination (wrapping row), its button cells, .pagination [aria-current=\"true\"], .pagination :disabled, .pagination .ellipsis",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "vue": {
+          "status": "stable",
+          "source": "frameworks/vue/components/MuePagination.vue",
+          "sources": [
+            "frameworks/vue/components/MuePagination.vue"
+          ],
+          "preview": "frameworks/vue/preview/gallery.html",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "tag": null,
+          "package": "mue-vue",
+          "architecture": null,
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
+          "spec": {
+            "variants": "full number run when the window fits; otherwise first + a sibling window + last with .ellipsis gaps",
+            "a11y": "<nav aria-label=\"Pagination\"> landmark; the current page carries aria-current=\"true\"; prev/next use the native disabled attribute so they leave the tab order; ellipsis is aria-hidden",
+            "keyboard": "every cell is a real button; ArrowLeft / ArrowRight move to the previous / next page while any cell has focus (added on top of the static preview) PORTED FROM: components/navigation/pagination.html",
+            "dependencies": "styles/components.css#navigation only — this SFC ships no CSS of its own",
+            "sheet": "styles/components.css#navigation — pagination, its button cells, the active (aria-current) and disabled states, plus the ellipsis cell",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "web-components": {
+          "status": "stable",
+          "source": "frameworks/web-components/components/mue-pagination.js",
+          "sources": [
+            "frameworks/web-components/components/mue-pagination.js"
+          ],
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "tag": "mue-pagination",
+          "package": "mue-web-components",
+          "architecture": null,
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
+          "spec": {
+            "variants": "default (few pages, all numbers), with ellipsis (windowed around the current page)",
+            "props": "total (page count), page (current 1-based, default 1), window (neighbours each side of current, default 1), label (nav name, default \"Pagination\")",
+            "states": "choosing a page moves aria-current=\"true\", re-enables the arrows appropriately and rebuilds the window; the prev/next disabled state is the native attribute so they leave the tab order",
+            "a11y": "<nav aria-label=\"Pagination\"> landmark; current page carries aria-current=\"true\"; disabled cells use the native disabled attribute; arrows carry aria-label=\"Previous\"/\"Next\"; ellipsis is aria-hidden",
+            "keyboard": "cells are real buttons — Tab moves between them, Enter/Space activates; arrows step pages",
+            "events": "mue-page-change {detail:{page, total}} when the page changes",
+            "responsive": "the row wraps onto new lines and centres below 480px (components.css#navigation)",
+            "dependencies": "design-tokens/engine.css, styles/components.css",
+            "ports": "components/navigation/pagination.html",
+            "sheet": "styles/components.css#navigation — the host upgrades to <nav class=\"pagination\" aria-label> and lays out <button> cells: a Previous (←) and Next (→) arrow that use the native disabled attribute at the bounds, one number per page with aria-current=\"true\" on the active one, and <span class=\"ellipsis\" aria-hidden> when a large range is windowed. .pagination, its button/a cells, [aria-current=\"true\"], :disabled and .pagination .ellipsis are all defined in the sheet. No CSS is added.",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "svelte": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        },
+        "angular": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        }
+      },
+      "frameworkKeys": [
+        "vanilla",
+        "react",
+        "vue",
+        "web-components"
+      ],
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "nav-tabs",
@@ -2201,7 +4349,7 @@ window.MUE_CATALOG = {
           }
         },
         "react": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/react/components/tabs.jsx",
           "sources": [
             "frameworks/react/components/tabs.jsx"
@@ -2212,7 +4360,7 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-react",
           "architecture": null,
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven",
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
           "spec": {
             "variants": "underline ink bar (default), pills (the .pills wrapper on the tablist); controlled (activeTab + onChange) or uncontrolled (defaultTab)",
             "a11y": "role=\"tablist\" with an accessible name from the label prop, role=\"tab\" per button with aria-controls + aria-selected, role=\"tabpanel\" per panel with aria-labelledby and tabindex=\"0\" so panel content is reachable; the inactive panel is hidden with the hidden attribute exactly as mue.js does it, driven by aria-controls; the ink bar is painted by .tab[aria-selected=\"true\"]::after, so React only publishes the state",
@@ -2225,7 +4373,7 @@ window.MUE_CATALOG = {
           }
         },
         "vue": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/vue/components/MueTabs.vue",
           "sources": [
             "frameworks/vue/components/MueTabs.vue"
@@ -2236,7 +4384,7 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-vue",
           "architecture": null,
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven",
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
           "spec": {
             "variants": "items = [{label, content?}] or strings; active index via v-model; panel content via #panel-<index> slots",
             "a11y": "role tablist/tab/tabpanel with aria-controls / aria-labelledby / aria-selected; inactive panels carry the hidden attribute",
@@ -2248,7 +4396,7 @@ window.MUE_CATALOG = {
           }
         },
         "web-components": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/web-components/components/mue-tabs.js",
           "sources": [
             "frameworks/web-components/components/mue-tabs.js",
@@ -2261,7 +4409,7 @@ window.MUE_CATALOG = {
           "tag": "mue-tabs",
           "package": "mue-web-components",
           "architecture": null,
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven",
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
           "spec": {
             "variants": "label (tablist accessible name), selected (active index, default 0) / none (state comes from the parent tabs)",
             "props": "label, selected / label (text), disabled (bool) / name (optional id hint)",
@@ -2307,7 +4455,7 @@ window.MUE_CATALOG = {
         "vue",
         "web-components"
       ],
-      "supportMatrix": "react:experimental vue:experimental web-components:experimental svelte:planned angular:planned"
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "nav-sidebar",
@@ -2328,7 +4476,141 @@ window.MUE_CATALOG = {
       "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31",
       "variants": [
         "Default"
-      ]
+      ],
+      "frameworks": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/sidebars/sidebar.html",
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": null,
+          "architecture": null,
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/sidebars/sidebar.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues.",
+          "spec": {
+            "variants": "Default (sectioned links, active state)",
+            "responsive": "below 900px the sidebar drops to full width and stacks above the content (border moves to the bottom) — no JavaScript drawer",
+            "dependencies": "design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)",
+            "sheet": "styles/components.css#sidebar — .sidebar, .sidebar-section, .sidebar-heading, .sidebar-link and .sidebar-label live there",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "react": {
+          "status": "stable",
+          "source": "frameworks/react/components/sidebar.jsx",
+          "sources": [
+            "frameworks/react/components/sidebar.jsx"
+          ],
+          "preview": "frameworks/react/preview/gallery.html",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "tag": null,
+          "package": "mue-react",
+          "architecture": null,
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
+          "spec": {
+            "variants": "sectioned rail with icons (the preview), a rail without a brand line, an app-driven controlled rail",
+            "props": "MueSidebar — label (aside aria-label, default \"Main navigation\"), brand, sections (array of {heading, items:[{key, label, href, icon, current}]}), current (controlled active key), defaultCurrent (uncontrolled), onSelect (fn(item, event)), width (maps to the documented --sidebar-w override), children (extra blocks under the sections), className. Slots: MueSidebarSection (title + children), MueSidebarHeading, MueSidebarLink (href, icon, label, current, onSelect), MueSidebarLabel, MueSidebarBrand",
+            "states": "current (aria-current=\"page\" plus the sheet's tint), hover, and an item with no href which becomes a real <button class=\"sidebar-item\"> instead of a link",
+            "a11y": "<aside aria-label> landmark; the rows sit directly in .sidebar-section exactly as the preview writes them, so no list semantics are invented and no reset CSS is needed; section headings are the sheet's .sidebar-heading text; icon glyphs are aria-hidden and .sidebar-label carries the accessible name and truncates rather than pushing the rail wide; the active row pairs a colour with a tint background, so state is not colour alone",
+            "keyboard": "links are native anchors and button rows answer Enter/Space, so Tab walks the rail in reading order; the ring is the sheet's; no key is intercepted — the preview binds none",
+            "events": "onSelect(item, event) fires on click without preventing the href, so a router link or a plain hash both work; the active state is read back from current/defaultCurrent",
+            "responsive": "width comes from --sidebar-w and the sheet stacks the rail full width under 900px; rendered at 1280px and 390px in the gallery",
+            "dependencies": "styles/components.css#sidebar + design-tokens/engine.css (both linked by the host page); no other module in this package",
+            "ports": "components/sidebars/sidebar.html (Default: brand line, two sectioned groups, icons, one active link)",
+            "sheet": "styles/components.css#sidebar — .sidebar (--sidebar-w, 16rem default), .sidebar-brand, .sidebar-section, .sidebar-heading, .sidebar-link/.sidebar-item, .sidebar-label; below 900px the region itself turns the rail full width and moves its rule to the bottom edge",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "vue": {
+          "status": "stable",
+          "source": "frameworks/vue/components/MueSidebar.vue",
+          "sources": [
+            "frameworks/vue/components/MueSidebar.vue"
+          ],
+          "preview": "frameworks/vue/preview/gallery.html",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "tag": null,
+          "package": "mue-vue",
+          "architecture": null,
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
+          "spec": {
+            "variants": "brand line + data-driven sections, each link carries an optional emoji icon and an active state; below 900px the sheet stacks it full width",
+            "a11y": "<aside aria-label> landmark; icons are aria-hidden and the label is real text in sidebar-label; the active link gets aria-current=\"page\" so colour + tint + semantics agree",
+            "keyboard": "native link focus; clicking a link moves the active state (v-model) and emits select — the vanilla preview only hardcodes one active row PORTED FROM: components/sidebars/sidebar.html",
+            "dependencies": "styles/components.css#sidebar only — this SFC ships no CSS of its own",
+            "sheet": "styles/components.css#sidebar — sidebar, sidebar-brand, sidebar-section, sidebar-heading, sidebar-link, sidebar-label",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "web-components": {
+          "status": "stable",
+          "source": "frameworks/web-components/components/mue-sidebar.js",
+          "sources": [
+            "frameworks/web-components/components/mue-sidebar.js"
+          ],
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "tag": "mue-sidebar",
+          "package": "mue-web-components",
+          "architecture": null,
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
+          "spec": {
+            "variants": "sectioned links, active state (current), with or without an icon glyph per link",
+            "props": "mue-sidebar: label (aria-label); mue-sidebar-heading: text; mue-sidebar-link: href, icon (decorative glyph), current (bool), text (label, falls back to inner text)",
+            "states": "clicking a link moves aria-current=\"page\" to it and emits mue-navigate — the single behaviour the static sidebar had none of; grouping is derived once at upgrade from the authored order",
+            "a11y": "an <aside role=\"complementary\" aria-label> landmark; icons are decorative (aria-hidden) and the real text lives in .sidebar-label; the active link uses aria-current=\"page\" (colour + tint background, not colour alone); every link is a 44px-tall real anchor",
+            "keyboard": "links are ordinary <a> — Tab walks them, Enter follows the href; nothing is trapped",
+            "events": "mue-navigate {detail:{href,label}} when a sidebar link is activated",
+            "responsive": "above 900px the sidebar keeps a fixed width beside content; below it goes full width and stacks with the rule on its bottom edge — pure CSS in the sheet, no drawer",
+            "dependencies": "design-tokens/engine.css, styles/components.css",
+            "ports": "components/sidebars/sidebar.html",
+            "sheet": "styles/components.css#sidebar — three elements compose a sidebar: <mue-sidebar> upgrades to <aside class=\"sidebar\" role=\"complementary\" aria-label> and groups its authored children into <div class=\"sidebar-section\"> blocks (a heading opens a new section); <mue-sidebar-heading> replaces itself with <div class=\"sidebar-heading\">; <mue-sidebar-link> replaces itself with <a class=\"sidebar-link\" href><span aria-hidden icon?><span class= \"sidebar-label\">. .sidebar, .sidebar-section, .sidebar-heading, .sidebar-link, .sidebar-label and .sidebar-brand are all defined in the sheet; the element adds no CSS.",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "svelte": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        },
+        "angular": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        }
+      },
+      "frameworkKeys": [
+        "vanilla",
+        "react",
+        "vue",
+        "web-components"
+      ],
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "ex-saas-dashboard",
@@ -2800,7 +5082,139 @@ window.MUE_CATALOG = {
         "<=960px"
       ],
       "theming": "light + dark toggle (html.dark, persisted in localStorage)",
-      "verified": "WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01"
+      "verified": "WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01",
+      "frameworks": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/tables/data-table.html",
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": null,
+          "architecture": null,
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/tables/data-table.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues.",
+          "spec": {
+            "variants": "Default (select, sort, filter, expand, paginate), Compact density, Loading, Empty",
+            "responsive": ".table-wrap pans the 8-column table sideways below 54rem with the head still sticky, the toolbar and footer wrap onto new lines, and the detail panel drops its inset at 640px",
+            "dependencies": "design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)",
+            "sheet": "styles/components.css#datatable — selection, sort buttons, the column filter, expandable rows, the scroll frame and the in-table states are defined there, on top of #tables (.table, .table-wrap, .table-compact, .table-striped); #dropdown supplies the filter menu surface, #descriptions the detail panel, #feedback the skeleton and empty states, #badges the status pills, #buttons and #fields the toolbar controls, #choice the checkboxes, #navigation the pagination, #display the avatars and #utilities the row and grid that place the demos",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "vue": {
+          "status": "stable",
+          "source": "frameworks/vue/components/MueDataTable.vue",
+          "sources": [
+            "frameworks/vue/components/MueDataTable.vue"
+          ],
+          "preview": "frameworks/vue/preview/gallery.html",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "tag": null,
+          "package": "mue-vue",
+          "architecture": null,
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
+          "spec": {
+            "variants": "selectable + expandable + filterable + sortable columns, compact density, loading (skeleton rows) and empty states",
+            "props": "columns, rows, caption, ariaLabel, selectable, expandable, loading, emptyTitle, emptyDesc, pageSizes, selectKey",
+            "a11y": "caption/aria-label; th scope=\"col\" publishing aria-sort (and the sort-btn carrying data-sort); the header checkbox is indeterminate when a page is partly picked; each row checkbox is named by its own row (Select <first column>, or <selectKey>), matching the vanilla preview; the filter is a labelled group with Apply/Clear; the expand caret and Details button share aria-controls/aria-expanded; search has an sr-only label",
+            "keyboard": "sort buttons cycle on Enter/Space (native); the filter closes on Escape/outside click and keeps focus in the menu; the table header picks up its rule on scroll; rows are native checkboxes/buttons PORTED FROM: components/tables/data-table.html (page script ported into component state)",
+            "dependencies": "styles/components.css#datatable (+ #tables, #dropdown, #descriptions, #feedback, #badges, #choice, #buttons, #fields, #navigation, #display, #utilities) — this SFC ships no CSS of its own",
+            "sheet": "styles/components.css#datatable — table-toolbar, table-search, table-selection(-count), table-wrap, table-scroll.is-scrolled, table.datatable(.table-compact), cell-toggle, cell-check, sort-btn, th-filter.is-filtered, dropdown/menu-filter*, col-num, table-detail(-inner), table-empty, empty, table-foot(-count), select-wrap, pagination; #choice — checkbox/box; #fields — field/switch/track/input; #navigation — pagination; #descriptions — descriptions",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "web-components": {
+          "status": "stable",
+          "source": "frameworks/web-components/components/mue-datatable.js",
+          "sources": [
+            "frameworks/web-components/components/mue-datatable.js"
+          ],
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "tag": "mue-datatable",
+          "package": "mue-web-components",
+          "architecture": null,
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
+          "spec": {
+            "variants": "default (search, sort, filter, expand, select, paginate), compact density, loading, empty",
+            "props": "(none — it operates on the controls/rows the author supplies inside it)",
+            "states": "sort cycles none→ascending→descending and republishes aria-sort on the th; the header checkbox is indeterminate for a partial page; filter Apply commits checkbox states and marks the trigger .is-filtered; the sticky rule adds .is-scrolled once .table-scroll is panned; refresh swaps to the loading tbody for a beat; page-size/pager/count all read the filtered set",
+            "a11y": "caption is sr-only; sortable th carry aria-sort; the filter menu is a .dropdown with aria-haspopup/aria-expanded closed on Escape and outside click; select-all is indeterminate so it never lies; row toggles keep aria-expanded/aria-controls to their detail row; status rides the badge label, not colour alone; amounts use tabular figures",
+            "keyboard": "search is a real input; sort/filter/refresh are buttons (Enter/Space); the filter menu closes on Escape and returns focus to its trigger; checkboxes toggle with Space; detail rows open with the caret or the Details button",
+            "events": "mue-sort {detail:{key,direction}}, mue-filter {detail:{statuses}}, mue-page-change {detail:{page,pageSize,total}}, mue-select {detail:{selected}}, mue-expand {detail:{id,expanded}}",
+            "responsive": ".table-wrap pans the columns sideways under 54rem with a sticky head; the toolbar and footer wrap; the detail panel drops its inset at 640px — all the sheet's rules",
+            "dependencies": "design-tokens/engine.css, styles/components.css",
+            "ports": "components/tables/data-table.html",
+            "sheet": "styles/components.css#datatable (+ #tables, #dropdown, #descriptions, #feedback, #badges, #choice, #buttons, #fields, #navigation, #display, #utilities). The element upgrades the authored markup it wraps: a `.table-toolbar` (search .field.table-search > .input, a .switch for density, a .btn for refresh), a `.table-selection` bar, a `.table-wrap.table-scroll` around a <table class=\"table datatable\"> whose thead holds `button.sort-btn[data-key]` headers, a `button.th-filter` inside a `.dropdown > .dropdown-menu.menu-filter`, and whose tbody data rows carry `data-<key>` attributes with `.cell-check input`, `.row-toggle`/`[data-expand]` and a following detail `<tr>` (.table-detail > .table-detail-inner > .descriptions); plus loading/empty tbodies and a `.table-foot` (count, .select-wrap select, `nav.pagination`). It only toggles the sheet's existing classes (.is-open, .is-selected, .is-filtered, .is-scrolled, table-compact, [aria-sort]) — it emits no CSS and every class it writes is defined in the shared sheet.",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "react": {
+          "status": "stable",
+          "source": "frameworks/react/components/data-table.jsx",
+          "sources": [
+            "frameworks/react/components/data-table.jsx"
+          ],
+          "preview": "frameworks/react/preview/gallery.html",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "tag": null,
+          "package": "mue-react",
+          "architecture": null,
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
+          "spec": {
+            "variants": "selectable + expandable + filterable + sortable columns, compact density, loading (skeleton rows) and empty states",
+            "props": "columns, rows, caption, ariaLabel, selectable, expandable, loading, emptyTitle, emptyDesc, pageSizes, selectKey, cells, detail",
+            "a11y": "caption/aria-label; th scope=\"col\" publishes aria-sort and the sort button carries data-sort; the header checkbox is indeterminate when a page is partly picked; each row checkbox is named by its own row (Select <first column> or <selectKey>) so no two share a name; the filter is a labelled group with Apply/Clear; the caret and the row share aria-expanded; search has an sr-only label",
+            "keyboard": "sort buttons cycle on Enter/Space (native); the filter closes on Escape and returns focus to its trigger, and closes on an outside click; the table header picks up its rule on scroll; every control is a native input or button",
+            "dependencies": "styles/components.css#datatable (+ #tables, #dropdown, #descriptions, #feedback, #badges, #choice, #fields, #navigation, #utilities) + react; this file ships no CSS of its own",
+            "ports": "components/tables/data-table.html (the page script becomes component state)",
+            "sheet": "styles/components.css#datatable — table-toolbar, table-search, table-selection(-count), table-wrap, table-scroll.is-scrolled, table.datatable(.table-compact), cell-toggle, cell-check, sort-btn, th-filter.is-filtered, dropdown/menu-filter*, col-num, table-detail(-inner), table-empty, empty, table-foot(-count), select-wrap, pagination; #choice — checkbox/box + switch/track; #utilities — sr-only",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "svelte": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        },
+        "angular": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        }
+      },
+      "frameworkKeys": [
+        "vanilla",
+        "vue",
+        "web-components",
+        "react"
+      ],
+      "supportMatrix": "vue:stable web-components:stable react:stable svelte:planned angular:planned"
     },
     {
       "id": "ui-descriptions",
@@ -2847,10 +5261,9 @@ window.MUE_CATALOG = {
           }
         },
         "react": {
-          "status": "experimental",
-          "source": "frameworks/react/components/badge.jsx",
+          "status": "stable",
+          "source": "frameworks/react/components/avatar.jsx",
           "sources": [
-            "frameworks/react/components/badge.jsx",
             "frameworks/react/components/avatar.jsx"
           ],
           "preview": "frameworks/react/preview/gallery.html",
@@ -2859,20 +5272,20 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-react",
           "architecture": null,
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven",
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
           "spec": {
-            "variants": "variant=neutral|primary|success|warning|error|danger|info|solid, dot / initials, image (src + alt), and MueAvatarGroup for a stack; size comes from the sheet, not from a prop",
-            "a11y": "a badge is text, so it carries its own name — colour only reinforces it and never replaces it, which is why the classes are tint/text pairs from the sheet; the optional .dot is aria-hidden decoration; a status badge inside a table cell stays readable because the cell keeps its words / the previews mark an avatar aria-hidden when the person's name is already written beside it, so that is this binding's default; a standalone avatar that carries meaning on its own is given role=\"img\" + aria-label through the label prop, and an image is only rendered with the alt it needs; a group is decoration around already-named rows, so it stays aria-hidden unless every member has a label",
-            "keyboard": "none — a badge is not interactive. For a removable/toggleable pill the sheet has .chip with aria-pressed, which belongs to a filter control, not to this component / none — an avatar is not a control. Where a preview puts one inside a button or a link (the header avatar, the row action), that focusability belongs to the button",
-            "dependencies": "styles/components.css#badges + design-tokens/engine.css (linked by the host page) / styles/components.css#display + design-tokens/engine.css (linked by the host page)",
-            "ports": "components/cards/cards.html (New / count pills), components/tables/tables.html (status column) / components/display/descriptions.html (the people row and the group stack), components/tables/data-table.html (cell-user initials)",
-            "sheet": "styles/components.css#badges — .badge .badge-primary .badge-success .badge-warning .badge-error .badge-danger .badge-info .badge-solid and the .dot marker / styles/components.css#display — .avatar (2.25rem circle, --tint-primary fill, initials centred by display:grid), .avatar img (cover), .avatar-group and the -space-2 overlap with the --bg-surface ring",
+            "variants": "initials, image (src + alt), and MueAvatarGroup for a stack; size comes from the sheet, not from a prop",
+            "a11y": "the previews mark an avatar aria-hidden when the person's name is already written beside it, so that is this binding's default; a standalone avatar that carries meaning on its own is given role=\"img\" + aria-label through the label prop, and an image is only rendered with the alt it needs; a group is decoration around already-named rows, so it stays aria-hidden unless every member has a label",
+            "keyboard": "none — an avatar is not a control. Where a preview puts one inside a button or a link (the header avatar, the row action), that focusability belongs to the button",
+            "dependencies": "styles/components.css#display + design-tokens/engine.css (linked by the host page)",
+            "ports": "components/display/descriptions.html (the people row and the group stack), components/tables/data-table.html (cell-user initials)",
+            "sheet": "styles/components.css#display — .avatar (2.25rem circle, --tint-primary fill, initials centred by display:grid), .avatar img (cover), .avatar-group and the -space-2 overlap with the --bg-surface ring",
             "license": "MIT",
             "attribution": "MASTER-UI-ENGINE contributors"
           }
         },
         "vue": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/vue/components/MueBadge.vue",
           "sources": [
             "frameworks/vue/components/MueBadge.vue",
@@ -2884,7 +5297,7 @@ window.MUE_CATALOG = {
           "tag": null,
           "package": "mue-vue",
           "architecture": null,
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven",
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
           "spec": {
             "variants": "variant prop = primary|success|warning|error|danger|info (null keeps the neutral badge); solid; dot / initials/image via default slot or src; group=true renders the .avatar-group row and slots avatars in",
             "a11y": "text carries the meaning, colour never stands alone; the dot is aria-hidden decoration / img alt is passed through; initials text is the accessible name; decorative use is the author's choice via alt=\"\"",
@@ -2896,7 +5309,7 @@ window.MUE_CATALOG = {
           }
         },
         "web-components": {
-          "status": "experimental",
+          "status": "stable",
           "source": "frameworks/web-components/components/mue-badge.js",
           "sources": [
             "frameworks/web-components/components/mue-badge.js",
@@ -2909,7 +5322,7 @@ window.MUE_CATALOG = {
           "tag": "mue-badge, mue-avatar, mue-avatar-group",
           "package": "mue-web-components",
           "architecture": null,
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven",
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
           "spec": {
             "variants": "variant=(default)|primary|success|warning|danger|error|info, solid (bool), dot (bool) / none (only .avatar exists in components.css) / none (only .avatar-group exists in components.css)",
             "props": "variant, solid, dot / src, alt, initials, name / label (accessible name)",
@@ -2955,7 +5368,7 @@ window.MUE_CATALOG = {
         "vue",
         "web-components"
       ],
-      "supportMatrix": "react:experimental vue:experimental web-components:experimental svelte:planned angular:planned"
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     },
     {
       "id": "ui-guidance",
@@ -2982,7 +5395,142 @@ window.MUE_CATALOG = {
         "<=640px"
       ],
       "theming": "light + dark toggle (html.dark, persisted in localStorage)",
-      "verified": "WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01"
+      "verified": "WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01",
+      "frameworks": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/overlays/guidance.html",
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": null,
+          "architecture": null,
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/overlays/guidance.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues.",
+          "spec": {
+            "variants": "Tour step 1-4 (step 2 open at rest), card below, card above, end-aligned; float button default, primary, labelled, stacked dock",
+            "responsive": "the tour card is capped at min(21rem, 100%) so it stays inside the stage at 320px, the demo grid collapses to one column, and the dock pulls in to the 1rem gutter below 640px",
+            "dependencies": "design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head)",
+            "sheet": "styles/components.css#guidance — the coachmark stage, target ring, card, arrow, step counter and the float button and its dock are defined there; #cards frames the surface being taught, #display supplies the stat tiles and the audit timeline, #badges the status pills, #buttons the card actions and #utilities the row, stack and grid that place the demos",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "react": {
+          "status": "stable",
+          "source": "frameworks/react/components/guidance.jsx",
+          "sources": [
+            "frameworks/react/components/guidance.jsx"
+          ],
+          "preview": "frameworks/react/preview/gallery.html",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "tag": null,
+          "package": "mue-react",
+          "architecture": null,
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/.",
+          "spec": {
+            "variants": "the four-step coachmark inside a clipped stage (steps 1-2 open below with .tour-end, steps 3-4 with .tour-top), a bare .tour-card below and above with no target, and the float button in default, primary, labelled and anchor form plus the stacked dock",
+            "props": "MueGuidance — total (step count: the counter, the dot row and the Finish label all read it), current (controlled open step, 1-based, -1 = closed) / defaultCurrent (uncontrolled, default -1 so a tour starts shut), onChange(step) fired for every move including -1, children; it renders no element of its own, only the step state. MueGuidanceStage — the .tour-stage card wrapper (className, children, rest on the div). MueGuidanceStep — step (its 1-based number, written to data-step), target (node inside .tour-target), title, body, placement (\"top\" | \"end\" | \"top-end\" | \"end-top\"; anything else writes no position class), total (override of the provider's), as (\"span\" default, \"div\" when the target is block content — the preview switches for exactly that reason), skipLabel/backLabel/nextLabel/backDisabled/dots (passed through to the card), className. MueGuidanceCard — step, total, title, body, placement, dots, skipLabel / backLabel / nextLabel (null hides that button), onSkip / onBack / onNext, focusHint (\"next\" | \"back\"), headingId, children, rest on the card; it is exported so the anatomy variant can be drawn with no target and no provider. MueGuidanceReplay — step (default 1), variant (default \"outline\"), size (default \"sm\"), children (default \"Replay tour\"). MueGuidanceStatus — closedLabel (default \"Tour closed\"), className — the .badge.badge-info pill. MueFloatButton — variant (\"primary\" | \"label\" | none), label (aria-label for an icon-only button), href (renders the anchor form the preview uses), toTop (click scrolls the window to the top, the preview's #fab-top behaviour), onClick, children (inline SVG and/or text). MueFloatDock — visible (controlled), revealAfter (scroll offset, default 420 like the preview), className, children",
+            "states": "tour closed (no step carries .is-open, the pill reads \"Tour closed\"), tour open at step N (that one wrapper carries .is-open, so the sheet paints the target ring and reveals its card), first step (Back disabled), last step (Next reads \"Finish\" and closes), card placement (.tour-top / .tour-end), dot position (.is-current), and for the dock hidden-below-threshold vs .is-visible",
+            "a11y": "every card is role=\"dialog\" labelled by its own .tour-title id (useId when the host does not pass headingId); the dot row and the notch are aria-hidden because the counter text and the card carry the meaning; Back and Skip are real <button>s, so a disabled first-step Back leaves the tab order instead of faking it; the pill text is the state and the host can wrap it in a live region; a card of a step that is not open carries inert as well as the sheet's own visibility:hidden, so its three buttons cannot be tabbed into; float glyphs are decorative and each icon-only control carries an aria-label",
+            "keyboard": "Skip, Back and Next are native buttons (Tab reaches them, Enter/Space presses them); Escape closes the tour at document level and returns focus to MueGuidanceReplay when one is mounted (otherwise focus is left where the browser put it); opening a later step moves focus to that step's Next button, and Back moves focus to the previous step's Back button, so the reader keeps their place exactly as the page script did; no arrow keys are bound — the preview binds none",
+            "events": "onChange(step) from Next, Back, Skip, Finish, Escape, the replay button and any programmatic go(); -1 means closed; MueFloatDock reports nothing (it only reads window.scrollY); MueFloatButton passes onClick through and toTop calls window.scrollTo({ top: 0, behavior: \"smooth\" })",
+            "responsive": "the card is capped by the sheet at min(21rem, 100vw - 4rem) so it stays inside the stage at 320px, .tour-stage clips the scrim to the surface being taught, and the dock's gutter tightens below 640px; rendered at 1280px, 820px and 390px in the gallery",
+            "dependencies": "styles/components.css#guidance (+ #cards, #badges, #buttons, #utilities, all linked by the host page), react (createContext/useId/useRef/useState); no other module in this package, no chart or icon library, no CDN",
+            "ports": "components/overlays/guidance.html (Product tour run — its four data-step wrappers, replay button and Step-N-of-4 pill; Card anatomy run — the bare .tour-card below and above; Float buttons run — default, primary, labelled and the anchor form; plus the fixed dock its page script reveals past 420px and the Back-to-top button wired there)",
+            "sheet": "styles/components.css#guidance — .tour-stage, .tour + .is-open, .tour-target, .tour-card, .tour-top, .tour-end, .tour-arrow, .tour-step, .tour-title, .tour-body, .tour-actions, .tour-dots, .dot + .is-current, .float-btn, .float-btn-primary, .float-btn-label, .float-btn-group + .is-visible; #cards supplies the .card/.card-body the stage is built from, #badges the step-state pill, #buttons the Skip/Back/Next and replay controls. Documented deviation: the preview writes .tour-top/.tour-end on the card, while the sheet's moving rule is `.tour-top > .tour-card` / `.tour-end > .tour-card`, so this binding puts the position class on the step wrapper as well as on the card — the card's own class list still matches the preview and the card now actually flips",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "vue": {
+          "status": "stable",
+          "source": "frameworks/vue/components/MueFloatButton.vue",
+          "sources": [
+            "frameworks/vue/components/MueFloatButton.vue",
+            "frameworks/vue/components/MueTour.vue"
+          ],
+          "preview": "frameworks/vue/preview/gallery.html",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "tag": null,
+          "package": "mue-vue",
+          "architecture": null,
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/.",
+          "spec": {
+            "variants": "default, primary, labelled (text beside the icon); a docked group pins to the viewport corner and reveals on scroll / any number of steps; each step carries a target label and card placement modifiers (\"top\", \"end\") handed to the sheet",
+            "a11y": "every control is a real <button> with an aria-label; icon SVGs are aria-hidden; the label variant carries visible text so an icon is never the only cue / the open card is role=\"dialog\" labelled by its own title; the target ring is drawn by the sheet's box-shadow (no overlay element); a replay button reopens a closed tour; step order follows the DOM",
+            "keyboard": "native button focus + Enter/Space; when docked the group reveals once scrolled past the threshold and a click scrolls the page to the top (ported from the guidance.html page script) PORTED FROM: components/overlays/guidance.html (float-buttons section) / Back / Skip / Next are real buttons; Escape closes the tour and returns focus to the replay control (ported from the guidance.html page script) PORTED FROM: components/overlays/guidance.html (product-tour section)",
+            "dependencies": "styles/components.css#guidance — this SFC ships no CSS of its own / styles/components.css#guidance (+ #cards, #badges, #buttons, #utilities) — this SFC ships no CSS of its own",
+            "sheet": "styles/components.css#guidance — float-btn, float-btn-primary, float-btn-label, float-btn-group, float-btn-group.is-visible / styles/components.css#guidance — tour-stage, tour, tour.is-open, tour-target, tour-card, tour-top, tour-end, tour-arrow, tour-step, tour-title, tour-body, tour-actions, tour-dots, dot, is-current",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "web-components": {
+          "status": "stable",
+          "source": "frameworks/web-components/components/mue-guidance.js",
+          "sources": [
+            "frameworks/web-components/components/mue-guidance.js"
+          ],
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "tag": "mue-guidance",
+          "package": "mue-web-components",
+          "architecture": null,
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/.",
+          "spec": {
+            "variants": "tour with 1-4 stops open at any step (current prop), card below / above (.tour-top) / end-aligned (.tour-end); float dock reveal-on-scroll or shown in place (static)",
+            "props": "MueGuidance — current (1-based stop that is open at load, default closed; setter moves .is-open). MueFab — reveal (scrollY threshold before the dock rises, default 420), static (show the dock without waiting for scroll).",
+            "states": "Next / Back / Finish move .is-open and refresh the badge (\"Step n of total\"; Back is disabled on the first stop); Skip, Escape or Finish past the last stop close the tour (badge \"Tour closed\", focus returns to the replay control); the fab dock gains .is-visible once the page has scrolled past reveal (or immediately when static).",
+            "a11y": "each card is a role=\"dialog\" labelled by its own .tour-title; Back/Skip/Next are real buttons so the tour is operable from the keyboard alone; the fab buttons keep their own aria-label and the dock is hidden (visibility) rather than absent so it never covers content; step dots and the tour arrow are aria-hidden.",
+            "keyboard": "Escape closes the open tour and refocuses the replay control (only while this tour is open and focus is inside it); the tour buttons themselves are native focus stops.",
+            "events": "MueGuidance — mue-step {detail:{step,total}} on navigation, mue-close {} on close. MueFab — no events (a scroll-revealed dock).",
+            "responsive": "the tour card is capped at min(21rem,100%) by the sheet so it stays inside the stage at 320px; the dock gutter tightens below 640px (components.css#guidance media queries).",
+            "dependencies": "design-tokens/engine.css, styles/components.css",
+            "ports": "components/overlays/guidance.html",
+            "sheet": "styles/components.css#guidance — the author supplies the surface being taught inside <mue-guidance> (a .card-body layout with one <span class=\"tour\" data-step=\"N\"> per stop, each wrapping a <span class=\"tour-target\"> around the real control and a <div class=\"tour-card\" role=\"dialog\" aria-labelledby> holding .tour-arrow, .tour-step, .tour-title, .tour-body and a .tour-actions row of [data-back]/[data-skip]/[data-next]). The element builds a .row with a replay <button class=\"btn-outline btn-sm\"> and a <span class=\"badge badge-info\"> status, wraps the authored content in a <div class=\"tour-stage card\"> and only moves the single state class .is-open between the .tour stops (the sheet paints the target scrim, the card reveal and the .tour-top / .tour-end placement from it). <mue-fab> is a <div class=\"float-btn-group\"> dock holding authored <button class=\"float-btn\"> / .float-btn-primary / .float-btn-label children; it toggles .is-visible on scroll. tour, tour-stage, tour-target, tour-card, tour-arrow, tour-step, tour-title, tour-body, tour-actions, tour-dots, tour-top, tour-end, float-btn, float-btn-group, float-btn-primary, float-btn-label, badge, badge-info, dot, row, card, card-body, btn-outline, btn-primary, btn-ghost, btn-sm, is-open and is-visible are all defined in the sheet. No CSS is added.",
+            "license": "MIT",
+            "attribution": "MASTER-UI-ENGINE contributors"
+          }
+        },
+        "svelte": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        },
+        "angular": {
+          "status": "planned",
+          "source": null,
+          "sources": null,
+          "preview": null,
+          "install": null,
+          "import": null,
+          "tag": null,
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "verified": null,
+          "spec": null
+        }
+      },
+      "frameworkKeys": [
+        "vanilla",
+        "react",
+        "vue",
+        "web-components"
+      ],
+      "supportMatrix": "react:stable vue:stable web-components:stable svelte:planned angular:planned"
     }
   ]
 };

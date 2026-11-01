@@ -16,7 +16,9 @@
   VARIANTS: Tour step 1-4 (step 2 open at rest), card below, card above, end-aligned; float button default, primary, labelled, stacked dock
   MOTION: the card and the dock reveal with --motion-reveal, the target ring and the button tint with --motion-colors, the button lift with --motion-lift; durations come from design-tokens/motion/scale.css and nothing here hardcodes a time
   RESPONSIVE: the tour card is capped at min(21rem, 100%) so it stays inside the stage at 320px, the demo grid collapses to one column, and the dock pulls in to the 1rem gutter below 640px
-  VERIFIED: WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01
+  VERIFIED: node tools/audit/serve.js --port 8791, then tools/audit/harness.js in headless
+    Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at
+    320/375/768/1280 in light and dark, shared sheet and styles/mue.js both linked, 0 console errors
   CATALOG: showcase/data/component-catalog.json#ui-guidance
   LICENSE: MIT
   ATTRIBUTION: MASTER-UI-ENGINE contributors

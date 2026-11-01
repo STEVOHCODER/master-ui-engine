@@ -1,11 +1,14 @@
 # mue-web-components — light-DOM custom elements
 
-Twenty-one custom elements covering the shared sixteen components. No build step, no
-framework runtime, no Shadow DOM: each element upgrades the markup you write and applies
-the classes already defined in [`styles/components.css`](../../styles/components.css).
+Forty modules that register 43 custom elements, covering all 33 catalogued components. No
+build step, no framework runtime, no Shadow DOM: each element upgrades the markup you write
+and applies the classes already defined in
+[`styles/components.css`](../../styles/components.css).
 
-Status: **experimental** — the elements are real, the preview renders, and the interactive
-paths below were driven in headless Chrome on 2026-11-01. Not published to npm.
+Status: **stable** — all 33 catalogued components have an element here, the preview
+renders with no build step, and the interactive paths below were driven in headless Chrome
+and Edge on 2026-11-01. Not published to npm, and no screen-reader, touch-device, Safari
+or Firefox pass has been run.
 
 ## Use it
 
@@ -62,18 +65,20 @@ replace it.
 
 ## Preview
 
-[`preview/gallery.html`](preview/gallery.html) demos all sixteen components (one section per
-component) and logs every custom event into a live region. It needs no build step, but
+[`preview/gallery.html`](preview/gallery.html) demos every element — 36 blocks over the 33
+catalogued components — and logs every custom event into a live region. It needs no build
+step, but must be
 `served` over http — ES modules and the `../index.js` import are blocked on `file://`:
 
 ```bash
 node tools/audit/serve.js --port 8791   # then open /frameworks/web-components/preview/gallery.html
 ```
 
-## Verified (2026-11-01, headless Chrome via puppeteer-core)
+## Verified (2026-11-01, headless Chrome and Edge via puppeteer-core, over `node tools/audit/serve.js --port 8791`)
 
-- 21 of 21 tags defined, 0 elements with a `shadowRoot`, `pageErrors []`. The only console
-  error over http is the `/favicon.ico` 404.
+- 43 of 43 tags defined, 0 elements with a `shadowRoot`, **46/46 behaviour probes pass at
+  1280px and again at 390px** in light and dark with **0 console errors**, and axe-core
+  reports **0 serious or critical in 8 runs** (both widths × both themes × both browsers).
 - Dialog: `open` + `.overlay.is-open`, `role="dialog"`, `aria-modal="true"`, focus lands
   inside, Escape clears the attribute.
 - Tabs: `ArrowRight` moves focus to "Classes", `Enter` selects it, `aria-selected` is

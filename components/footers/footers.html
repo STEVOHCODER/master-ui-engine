@@ -16,7 +16,9 @@
   VARIANTS: Default (multi-column + bottom bar)
   MOTION: link hover recolour uses --motion-colors — nothing hardcodes a time
   RESPONSIVE: columns auto-fit from ~11rem and wrap as the width narrows — no fixed breakpoint needed
-  VERIFIED: WCAG AA contrast in light + dark and no overflow at 320/375/768/1280, audited 2026-10-31
+  VERIFIED: node tools/audit/serve.js --port 8791, then tools/audit/harness.js in headless
+    Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at
+    320/375/768/1280 in light and dark, shared sheet and styles/mue.js both linked, 0 console errors
   CATALOG: showcase/data/component-catalog.json#ui-footers
   LICENSE: MIT
   ATTRIBUTION: MASTER-UI-ENGINE contributors

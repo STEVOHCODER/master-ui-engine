@@ -43,6 +43,7 @@ for (const file of process.argv.slice(2)) {
   markup = strip(markup, /<script[\s\S]*?<\/script>/g);
   markup = strip(markup, /<style[\s\S]*?<\/style>/g);
   markup = strip(markup, /<pre[\s\S]*?<\/pre>/g);
+  markup = strip(markup, /<code[\s\S]*?<\/code>/g);
   markup = strip(markup, /<textarea[\s\S]*?<\/textarea>/g);
   const tokens = new Set();
   for (const m of markup.matchAll(/\bclass="([^"]*)"/g))

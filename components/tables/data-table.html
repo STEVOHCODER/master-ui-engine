@@ -16,7 +16,9 @@
   VARIANTS: Default (select, sort, filter, expand, paginate), Compact density, Loading, Empty
   MOTION: the sticky rule, row tint and detail panel use --motion-colors / --duration-base and mue-detail-open; the filter menu reveals on #dropdown - durations come from design-tokens/motion/scale.css and nothing here hardcodes a time
   RESPONSIVE: .table-wrap pans the 8-column table sideways below 54rem with the head still sticky, the toolbar and footer wrap onto new lines, and the detail panel drops its inset at 640px
-  VERIFIED: WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01
+  VERIFIED: node tools/audit/serve.js --port 8791, then tools/audit/harness.js in headless
+    Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at
+    320/375/768/1280 in light and dark, shared sheet and styles/mue.js both linked, 0 console errors
   CATALOG: showcase/data/component-catalog.json#ui-datatable
   LICENSE: MIT
   ATTRIBUTION: MASTER-UI-ENGINE contributors

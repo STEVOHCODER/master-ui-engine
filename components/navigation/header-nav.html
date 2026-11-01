@@ -16,7 +16,9 @@
   VARIANTS: Default (brand, links, user actions, hamburger)
   MOTION: link hover recolour uses --motion-colors; past 8px the header grows a shadow via the .is-scrolled class that styles/mue.js adds — nothing hardcodes a time
   RESPONSIVE: below 768px the hamburger appears and the links collapse into an absolutely-positioned drawer that .is-open reveals; styles/mue.js wires the toggle (data-menu-toggle) and the scroll shadow
-  VERIFIED: WCAG AA contrast in light + dark and no overflow at 320/375/768/1280, audited 2026-10-31
+  VERIFIED: node tools/audit/serve.js --port 8791, then tools/audit/harness.js in headless
+    Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at
+    320/375/768/1280 in light and dark, shared sheet and styles/mue.js both linked, 0 console errors
   CATALOG: showcase/data/component-catalog.json#nav-header
   LICENSE: MIT
   ATTRIBUTION: MASTER-UI-ENGINE contributors

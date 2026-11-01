@@ -15,7 +15,7 @@
   KEYBOARD: every link is a native anchor — Tab reaches them in reading order, Enter follows, focus-visible rings come from the sheet; nothing is intercepted
   EVENTS: none invented; onClick can be passed per link through the item object
   RESPONSIVE: the grid is auto-fit at a ~11rem minimum, so four columns drop to one without a breakpoint; the bottom bar spans the grid and wraps its two halves; rendered at 1280px and 390px in the gallery
-  VERIFIED: node build.mjs rebuilt preview/preview.js with this module and it was rendered in headless Chrome (puppeteer-core) 2026-11-03 — the landmark, all three columns, the bottom bar and the three social links are in the DOM at both viewports; no new CSS is asserted
+  VERIFIED: node build.mjs rebuilt preview/preview.js with this module and it was rendered in headless Chrome (puppeteer-core) 2026-11-01 — the landmark, all three columns, the bottom bar and the three social links are in the DOM at both viewports; no new CSS is asserted
   LICENSE: MIT
   ATTRIBUTION: MASTER-UI-ENGINE contributors
 END MUE:META */

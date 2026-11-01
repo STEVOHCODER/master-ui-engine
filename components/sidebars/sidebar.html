@@ -16,7 +16,9 @@
   VARIANTS: Default (sectioned links, active state)
   MOTION: link hover + active recolour use --motion-colors; the width transition uses --duration-slower/--ease-soft — nothing hardcodes a time
   RESPONSIVE: below 900px the sidebar drops to full width and stacks above the content (border moves to the bottom) — no JavaScript drawer
-  VERIFIED: WCAG AA contrast in light + dark and no overflow at 320/375/768/1280, audited 2026-10-31
+  VERIFIED: node tools/audit/serve.js --port 8791, then tools/audit/harness.js in headless
+    Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at
+    320/375/768/1280 in light and dark, shared sheet and styles/mue.js both linked, 0 console errors
   CATALOG: showcase/data/component-catalog.json#nav-sidebar
   LICENSE: MIT
   ATTRIBUTION: MASTER-UI-ENGINE contributors

@@ -15,7 +15,7 @@
   KEYBOARD: links are native anchors and button rows answer Enter/Space, so Tab walks the rail in reading order; the ring is the sheet's; no key is intercepted — the preview binds none
   EVENTS: onSelect(item, event) fires on click without preventing the href, so a router link or a plain hash both work; the active state is read back from current/defaultCurrent
   RESPONSIVE: width comes from --sidebar-w and the sheet stacks the rail full width under 900px; rendered at 1280px and 390px in the gallery
-  VERIFIED: node build.mjs rebuilt preview/preview.js with this module and it was driven in headless Chrome (puppeteer-core) 2026-11-03 — both sections render, the default row carries aria-current="page" and clicking another row moved it; no new CSS is asserted
+  VERIFIED: node build.mjs rebuilt preview/preview.js with this module and it was driven in headless Chrome (puppeteer-core) 2026-11-01 — both sections render, the default row carries aria-current="page" and clicking another row moved it; no new CSS is asserted
   LICENSE: MIT
   ATTRIBUTION: MASTER-UI-ENGINE contributors
 END MUE:META */

@@ -7,12 +7,12 @@
     "planned",
     "unsupported"
   ],
-  "note": "A binding is listed only when its source files exist. experimental means compiled and driven in headless Chrome, not published to npm and not audited by axe-core.",
+  "note": "A binding is listed only when its source files exist. stable means the source builds or serves, renders in its own framework gallery, and was driven there in headless Chrome and Edge — behaviour probes at 1280px and 390px in light and dark plus axe-core at both widths and themes — with the command recorded in that binding's verified note and the module-level check in its own MUE:META block. No binding is published to npm, and none was checked on Safari, Firefox, a screen reader, a touch device or under server-side rendering.",
   "packages": {
     "react": {
       "package": "mue-react",
       "readme": "frameworks/react/README.md",
-      "components": 31,
+      "components": 33,
       "preview": "frameworks/react/preview/gallery.html"
     },
     "vue": {
@@ -58,11 +58,11 @@
           ],
           "source": "frameworks/react/components/button.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -70,11 +70,11 @@
           ],
           "source": "frameworks/vue/components/MueButton.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -83,11 +83,11 @@
           "source": "frameworks/web-components/components/mue-button.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-button",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
         },
         "svelte": {
           "status": "planned",
@@ -105,7 +105,7 @@
     },
     {
       "catalogId": "frm-input-fields",
-      "name": "Input fields and textarea",
+      "name": "Input Fields",
       "catalog": "components/forms/input-fields.html",
       "bindings": {
         "vanilla": {
@@ -120,11 +120,11 @@
           ],
           "source": "frameworks/react/components/input.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -133,11 +133,11 @@
           ],
           "source": "frameworks/vue/components/MueInput.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -147,11 +147,11 @@
           "source": "frameworks/web-components/components/mue-input.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-input, mue-textarea",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
         },
         "svelte": {
           "status": "planned",
@@ -169,7 +169,7 @@
     },
     {
       "catalogId": "frm-select-menus",
-      "name": "Select menus",
+      "name": "Select Menus",
       "catalog": "components/forms/select-menus.html",
       "bindings": {
         "vanilla": {
@@ -183,11 +183,11 @@
           ],
           "source": "frameworks/react/components/select.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -195,11 +195,11 @@
           ],
           "source": "frameworks/vue/components/MueSelect.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -208,11 +208,11 @@
           "source": "frameworks/web-components/components/mue-select.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-select",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
         },
         "svelte": {
           "status": "planned",
@@ -244,11 +244,11 @@
           ],
           "source": "frameworks/react/components/checkbox.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -256,11 +256,11 @@
           ],
           "source": "frameworks/vue/components/MueCheckbox.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -269,11 +269,11 @@
           "source": "frameworks/web-components/components/mue-checkbox.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-checkbox",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
         },
         "svelte": {
           "status": "planned",
@@ -305,11 +305,11 @@
           ],
           "source": "frameworks/react/components/switch.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -317,11 +317,11 @@
           ],
           "source": "frameworks/vue/components/MueSwitch.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -330,11 +330,11 @@
           "source": "frameworks/web-components/components/mue-switch.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-switch",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
         },
         "svelte": {
           "status": "planned",
@@ -352,7 +352,7 @@
     },
     {
       "catalogId": "frm-radio-buttons",
-      "name": "Radio buttons",
+      "name": "Radio Buttons",
       "catalog": "components/forms/radio-buttons/radio-buttons.html",
       "bindings": {
         "vanilla": {
@@ -366,11 +366,11 @@
           ],
           "source": "frameworks/react/components/radio.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -378,11 +378,11 @@
           ],
           "source": "frameworks/vue/components/MueRadioGroup.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -392,11 +392,11 @@
           "source": "frameworks/web-components/components/mue-radio.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-radio, mue-radio-group",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
         },
         "svelte": {
           "status": "planned",
@@ -420,7 +420,7 @@
         "vanilla": {
           "status": "stable",
           "source": "components/forms/date-picker/date-picker.html",
-          "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/forms/date-picker/date-picker.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues."
         },
         "react": {
           "sources": [
@@ -428,11 +428,11 @@
           ],
           "source": "frameworks/react/components/date-picker.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "node build.mjs rebuilt preview/preview.js with this module; the built gallery was then opened in headless Chrome (puppeteer-core) 2026-11-01, the console and network logs captured, and the control was driven from the keyboard (focus, then arrow/segment edits) while reading input.value back from the DOM and confirming the .is-error branch sets aria-invalid=\"true\"; no new CSS is asserted"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -440,11 +440,11 @@
           ],
           "source": "frameworks/vue/components/MueDatePicker.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "compiles in build.mjs; typing a value into the field updates the v-model in the preview gallery (see README)"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -453,11 +453,23 @@
           "source": "frameworks/web-components/components/mue-date-picker.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-date-picker",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "headless Chrome (puppeteer-core) served over http by tools/audit/serve.js on port 8794:"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
+        },
+        "svelte": {
+          "status": "planned",
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "docs": "frameworks/svelte/README.md"
+        },
+        "angular": {
+          "status": "planned",
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "docs": "frameworks/angular/README.md"
         }
       }
     },
@@ -469,7 +481,7 @@
         "vanilla": {
           "status": "stable",
           "source": "components/forms/file-upload.html",
-          "verified": "WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01"
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/forms/file-upload.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues."
         },
         "react": {
           "sources": [
@@ -477,11 +489,11 @@
           ],
           "source": "frameworks/react/components/file-upload.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "node build.mjs rebuilt preview/preview.js with this module; the built gallery was then opened in headless Chrome (puppeteer-core) 2026-11-01, the console and network logs captured, and the list was driven — uploading a file with page.uploadFile() added a .file-row and cleared again after clicking its .file-remove, and dispatching a dragover on the box toggled .is-dragging; no new CSS is asserted"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -489,11 +501,11 @@
           ],
           "source": "frameworks/vue/components/MueDropzone.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "compiles in build.mjs; a synthetic drop + a remove-button click change the file list in the preview gallery (see README)"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -502,11 +514,23 @@
           "source": "frameworks/web-components/components/mue-dropzone.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-dropzone",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "not-verified (headless-Chrome gallery run required)"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
+        },
+        "svelte": {
+          "status": "planned",
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "docs": "frameworks/svelte/README.md"
+        },
+        "angular": {
+          "status": "planned",
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "docs": "frameworks/angular/README.md"
         }
       }
     },
@@ -522,16 +546,16 @@
         },
         "react": {
           "sources": [
-            "frameworks/react/components/badge.jsx",
-            "frameworks/react/components/card.jsx"
+            "frameworks/react/components/card.jsx",
+            "frameworks/react/components/badge.jsx"
           ],
-          "source": "frameworks/react/components/badge.jsx",
+          "source": "frameworks/react/components/card.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "2 files, each with its own recorded check: badge.jsx — rendered from preview/preview.js in headless Chrome (puppeteer-core) 2026-11-01 — every va · card.jsx — rendered from preview/preview.js in headless Chrome (puppeteer-core) 2026-11-01 — all four"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -539,11 +563,11 @@
           ],
           "source": "frameworks/vue/components/MueCard.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -552,11 +576,11 @@
           "source": "frameworks/web-components/components/mue-card.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-card",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
         },
         "svelte": {
           "status": "planned",
@@ -574,7 +598,7 @@
     },
     {
       "catalogId": "ui-sections",
-      "name": "Accordion sections",
+      "name": "Marketing Sections",
       "catalog": "components/marketing/sections.html",
       "bindings": {
         "vanilla": {
@@ -588,11 +612,11 @@
           ],
           "source": "frameworks/react/components/accordion.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -600,11 +624,11 @@
           ],
           "source": "frameworks/vue/components/MueAccordion.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -614,11 +638,11 @@
           "source": "frameworks/web-components/components/mue-accordion.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-accordion",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
         },
         "svelte": {
           "status": "planned",
@@ -650,11 +674,11 @@
           ],
           "source": "frameworks/react/components/table.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -662,11 +686,11 @@
           ],
           "source": "frameworks/vue/components/MueTable.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -675,11 +699,11 @@
           "source": "frameworks/web-components/components/mue-table.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-table",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
         },
         "svelte": {
           "status": "planned",
@@ -703,7 +727,7 @@
         "vanilla": {
           "status": "stable",
           "source": "components/charts/charts.html",
-          "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/charts/charts.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues."
         },
         "react": {
           "sources": [
@@ -711,11 +735,11 @@
           ],
           "source": "frameworks/react/components/charts.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "node build.mjs rebuilt preview/preview.js with this module; the built gallery was then opened in headless Chrome (puppeteer-core) 2026-11-01, the console and network logs captured, and the DOM was read back — six <rect class=\"bar bar-*\"> with viewBox geometry, six .axis labels, one polyline.line + circles.point + path.area for the trend, and three .legend-item entries; no new CSS is asserted and no colour is set from script"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -723,11 +747,11 @@
           ],
           "source": "frameworks/vue/components/MueChart.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "compiles in build.mjs; rendered in the preview gallery (see README)"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -736,11 +760,23 @@
           "source": "frameworks/web-components/components/mue-charts.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-charts",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "not-verified (headless-Chrome gallery run required)"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
+        },
+        "svelte": {
+          "status": "planned",
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "docs": "frameworks/svelte/README.md"
+        },
+        "angular": {
+          "status": "planned",
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "docs": "frameworks/angular/README.md"
         }
       }
     },
@@ -752,7 +788,7 @@
         "vanilla": {
           "status": "stable",
           "source": "components/display/rating.html",
-          "verified": "WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01"
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/display/rating.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues."
         },
         "react": {
           "sources": [
@@ -760,11 +796,11 @@
           ],
           "source": "frameworks/react/components/rating.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "node build.mjs rebuilt preview/preview.js with this module; the built gallery was then opened in headless Chrome (puppeteer-core) 2026-11-01, the console and network logs captured, and the radio group was driven from the keyboard (ArrowRight/ArrowLeft) while reading which input:checked and its value back from the DOM, plus a click on a star; no new CSS is asserted"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -773,11 +809,11 @@
           ],
           "source": "frameworks/vue/components/MueRating.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "2 files, each with its own recorded check: MueRating.vue — compiles in build.mjs; rendered in the preview gallery (see README) · MueRatingInput.vue — compiles in build.mjs; arrow-key selection driven headlessly in the preview gallery (see R"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -786,11 +822,23 @@
           "source": "frameworks/web-components/components/mue-rating.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-rating",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "not-verified (headless-Chrome gallery run required)"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
+        },
+        "svelte": {
+          "status": "planned",
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "docs": "frameworks/svelte/README.md"
+        },
+        "angular": {
+          "status": "planned",
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "docs": "frameworks/angular/README.md"
         }
       }
     },
@@ -810,11 +858,11 @@
           ],
           "source": "frameworks/react/components/dialog.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -822,11 +870,11 @@
           ],
           "source": "frameworks/vue/components/MueDialog.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -835,11 +883,11 @@
           "source": "frameworks/web-components/components/mue-dialog.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-dialog",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
         },
         "svelte": {
           "status": "planned",
@@ -863,7 +911,7 @@
         "vanilla": {
           "status": "stable",
           "source": "components/dialogs/popover.html",
-          "verified": "WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01"
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/dialogs/popover.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues."
         },
         "react": {
           "sources": [
@@ -871,11 +919,11 @@
           ],
           "source": "frameworks/react/components/popover.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "node build.mjs rebuilt preview/preview.js with this module; the built gallery was then opened in headless Chrome (puppeteer-core) 2026-11-01, the console and network logs captured, and the pinned surface was driven — clicking the trigger toggled .is-open + aria-expanded on the wrap/surface, Escape cleared them and focus came back to the trigger; no new CSS is asserted"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -883,11 +931,11 @@
           ],
           "source": "frameworks/vue/components/MuePopover.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "compiles in build.mjs; click-to-pin, Escape and outside-click exercised headlessly in the preview gallery (see README)"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -896,11 +944,23 @@
           "source": "frameworks/web-components/components/mue-popover.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-popover",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "not-verified (headless-Chrome gallery run required)"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
+        },
+        "svelte": {
+          "status": "planned",
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "docs": "frameworks/svelte/README.md"
+        },
+        "angular": {
+          "status": "planned",
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "docs": "frameworks/angular/README.md"
         }
       }
     },
@@ -912,33 +972,33 @@
         "vanilla": {
           "status": "stable",
           "source": "components/modals/modals.html",
-          "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/modals/modals.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues."
         },
         "react": {
           "sources": [
-            "frameworks/react/components/dialog.jsx",
-            "frameworks/react/components/modal.jsx"
+            "frameworks/react/components/modal.jsx",
+            "frameworks/react/components/dialog.jsx"
           ],
-          "source": "frameworks/react/components/dialog.jsx",
+          "source": "frameworks/react/components/modal.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "2 files, each with its own recorded check: dialog.jsx — rendered from preview/preview.js and driven by headless Chrome (puppeteer-core) 2026-11-01 · modal.jsx — node build.mjs rebuilt preview/preview.js with this module; the built gallery was then ope"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
-            "frameworks/vue/components/MueDialog.vue",
-            "frameworks/vue/components/MueModal.vue"
+            "frameworks/vue/components/MueModal.vue",
+            "frameworks/vue/components/MueDialog.vue"
           ],
-          "source": "frameworks/vue/components/MueDialog.vue",
+          "source": "frameworks/vue/components/MueModal.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "2 files, each with its own recorded check: MueDialog.vue — compiles in build.mjs; Escape + focus return exercised headlessly in the preview gallery ( · MueModal.vue — compiles in build.mjs; Escape + focus return + Create button exercised headlessly in the p"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -947,17 +1007,29 @@
           "source": "frameworks/web-components/components/mue-modals.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-modals",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "not-verified (headless-Chrome gallery run required)"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
+        },
+        "svelte": {
+          "status": "planned",
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "docs": "frameworks/svelte/README.md"
+        },
+        "angular": {
+          "status": "planned",
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "docs": "frameworks/angular/README.md"
         }
       }
     },
     {
       "catalogId": "ui-dropdowns",
-      "name": "Dropdown menus",
+      "name": "Dropdowns",
       "catalog": "components/dropdowns/dropdowns.html",
       "bindings": {
         "vanilla": {
@@ -971,11 +1043,11 @@
           ],
           "source": "frameworks/react/components/dropdown.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -983,11 +1055,11 @@
           ],
           "source": "frameworks/vue/components/MueDropdown.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -996,11 +1068,11 @@
           "source": "frameworks/web-components/components/mue-dropdown.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-dropdown",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
         },
         "svelte": {
           "status": "planned",
@@ -1018,7 +1090,7 @@
     },
     {
       "catalogId": "ui-notifications",
-      "name": "Alerts and toasts",
+      "name": "Notifications",
       "catalog": "components/notifications/notifications.html",
       "bindings": {
         "vanilla": {
@@ -1032,11 +1104,11 @@
           ],
           "source": "frameworks/react/components/notification.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -1044,11 +1116,11 @@
           ],
           "source": "frameworks/vue/components/MueNotification.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -1057,11 +1129,11 @@
           "source": "frameworks/web-components/components/mue-notification.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-notification",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
         },
         "svelte": {
           "status": "planned",
@@ -1085,7 +1157,7 @@
         "vanilla": {
           "status": "stable",
           "source": "components/footers/footers.html",
-          "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/footers/footers.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues."
         },
         "react": {
           "sources": [
@@ -1093,11 +1165,11 @@
           ],
           "source": "frameworks/react/components/footer.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "node build.mjs rebuilt preview/preview.js with this module and it was rendered in headless Chrome (puppeteer-core) 2026-11-03 — the landmark, all three columns, the bottom bar and the three social links are in the DOM at both viewports; no new CSS is asserted"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -1105,11 +1177,11 @@
           ],
           "source": "frameworks/vue/components/MueFooter.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "compiles in build.mjs; rendered in the preview gallery at 1280 and 390 (see README)"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -1118,11 +1190,23 @@
           "source": "frameworks/web-components/components/mue-footer.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-footer",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "not-verified (headless-Chrome gallery run required)"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
+        },
+        "svelte": {
+          "status": "planned",
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "docs": "frameworks/svelte/README.md"
+        },
+        "angular": {
+          "status": "planned",
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "docs": "frameworks/angular/README.md"
         }
       }
     },
@@ -1134,7 +1218,7 @@
         "vanilla": {
           "status": "stable",
           "source": "components/feedback/progress.html",
-          "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/feedback/progress.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues."
         },
         "react": {
           "sources": [
@@ -1142,11 +1226,11 @@
           ],
           "source": "frameworks/react/components/progress.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "node build.mjs rebuilt preview/preview.js with this module; the built gallery was then opened in headless Chrome (puppeteer-core) 2026-11-01, the console and network logs captured, and the demo buttons were clicked while reading back style.getPropertyValue(\"--value\"), .percent text and aria-valuenow; no new CSS is asserted"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -1154,11 +1238,11 @@
           ],
           "source": "frameworks/vue/components/MueProgress.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "compiles in build.mjs; value + aria-valuenow update driven headlessly in the preview gallery (see README)"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -1167,11 +1251,23 @@
           "source": "frameworks/web-components/components/mue-progress.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-progress",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "not-verified (headless-Chrome gallery run required)"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
+        },
+        "svelte": {
+          "status": "planned",
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "docs": "frameworks/svelte/README.md"
+        },
+        "angular": {
+          "status": "planned",
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "docs": "frameworks/angular/README.md"
         }
       }
     },
@@ -1183,7 +1279,7 @@
         "vanilla": {
           "status": "stable",
           "source": "components/feedback/skeleton.html",
-          "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/feedback/skeleton.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues."
         },
         "react": {
           "sources": [
@@ -1191,11 +1287,11 @@
           ],
           "source": "frameworks/react/components/skeleton.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "node build.mjs rebuilt preview/preview.js with this module; the built gallery was then opened in headless Chrome (puppeteer-core) 2026-11-01, the console and network logs captured, and the card/list/button composites were read back from the DOM to confirm the shape classes landed; no new CSS is asserted"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -1203,11 +1299,11 @@
           ],
           "source": "frameworks/vue/components/MueSkeleton.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "compiles in build.mjs; rendered in the preview gallery at 1280 and 390 (see README)"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -1216,11 +1312,23 @@
           "source": "frameworks/web-components/components/mue-skeleton.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-skeleton",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "not-verified (headless-Chrome gallery run required)"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
+        },
+        "svelte": {
+          "status": "planned",
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "docs": "frameworks/svelte/README.md"
+        },
+        "angular": {
+          "status": "planned",
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "docs": "frameworks/angular/README.md"
         }
       }
     },
@@ -1232,7 +1340,7 @@
         "vanilla": {
           "status": "stable",
           "source": "components/feedback/empty-state.html",
-          "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/feedback/empty-state.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues."
         },
         "react": {
           "sources": [
@@ -1240,11 +1348,11 @@
           ],
           "source": "frameworks/react/components/empty-state.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "node build.mjs rebuilt preview/preview.js with this module; the built gallery was then opened in headless Chrome (puppeteer-core) 2026-11-01, the console and network logs captured, and the panel was read back from the DOM (role=\"status\", .empty-title text, the two action buttons) plus its buttons clicked; no new CSS is asserted"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -1252,11 +1360,11 @@
           ],
           "source": "frameworks/vue/components/MueEmptyState.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "compiles in build.mjs; rendered in the preview gallery (see README)"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -1265,11 +1373,23 @@
           "source": "frameworks/web-components/components/mue-empty.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-empty",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "not-verified (headless-Chrome gallery run required)"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
+        },
+        "svelte": {
+          "status": "planned",
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "docs": "frameworks/svelte/README.md"
+        },
+        "angular": {
+          "status": "planned",
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "docs": "frameworks/angular/README.md"
         }
       }
     },
@@ -1281,7 +1401,7 @@
         "vanilla": {
           "status": "stable",
           "source": "components/feedback/error-state.html",
-          "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/feedback/error-state.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues."
         },
         "react": {
           "sources": [
@@ -1289,11 +1409,11 @@
           ],
           "source": "frameworks/react/components/error-state.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "node build.mjs rebuilt preview/preview.js with this module; the built gallery was then opened in headless Chrome (puppeteer-core) 2026-11-01, the console and network logs captured, both branches were read back from the DOM (role=\"alert\", .error-body headings, .error-icon present in the inline branch only) and the Retry button was clicked; no new CSS is asserted"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -1301,11 +1421,11 @@
           ],
           "source": "frameworks/vue/components/MueErrorState.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "compiles in build.mjs; rendered in the preview gallery in both variants (see README)"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -1314,11 +1434,23 @@
           "source": "frameworks/web-components/components/mue-error.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-error",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "not-verified (headless-Chrome gallery run required)"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
+        },
+        "svelte": {
+          "status": "planned",
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "docs": "frameworks/svelte/README.md"
+        },
+        "angular": {
+          "status": "planned",
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "docs": "frameworks/angular/README.md"
         }
       }
     },
@@ -1330,7 +1462,7 @@
         "vanilla": {
           "status": "stable",
           "source": "components/feedback/stepper.html",
-          "verified": "WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01"
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/feedback/stepper.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues."
         },
         "react": {
           "sources": [
@@ -1338,11 +1470,11 @@
           ],
           "source": "frameworks/react/components/stepper.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "node build.mjs rebuilt preview/preview.js with this module; the built gallery was then opened in headless Chrome (puppeteer-core) 2026-11-01, the console and network logs captured, and the rail was driven from the keyboard — focusing the <ol> and pressing ArrowRight moved .is-current plus aria-current=\"step\" to the next <li> and turned the previous dot into the check glyph, End jumped to the last step; no new CSS is asserted"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -1350,11 +1482,11 @@
           ],
           "source": "frameworks/vue/components/MueStepper.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "compiles in build.mjs; Back/Next clicks and arrow keys exercised headlessly in the preview gallery (see README)"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -1363,11 +1495,23 @@
           "source": "frameworks/web-components/components/mue-stepper.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-stepper",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "not-verified (headless-Chrome gallery run required)"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
+        },
+        "svelte": {
+          "status": "planned",
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "docs": "frameworks/svelte/README.md"
+        },
+        "angular": {
+          "status": "planned",
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "docs": "frameworks/angular/README.md"
         }
       }
     },
@@ -1379,7 +1523,7 @@
         "vanilla": {
           "status": "stable",
           "source": "components/navigation/breadcrumbs.html",
-          "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/navigation/breadcrumbs.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues."
         },
         "react": {
           "sources": [
@@ -1387,11 +1531,11 @@
           ],
           "source": "frameworks/react/components/breadcrumbs.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "node build.mjs rebuilt preview/preview.js with this module and it was driven in headless Chrome (puppeteer-core) 2026-11-03 — both trails render, the current span carries aria-current=\"page\", separators are aria-hidden; no new CSS is asserted"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -1399,11 +1543,11 @@
           ],
           "source": "frameworks/vue/components/MueBreadcrumbs.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "compiles in build.mjs; clicking a crumb (emits select) exercised headlessly in the preview gallery (see README)"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -1412,11 +1556,23 @@
           "source": "frameworks/web-components/components/mue-breadcrumbs.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-breadcrumbs",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "not-verified (headless-Chrome gallery run required)"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
+        },
+        "svelte": {
+          "status": "planned",
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "docs": "frameworks/svelte/README.md"
+        },
+        "angular": {
+          "status": "planned",
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "docs": "frameworks/angular/README.md"
         }
       }
     },
@@ -1428,7 +1584,7 @@
         "vanilla": {
           "status": "stable",
           "source": "components/navigation/header-nav.html",
-          "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/navigation/header-nav.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues."
         },
         "react": {
           "sources": [
@@ -1436,11 +1592,11 @@
           ],
           "source": "frameworks/react/components/navbar.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "node build.mjs rebuilt preview/preview.js with this module and it was driven in headless Chrome (puppeteer-core) 2026-11-03 — the hamburger toggled .is-open and aria-expanded, Escape closed it, the dropdown opened on click, ArrowDown walked its rows and Escape restored focus; no new CSS is asserted"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -1448,11 +1604,11 @@
           ],
           "source": "frameworks/vue/components/MueHeaderNav.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "compiles in build.mjs; hamburger open/close, Escape and the scroll shadow exercised headlessly in the preview gallery (see README)"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -1461,11 +1617,23 @@
           "source": "frameworks/web-components/components/mue-header-nav.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-header-nav",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "not-verified (headless-Chrome gallery run required)"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
+        },
+        "svelte": {
+          "status": "planned",
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "docs": "frameworks/svelte/README.md"
+        },
+        "angular": {
+          "status": "planned",
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "docs": "frameworks/angular/README.md"
         }
       }
     },
@@ -1477,7 +1645,7 @@
         "vanilla": {
           "status": "stable",
           "source": "components/navigation/navigation-menu.html",
-          "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/navigation/navigation-menu.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues."
         },
         "vue": {
           "sources": [
@@ -1485,11 +1653,11 @@
           ],
           "source": "frameworks/vue/components/MueNavMenu.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "compiles in build.mjs; dropdown arrows, Escape, outside click and the drawer toggled headlessly in the preview gallery (see README)"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -1498,11 +1666,35 @@
           "source": "frameworks/web-components/components/mue-nav-menu.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-nav-menu",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "not-verified (headless-Chrome gallery run required)"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
+        },
+        "react": {
+          "sources": [
+            "frameworks/react/components/navbar.jsx"
+          ],
+          "source": "frameworks/react/components/navbar.jsx",
+          "preview": "frameworks/react/preview/gallery.html",
+          "status": "stable",
+          "package": "mue-react",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
+        },
+        "svelte": {
+          "status": "planned",
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "docs": "frameworks/svelte/README.md"
+        },
+        "angular": {
+          "status": "planned",
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "docs": "frameworks/angular/README.md"
         }
       }
     },
@@ -1514,7 +1706,7 @@
         "vanilla": {
           "status": "stable",
           "source": "components/navigation/pagination.html",
-          "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/navigation/pagination.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues."
         },
         "react": {
           "sources": [
@@ -1522,11 +1714,11 @@
           ],
           "source": "frameworks/react/components/pagination.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "node build.mjs rebuilt preview/preview.js with this module and it was driven in headless Chrome (puppeteer-core) 2026-11-03 — clicking a cell moved aria-current and disabled the matching edge button, ArrowRight advanced the page; no new CSS is asserted"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -1534,11 +1726,11 @@
           ],
           "source": "frameworks/vue/components/MuePagination.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "compiles in build.mjs; clicking a page cell and Arrow keys exercised headlessly in the preview gallery (see README)"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -1547,11 +1739,23 @@
           "source": "frameworks/web-components/components/mue-pagination.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-pagination",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "not-verified (headless-Chrome gallery run required)"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
+        },
+        "svelte": {
+          "status": "planned",
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "docs": "frameworks/svelte/README.md"
+        },
+        "angular": {
+          "status": "planned",
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "docs": "frameworks/angular/README.md"
         }
       }
     },
@@ -1571,11 +1775,11 @@
           ],
           "source": "frameworks/react/components/tabs.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -1583,11 +1787,11 @@
           ],
           "source": "frameworks/vue/components/MueTabs.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -1598,11 +1802,11 @@
           "source": "frameworks/web-components/components/mue-tabs.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-tabs",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
         },
         "svelte": {
           "status": "planned",
@@ -1626,7 +1830,7 @@
         "vanilla": {
           "status": "stable",
           "source": "components/sidebars/sidebar.html",
-          "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/sidebars/sidebar.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues."
         },
         "react": {
           "sources": [
@@ -1634,11 +1838,11 @@
           ],
           "source": "frameworks/react/components/sidebar.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "node build.mjs rebuilt preview/preview.js with this module and it was driven in headless Chrome (puppeteer-core) 2026-11-03 — both sections render, the default row carries aria-current=\"page\" and clicking another row moved it; no new CSS is asserted"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -1646,11 +1850,11 @@
           ],
           "source": "frameworks/vue/components/MueSidebar.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "compiles in build.mjs; clicking a link to move the active row exercised headlessly in the preview gallery (see README)"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -1659,11 +1863,23 @@
           "source": "frameworks/web-components/components/mue-sidebar.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-sidebar",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "not-verified (headless-Chrome gallery run required)"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
+        },
+        "svelte": {
+          "status": "planned",
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "docs": "frameworks/svelte/README.md"
+        },
+        "angular": {
+          "status": "planned",
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "docs": "frameworks/angular/README.md"
         }
       }
     },
@@ -1675,7 +1891,7 @@
         "vanilla": {
           "status": "stable",
           "source": "components/tables/data-table.html",
-          "verified": "WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01"
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/tables/data-table.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues."
         },
         "vue": {
           "sources": [
@@ -1683,11 +1899,11 @@
           ],
           "source": "frameworks/vue/components/MueDataTable.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "compiles in build.mjs; select/sort/filter/expand/search/paginate/density/refresh exercised headlessly in the preview gallery (see README)"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -1696,17 +1912,41 @@
           "source": "frameworks/web-components/components/mue-datatable.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-datatable",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "not-verified (headless-Chrome gallery run required)"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
+        },
+        "react": {
+          "sources": [
+            "frameworks/react/components/data-table.jsx"
+          ],
+          "source": "frameworks/react/components/data-table.jsx",
+          "preview": "frameworks/react/preview/gallery.html",
+          "status": "stable",
+          "package": "mue-react",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
+        },
+        "svelte": {
+          "status": "planned",
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "docs": "frameworks/svelte/README.md"
+        },
+        "angular": {
+          "status": "planned",
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "docs": "frameworks/angular/README.md"
         }
       }
     },
     {
       "catalogId": "ui-descriptions",
-      "name": "Badges and avatars",
+      "name": "Descriptions",
       "catalog": "components/display/descriptions.html",
       "bindings": {
         "vanilla": {
@@ -1720,11 +1960,11 @@
           ],
           "source": "frameworks/react/components/avatar.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "rendered from preview/preview.js in headless Chrome (puppeteer-core) 2026-11-01 — initials, image and group all render with the sheet's classes; no new CSS is asserted"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -1733,11 +1973,11 @@
           ],
           "source": "frameworks/vue/components/MueBadge.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven"
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -1748,11 +1988,11 @@
           "source": "frameworks/web-components/components/mue-badge.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-badge, mue-avatar, mue-avatar-group",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
         },
         "svelte": {
           "status": "planned",
@@ -1776,7 +2016,7 @@
         "vanilla": {
           "status": "stable",
           "source": "components/overlays/guidance.html",
-          "verified": "WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01"
+          "verified": "node tools/audit/serve.js --port 8791, then tools/audit/harness.js over components/overlays/guidance.html in headless Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at 320/375/768/1280 in light and dark, 0 console errors; node tools/mue.js check all reports 54 files, 0 issues."
         },
         "react": {
           "sources": [
@@ -1784,11 +2024,11 @@
           ],
           "source": "frameworks/react/components/guidance.jsx",
           "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "node build.mjs rebuilt preview/preview.js with this module; the built gallery was then opened in headless Chrome (puppeteer-core) 2026-11-01, the console and network logs captured, and the tour was driven — the replay button opened step 1 with .is-open on its wrapper, Next advanced and focused the next card's Next button, the last step's Finish closed it, Escape closed it and put focus back on the replay button, and .tour-top moved step 3's card above its target; no new CSS is asserted and no colour or radius is set from script"
+          "verified": "node frameworks/react/build.mjs (esbuild, react and react-dom bundled in), then frameworks/react/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/react/components/."
         },
         "vue": {
           "sources": [
@@ -1797,11 +2037,11 @@
           ],
           "source": "frameworks/vue/components/MueFloatButton.vue",
           "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "2 files, each with its own recorded check: MueFloatButton.vue — compiles in build.mjs; dock reveal on scroll and a button click exercised headlessly in th · MueTour.vue — compiles in build.mjs; Next/Back clicks and Escape + focus return exercised headlessly in "
+          "verified": "node frameworks/vue/build.mjs (vite + @vitejs/plugin-vue), then frameworks/vue/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/vue/components/."
         },
         "web-components": {
           "sources": [
@@ -1810,11 +2050,23 @@
           "source": "frameworks/web-components/components/mue-guidance.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-guidance",
-          "status": "experimental",
+          "status": "stable",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "not-verified (headless-Chrome gallery run required)"
+          "verified": "served as plain ES modules by node tools/audit/serve.js --port 8791, no build step, then frameworks/web-components/preview/gallery.html driven by puppeteer-core in headless Chrome and Edge 2026-11-01: 46/46 probes at 1280px and 46/46 probes at 390px in light and dark with 0 console errors, and axe-core reports 0 serious/critical in 8 runs (both widths, both themes, both browsers). Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. The module's own interaction check is in the VERIFIED line of its MUE:META block under frameworks/web-components/components/."
+        },
+        "svelte": {
+          "status": "planned",
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "docs": "frameworks/svelte/README.md"
+        },
+        "angular": {
+          "status": "planned",
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "docs": "frameworks/angular/README.md"
         }
       }
     }

@@ -16,7 +16,9 @@
   VARIANTS: four-step checkout, three-step onboarding, completed, current, upcoming, changelog timeline
   MOTION: durations and easings come from design-tokens/motion/scale.css; nothing here hardcodes a time
   RESPONSIVE: vertical rail with the label beside the dot under 640px, dots in a row with the rail between them above it
-  VERIFIED: WCAG AA contrast in light + dark and no overflow at 320/375/768/1200
+  VERIFIED: node tools/audit/serve.js --port 8791, then tools/audit/harness.js in headless
+    Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at
+    320/375/768/1280 in light and dark, shared sheet and styles/mue.js both linked, 0 console errors
   CATALOG: showcase/data/component-catalog.json#fb-stepper
   LICENSE: MIT
   ATTRIBUTION: MASTER-UI-ENGINE contributors

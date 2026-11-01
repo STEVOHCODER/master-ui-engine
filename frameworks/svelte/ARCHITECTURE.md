@@ -144,7 +144,7 @@ END MUE:META -->
 ## 9. Catalog entry, licensing
 
 When source exists, `frameworks/registry.json` gains a real `source` path per Svelte binding (its
-14 grouped entries are how badges/avatars and input/textarea are catalogued today) and
+33 grouped entries are how badges/avatars and input/textarea are catalogued today) and
 `showcase/data/component-catalog.json` mirrors it using the keys vanilla items have (`id`, `name`,
 `group`, `category`, `path`, `framework`, `designSystem`, `variants`, `license`, `kind`, `tokens`,
 `engineLinked`, `theming`, `verified`), `framework: "svelte"`, `verified` holding date + command.

@@ -16,7 +16,9 @@
   VARIANTS: annotation above a term, checklist surface, aligned start and end, opens below, hover-only tooltip comparison
   MOTION: durations and easings come from design-tokens/motion/scale.css; nothing here hardcodes a time
   RESPONSIVE: max-width is min(20rem, 80vw), and .popover-start / .popover-end keep a surface on a near-edge trigger inside the viewport
-  VERIFIED: WCAG AA contrast in light + dark and no overflow at 320/375/768/1200
+  VERIFIED: node tools/audit/serve.js --port 8791, then tools/audit/harness.js in headless
+    Chrome (puppeteer-core) 2026-11-01: 0 contrast failures and no horizontal overflow at
+    320/375/768/1280 in light and dark, shared sheet and styles/mue.js both linked, 0 console errors
   CATALOG: showcase/data/component-catalog.json#ui-popover
   LICENSE: MIT
   ATTRIBUTION: MASTER-UI-ENGINE contributors

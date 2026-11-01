@@ -5,8 +5,10 @@ previews** under `components/**`. Every class comes from `styles/components.css`
 colour/radius/motion value from `design-tokens/engine.css`; this package ships **no CSS and
 no runtime dependency except Vue** (see the contract in [`../README.md`](../README.md)).
 
-Status: **experimental** — compiled and driven headlessly on 2026-11-01 (commands in
-“Verified” below). No screen-reader or touch-device pass has been run yet.
+Status: **stable** — all 33 catalogued components have a binding here, and the gallery was
+built with `node frameworks/vue/build.mjs` and driven in headless Chrome and Edge on
+2026-11-01 (commands in “Verified” below). No screen-reader, touch-device, Safari or
+Firefox pass has been run.
 
 ## Install
 
@@ -31,7 +33,7 @@ import { MueButton, MueInput } from "mue-vue"; // adjust to your copy path
 </template>
 ```
 
-One example per component (all sixteen):
+One example per component (all 33 catalogued components):
 
 ```vue
 <!-- 1 button -->
@@ -144,12 +146,13 @@ tablist/dialog/dropdown boot hooks run before Vue mounts and find nothing to bin
 
 - Resolved devDependencies: `vue 3.5.44`, `vite 8.3.5`, `@vitejs/plugin-vue 6.0.10`
   (`npm install --save-dev vue vite @vitejs/plugin-vue`; never hand-picked).
-- `node build.mjs` → exit 0, 25 modules transformed, `preview/dist/preview.js` (103 349 bytes)
-  — proves all sixteen SFCs compile.
-- Headless Chrome (puppeteer-core) against a `node:http` static server at the repo root,
-  page `/frameworks/vue/preview/gallery.html`: **console errors `[]`, page errors `[]`**
-  (the only 404 anywhere was the browser's automatic `/favicon.ico` request), and all
-  sixteen `#section-*` blocks present. Interactions that passed:
+- `node build.mjs` → exit 0, 46 modules transformed, `preview/dist/preview.js` (163 580 bytes)
+  — proves all 37 SFCs compile. Rebuilding now reproduces the committed bundle byte for byte.
+- Headless Chrome **and** Edge (puppeteer-core) against `node tools/audit/serve.js --port 8791`,
+  page `/frameworks/vue/preview/gallery.html`: **46/46 behaviour probes pass at 1280px and again
+  at 390px** in light and dark with **0 console errors**, and axe-core reports **0 serious or
+  critical in 8 runs** (both widths × both themes × both browsers). All 37 `#section-*` blocks
+  render. Interactions that passed:
   - email input: typing `bad` → `.field.is-error` + `aria-invalid="true"`; valid address → `.is-success`
   - switch: focus + `Space` → `checked` false→true and bound text updated
   - checkbox click toggled; radio click selected index 2

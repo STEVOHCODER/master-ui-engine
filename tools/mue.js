@@ -359,6 +359,74 @@ function inside(into, destRel) {
   return target;
 }
 
+/** Drops barrel statements whose module file was not installed, so a partial
+    `mue add --framework` never leaves an entry point that imports files which
+    are not there. A re-export with no `from` (the web-components bundle lists
+    every tag at the bottom) is filtered against what survived, because
+    exporting a name that is no longer imported is a build error. */
+function bracedNames(text) {
+  const braces = text.match(/\{([\s\S]*?)\}/);
+  if (!braces) return [];
+  return braces[1]
+    .split(",")
+    .map((entry) => entry.trim())
+    .filter(Boolean)
+    .map((entry) => (/\s+as\s+/.test(entry) ? entry.split(/\s+as\s+/).pop() : entry));
+}
+
+function pruneBarrel(source, installed, prefix) {
+  const lines = source.split("\n");
+  const units = [];
+  for (let index = 0; index < lines.length; index += 1) {
+    if (!/^\s*(?:export|import)\b/.test(lines[index])) {
+      units.push({ kind: 'plain', text: lines[index] });
+      continue;
+    }
+    const block = [lines[index]];
+    while (!/;\s*$/.test(block[block.length - 1]) && index + 1 < lines.length) {
+      block.push(lines[++index]);
+    }
+    const text = block.join('\n');
+    const target = text.match(/from\s*["']\.\/([^"']+)["']/);
+    if (target && target[1].startsWith(prefix) && !installed.has(target[1])) {
+      units.push({ kind: 'dropped', text });
+      continue;
+    }
+    units.push({ kind: target ? 'rebind' : 'names', text, names: bracedNames(text) });
+  }
+
+  const available = new Set();
+  for (const unit of units) {
+    if (unit.kind !== 'rebind') continue;
+    const isImport = /^\s*import\b/.test(unit.text);
+    for (const name of unit.names) {
+      if (name === '*') continue;
+      available.add(isImport ? name : name.replace(/^default as /, ''));
+    }
+  }
+
+  let dropped = 0;
+  const kept = units.map((unit) => {
+    if (unit.kind === 'dropped') {
+      dropped += 1;
+      return '';
+    }
+    if (unit.kind === 'plain') return unit.text;
+    if (unit.kind === 'names') {
+      const survivors = unit.names.filter((name) => available.has(name));
+      if (!survivors.length) {
+        dropped += 1;
+        return '';
+      }
+      if (survivors.length === unit.names.length) return unit.text;
+      return `export {\n${survivors.map((name) => `  ${name},`).join('\n')}\n};`;
+    }
+    return unit.text;
+  });
+  if (!dropped) return { text: source, dropped: 0 };
+  return { text: kept.join('\n').replace(/\n{3,}/g, '\n\n'), dropped };
+}
+
 /** Never deletes, never truncates something different without --force. */
 function copyInto(into, destRel, content, force) {
   const dest = inside(into, destRel);
@@ -927,12 +995,6 @@ function addFrameworkBindings(into, force, minimal, fwRaw, wantedIds, json) {
     );
   }
 
-  const written = [];
-  for (const extra of ['index.js', 'README.md', 'package.json']) {
-    const repoRel = `frameworks/${framework}/${extra}`;
-    const abs = path.join(ROOT, repoRel);
-    if (fs.existsSync(abs)) written.push(copyInto(into, repoRel, fs.readFileSync(abs), force));
-  }
   const components = [];
   for (const { item, binding } of targets) {
     const rows = [];
@@ -949,6 +1011,26 @@ function addFrameworkBindings(into, force, minimal, fwRaw, wantedIds, json) {
       preview: binding.preview || null,
     });
   }
+  /* The entry point names every module in the package, so after a partial
+     install it is written with the imports that have no file left out —
+     otherwise the first build the user runs fails on a missing module. */
+  const installed = new Set(
+    components.flatMap((c) => c.files.map((f) => f.file.replace(`frameworks/${framework}/`, "")))
+  );
+  const written = [];
+  let pruned = 0;
+  for (const extra of ['index.js', 'README.md', 'package.json']) {
+    const repoRel = `frameworks/${framework}/${extra}`;
+    const abs = path.join(ROOT, repoRel);
+    if (!fs.existsSync(abs)) continue;
+    let content = fs.readFileSync(abs);
+    if (extra === 'index.js') {
+      const kept = pruneBarrel(content.toString('utf8'), installed, 'components/');
+      pruned = kept.dropped;
+      content = Buffer.from(kept.text, 'utf8');
+    }
+    written.push(copyInto(into, repoRel, content, force));
+  }
   /* The bindings write classes; the classes still come from the shared layers. */
   const shared = copySharedLayers(into, force, true, 'styles/components.css');
   const notes = [];
@@ -956,6 +1038,9 @@ function addFrameworkBindings(into, force, minimal, fwRaw, wantedIds, json) {
   for (const s of skipped) notes.push(`not installed: ${s}`);
   for (const m of misses) notes.push(`${m}: not in the catalog — see "mue search ${m}"`);
   notes.push(`the gallery for this stack lives in the kit at frameworks/${framework}/preview/gallery.html; it is not copied because it is a preview, not a dependency.`);
+  if (pruned) {
+    notes.push(`${framework}/index.js was written with ${pruned} module reference(s) left out — those components are not in this install. Add their ids, or copy frameworks/${framework}/components/ wholesale, to get the complete entry point.`);
+  }
 
   const out = { into, framework, components, shared, notes, counts: { components: components.length, bindingFiles: components.reduce((n, c) => n + c.files.length, 0), packageFiles: written.length, sharedFiles: shared.length, skipped: skipped.length } };
   emit(json, out, (o) =>

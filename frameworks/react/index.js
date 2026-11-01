@@ -10,7 +10,7 @@
   VARIANTS: see each component file; variants are props that map onto existing modifier classes
   A11Y: roles, states and keyboard handling are ported from the matching vanilla preview under components/, and each component's block lists what it carries and what it deliberately does not
   KEYBOARD: dialog and modal (Escape + trap + focus return), dropdown and the navbar's menu cell (arrows/Home/End/Escape), tabs (roving tabindex + arrows + Home/End), table (Enter/Space sort), pagination (Left/Right + Home/End), stepper (arrows + Home/End when onChange is set), popover (focus-within opens, Escape closes), guidance tour (Skip/Back/Next buttons + Escape returns focus to the replay control), rating and switch and checkbox (native); nothing else intercepts a key
-  VERIFIED: all thirty-three modules resolve, the preview bundle renders in headless Chrome and the interactions above were driven there on 2026-11-01; see README.md for the list of what was not verified
+  VERIFIED: node frameworks/react/build.mjs (esbuild) resolves all thirty-four modules, then preview/gallery.html was driven by puppeteer-core in headless Chrome and Edge on 2026-11-01 — 46/46 behaviour probes at 1280px and at 390px in light and dark with 0 console errors, and 8/8 axe-core runs clean of serious and critical. Not run: Safari, Firefox, a screen reader, a touch device, server-side rendering, npm publish. See README.md
   LICENSE: MIT
   ATTRIBUTION: MASTER-UI-ENGINE contributors
 END MUE:META */

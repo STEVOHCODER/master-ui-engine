@@ -15,7 +15,7 @@
   KEYBOARD: Tab walks the cells in reading order and Enter follows a link; the hamburger opens the drawer and Escape closes it and returns focus to the button; inside an open dropdown ArrowDown/ArrowUp walk the rows and wrap, Home/End jump, Escape closes and restores focus to the trigger, a click outside closes it. styles/mue.js binds both of these only at boot, which is why the bindings own them
   EVENTS: onOpenChange(open) for the drawer, onSelect(item, event) per nav cell and per menu row — href navigation is never prevented; the scroll shadow is read from window.scrollY in a rAF-throttled listener, the same threshold styles/mue.js uses
   RESPONSIVE: below 768px the sheet hides the hamburger's sibling list and reveals it as a full-width drawer when .is-open lands on .nav-links; the bar itself wraps onto two rows; rendered at 1280px and 390px in the gallery
-  VERIFIED: node build.mjs rebuilt preview/preview.js with this module and it was driven in headless Chrome (puppeteer-core) 2026-11-03 — the hamburger toggled .is-open and aria-expanded, Escape closed it, the dropdown opened on click, ArrowDown walked its rows and Escape restored focus; no new CSS is asserted
+  VERIFIED: node build.mjs rebuilt preview/preview.js with this module and it was driven in headless Chrome (puppeteer-core) 2026-11-01 — the hamburger toggled .is-open and aria-expanded, Escape closed it, the dropdown opened on click, ArrowDown walked its rows and Escape restored focus; no new CSS is asserted
   LICENSE: MIT
   ATTRIBUTION: MASTER-UI-ENGINE contributors
 END MUE:META */
