@@ -19,7 +19,10 @@
     chevrons are aria-hidden
   KEYBOARD: Enter/Space on trigger opens; ArrowUp/ArrowDown walk rows and wrap; Escape closes and
     returns focus to the trigger; a click outside closes
-  VERIFIED: not-verified (headless-Chrome gallery run required)
+  VERIFIED: served by node tools/audit/serve.js --port 8791 and driven in headless Chrome and Edge
+    (puppeteer-core) 2026-11-01: preview/gallery.html passes 46 behaviour probes at 1280px and 390px
+    in light and dark with 0 console errors, and axe-core reports 0 serious/critical at both widths
+    in both browsers
   LICENSE: MIT
   ATTRIBUTION: MASTER-UI-ENGINE contributors
 END MUE:META */

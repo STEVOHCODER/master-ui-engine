@@ -17,7 +17,10 @@
   A11Y: native checkbox given role="switch" + aria-checked so state is announced; the visible track
     is aria-hidden; the whole row is the label so it is clickable
   KEYBOARD: Space toggles (native checkbox)
-  VERIFIED: not-verified (headless-Chrome gallery run required)
+  VERIFIED: served by node tools/audit/serve.js --port 8791 and driven in headless Chrome and Edge
+    (puppeteer-core) 2026-11-01: preview/gallery.html passes 46 behaviour probes at 1280px and 390px
+    in light and dark with 0 console errors, and axe-core reports 0 serious/critical at both widths
+    in both browsers
   LICENSE: MIT
   ATTRIBUTION: MASTER-UI-ENGINE contributors
 END MUE:META */
@@ -28,20 +31,16 @@ function defineMueSwitch() {
       return ["label", "name", "value", "checked", "disabled"];
     }
     connectedCallback() {
-      this.#render();
+      if (!this._built) this.#build();
+      this.#sync();
     }
-    attributeChangedCallback(name) {
-      if (!this._rendered) return;
-      const input = this.querySelector("input");
-      if (!input) return;
-      if (name === "checked") {
-        input.checked = this.hasAttribute("checked");
-        input.setAttribute("aria-checked", String(input.checked));
-      } else if (name === "disabled") {
-        input.disabled = this.hasAttribute("disabled");
-      } else {
-        this.#render();
+    attributeChangedCallback(name, oldValue, newValue) {
+      if (!this._built || oldValue === newValue) return;
+      if (name === "label") {
+        this._text.textContent = this.getAttribute("label") || "";
+        return;
       }
+      this.#sync();
     }
     get checked() {
       const input = this.querySelector("input");
@@ -51,25 +50,25 @@ function defineMueSwitch() {
       if (v) this.setAttribute("checked", "");
       else this.removeAttribute("checked");
     }
-    #render() {
+    #build() {
       const label = document.createElement("label");
       label.className = "switch";
       const input = document.createElement("input");
       input.type = "checkbox";
       input.setAttribute("role", "switch");
-      input.checked = this.hasAttribute("checked");
-      input.setAttribute("aria-checked", String(input.checked));
-      if (this.hasAttribute("name")) input.name = this.getAttribute("name");
-      input.value = this.getAttribute("value") || "on";
-      input.disabled = this.hasAttribute("disabled");
       const track = document.createElement("span");
       track.className = "track";
       track.setAttribute("aria-hidden", "true");
       const text = document.createElement("span");
       text.className = "switch-label";
-      text.textContent = this.getAttribute("label") || "";
-      label.append(input, track, text);
+      /* Authors write the choice next to the control, so the host's own children
+         are the label text; the attribute stays for generated markup. Dropping
+         the children would leave the input with no accessible name at all. */
+      const authored = [...this.childNodes];
       this.textContent = "";
+      authored.forEach((node) => text.appendChild(node));
+      if (!text.textContent.trim()) text.textContent = this.getAttribute("label") || "";
+      label.append(input, track, text);
       this.appendChild(label);
       input.addEventListener("change", () => {
         input.setAttribute("aria-checked", String(input.checked));
@@ -83,7 +82,18 @@ function defineMueSwitch() {
           })
         );
       });
-      this._rendered = true;
+      this._input = input;
+      this._text = text;
+      this._built = true;
+    }
+    #sync() {
+      const input = this._input;
+      input.checked = this.hasAttribute("checked");
+      input.setAttribute("aria-checked", String(input.checked));
+      input.value = this.getAttribute("value") || "on";
+      input.disabled = this.hasAttribute("disabled");
+      if (this.hasAttribute("name")) input.setAttribute("name", this.getAttribute("name"));
+      else input.removeAttribute("name");
     }
   }
   if (!customElements.get("mue-switch")) customElements.define("mue-switch", MueSwitch);

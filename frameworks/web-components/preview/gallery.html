@@ -13,10 +13,16 @@
   DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (theme toggle) + ../index.js (registers every mue-* element)
   SHEET: styles/components.css — this page adds no component stylesheet; the demo scaffolding below only positions previews
   THEME: light + dark (html.dark, persisted and synced by styles/mue.js)
-  VARIANTS: one data-mue-section per component of the shared sixteen (16 sections); see ../registry.js for the attribute and event list
+  VARIANTS: one data-mue-section per component module — 35 numbered component sections covering all
+    43 mue-* tags registered by the 40 modules in ../components, plus the live-event log; see
+    ../registry.js for the attribute and event list of the first 21 tags
   A11Y: same page chrome as the vanilla previews; each element documents its own roles, labels and keyboard path in its MUE:META
-  KEYBOARD: tabs, dropdown, dialog and accordion keyboard paths are owned by the elements themselves and exercised in the headless run
-  VERIFIED: served over http in headless Chrome (puppeteer-core); zero page errors, the only console entry is the /favicon.ico 404; see ../README.md
+  KEYBOARD: the tabs, dropdown, dialog and accordion paths are owned by those elements; this page also
+    exercises the ported controls (modal, pagination, stepper, popover, tour, sidebar, dropzone, date
+    picker, rating, data-table, switch, header/nav drawers) in the headless run
+  VERIFIED: served over http in headless Chrome (puppeteer-core) at 390x844, 820x1180 and 1280x900 in
+    light and dark: 36 .section blocks, 0 undefined mue-* tags, 0 shadow roots, 0 page/console errors,
+    0 non-127.0.0.1 requests, horizontal overflow 0px; see ../README.md for the interaction log
   LICENSE: MIT
   ATTRIBUTION: MASTER-UI-ENGINE contributors
 END MUE:META -->
@@ -46,6 +52,13 @@ END MUE:META -->
     flex-direction: column;
     gap: var(--space-3);
   }
+  /* Preview layout only: the shared .navbar/.site-header are position:sticky, which would make the
+     two demo bars in sections 19 and 20 pile up while this page scrolls. In an application they stay
+     sticky. Same tweak components/navigation/navigation-menu.html makes for itself. */
+  .section .navbar,
+  .section .site-header {
+    position: relative;
+  }
   #event-log {
     margin: 0;
     font-family: var(--font-mono);
@@ -72,7 +85,8 @@ END MUE:META -->
   </header>
 
   <h1>Web Components</h1>
-  <p class="subtitle">The shared sixteen as light-DOM custom elements. No build step, no runtime
+  <p class="subtitle">Forty component modules registering 43 light-DOM custom elements — the shared
+    sixteen plus the ported catalog entries. No build step, no runtime
     dependency, no shadow root — <code>&lt;mue-*&gt;</code> upgrades the markup you write and applies
     the same classes the vanilla previews use, so the one stylesheet styles every framework.</p>
 
@@ -198,7 +212,7 @@ END MUE:META -->
     <p>Author children stay in the light DOM, so any markup that works in the vanilla preview works
       here; <code>interactive</code> and <code>selected</code> add the modifier and the aria state.</p>
     <div class="variant-grid">
-      <mue-card variant="elevated" interactive>
+      <mue-card variant="elevated">
         <div class="card-body">
           <span class="card-tag">Binding</span>
           <h3 class="card-title">One design, several houses</h3>
@@ -209,6 +223,10 @@ END MUE:META -->
         </div>
       </mue-card>
     </div>
+    <p>A card with <code>interactive</code> takes <code>role="button"</code>, so it
+      cannot also hold a link — that nesting is a <code>nested-interactive</code> failure. A card that
+      owns an action keeps it in a plain card like this one; a card that <em>is</em> the action uses
+      <code>interactive</code> and carries no controls inside.</p>
   </div>
 
   <div class="section" data-mue-section="badge">
@@ -347,7 +365,956 @@ END MUE:META -->
     </div>
   </div>
 
-  <div class="section">
+  <div class="section" id="sec-breadcrumbs" data-mue-section="breadcrumbs">
+    <h2>17 · Breadcrumbs</h2>
+    <p><code>mue-breadcrumbs</code> carries <code>.breadcrumbs</code> and its <code>aria-label</code>
+      on the host itself and lays the trail out as real <code>&lt;a&gt;</code> links split by
+      <code>&lt;span class="separator" aria-hidden&gt;</code>; the last entry becomes
+      <code>&lt;span aria-current="page"&gt;</code>. Feed it <code>items</code> (each
+      <code>Label</code> or <code>Label::href</code>) or author the links as children.</p>
+    <div class="variant-grid">
+      <div class="demo-col">
+        <h3>Items attribute</h3>
+        <mue-breadcrumbs items="Home::#,Library::#,Components::#,Breadcrumbs"></mue-breadcrumbs>
+        <h3>Custom separator</h3>
+        <mue-breadcrumbs separator="/" items="Docs / Frameworks / Web Components"></mue-breadcrumbs>
+        <h3>Authored children</h3>
+        <mue-breadcrumbs><a href="#sec-charts">Charts</a><a href="#sec-charts">Bar series</a><span>Legend</span></mue-breadcrumbs>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="sec-pagination" data-mue-section="pagination">
+    <h2>18 · Pagination</h2>
+    <p><code>mue-pagination</code> carries <code>.pagination</code> + <code>aria-label</code> on the
+      host and renders real <code>&lt;button&gt;</code> cells. The ‹ / › arrows use the native
+      <code>disabled</code> attribute at the bounds, the active page carries
+      <code>aria-current="true"</code>, and a range wider than the window inserts
+      <code>&lt;span class="ellipsis" aria-hidden&gt;</code>. Choosing a page emits
+      <code>mue-page-change</code>.</p>
+    <div class="variant-grid">
+      <div class="demo-col">
+        <h3>All pages (total 5, page 2)</h3>
+        <mue-pagination id="pager-demo" total="5" page="2"></mue-pagination>
+        <h3>Windowed (total 20, page 10)</h3>
+        <mue-pagination total="20" page="10" window="1"></mue-pagination>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="sec-header-nav" data-mue-section="header-nav">
+    <h2>19 · Header navigation</h2>
+    <p><code>mue-header-nav</code> moves the authored <code>&lt;a class="nav-link"&gt;</code> children
+      into <code>&lt;li class="nav-item"&gt;</code> inside <code>&lt;ul class="nav-links"&gt;</code>,
+      then adds the brand, a <code>.nav-spacer</code>, the <code>[slot="actions"]</code> row and a
+      built <code>.hamburger</code> that toggles the sheet's drawer under 768px. It owns the toggle and
+      the 8px scroll shadow itself, so <code>styles/mue.js</code> never double-wires it. A link click
+      emits <code>mue-navigate</code> and closes the drawer.</p>
+    <div class="variant-grid">
+      <mue-header-nav brand="MASTER-UI-ENGINE">
+        <a class="nav-link" href="#sec-button" aria-current="page">Components</a>
+        <a class="nav-link" href="#sec-charts">Charts</a>
+        <a class="nav-link" href="#sec-datatable">Tables</a>
+        <mue-avatar slot="actions" initials="MC" name="Marco Chen"></mue-avatar>
+        <button slot="actions" class="btn-outline btn-sm" type="button">Sign in</button>
+      </mue-header-nav>
+    </div>
+  </div>
+
+  <div class="section" id="sec-nav-menu" data-mue-section="nav-menu">
+    <h2>20 · Navigation menu</h2>
+    <p><code>mue-nav-menu</code> upgrades to the sheet's <code>.navbar</code> and keeps an authored
+      <code>.dropdown</code> working inside it: the element marks the trigger
+      <code>aria-haspopup</code>/<code>aria-expanded</code> and the list <code>role="menu"</code> +
+      <code>aria-hidden</code>, closes on Escape or click-outside, emits <code>mue-select</code> for a
+      <code>.menu-item</code> and <code>mue-navigate</code> for a plain link.</p>
+    <div class="variant-grid">
+      <mue-nav-menu label="Main navigation">
+        <a class="nav-link" href="#sec-button" aria-current="page">Overview</a>
+        <a class="nav-link" href="#sec-input">Fields</a>
+        <div class="dropdown">
+          <button class="nav-link" type="button">Frameworks</button>
+          <ul class="dropdown-menu">
+            <li><a class="menu-item" href="#sec-pagination" value="pagination">Pagination</a></li>
+            <li><span class="menu-divider" role="separator"></span></li>
+            <li><a class="menu-item" href="#sec-sidebar" value="sidebar">Sidebar</a></li>
+          </ul>
+        </div>
+      </mue-nav-menu>
+    </div>
+  </div>
+
+  <div class="section" id="sec-sidebar" data-mue-section="sidebar">
+    <h2>21 · Sidebar</h2>
+    <p>Three tags compose it: <code>mue-sidebar</code> carries <code>.sidebar</code> +
+      <code>role="complementary"</code> and groups its children into <code>.sidebar-section</code>
+      blocks, <code>mue-sidebar-heading</code> replaces itself with
+      <code>&lt;div class="sidebar-heading"&gt;</code> and opens a new section, and
+      <code>mue-sidebar-link</code> replaces itself with <code>&lt;a class="sidebar-link"&gt;</code>
+      holding a decorative icon plus <code>&lt;span class="sidebar-label"&gt;</code>. Clicking a link
+      moves <code>aria-current="page"</code> to it and emits <code>mue-navigate</code> — the one
+      behaviour the static sidebar had none of.</p>
+    <div class="variant-grid">
+      <mue-sidebar label="Main navigation">
+        <mue-sidebar-heading text="Workspace"></mue-sidebar-heading>
+        <mue-sidebar-link href="#sec-sidebar" icon="&#9733;" current text="Dashboard"></mue-sidebar-link>
+        <mue-sidebar-link href="#sec-datatable" icon="&#128196;" text="Orders"></mue-sidebar-link>
+        <mue-sidebar-link href="#sec-charts" icon="&#128200;" text="Charts"></mue-sidebar-link>
+        <mue-sidebar-heading text="Account"></mue-sidebar-heading>
+        <mue-sidebar-link href="#sec-progress" icon="&#9881;" text="Settings"></mue-sidebar-link>
+        <mue-sidebar-link href="#sec-empty" text="No icon"></mue-sidebar-link>
+      </mue-sidebar>
+    </div>
+  </div>
+
+  <div class="section" id="sec-datatable" data-mue-section="datatable">
+    <h2>22 · Data table</h2>
+    <p><code>mue-datatable</code> takes the authored toolbar, selection bar, table and footer you write
+      inside it — it adds no markup of its own beyond the pager cells — and wires search, sort cycling
+      none → asc → desc with <code>aria-sort</code>, the status filter dropdown, row expansion into a
+      <code>.descriptions</code> panel, select-all with a truthful indeterminate head checkbox, page
+      size, refresh (the loading tbody is the sheet's skeleton cells), the empty state and the sticky
+      <code>.is-scrolled</code> rule. It only ever toggles classes the sheet already defines.</p>
+    <mue-datatable id="datatable-demo">
+      <div class="table-toolbar">
+        <div class="field table-search">
+          <label class="sr-only" for="wc-dt-q">Search orders by name or order number</label>
+          <input id="wc-dt-q" class="input" type="search" placeholder="Search name or order" autocomplete="off" data-mue-dt-search>
+        </div>
+        <div class="row">
+          <label class="switch">
+            <input type="checkbox" id="wc-dt-compact" data-mue-dt-compact>
+            <span class="track"></span>
+            <span class="switch-label">Compact</span>
+          </label>
+          <button class="btn-outline btn-sm" type="button" id="wc-dt-refresh" data-mue-dt-refresh>Refresh</button>
+        </div>
+      </div>
+      <div class="table-selection" id="wc-dt-selection" hidden>
+        <span class="table-selection-count" id="wc-dt-selection-count" aria-live="polite">0 selected</span>
+        <button class="btn-sm btn-ghost" type="button" id="wc-dt-clear" data-mue-dt-clear>Clear</button>
+      </div>
+      <div class="table-wrap table-scroll" id="wc-dt-scroll">
+        <table class="table datatable" id="wc-dt-orders">
+          <caption class="sr-only">Open orders, sortable, filterable and selectable</caption>
+          <thead>
+            <tr>
+              <th scope="col" class="cell-toggle"><span class="sr-only">Expand row</span></th>
+              <th scope="col" class="cell-check">
+                <label class="checkbox">
+                  <input type="checkbox" id="wc-dt-all">
+                  <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
+                  <span class="sr-only">Select all orders on this page</span>
+                </label>
+              </th>
+              <th scope="col" aria-sort="none">
+                <button class="sort-btn" type="button" data-sort="none" data-key="customer">Customer</button>
+              </th>
+              <th scope="col">Order</th>
+              <th scope="col" class="cell-filter">
+                <div class="dropdown" id="wc-dt-filter">
+                  <button class="th-filter" type="button" id="wc-dt-filter-btn" aria-haspopup="true"
+                          aria-expanded="false" aria-controls="wc-dt-filter-menu">
+                    Status
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h18l-7 8v5l-4 2v-7L3 5z"/>
+                    </svg>
+                  </button>
+                  <div class="dropdown-menu menu-filter" id="wc-dt-filter-menu" role="group" aria-label="Filter by status">
+                    <p class="menu-filter-head">Status</p>
+                    <label class="checkbox menu-filter-option">
+                      <input type="checkbox" value="Paid">
+                      <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
+                      Paid
+                    </label>
+                    <label class="checkbox menu-filter-option">
+                      <input type="checkbox" value="In transit">
+                      <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
+                      In transit
+                    </label>
+                    <label class="checkbox menu-filter-option">
+                      <input type="checkbox" value="Disputed">
+                      <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
+                      Disputed
+                    </label>
+                    <div class="menu-divider" role="separator"></div>
+                    <div class="menu-filter-foot">
+                      <button class="btn-sm btn-ghost" type="button" data-mue-dt-filter-clear>Clear</button>
+                      <button class="btn-sm btn-primary" type="button" data-mue-dt-apply>Apply</button>
+                    </div>
+                  </div>
+                </div>
+              </th>
+              <th scope="col" class="col-num" aria-sort="none">
+                <button class="sort-btn" type="button" data-sort="none" data-key="amount">Amount</button>
+              </th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody data-mue-dt-body>
+            <tr data-customer="Kai Tanaka" data-status="Paid" data-amount="11480.00"
+                data-search="kai tanaka kai.tanaka@meridianlabs.jp ord-98214">
+              <td class="cell-toggle">
+                <button class="row-toggle" type="button" aria-expanded="false" aria-controls="wc-d-98214"
+                        aria-label="Show details for ORD-98214">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 6l6 6-6 6"/>
+                  </svg>
+                </button>
+              </td>
+              <td class="cell-check">
+                <label class="checkbox">
+                  <input type="checkbox" checked aria-label="Select ORD-98214">
+                  <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
+                </label>
+              </td>
+              <td><span class="cell-user"><span class="avatar" aria-hidden="true">KT</span>
+                <span><span class="cell-user-name">Kai Tanaka</span>
+                <span class="cell-user-sub">kai.tanaka@meridianlabs.jp</span></span></span></td>
+              <td class="mono">ORD-98214</td>
+              <td><span class="badge badge-success"><span class="dot"></span>Paid</span></td>
+              <td class="col-num">$11,480.00</td>
+              <td><button class="btn-link btn-sm" type="button" data-expand aria-expanded="false" aria-controls="wc-d-98214">Details</button></td>
+            </tr>
+            <tr id="wc-d-98214" hidden>
+              <td class="table-detail" colspan="7">
+                <div class="table-detail-inner">
+                  <dl class="descriptions">
+                    <div class="descriptions-item">
+                      <dt class="descriptions-label">Ship to</dt>
+                      <dd class="descriptions-value">4-11-7 Akasaka, Minato-ku, Tokyo 105-0023, Japan</dd>
+                    </div>
+                    <div class="descriptions-item">
+                      <dt class="descriptions-label">Payment</dt>
+                      <dd class="descriptions-value">JCB ending 8811</dd>
+                    </div>
+                    <div class="descriptions-item">
+                      <dt class="descriptions-label">Line items</dt>
+                      <dd class="descriptions-value">3 lines - 12 units</dd>
+                    </div>
+                  </dl>
+                </div>
+              </td>
+            </tr>
+            <tr data-customer="Amara Okafor" data-status="In transit" data-amount="2340.00"
+                data-search="amara okafor amara@brightline.co ord-98207">
+              <td class="cell-toggle">
+                <button class="row-toggle" type="button" aria-expanded="false" aria-controls="wc-d-98207"
+                        aria-label="Show details for ORD-98207">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 6l6 6-6 6"/>
+                  </svg>
+                </button>
+              </td>
+              <td class="cell-check">
+                <label class="checkbox">
+                  <input type="checkbox" aria-label="Select ORD-98207">
+                  <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
+                </label>
+              </td>
+              <td><span class="cell-user"><span class="avatar" aria-hidden="true">AO</span>
+                <span><span class="cell-user-name">Amara Okafor</span>
+                <span class="cell-user-sub">amara@brightline.co</span></span></span></td>
+              <td class="mono">ORD-98207</td>
+              <td><span class="badge badge-info"><span class="dot"></span>In transit</span></td>
+              <td class="col-num">$2,340.00</td>
+              <td><button class="btn-link btn-sm" type="button" data-expand aria-expanded="false" aria-controls="wc-d-98207">Details</button></td>
+            </tr>
+            <tr id="wc-d-98207" hidden>
+              <td class="table-detail" colspan="7">
+                <div class="table-detail-inner">
+                  <dl class="descriptions">
+                    <div class="descriptions-item">
+                      <dt class="descriptions-label">Ship to</dt>
+                      <dd class="descriptions-value">14 Adeola Odeku St, Victoria Island, Lagos, Nigeria</dd>
+                    </div>
+                    <div class="descriptions-item">
+                      <dt class="descriptions-label">Payment</dt>
+                      <dd class="descriptions-value">Bank transfer - settled</dd>
+                    </div>
+                    <div class="descriptions-item">
+                      <dt class="descriptions-label">Line items</dt>
+                      <dd class="descriptions-value">2 lines - 8 units</dd>
+                    </div>
+                  </dl>
+                </div>
+              </td>
+            </tr>
+            <tr data-customer="Lucas Meyer" data-status="Disputed" data-amount="8910.50"
+                data-search="lucas meyer l.meyer@northwind.example ord-98199">
+              <td class="cell-toggle">
+                <button class="row-toggle" type="button" aria-expanded="false" aria-controls="wc-d-98199"
+                        aria-label="Show details for ORD-98199">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 6l6 6-6 6"/>
+                  </svg>
+                </button>
+              </td>
+              <td class="cell-check">
+                <label class="checkbox">
+                  <input type="checkbox" aria-label="Select ORD-98199">
+                  <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
+                </label>
+              </td>
+              <td><span class="cell-user"><span class="avatar" aria-hidden="true">LM</span>
+                <span><span class="cell-user-name">Lucas Meyer</span>
+                <span class="cell-user-sub">l.meyer@northwind.example</span></span></span></td>
+              <td class="mono">ORD-98199</td>
+              <td><span class="badge badge-danger"><span class="dot"></span>Disputed</span></td>
+              <td class="col-num">$8,910.50</td>
+              <td><button class="btn-link btn-sm" type="button" data-expand aria-expanded="false" aria-controls="wc-d-98199">Details</button></td>
+            </tr>
+            <tr id="wc-d-98199" hidden>
+              <td class="table-detail" colspan="7">
+                <div class="table-detail-inner">
+                  <dl class="descriptions">
+                    <div class="descriptions-item">
+                      <dt class="descriptions-label">Ship to</dt>
+                      <dd class="descriptions-value">Speyerer Strasse 42, 69115 Heidelberg, Germany</dd>
+                    </div>
+                    <div class="descriptions-item">
+                      <dt class="descriptions-label">Dispute</dt>
+                      <dd class="descriptions-value"><span class="badge badge-warning">Goods not received</span></dd>
+                    </div>
+                    <div class="descriptions-item">
+                      <dt class="descriptions-label">Assigned to</dt>
+                      <dd class="descriptions-value">Support - Tier 2</dd>
+                    </div>
+                  </dl>
+                </div>
+              </td>
+            </tr>
+            <tr data-customer="Priya Raman" data-status="Paid" data-amount="460.00"
+                data-search="priya raman priya.raman@fieldstack.io ord-98186">
+              <td class="cell-toggle">
+                <button class="row-toggle" type="button" aria-expanded="false" aria-controls="wc-d-98186"
+                        aria-label="Show details for ORD-98186">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 6l6 6-6 6"/>
+                  </svg>
+                </button>
+              </td>
+              <td class="cell-check">
+                <label class="checkbox">
+                  <input type="checkbox" checked aria-label="Select ORD-98186">
+                  <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
+                </label>
+              </td>
+              <td><span class="cell-user"><span class="avatar" aria-hidden="true">PR</span>
+                <span><span class="cell-user-name">Priya Raman</span>
+                <span class="cell-user-sub">priya.raman@fieldstack.io</span></span></span></td>
+              <td class="mono">ORD-98186</td>
+              <td><span class="badge badge-success"><span class="dot"></span>Paid</span></td>
+              <td class="col-num">$460.00</td>
+              <td><button class="btn-link btn-sm" type="button" data-expand aria-expanded="false" aria-controls="wc-d-98186">Details</button></td>
+            </tr>
+            <tr id="wc-d-98186" hidden>
+              <td class="table-detail" colspan="7">
+                <div class="table-detail-inner">
+                  <dl class="descriptions">
+                    <div class="descriptions-item">
+                      <dt class="descriptions-label">Ship to</dt>
+                      <dd class="descriptions-value">Flat 9, Residency Road, Bengaluru 560025, India</dd>
+                    </div>
+                    <div class="descriptions-item">
+                      <dt class="descriptions-label">Payment</dt>
+                      <dd class="descriptions-value">UPI - reference 4471</dd>
+                    </div>
+                    <div class="descriptions-item">
+                      <dt class="descriptions-label">Line items</dt>
+                      <dd class="descriptions-value">1 line - 2 units</dd>
+                    </div>
+                  </dl>
+                </div>
+              </td>
+            </tr>
+            <tr data-customer="Sofia Almeida" data-status="In transit" data-amount="14200.00"
+                data-search="sofia almeida sofia@harborworks.pt ord-98175">
+              <td class="cell-toggle">
+                <button class="row-toggle" type="button" aria-expanded="false" aria-controls="wc-d-98175"
+                        aria-label="Show details for ORD-98175">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 6l6 6-6 6"/>
+                  </svg>
+                </button>
+              </td>
+              <td class="cell-check">
+                <label class="checkbox">
+                  <input type="checkbox" aria-label="Select ORD-98175">
+                  <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
+                </label>
+              </td>
+              <td><span class="cell-user"><span class="avatar" aria-hidden="true">SA</span>
+                <span><span class="cell-user-name">Sofia Almeida</span>
+                <span class="cell-user-sub">sofia@harborworks.pt</span></span></span></td>
+              <td class="mono">ORD-98175</td>
+              <td><span class="badge badge-info"><span class="dot"></span>In transit</span></td>
+              <td class="col-num">$14,200.00</td>
+              <td><button class="btn-link btn-sm" type="button" data-expand aria-expanded="false" aria-controls="wc-d-98175">Details</button></td>
+            </tr>
+            <tr id="wc-d-98175" hidden>
+              <td class="table-detail" colspan="7">
+                <div class="table-detail-inner">
+                  <dl class="descriptions">
+                    <div class="descriptions-item">
+                      <dt class="descriptions-label">Ship to</dt>
+                      <dd class="descriptions-value">Rua da Prata 8, 1100-095 Lisboa, Portugal</dd>
+                    </div>
+                    <div class="descriptions-item">
+                      <dt class="descriptions-label">Payment</dt>
+                      <dd class="descriptions-value">MB Way - authorised</dd>
+                    </div>
+                    <div class="descriptions-item">
+                      <dt class="descriptions-label">Line items</dt>
+                      <dd class="descriptions-value">5 lines - 20 units</dd>
+                    </div>
+                  </dl>
+                </div>
+              </td>
+            </tr>
+            <tr data-customer="Noah Berg" data-status="Paid" data-amount="3125.75"
+                data-search="noah berg noah.berg@fjordtech.no ord-98163">
+              <td class="cell-toggle">
+                <button class="row-toggle" type="button" aria-expanded="false" aria-controls="wc-d-98163"
+                        aria-label="Show details for ORD-98163">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 6l6 6-6 6"/>
+                  </svg>
+                </button>
+              </td>
+              <td class="cell-check">
+                <label class="checkbox">
+                  <input type="checkbox" aria-label="Select ORD-98163">
+                  <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
+                </label>
+              </td>
+              <td><span class="cell-user"><span class="avatar" aria-hidden="true">NB</span>
+                <span><span class="cell-user-name">Noah Berg</span>
+                <span class="cell-user-sub">noah.berg@fjordtech.no</span></span></span></td>
+              <td class="mono">ORD-98163</td>
+              <td><span class="badge badge-success"><span class="dot"></span>Paid</span></td>
+              <td class="col-num">$3,125.75</td>
+              <td><button class="btn-link btn-sm" type="button" data-expand aria-expanded="false" aria-controls="wc-d-98163">Details</button></td>
+            </tr>
+            <tr id="wc-d-98163" hidden>
+              <td class="table-detail" colspan="7">
+                <div class="table-detail-inner">
+                  <dl class="descriptions">
+                    <div class="descriptions-item">
+                      <dt class="descriptions-label">Ship to</dt>
+                      <dd class="descriptions-value">Storgata 12, 0184 Oslo, Norway</dd>
+                    </div>
+                    <div class="descriptions-item">
+                      <dt class="descriptions-label">Payment</dt>
+                      <dd class="descriptions-value">Vipps - settled</dd>
+                    </div>
+                    <div class="descriptions-item">
+                      <dt class="descriptions-label">Line items</dt>
+                      <dd class="descriptions-value">2 lines - 4 units</dd>
+                    </div>
+                  </dl>
+                </div>
+              </td>
+            </tr>
+            <tr data-customer="Elena Rossi" data-status="Disputed" data-amount="780.00"
+                data-search="elena rossi elena.rossi@ateliermi.it ord-98152">
+              <td class="cell-toggle">
+                <button class="row-toggle" type="button" aria-expanded="false" aria-controls="wc-d-98152"
+                        aria-label="Show details for ORD-98152">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 6l6 6-6 6"/>
+                  </svg>
+                </button>
+              </td>
+              <td class="cell-check">
+                <label class="checkbox">
+                  <input type="checkbox" aria-label="Select ORD-98152">
+                  <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
+                </label>
+              </td>
+              <td><span class="cell-user"><span class="avatar" aria-hidden="true">ER</span>
+                <span><span class="cell-user-name">Elena Rossi</span>
+                <span class="cell-user-sub">elena.rossi@ateliermi.it</span></span></span></td>
+              <td class="mono">ORD-98152</td>
+              <td><span class="badge badge-danger"><span class="dot"></span>Disputed</span></td>
+              <td class="col-num">$780.00</td>
+              <td><button class="btn-link btn-sm" type="button" data-expand aria-expanded="false" aria-controls="wc-d-98152">Details</button></td>
+            </tr>
+            <tr id="wc-d-98152" hidden>
+              <td class="table-detail" colspan="7">
+                <div class="table-detail-inner">
+                  <dl class="descriptions">
+                    <div class="descriptions-item">
+                      <dt class="descriptions-label">Ship to</dt>
+                      <dd class="descriptions-value">Via Tortona 27, 20144 Milano, Italy</dd>
+                    </div>
+                    <div class="descriptions-item">
+                      <dt class="descriptions-label">Dispute</dt>
+                      <dd class="descriptions-value"><span class="badge badge-warning">Damaged on arrival</span></dd>
+                    </div>
+                    <div class="descriptions-item">
+                      <dt class="descriptions-label">Assigned to</dt>
+                      <dd class="descriptions-value">Support - Tier 1</dd>
+                    </div>
+                  </dl>
+                </div>
+              </td>
+            </tr>
+            <tr data-customer="Marcus Bell" data-status="Paid" data-amount="649.00"
+                data-search="marcus bell marcus@northline.dev ord-98141">
+              <td class="cell-toggle">
+                <button class="row-toggle" type="button" aria-expanded="false" aria-controls="wc-d-98141"
+                        aria-label="Show details for ORD-98141">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 6l6 6-6 6"/>
+                  </svg>
+                </button>
+              </td>
+              <td class="cell-check">
+                <label class="checkbox">
+                  <input type="checkbox" aria-label="Select ORD-98141">
+                  <span class="box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
+                </label>
+              </td>
+              <td><span class="cell-user"><span class="avatar" aria-hidden="true">MB</span>
+                <span><span class="cell-user-name">Marcus Bell</span>
+                <span class="cell-user-sub">marcus@northline.dev</span></span></span></td>
+              <td class="mono">ORD-98141</td>
+              <td><span class="badge badge-success"><span class="dot"></span>Paid</span></td>
+              <td class="col-num">$649.00</td>
+              <td><button class="btn-link btn-sm" type="button" data-expand aria-expanded="false" aria-controls="wc-d-98141">Details</button></td>
+            </tr>
+            <tr id="wc-d-98141" hidden>
+              <td class="table-detail" colspan="7">
+                <div class="table-detail-inner">
+                  <dl class="descriptions">
+                    <div class="descriptions-item">
+                      <dt class="descriptions-label">Ship to</dt>
+                      <dd class="descriptions-value">128 Queen Street, Auckland 1010, New Zealand</dd>
+                    </div>
+                    <div class="descriptions-item">
+                      <dt class="descriptions-label">Payment</dt>
+                      <dd class="descriptions-value">Visa ending 2210</dd>
+                    </div>
+                    <div class="descriptions-item">
+                      <dt class="descriptions-label">Line items</dt>
+                      <dd class="descriptions-value">1 line - 1 unit</dd>
+                    </div>
+                  </dl>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tbody data-mue-dt-loading hidden>
+            <tr>
+              <td class="cell-toggle"><mue-skeleton variant="text"></mue-skeleton></td>
+              <td class="cell-check"><mue-skeleton variant="text"></mue-skeleton></td>
+              <td><mue-skeleton variant="text"></mue-skeleton></td>
+              <td><mue-skeleton variant="text"></mue-skeleton></td>
+              <td><mue-skeleton variant="text"></mue-skeleton></td>
+              <td class="col-num"><mue-skeleton variant="text"></mue-skeleton></td>
+              <td><mue-skeleton variant="text"></mue-skeleton></td>
+            </tr>
+            <tr>
+              <td class="cell-toggle"><mue-skeleton variant="text"></mue-skeleton></td>
+              <td class="cell-check"><mue-skeleton variant="text"></mue-skeleton></td>
+              <td><mue-skeleton variant="text"></mue-skeleton></td>
+              <td><mue-skeleton variant="text"></mue-skeleton></td>
+              <td><mue-skeleton variant="text"></mue-skeleton></td>
+              <td class="col-num"><mue-skeleton variant="text"></mue-skeleton></td>
+              <td><mue-skeleton variant="text"></mue-skeleton></td>
+            </tr>
+          </tbody>
+          <tbody data-mue-dt-empty hidden>
+            <tr>
+              <td class="table-empty" colspan="7">
+                <div class="empty">
+                  <span class="empty-icon" aria-hidden="true">
+                    <svg width="1.5rem" height="1.5rem" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <circle cx="11" cy="11" r="7" stroke-linecap="round" stroke-width="2"/>
+                      <path stroke-linecap="round" stroke-width="2" d="M20 20l-3.5-3.5"/>
+                    </svg>
+                  </span>
+                  <p class="empty-title">No orders match those filters</p>
+                  <p class="empty-desc">Clear the search or the status filter to see the full list again.</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-foot">
+        <div class="row">
+          <span class="table-foot-count" aria-live="polite">Showing 0 of 0 orders</span>
+          <label class="sr-only" for="wc-dt-size">Rows per page</label>
+          <div class="select-wrap">
+            <select class="input" id="wc-dt-size" data-mue-dt-size>
+              <option value="4" selected>4 / page</option>
+              <option value="8">8 / page</option>
+            </select>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </div>
+        </div>
+        <nav class="pagination" aria-label="Order pages" data-mue-dt-pager></nav>
+      </div>
+    </mue-datatable>
+  </div>
+
+  <div class="section" id="sec-date-picker" data-mue-section="date-picker">
+    <h2>23 · Date picker</h2>
+    <p><code>mue-date-picker</code> owns the <code>.field</code> wrapper — <code>.field-label</code>
+      joined by <code>for</code>/<code>id</code>, <code>.field-helper</code> or
+      <code>.field-msg</code>, and <code>state="error"</code> writing <code>.is-error</code> +
+      <code>aria-invalid="true"</code> + <code>aria-describedby</code>. The calendar surface is the
+      platform's own: <code>min</code>/<code>max</code> are forwarded untouched so the browser greys
+      out-of-range days. It emits <code>mue-change</code>.</p>
+    <div class="variant-grid">
+      <mue-date-picker label="Departure" type="date" name="depart" value="2026-11-14" min="2026-11-01" max="2026-12-31" helper="At least ten days ahead."></mue-date-picker>
+      <mue-date-picker label="Deadline" type="date" name="deadline" state="error" message="Pick a date inside the current sprint."></mue-date-picker>
+      <mue-date-picker label="Billing month" type="month" name="month" value="2026-10" state="success"></mue-date-picker>
+      <mue-date-picker label="Locked" type="date" name="locked" value="2026-10-01" disabled></mue-date-picker>
+    </div>
+  </div>
+
+  <div class="section" id="sec-dropzone" data-mue-section="dropzone">
+    <h2>24 · File upload (dropzone)</h2>
+    <p><code>mue-dropzone</code> renders the <code>.dropzone</code> target around a real
+      <code>&lt;input type="file" class="dropzone-input"&gt;</code>, labels it with an
+      <code>.sr-only</code> <code>&lt;label&gt;</code>, and lists each chosen file as a
+      <code>.file-row</code> (icon, <code>.truncate</code>d name, size, remove button) in a
+      <code>.dropzone-list</code>. <code>.is-dragging</code> is the only state class it toggles, on
+      dragover. Choosing files emits <code>mue-change</code>; removing one emits
+      <code>mue-remove</code>.</p>
+    <div class="variant-grid">
+      <mue-dropzone label="Contract attachments" name="contracts" multiple accept=".pdf,.png" title="Drop contracts here or" browse="browse files" hint="PDF or PNG, up to 10 MB each."></mue-dropzone>
+      <mue-dropzone label="Logo" name="logo" accept=".svg" title="Drop a logo or" browse="browse"></mue-dropzone>
+      <mue-dropzone label="Unavailable upload" name="blocked" disabled></mue-dropzone>
+    </div>
+  </div>
+
+  <div class="section" id="sec-progress" data-mue-section="progress">
+    <h2>25 · Progress</h2>
+    <p><code>mue-progress</code> renders the sheet's <code>.progress-group</code> →
+      <code>.progress-label</code> (<code>span</code> + <code>.percent</code>) → <code>.track</code>
+      (<code>role="progressbar"</code>, <code>aria-valuenow/min/max</code>) → <code>.bar</code>. Only
+      the <code>--value</code> custom property is set inline, exactly as the vanilla bar does;
+      <code>variant</code> and <code>striped</code> add <code>.progress-success</code> /
+      <code>.progress-warning</code> / <code>.progress-striped</code>, and
+      <code>indeterminate</code> renders the bare <code>.progress-indeterminate</code> track.
+      Press <em>Nudge build</em> to set a new value on the first bar and watch
+      <code>mue-change</code>.</p>
+    <div class="variant-grid">
+      <div class="demo-col">
+        <mue-progress id="progress-demo" label="Build" value="68"></mue-progress>
+        <mue-progress label="Upload" value="42" variant="success"></mue-progress>
+        <mue-progress label="Storage" value="86" variant="warning"></mue-progress>
+        <mue-progress label="Deploy" value="30" striped></mue-progress>
+        <mue-progress label="Fetching orders" indeterminate></mue-progress>
+        <button class="btn-outline btn-sm" type="button" id="nudge-progress">Nudge build</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="sec-skeleton" data-mue-section="skeleton">
+    <h2>26 · Skeleton</h2>
+    <p><code>mue-skeleton</code> sets the host to the atomic shape
+      (<code>.skeleton.skeleton-text|title|avatar|img|btn</code>) or, for <code>row</code> and
+      <code>card</code>, composes the sheet's <code>.skeleton-row</code> / <code>.skeleton-body</code>
+      with <code>.stack</code>. Every placeholder is <code>aria-hidden="true"</code> — the shimmer and
+      its reduced-motion pause are the sheet's.</p>
+    <div class="variant-grid">
+      <div class="demo-col">
+        <h3>Atomic shapes</h3>
+        <mue-skeleton variant="title"></mue-skeleton>
+        <mue-skeleton variant="text"></mue-skeleton>
+        <mue-skeleton variant="avatar"></mue-skeleton>
+        <mue-skeleton variant="btn"></mue-skeleton>
+        <mue-skeleton variant="img"></mue-skeleton>
+      </div>
+      <div class="demo-col">
+        <h3>Row (list item)</h3>
+        <mue-skeleton variant="row"></mue-skeleton>
+        <h3>Card</h3>
+        <mue-skeleton variant="card"></mue-skeleton>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="sec-empty" data-mue-section="empty">
+    <h2>27 · Empty state</h2>
+    <p><code>mue-empty</code> carries <code>.empty</code> + <code>role="status"</code> +
+      <code>aria-label</code> on the host, paints the decorative <code>.empty-icon</code>,
+      <code>.empty-title</code> and <code>.empty-desc</code>, and moves the action children you author
+      into the sheet's <code>.row</code> — so the buttons stay yours and keep their focus order.</p>
+    <div class="variant-grid">
+      <mue-empty icon="&#128269;" title="No results" desc="Nothing matches that filter. Widen the date range or clear the search to see orders again." label="No search results">
+        <button class="btn-outline btn-sm" type="button">Clear filters</button>
+        <a class="btn-ghost btn-sm" href="#sec-empty">Read the docs</a>
+      </mue-empty>
+      <mue-empty icon="&#128203;" title="No projects yet" desc="Create the first project to start tracking deployments." label="First-time empty state">
+        <button class="btn-primary btn-sm" type="button">New project</button>
+      </mue-empty>
+    </div>
+  </div>
+
+  <div class="section" id="sec-error" data-mue-section="error">
+    <h2>28 · Error state</h2>
+    <p><code>mue-error</code> carries <code>.error-state</code> + <code>role="alert"</code> on the
+      host, adds <code>.error-inline</code> for the card variant, and paints an
+      <code>aria-hidden</code> <code>.error-icon</code> beside an <code>.error-body</code> that reuses
+      <code>.empty-title</code>/<code>.empty-desc</code> plus a <code>.row</code> of your recovery
+      actions. The message is text plus an icon, never colour alone.</p>
+    <div class="variant-grid">
+      <mue-error title="We couldn't save this binding" desc="The audit rejected a class this element writes. Fix the class, then retry.">
+        <button class="btn-primary btn-sm" type="button">Retry</button>
+        <a class="btn-ghost btn-sm" href="#sec-error">Copy the error</a>
+      </mue-error>
+      <mue-error inline title="Payment failed" desc="Card declined by the issuer - code 05.">
+        <button class="btn-outline btn-sm" type="button">Use another card</button>
+      </mue-error>
+    </div>
+  </div>
+
+  <div class="section" id="sec-stepper" data-mue-section="stepper">
+    <h2>29 · Stepper</h2>
+    <p><code>mue-stepper</code> takes the <code>&lt;ol class="stepper"&gt;</code> you author and adds
+      one <code>&lt;span class="stepper-dot" aria-hidden&gt;</code> per step plus the single state class
+      the sheet knows — <code>.is-done</code> (check glyph), <code>.is-current</code> (+
+      <code>aria-current="step"</code>) or <code>.is-upcoming</code>. <code>current</code> is 1-based and
+      clamped; changing it emits <code>mue-step</code>. The rail itself is a status display: the wizard
+      buttons beside it own Back / Next.</p>
+    <div class="variant-grid">
+      <div class="demo-col">
+        <mue-stepper id="stepper-demo" current="2">
+          <ol class="stepper">
+            <li><span class="stepper-label"><span class="stepper-name">Account</span><span class="stepper-text">Verified</span></span></li>
+            <li><span class="stepper-label"><span class="stepper-name">Workspace</span><span class="stepper-text">Name and team</span></span></li>
+            <li><span class="stepper-label"><span class="stepper-name">Bindings</span><span class="stepper-text">Pick frameworks</span></span></li>
+            <li><span class="stepper-label"><span class="stepper-name">Review</span></span></li>
+          </ol>
+        </mue-stepper>
+        <div class="row">
+          <button class="btn-outline btn-sm" type="button" id="stepper-back">Back</button>
+          <button class="btn-primary btn-sm" type="button" id="stepper-next">Next</button>
+          <span class="badge badge-info" id="stepper-state">Step 2 of 4</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="sec-rating" data-mue-section="rating">
+    <h2>30 · Rating</h2>
+    <p><code>mue-rating</code> renders read-only as <code>&lt;p class="rating" role="img"&gt;</code>
+      with an <code>aria-label</code> that spells the score, <code>.rating-stars</code> of
+      <code>.star.is-filled</code>/<code>.is-half</code> (the half fill is the sheet's gradient) and a
+      <code>.rating-value</code>. With <code>interactive</code> it is a real
+      <code>&lt;fieldset class="rating-input"&gt;</code> of <code>.rating-radio</code> inputs plus
+      <code>.rating-star</code> labels, each carrying an <code>.sr-only</code> name — so the arrow keys
+      are the platform's radio-group path. Choosing a star emits <code>mue-change</code>.</p>
+    <div class="variant-grid">
+      <div class="demo-col">
+        <mue-rating value="4.5" max="5" caption="4,182 reviews"></mue-rating>
+        <mue-rating value="3" max="5"></mue-rating>
+        <mue-rating id="rating-demo" interactive name="wc-rating-demo" label="Rate this binding" value="4" max="5"></mue-rating>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="sec-popover" data-mue-section="popover">
+    <h2>31 · Popover</h2>
+    <p><code>mue-popover</code> builds <code>&lt;span class="popover-wrap"&gt;</code> around a real
+      <code>.popover-trigger</code> button (<code>aria-describedby</code> → the surface) and moves your
+      children into <code>&lt;span class="popover" role="note"&gt;</code>, so the
+      <code>.popover-title</code>/<code>.popover-body</code>/<code>.popover-list</code> markup stays
+      yours. <code>placement</code> adds <code>.popover-below</code>/<code>.popover-start</code>/<code>.popover-end</code>.
+      Reveal is pure CSS (<code>:hover</code>, <code>:focus-within</code>) plus the one state class
+      <code>.is-open</code> it toggles on click; Escape closes it and refocuses the trigger.</p>
+    <div class="variant-grid">
+      <div class="demo-col">
+        <h3>Above (default)</h3>
+        <mue-popover trigger="Light DOM" icon="info">
+          <span class="popover-title">No shadow root</span>
+          <span class="popover-body">The elements build light-DOM children, so the document stylesheet reaches them.</span>
+        </mue-popover>
+        <h3>Below</h3>
+        <mue-popover trigger="Placements" placement="below" icon="region">
+          <span class="popover-title">Three placements</span>
+          <span class="popover-body">below, start and end each add the sheet's own class.</span>
+        </mue-popover>
+        <h3>Start-anchored</h3>
+        <mue-popover trigger="Start" placement="start">
+          <span class="popover-body">Keeps a near-edge trigger inside the viewport.</span>
+        </mue-popover>
+        <h3>Pinned open</h3>
+        <mue-popover id="popover-demo" trigger="Checklist" open>
+          <span class="popover-title">Gate checks</span>
+          <ul class="popover-list">
+            <li>Every class defined in the sheet</li>
+            <li>No local stylesheet</li>
+            <li>Zero shadow roots</li>
+          </ul>
+        </mue-popover>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="sec-modals" data-mue-section="modals">
+    <h2>32 · Modal</h2>
+    <p><code>mue-modals</code> renders <code>.overlay</code> → <code>.modal</code>
+      (<code>role="dialog"</code>, <code>aria-modal="true"</code>, <code>aria-labelledby</code>) with
+      <code>.modal-header</code>/<code>.modal-title</code>/<code>.modal-close</code>, your children in
+      <code>.modal-body</code> and <code>[slot="footer"]</code> buttons in <code>.modal-footer</code>.
+      A <code>&lt;button slot="trigger"&gt;</code> stays outside the overlay and gets
+      <code>aria-haspopup="dialog"</code>. Escape closes, Tab wraps inside the panel, focus returns to
+      the opener, and <code>width</code> is the only inline property (<code>--modal-w</code>).</p>
+    <div class="variant-grid">
+      <div class="demo-col">
+        <mue-modals id="modal-demo" title="Create item">
+          <button slot="trigger" class="btn-primary" type="button">Open modal</button>
+          <div class="field">
+            <label class="field-label" for="modal-name">Item name</label>
+            <input class="input" id="modal-name" type="text" name="name" autocomplete="off">
+            <p class="field-helper">Shown on the card.</p>
+          </div>
+          <button slot="footer" class="btn-ghost" type="button" data-mue-close>Cancel</button>
+          <button slot="footer" class="btn-primary" type="button" data-mue-close>Create</button>
+        </mue-modals>
+        <mue-modals id="modal-wide" title="Wide panel" width="34rem">
+          <button slot="trigger" class="btn-outline" type="button">Open width override</button>
+          <p>The element sets <code>--modal-w</code> on the panel only when the attribute is present,
+            mirroring the vanilla page's override.</p>
+          <button slot="footer" class="btn-primary" type="button" data-mue-close>Done</button>
+        </mue-modals>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="sec-charts" data-mue-section="charts">
+    <h2>33 · Charts</h2>
+    <p><code>mue-charts</code> renders <code>&lt;figure class="chart"&gt;</code> with a
+      <code>.chart-title</code> figcaption and an <code>&lt;svg viewBox="0 0 700 180" role="img"&gt;</code>
+      carrying <code>&lt;title&gt;</code>/<code>&lt;desc&gt;</code> joined by
+      <code>aria-labelledby</code>: bars are <code>&lt;rect class="bar bar-primary|bar-success|bar-warning"&gt;</code>
+      over <code>&lt;text class="axis"&gt;</code> labels, a line is
+      <code>&lt;polyline class="line"&gt;</code> with <code>&lt;circle class="point"&gt;</code> markers,
+      and <code>legend</code> builds <code>.legend / .legend-item / .legend-dot</code>. Only the dot
+      colour is inline, as in the vanilla page; the optional <code>summary</code> caption is emitted as
+      a plain <code>&lt;p&gt;</code> because the class the vanilla page writes there
+      (<code>.value</code>) is defined by no shared stylesheet.</p>
+    <div class="demo-col">
+      <mue-charts type="bar" title="Monthly signups" desc="Bar chart of signups for six months." values="40,70,110,130,90,120" labels="Jan,Feb,Mar,Apr,May,Jun" colors="primary,primary,success,primary,warning,primary" legend="Signups=primary,Converted=success,Pending=warning"></mue-charts>
+      <mue-charts type="line" title="Revenue trend" desc="Line chart showing revenue over seven points." values="60,90,120,80,110,130,150" labels="Apr,May,Jun,Jul,Aug,Sep,Oct" summary="Revenue increased 24% over the period."></mue-charts>
+    </div>
+  </div>
+
+  <div class="section" id="sec-footer" data-mue-section="footer">
+    <h2>34 · Footer</h2>
+    <p><code>mue-footer</code> carries <code>.footer</code> + <code>role="contentinfo"</code> on the
+      host and builds the brand block (<code>.footer-brand</code> + <code>.footer-desc</code>), one
+      column per entry (<code>.footer-heading</code> + <code>ul.footer-links</code> of real
+      <code>&lt;a&gt;</code>s) and the bottom bar (<code>.footer-bottom</code> +
+      <code>.footer-social</code>) from <code>columns</code> and <code>social</code> JSON attributes.
+      The auto-fit column grid is the sheet's.</p>
+    <div class="variant-grid">
+      <mue-footer brand="MASTER-UI-ENGINE" desc="One design system, several frameworks." copyright="(c) 2026 MASTER-UI-ENGINE contributors" label="Package footer"
+        columns='[{"title":"Product","links":[{"label":"Tokens","href":"#sec-charts"},{"label":"Components","href":"#sec-button"},{"label":"Patterns","href":"#sec-datatable"}]},{"title":"Frameworks","links":[{"label":"React","href":"#sec-modals"},{"label":"Vue","href":"#sec-popover"},{"label":"Web Components","href":"#sec-footer"}]},{"title":"Docs","links":[{"label":"Support matrix","href":"#sec-header-nav"},{"label":"Licence","href":"#sec-empty"}]}]'
+        social='[{"label":"GitHub","href":"https://github.com/STEVOHCODER/master-ui-engine","text":"GH"},{"label":"Changelog","href":"#sec-nav-menu","text":"CL"}]'></mue-footer>
+    </div>
+  </div>
+
+  <div class="section" id="sec-guidance" data-mue-section="guidance">
+    <h2>35 · Guidance (tour + float dock)</h2>
+    <p><code>mue-guidance</code> keeps the surface you author inside a <code>.tour-stage.card</code>,
+      adds a <code>.row</code> with a <code>.btn-outline.btn-sm</code> replay control and a
+      <code>.badge.badge-info</code> status, then moves the single state class <code>.is-open</code>
+      between the <code>&lt;span class="tour" data-step&gt;</code> stops you wrote — each one a
+      <code>.tour-target</code> around the real control plus a <code>.tour-card</code>
+      (<code>role="dialog"</code>, <code>.tour-arrow</code>, <code>.tour-step</code>,
+      <code>.tour-title</code>, <code>.tour-body</code>, <code>.tour-actions</code>).
+      Next / Back / Skip / Finish drive it, Escape closes it, and <code>current</code> is 1-based.
+      <code>mue-fab</code> carries <code>.float-btn-group</code> around the
+      <code>.float-btn</code> children you author: <code>static</code> shows the dock in place, without
+      it the dock gets <code>.is-visible</code> only past the <code>reveal</code> scroll threshold.</p>
+    <mue-guidance id="tour-demo" current="2">
+      <div class="card-body">
+        <p class="card-desc">Forecast workspace — the tour spotlights each control it is talking about.</p>
+        <div class="row">
+          <span class="tour" data-step="1">
+            <span class="tour-target"><button class="btn-outline btn-sm" type="button">Recalculate</button></span>
+            <div class="tour-card tour-end" role="dialog" aria-labelledby="wc-tour-1">
+              <span class="tour-arrow" aria-hidden="true"></span>
+              <p class="tour-step">Step 1 of 3</p>
+              <p class="tour-title" id="wc-tour-1">Recalculate reads the live ledger</p>
+              <p class="tour-body">Every forecast is recomputed from the order ledger on click.</p>
+              <div class="tour-actions">
+                <button class="btn-ghost btn-sm" type="button" data-skip>Skip</button>
+                <button class="btn-outline btn-sm" type="button" data-back disabled>Back</button>
+                <button class="btn-primary btn-sm" type="button" data-next>Next</button>
+              </div>
+            </div>
+          </span>
+          <span class="tour" data-step="2">
+            <span class="tour-target"><button class="btn-outline btn-sm" type="button">Export</button></span>
+            <div class="tour-card tour-end" role="dialog" aria-labelledby="wc-tour-2">
+              <span class="tour-arrow" aria-hidden="true"></span>
+              <p class="tour-step">Step 2 of 3</p>
+              <p class="tour-title" id="wc-tour-2">Export carries the stamp</p>
+              <p class="tour-body">CSV, XLSX or a shareable link, each stamped with the run time.</p>
+              <div class="tour-actions">
+                <button class="btn-ghost btn-sm" type="button" data-skip>Skip</button>
+                <button class="btn-outline btn-sm" type="button" data-back>Back</button>
+                <button class="btn-primary btn-sm" type="button" data-next>Next</button>
+              </div>
+            </div>
+          </span>
+        </div>
+        <div class="row">
+          <span class="tour" data-step="3">
+            <span class="tour-target"><button class="btn-outline btn-sm" type="button">Activity</button></span>
+            <div class="tour-card tour-top" role="dialog" aria-labelledby="wc-tour-3">
+              <span class="tour-arrow" aria-hidden="true"></span>
+              <p class="tour-step">Step 3 of 3</p>
+              <p class="tour-title" id="wc-tour-3">Nothing changes silently</p>
+              <p class="tour-body">Every edit is written here with who made it and when. Finish closes the tour.</p>
+              <div class="tour-actions">
+                <button class="btn-ghost btn-sm" type="button" data-skip>Skip</button>
+                <button class="btn-outline btn-sm" type="button" data-back>Back</button>
+                <button class="btn-primary btn-sm" type="button" data-next>Finish</button>
+              </div>
+            </div>
+          </span>
+        </div>
+      </div>
+    </mue-guidance>
+    <div class="demo-col">
+      <h3>Float dock shown in place (static)</h3>
+      <mue-fab static>
+        <button class="float-btn" type="button" aria-label="Help">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" stroke-width="2"/>
+            <path stroke-linecap="round" stroke-width="2" d="M9.6 9.2a2.5 2.5 0 114 2.1c-.9.6-1.6 1-1.6 2.1"/>
+          </svg>
+        </button>
+        <button class="float-btn float-btn-primary" type="button" aria-label="Back to top" data-mue-fab-top>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true">
+            <path d="M12 19V5m0 0l-6 6m6-6l6 6"/>
+          </svg>
+        </button>
+        <button class="float-btn float-btn-label" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true">
+            <path d="M21 12a8 8 0 01-8 8H8l-5 3 1.4-4.6A8 8 0 1121 12z"/>
+          </svg>
+          Contact support
+        </button>
+      </mue-fab>
+      <p class="card-desc">Remove <code>static</code> and the same dock stays hidden until the page has
+        scrolled past <code>reveal</code> (420px by default).</p>
+    </div>
+  </div>
+
+  <div class="section" id="sec-events">
     <h2>Live events</h2>
     <p>Every custom element emits on the host with a <code>detail</code> payload. Clicking, typing or
       toggling anything above appends the real event here — nothing in this log is invented.</p>
@@ -366,7 +1333,8 @@ END MUE:META -->
     log.textContent = (log.textContent === "Waiting for interaction…" ? "" : log.textContent + "\n") + line;
     log.scrollTop = log.scrollHeight;
   };
-  ["mue-change", "mue-select", "mue-open", "mue-close", "mue-sort"].forEach((name) =>
+  ["mue-change", "mue-select", "mue-open", "mue-close", "mue-sort", "mue-navigate",
+   "mue-page-change", "mue-step", "mue-filter", "mue-expand", "mue-remove"].forEach((name) =>
     document.addEventListener(name, (e) => {
       const host = e.target.tagName ? e.target.tagName.toLowerCase() : "mue";
       push(host + " " + name + " " + JSON.stringify(e.detail ?? {}));
@@ -379,6 +1347,26 @@ END MUE:META -->
 
   const toast = document.getElementById("toast-demo");
   document.getElementById("show-toast").addEventListener("click", () => { toast.open = true; });
+
+  // The stepper rail is a status display, so the demo's wizard buttons own Back / Next and just move
+  // the element's 1-based `current` attribute.
+  const stepper = document.getElementById("stepper-demo");
+  const stepperState = document.getElementById("stepper-state");
+  const syncStepper = () => {
+    stepperState.textContent = "Step " + stepper.current + " of 4";
+  };
+  stepper.addEventListener("mue-step", syncStepper);
+  document.getElementById("stepper-back").addEventListener("click", () => {
+    stepper.current = Math.max(1, stepper.current - 1);
+  });
+  document.getElementById("stepper-next").addEventListener("click", () => {
+    stepper.current = Math.min(4, stepper.current + 1);
+  });
+
+  const progress = document.getElementById("progress-demo");
+  document.getElementById("nudge-progress").addEventListener("click", () => {
+    progress.value = progress.value >= 100 ? 10 : progress.value + 10;
+  });
 </script>
 </body>
 </html>

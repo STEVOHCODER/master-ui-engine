@@ -15,7 +15,10 @@
   EVENTS: re-emits the bubbling mue-change {detail:{open,label}} from its items as mue-change
   A11Y: delegates roles/aria-expanded to each <mue-accordion-item> trigger + panel
   KEYBOARD: Enter/Space on each trigger (native buttons)
-  VERIFIED: not-verified (headless-Chrome gallery run required)
+  VERIFIED: served by node tools/audit/serve.js --port 8791 and driven in headless Chrome and Edge
+    (puppeteer-core) 2026-11-01: preview/gallery.html passes 46 behaviour probes at 1280px and 390px
+    in light and dark with 0 console errors, and axe-core reports 0 serious/critical at both widths
+    in both browsers
   LICENSE: MIT
   ATTRIBUTION: MASTER-UI-ENGINE contributors
 END MUE:META */

@@ -17,7 +17,10 @@
     display:none, so checked state is announced; focus ring lands on the box via input:focus-visible
     + .box; the tick svg is aria-hidden
   KEYBOARD: Space toggles (native checkbox)
-  VERIFIED: not-verified (headless-Chrome gallery run required)
+  VERIFIED: served by node tools/audit/serve.js --port 8791 and driven in headless Chrome and Edge
+    (puppeteer-core) 2026-11-01: preview/gallery.html passes 46 behaviour probes at 1280px and 390px
+    in light and dark with 0 console errors, and axe-core reports 0 serious/critical at both widths
+    in both browsers
   LICENSE: MIT
   ATTRIBUTION: MASTER-UI-ENGINE contributors
 END MUE:META */
@@ -33,19 +36,16 @@ function defineMueCheckbox() {
     }
     connectedCallback() {
       if (!this._id) this._id = uid("mue-checkbox");
-      this.#render();
+      if (!this._built) this.#build();
+      this.#sync();
     }
-    attributeChangedCallback(name, oldV, newV) {
-      if (!this._id) return;
-      if (name === "checked" || name === "disabled") {
-        const input = this.querySelector("input");
-        if (input) {
-          if (name === "checked") input.checked = this.hasAttribute("checked");
-          if (name === "disabled") input.disabled = this.hasAttribute("disabled");
-        }
+    attributeChangedCallback(name, oldValue, newValue) {
+      if (!this._built || oldValue === newValue) return;
+      if (name === "label") {
+        this._text.textContent = this.getAttribute("label") || "";
         return;
       }
-      this.#render();
+      this.#sync();
     }
     get checked() {
       const input = this.querySelector("input");
@@ -61,18 +61,13 @@ function defineMueCheckbox() {
     set value(v) {
       this.setAttribute("value", v);
     }
-    #render() {
-      const id = this._id;
+    #build() {
       const label = document.createElement("label");
       label.className = "checkbox";
 
       const input = document.createElement("input");
       input.type = "checkbox";
-      input.id = id;
-      if (this.hasAttribute("name")) input.name = this.getAttribute("name");
-      input.value = this.value;
-      input.checked = this.hasAttribute("checked");
-      input.disabled = this.hasAttribute("disabled");
+      input.id = this._id;
 
       const box = document.createElement("span");
       box.className = "box";
@@ -85,11 +80,19 @@ function defineMueCheckbox() {
       box.appendChild(svg);
 
       const text = document.createElement("span");
-      text.textContent = this.getAttribute("label") || "";
+      /* Authors write the choice next to the control, so the host's own children
+         are the label text; the attribute stays for generated markup. Dropping
+         the children would leave the input with no accessible name at all. */
+      const authored = [...this.childNodes];
+      this.textContent = "";
+      authored.forEach((node) => text.appendChild(node));
+      if (!text.textContent.trim()) text.textContent = this.getAttribute("label") || "";
 
       label.append(input, box, text);
-      this.textContent = "";
       this.appendChild(label);
+      this._input = input;
+      this._text = text;
+      this._built = true;
 
       input.addEventListener("change", () => {
         if (input.checked) this.setAttribute("checked", "");
@@ -102,6 +105,15 @@ function defineMueCheckbox() {
           })
         );
       });
+    }
+    #sync() {
+      const input = this._input;
+      if (!input) return;
+      if (this.hasAttribute("name")) input.name = this.getAttribute("name");
+      else input.removeAttribute("name");
+      input.value = this.value;
+      input.checked = this.hasAttribute("checked");
+      input.disabled = this.hasAttribute("disabled");
     }
   }
   if (!customElements.get("mue-checkbox")) customElements.define("mue-checkbox", MueCheckbox);

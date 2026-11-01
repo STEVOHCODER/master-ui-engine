@@ -15,6 +15,10 @@ import {
   MueButton, MueInput, MueTextarea, MueSelect, MueCheckbox, MueRadioGroup,
   MueSwitch, MueCard, MueBadge, MueDialog, MueDropdown, MueTabs,
   MueAccordion, MueTable, MueNotification, MueAvatar,
+  MueDatePicker, MueDropzone, MueChart, MueRating, MueRatingInput, MuePopover,
+  MueModal, MueFooter, MueProgress, MueSkeleton, MueEmptyState, MueErrorState,
+  MueStepper, MueBreadcrumbs, MuePagination, MueSidebar, MueHeaderNav, MueNavMenu,
+  MueTour, MueFloatButton, MueDataTable,
 } from "../index.js";
 
 /* forms */
@@ -70,6 +74,117 @@ const rows = [
   { num: "03", project: "Marketing site", owner: "Jules Kim", status: "On hold", updated: "3d ago" },
   { num: "04", project: "API migration", owner: "Alex Morgan", status: "Active", updated: "5d ago" },
 ];
+
+/* date picker */
+const shippedOn = ref("");
+
+/* dropzone */
+const uploaded = ref([{ name: "quarterly-report.pdf", size: "248 KB" }]);
+
+/* rating */
+const ratingInput = ref(4);
+
+/* modal */
+const modalOpen = ref(false);
+const modalItemName = ref("");
+
+/* progress (interactive demo) */
+const progressValue = ref(0);
+
+/* stepper */
+const checkoutSteps = [
+  { name: "Account", text: "Verified" },
+  { name: "Workspace", text: "Two seats added" },
+  { name: "Billing", text: "Choose a plan" },
+  { name: "Invite", text: "Optional" },
+];
+const timelineSteps = [
+  { name: "Marketing sections region", text: "Shipped 2026-10-28", body: "Hero, pricing, testimonials and the closing band." },
+  { name: "Stepper, dropzone, rating, popover", text: "In review", body: "Four new regions in this sheet." },
+  { name: "Command palette", text: "Planned", body: "Keyboard-first search over the catalog." },
+];
+const stepIndex = ref(2);
+const timelineIndex = ref(1);
+
+/* breadcrumbs */
+const lastCrumb = ref("Analytics dashboard");
+
+/* pagination */
+const bookPage = ref(3);
+
+/* sidebar */
+const sidebarActive = ref("Dashboard");
+
+/* header nav */
+const navLinks = [
+  { label: "Dashboard", href: "#section-headernav", active: true },
+  { label: "Projects", href: "#section-headernav" },
+  { label: "Team", href: "#section-headernav" },
+  { label: "Settings", href: "#section-headernav" },
+];
+
+/* nav menu (with a dropdown) */
+const menuLinks = [
+  { label: "Dashboard", href: "#section-navmenu", active: true },
+  {
+    label: "Resources",
+    children: [
+      { label: "Documentation", value: "docs" },
+      { label: "Templates", value: "templates" },
+      { label: "Design systems", value: "design" },
+    ],
+  },
+  { label: "Team", href: "#section-navmenu" },
+  { label: "Settings", href: "#section-navmenu" },
+];
+const menuPick = ref("No menu item chosen yet.");
+
+/* tour */
+const tourSteps = [
+  { title: "Recalculate reads the live ledger", body: "Every forecast recomputes from the order ledger on click.", targetLabel: "Recalculate", placement: "end" },
+  { title: "Export carries the stamp", body: "CSV, XLSX or a link — each stamped with the recalculation time.", targetLabel: "Export", placement: "end" },
+  { title: "Nothing changes silently", body: "Every edit is written to the audit trail with who and when.", targetLabel: "Audit trail", placement: "top" },
+  { title: "Save the view, not a copy", body: "A saved view keeps the columns, grouping and filters.", targetLabel: "Save view", placement: "top end" },
+];
+
+/* float buttons dock */
+const floatVariants = [
+  { label: "Help", glyph: "help" },
+  { label: "Back to top", glyph: "up", variant: "primary", scrollToTop: true },
+  { label: "Contact support", glyph: "chat", variant: "label", text: "Contact support" },
+];
+const floatDock = [
+  { label: "New forecast", glyph: "plus", variant: "primary" },
+  { label: "Chat with support", glyph: "chat" },
+  { label: "Back to top", glyph: "up", scrollToTop: true },
+];
+const floatPick = ref("No float button pressed yet.");
+
+/* data table */
+const dtColumns = [
+  { key: "customer", label: "Customer", sortable: true },
+  { key: "order", label: "Order" },
+  { key: "status", label: "Status", filterOptions: ["Paid", "In transit", "Disputed"] },
+  { key: "amount", label: "Amount", sortable: true, numeric: true, mono: true },
+  { key: "placed", label: "Placed", sortable: true, mono: true },
+];
+const dtRows = [
+  { id: "98214", customer: "Kai Tanaka", order: "ORD-98214", status: "Paid", amount: 11480.0, placed: "28 Oct 2026", search: "kai tanaka ord-98214", detail: [{ label: "Ship to", value: "4-11-7 Akasaka, Tokyo, Japan" }, { label: "Payment", value: "JCB ending 8811" }] },
+  { id: "98207", customer: "Amara Okafor", order: "ORD-98207", status: "In transit", amount: 2340.0, placed: "27 Oct 2026", search: "amara okafor ord-98207", detail: [{ label: "Ship to", value: "14 Adeola Odeku St, Lagos, Nigeria" }, { label: "Payment", value: "Bank transfer - settled" }] },
+  { id: "98199", customer: "Lucas Meyer", order: "ORD-98199", status: "Disputed", amount: 8910.5, placed: "26 Oct 2026", search: "lucas meyer ord-98199", detail: [{ label: "Ship to", value: "Speyerer Strasse 42, Heidelberg, Germany" }, { label: "Dispute", value: "Goods not received" }] },
+  { id: "98186", customer: "Priya Raman", order: "ORD-98186", status: "Paid", amount: 460.0, placed: "24 Oct 2026", search: "priya raman ord-98186", detail: [{ label: "Ship to", value: "Residency Road, Bengaluru, India" }, { label: "Payment", value: "UPI - reference 4471" }] },
+  { id: "98175", customer: "Sofia Almeida", order: "ORD-98175", status: "In transit", amount: 14200.0, placed: "23 Oct 2026", search: "sofia almeida ord-98175", detail: [{ label: "Ship to", value: "Rua da Prata 118, Lisboa, Portugal" }, { label: "Payment", value: "Multibanco - paid" }] },
+  { id: "98164", customer: "Daniel Whitfield", order: "ORD-98164", status: "Paid", amount: 3725.25, placed: "22 Oct 2026", search: "daniel whitfield ord-98164", detail: [{ label: "Ship to", value: "Ballymount Cross, Dublin, Ireland" }, { label: "Payment", value: "Visa ending 4242" }] },
+  { id: "98152", customer: "Yuki Sato", order: "ORD-98152", status: "Disputed", amount: 1180.0, placed: "20 Oct 2026", search: "yuki sato ord-98152", detail: [{ label: "Ship to", value: "Nishishinjuku, Tokyo, Japan" }, { label: "Dispute", value: "Damaged on arrival" }] },
+  { id: "98141", customer: "Fatima Al-Hassan", order: "ORD-98141", status: "In transit", amount: 22640.0, placed: "19 Oct 2026", search: "fatima al-hassan ord-98141", detail: [{ label: "Ship to", value: "Al Quoz Industrial 3, Dubai, UAE" }, { label: "Payment", value: "Letter of credit" }] },
+];
+const dtLoading = ref(false);
+function refreshTable() {
+  dtLoading.value = true;
+  window.setTimeout(() => {
+    dtLoading.value = false;
+  }, 1200);
+}
 </script>
 
 <template>
@@ -323,6 +438,295 @@ const rows = [
           <MueAvatar>+2</MueAvatar>
         </MueAvatar>
       </div>
+    </div>
+
+    <!-- 17 date picker -->
+    <div class="section" id="section-datepicker">
+      <h2>Date picker</h2>
+      <p>Native <code>&lt;input type="date"&gt;</code> inside the sheet's <code>.field</code>; the platform owns the calendar popover. You picked: <b>{{ shippedOn || "nothing yet" }}</b>.</p>
+      <div class="stack">
+        <MueDatePicker v-model="shippedOn" label="Ship on" helper="Use the picker or type YYYY-MM-DD." />
+        <MueDatePicker label="Latest delivery" model-value="" min="2026-01-01" max="2026-12-31" error="This date is outside the allowed range." />
+      </div>
+    </div>
+
+    <!-- 18 dropzone -->
+    <div class="section" id="section-dropzone">
+      <h2>File upload (dropzone)</h2>
+      <p>Drag files over the target (it lights up via <code>.is-dragging</code>) or click to browse; picked files list below and each row can be removed.</p>
+      <MueDropzone
+        v-model="uploaded"
+        label="Upload project files"
+        title="Drop files here"
+        hint="PDF, CSV or PNG up to 10 MB each."
+        multiple
+      />
+    </div>
+
+    <!-- 19 chart -->
+    <div class="section" id="section-chart">
+      <h2>Chart (bar + line)</h2>
+      <p>Geometry is computed from the data into the shared <code>.chart</code> SVG; the bars animate and the line draws from the sheet.</p>
+      <div class="grid-auto">
+        <MueChart
+          type="bar"
+          title="Quarterly revenue"
+          :bars="[
+            { label: 'Q1', value: 42 },
+            { label: 'Q2', value: 68, tone: 'success' },
+            { label: 'Q3', value: 55 },
+            { label: 'Q4', value: 80, tone: 'warning' },
+          ]"
+          :legend="[{ label: 'This year', tone: 'primary' }, { label: 'Beats plan', tone: 'success' }, { label: 'Watch', tone: 'warning' }]"
+        />
+        <MueChart
+          type="line"
+          title="Weekly active users"
+          :values="[12, 18, 15, 24, 30, 27, 38]"
+          :labels="['M', 'T', 'W', 'T', 'F', 'S', 'S']"
+          note="Up 38% week over week."
+        />
+      </div>
+    </div>
+
+    <!-- 20 rating (read-only) -->
+    <div class="section" id="section-rating">
+      <h2>Rating (read-only)</h2>
+      <div class="stack">
+        <MueRating :value="4.5" caption="312 reviews" />
+        <MueRating :value="3" />
+        <MueRating :value="0.5" caption="Just launched" />
+      </div>
+    </div>
+
+    <!-- 21 rating input -->
+    <div class="section" id="section-ratinginput">
+      <h2>Rating input</h2>
+      <p>Five radios in 1-5 order — Tab in, then Left/Right (or Up/Down) move the value; Space commits. You rated: <b>{{ ratingInput || 0 }} / 5</b>.</p>
+      <MueRatingInput v-model="ratingInput" legend="Rate this component" />
+    </div>
+
+    <!-- 22 popover -->
+    <div class="section" id="section-popover">
+      <h2>Popover</h2>
+      <p>Hover reveals it; click or Enter pins it (Escape and an outside click dismiss). The surface is <code>role="note"</code>.</p>
+      <div class="demo-area">
+        <MuePopover title="Checklist" text="Everything below ships with the sheet." :items="['No build step', 'Light + dark', 'Keyboard operable']" placement="start">
+          <template #trigger>Details</template>
+        </MuePopover>
+      </div>
+    </div>
+
+    <!-- 23 modal -->
+    <div class="section" id="section-modal">
+      <h2>Modal</h2>
+      <p>Escape closes, Tab is trapped inside, focus returns to the trigger; the page behind is scroll-locked. Name typed: <b>{{ modalItemName || "—" }}</b>.</p>
+      <div class="demo-area">
+        <MueButton id="open-modal" variant="primary" aria-haspopup="dialog" @click="modalOpen = true">Add new item</MueButton>
+      </div>
+      <MueModal v-model="modalOpen" title="Add new item" modal-width="35rem">
+        <div class="stack">
+          <MueInput v-model="modalItemName" label="Item name" placeholder="Enter name" />
+          <p class="field-helper">The item will be added to your current list.</p>
+        </div>
+        <template #footer>
+          <MueButton variant="outline" @click="modalOpen = false">Cancel</MueButton>
+          <MueButton variant="primary" @click="modalOpen = false">Create item</MueButton>
+        </template>
+      </MueModal>
+    </div>
+
+    <!-- 24 footer -->
+    <div class="section" id="section-footer">
+      <h2>Footer</h2>
+      <MueFooter
+        brand="MASTER-UI-ENGINE"
+        desc="Reusable UI/UX components and design systems for AI coding agents."
+        :columns="[
+          { heading: 'Product', links: [{ label: 'Components' }, { label: 'Templates' }, { label: 'Design systems' }] },
+          { heading: 'Resources', links: [{ label: 'Documentation' }, { label: 'Accessibility' }, { label: 'Changelog' }] },
+          { heading: 'Legal', links: [{ label: 'Privacy' }, { label: 'Terms' }, { label: 'License' }] },
+        ]"
+        copyright="© 2026 MASTER-UI-ENGINE. MIT Licensed."
+        :social="[{ label: 'GH', ariaLabel: 'GitHub' }, { label: 'TW', ariaLabel: 'Twitter' }, { label: 'DC', ariaLabel: 'Discord' }]"
+      />
+    </div>
+
+    <!-- 25 progress -->
+    <div class="section" id="section-progress">
+      <h2>Progress</h2>
+      <p>Determinate, semantic variants, striped, indeterminate, and an interactive readout — the fill reads the <code>--value</code> token.</p>
+      <div class="stack">
+        <MueProgress label="Upload" :value="65" />
+        <MueProgress label="Processing" :value="100" variant="success" />
+        <MueProgress label="Review" :value="30" variant="warning" />
+        <MueProgress label="Sync" :value="45" variant="striped" />
+        <MueProgress label="Working" variant="indeterminate" />
+        <MueProgress id="dt-demo-progress" label="Demo progress" :value="progressValue" />
+      </div>
+      <div class="btn-row" style="margin-top: var(--space-4)">
+        <MueButton id="progress-25" variant="outline" size="sm" @click="progressValue = 25">25%</MueButton>
+        <MueButton variant="outline" size="sm" @click="progressValue = 50">50%</MueButton>
+        <MueButton variant="outline" size="sm" @click="progressValue = 75">75%</MueButton>
+        <MueButton variant="primary" size="sm" @click="progressValue = 100">Complete</MueButton>
+      </div>
+    </div>
+
+    <!-- 26 skeleton -->
+    <div class="section" id="section-skeleton">
+      <h2>Skeleton</h2>
+      <p>Placeholder shapes that hold layout while content loads. Each root announces <code>role="status"</code> and hides the bars from readers.</p>
+      <div class="grid-auto">
+        <MueSkeleton variant="card" />
+        <MueSkeleton variant="list" />
+      </div>
+      <div style="margin-top: var(--space-4)"><MueSkeleton variant="button" /></div>
+    </div>
+
+    <!-- 27 empty state -->
+    <div class="section" id="section-empty">
+      <h2>Empty state</h2>
+      <MueEmptyState icon="🔍" title="No results found" desc="Try adjusting your search terms or filters.">
+        <template #actions>
+          <MueButton variant="outline">Clear filters</MueButton>
+          <MueButton variant="primary">Browse all</MueButton>
+        </template>
+      </MueEmptyState>
+    </div>
+
+    <!-- 28 error state -->
+    <div class="section" id="section-error">
+      <h2>Error state</h2>
+      <div class="stack">
+        <MueErrorState title="Something went wrong" desc="We couldn't load your projects. Please refresh or contact support.">
+          <template #actions>
+            <MueButton variant="outline">Refresh</MueButton>
+            <MueButton variant="primary">Contact support</MueButton>
+          </template>
+        </MueErrorState>
+        <MueErrorState inline title="Payment declined" desc="Your card was rejected by the issuer. Try a different payment method.">
+          <template #actions>
+            <MueButton variant="primary" size="sm">Retry</MueButton>
+          </template>
+        </MueErrorState>
+      </div>
+    </div>
+
+    <!-- 29 stepper -->
+    <div class="section" id="section-stepper">
+      <h2>Stepper (+ timeline)</h2>
+      <p>The three states are classes; this binding turns the active step into a model and adds Back/Next (and ArrowLeft/ArrowRight).</p>
+      <MueStepper v-model="stepIndex" :steps="checkoutSteps" controls next-label="Continue" />
+      <p class="card-title" style="margin-top: var(--space-6)">Changelog timeline</p>
+      <MueStepper v-model="timelineIndex" variant="timeline" :steps="timelineSteps" controls />
+    </div>
+
+    <!-- 30 breadcrumbs -->
+    <div class="section" id="section-breadcrumbs">
+      <h2>Breadcrumbs</h2>
+      <p>Click a crumb to see the <code>select</code> event: last activated was <b>{{ lastCrumb }}</b>.</p>
+      <MueBreadcrumbs
+        :items="[
+          { label: 'Home' },
+          { label: 'Products' },
+          { label: 'Software' },
+          { label: 'Analytics dashboard' },
+        ]"
+        @select="(c) => (lastCrumb = c.label)"
+      />
+    </div>
+
+    <!-- 31 pagination -->
+    <div class="section" id="section-pagination">
+      <h2>Pagination</h2>
+      <p>Controlled with <code>v-model</code>; the window collapses to first/last + a sibling range with ellipsis gaps. Current page: <b>{{ bookPage }}</b>.</p>
+      <MuePagination v-model="bookPage" :pages="20" :sibling="1" />
+    </div>
+
+    <!-- 32 sidebar -->
+    <div class="section" id="section-sidebar">
+      <h2>Sidebar</h2>
+      <p>Sectioned nav; clicking a link moves the active row (v-model). Active: <b>{{ sidebarActive }}</b>.</p>
+      <div style="padding: var(--space-4); border: 1px solid var(--border-medium); border-radius: var(--radius-lg); background: var(--bg-surface)">
+        <MueSidebar
+          v-model="sidebarActive"
+          brand="App"
+          :sections="[
+            { heading: 'Workspace', links: [
+              { label: 'Dashboard', icon: '★' },
+              { label: 'Projects', icon: '📄' },
+              { label: 'Team', icon: '👥' },
+              { label: 'Messages', icon: '✉' },
+            ] },
+            { heading: 'Account', links: [{ label: 'Settings', icon: '⚙' }] },
+          ]"
+        />
+      </div>
+    </div>
+
+    <!-- 33 header nav -->
+    <div class="section" id="section-headernav">
+      <h2>Header navigation</h2>
+      <p>Narrow the window (below 768px) and the links collapse behind the hamburger into a drawer (Escape/outside click close it). Scrolling past 8px adds the shadow.</p>
+      <MueHeaderNav brand="Brand" :links="navLinks">
+        <template #actions>
+          <MueButton variant="outline" size="sm">Sign in</MueButton>
+          <MueAvatar>JS</MueAvatar>
+        </template>
+      </MueHeaderNav>
+    </div>
+
+    <!-- 34 navigation menu -->
+    <div class="section" id="section-navmenu">
+      <h2>Navigation menu (with dropdown)</h2>
+      <p id="navmenu-last">{{ menuPick }}</p>
+      <MueNavMenu :links="menuLinks" @select="(v) => (menuPick = `Picked: ${v}`)" />
+    </div>
+
+    <!-- 35 tour -->
+    <div class="section" id="section-tour">
+      <h2>Product tour (coachmark)</h2>
+      <p>Next/Back walk the steps, Skip and Escape close the tour (focus returns to Replay), and the open step's target is spotlighted.</p>
+      <MueTour :steps="tourSteps" :start="1" />
+    </div>
+
+    <!-- 36 float buttons -->
+    <div class="section" id="section-floatbtn">
+      <h2>Float buttons</h2>
+      <p id="float-last">{{ floatPick }}</p>
+      <p>Inline variants:</p>
+      <MueFloatButton :buttons="floatVariants" @select="(b) => (floatPick = `Pressed: ${b.label}`)" />
+      <p class="card-desc" style="margin-top: var(--space-4)">The docked group below pins to the corner and rises into place once the page scrolls past 420px — try scrolling.</p>
+      <MueFloatButton docked :buttons="floatDock" @select="(b) => (floatPick = `Pressed: ${b.label}`)" />
+    </div>
+
+    <!-- 37 data table -->
+    <div class="section" id="section-datatable">
+      <h2>Data table</h2>
+      <p>Live selection, sorting, a status filter, expandable detail rows, search, density, page size and a loading state — all on the shared <code>#datatable</code> classes.</p>
+      <div class="demo-area" style="margin-bottom: var(--space-4)">
+        <MueButton id="dt-refresh" variant="outline" size="sm" @click="refreshTable">Refresh (loading)</MueButton>
+      </div>
+      <MueDataTable
+        :columns="dtColumns"
+        :rows="dtRows"
+        caption="Open orders, sortable, filterable and selectable"
+        selectable
+        expandable
+        :loading="dtLoading"
+        :page-sizes="[5, 8]"
+        empty-title="No orders match those filters"
+      >
+        <template #cell-customer="{ row }">
+          <span class="cell-user"><span class="avatar" aria-hidden="true">{{ row.customer.split(' ').map((p) => p[0]).join('').slice(0, 2) }}</span>
+            <span><span class="cell-user-name">{{ row.customer }}</span>
+            <span class="cell-user-sub">{{ row.order }}</span></span></span>
+        </template>
+        <template #cell-status="{ value }">
+          <span class="badge" :class="value === 'Paid' ? 'badge-success' : value === 'In transit' ? 'badge-info' : 'badge-danger'"><span class="dot"></span>{{ value }}</span>
+        </template>
+        <template #cell-amount="{ value }">${{ Number(value).toLocaleString(undefined, { minimumFractionDigits: 2 }) }}</template>
+      </MueDataTable>
     </div>
 
     <!-- toast host: same region/stack structure the vanilla preview uses -->

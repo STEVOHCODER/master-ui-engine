@@ -24,14 +24,14 @@ html.dark {
   /* --- Brand blue lifts one step to keep contrast on a dark surface --- */
   --color-primary-400: 221 97% 76%;
   --color-primary-500: 221 96% 68%;
-  --color-primary-600: 221 98% 73%;
+  --color-primary-600: 221 98% 74%;
   --color-primary-700: 221 99% 85%;
 
   /* --- Semantic states brighten rather than darken --- */
   --color-success-500: 152 76% 46%;
   --color-warning-500: 38 92% 50%;
-  --color-error-500: 0 85% 66%;
-  --color-error-600: 0 85% 74%;
+  --color-error-500: 0 85% 73%;
+  --color-error-600: 0 85% 78%;
   --color-info-500: 200 100% 60%;
   --color-accent-400: 160 70% 45%;
   --color-accent-500: 160 74% 52%;
@@ -60,7 +60,7 @@ html.dark {
   --color-destructive-foreground: hsl(var(--color-gray-50));
   --secondary-fg: hsl(var(--color-gray-900));
   --danger-fg: hsl(var(--color-gray-50));
-  --danger-hover: hsl(0 85% 74%);
+  --danger-hover: hsl(0 85% 78%);
   --primary-fg: hsl(var(--color-gray-50));
   --ghost-fg: hsl(var(--color-gray-500));
   --outline-fg: hsl(var(--color-gray-900));

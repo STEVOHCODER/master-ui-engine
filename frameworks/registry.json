@@ -12,20 +12,20 @@
     "react": {
       "package": "mue-react",
       "readme": "frameworks/react/README.md",
-      "components": 16,
+      "components": 31,
       "preview": "frameworks/react/preview/gallery.html"
     },
     "vue": {
       "package": "mue-vue",
       "readme": "frameworks/vue/README.md",
-      "components": 16,
+      "components": 33,
       "preview": "frameworks/vue/preview/gallery.html"
     },
     "web-components": {
       "package": "mue-web-components",
       "readme": "frameworks/web-components/README.md",
-      "components": 16,
-      "tags": 21,
+      "components": 33,
+      "tags": 40,
       "preview": "frameworks/web-components/preview/gallery.html"
     },
     "svelte": {
@@ -290,6 +290,67 @@
       }
     },
     {
+      "catalogId": "frm-switches",
+      "name": "Switches",
+      "catalog": "components/forms/switches.html",
+      "bindings": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/forms/switches.html",
+          "verified": "node tools/mue.js check all + headless Chrome pass at 390/820/1280 in light and dark"
+        },
+        "react": {
+          "sources": [
+            "frameworks/react/components/switch.jsx"
+          ],
+          "source": "frameworks/react/components/switch.jsx",
+          "preview": "frameworks/react/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-react",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven"
+        },
+        "vue": {
+          "sources": [
+            "frameworks/vue/components/MueSwitch.vue"
+          ],
+          "source": "frameworks/vue/components/MueSwitch.vue",
+          "preview": "frameworks/vue/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-vue",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven"
+        },
+        "web-components": {
+          "sources": [
+            "frameworks/web-components/components/mue-switch.js"
+          ],
+          "source": "frameworks/web-components/components/mue-switch.js",
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "tag": "mue-switch",
+          "status": "experimental",
+          "package": "mue-web-components",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven"
+        },
+        "svelte": {
+          "status": "planned",
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "docs": "frameworks/svelte/README.md"
+        },
+        "angular": {
+          "status": "planned",
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "docs": "frameworks/angular/README.md"
+        }
+      }
+    },
+    {
       "catalogId": "frm-radio-buttons",
       "name": "Radio buttons",
       "catalog": "components/forms/radio-buttons/radio-buttons.html",
@@ -352,63 +413,100 @@
       }
     },
     {
-      "catalogId": "frm-switches",
-      "name": "Switches",
-      "catalog": "components/forms/switches.html",
+      "catalogId": "frm-date-picker",
+      "name": "Date Picker",
+      "catalog": "components/forms/date-picker/date-picker.html",
       "bindings": {
         "vanilla": {
           "status": "stable",
-          "source": "components/forms/switches.html",
-          "verified": "node tools/mue.js check all + headless Chrome pass at 390/820/1280 in light and dark"
+          "source": "components/forms/date-picker/date-picker.html",
+          "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
         },
         "react": {
           "sources": [
-            "frameworks/react/components/switch.jsx"
+            "frameworks/react/components/date-picker.jsx"
           ],
-          "source": "frameworks/react/components/switch.jsx",
+          "source": "frameworks/react/components/date-picker.jsx",
           "preview": "frameworks/react/preview/gallery.html",
           "status": "experimental",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven"
+          "verified": "node build.mjs rebuilt preview/preview.js with this module; the built gallery was then opened in headless Chrome (puppeteer-core) 2026-11-01, the console and network logs captured, and the control was driven from the keyboard (focus, then arrow/segment edits) while reading input.value back from the DOM and confirming the .is-error branch sets aria-invalid=\"true\"; no new CSS is asserted"
         },
         "vue": {
           "sources": [
-            "frameworks/vue/components/MueSwitch.vue"
+            "frameworks/vue/components/MueDatePicker.vue"
           ],
-          "source": "frameworks/vue/components/MueSwitch.vue",
+          "source": "frameworks/vue/components/MueDatePicker.vue",
           "preview": "frameworks/vue/preview/gallery.html",
           "status": "experimental",
           "package": "mue-vue",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven"
+          "verified": "compiles in build.mjs; typing a value into the field updates the v-model in the preview gallery (see README)"
         },
         "web-components": {
           "sources": [
-            "frameworks/web-components/components/mue-switch.js"
+            "frameworks/web-components/components/mue-date-picker.js"
           ],
-          "source": "frameworks/web-components/components/mue-switch.js",
+          "source": "frameworks/web-components/components/mue-date-picker.js",
           "preview": "frameworks/web-components/preview/gallery.html",
-          "tag": "mue-switch",
+          "tag": "mue-date-picker",
           "status": "experimental",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven"
+          "verified": "headless Chrome (puppeteer-core) served over http by tools/audit/serve.js on port 8794:"
+        }
+      }
+    },
+    {
+      "catalogId": "frm-dropzone",
+      "name": "File Upload",
+      "catalog": "components/forms/file-upload.html",
+      "bindings": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/forms/file-upload.html",
+          "verified": "WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01"
         },
-        "svelte": {
-          "status": "planned",
-          "package": "mue-svelte",
-          "architecture": "frameworks/svelte/ARCHITECTURE.md",
-          "docs": "frameworks/svelte/README.md"
+        "react": {
+          "sources": [
+            "frameworks/react/components/file-upload.jsx"
+          ],
+          "source": "frameworks/react/components/file-upload.jsx",
+          "preview": "frameworks/react/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-react",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "verified": "node build.mjs rebuilt preview/preview.js with this module; the built gallery was then opened in headless Chrome (puppeteer-core) 2026-11-01, the console and network logs captured, and the list was driven — uploading a file with page.uploadFile() added a .file-row and cleared again after clicking its .file-remove, and dispatching a dragover on the box toggled .is-dragging; no new CSS is asserted"
         },
-        "angular": {
-          "status": "planned",
-          "package": "mue-angular",
-          "architecture": "frameworks/angular/ARCHITECTURE.md",
-          "docs": "frameworks/angular/README.md"
+        "vue": {
+          "sources": [
+            "frameworks/vue/components/MueDropzone.vue"
+          ],
+          "source": "frameworks/vue/components/MueDropzone.vue",
+          "preview": "frameworks/vue/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-vue",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "verified": "compiles in build.mjs; a synthetic drop + a remove-button click change the file list in the preview gallery (see README)"
+        },
+        "web-components": {
+          "sources": [
+            "frameworks/web-components/components/mue-dropzone.js"
+          ],
+          "source": "frameworks/web-components/components/mue-dropzone.js",
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "tag": "mue-dropzone",
+          "status": "experimental",
+          "package": "mue-web-components",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "verified": "not-verified (headless-Chrome gallery run required)"
         }
       }
     },
@@ -424,15 +522,16 @@
         },
         "react": {
           "sources": [
+            "frameworks/react/components/badge.jsx",
             "frameworks/react/components/card.jsx"
           ],
-          "source": "frameworks/react/components/card.jsx",
+          "source": "frameworks/react/components/badge.jsx",
           "preview": "frameworks/react/preview/gallery.html",
           "status": "experimental",
           "package": "mue-react",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven"
+          "verified": "2 files, each with its own recorded check: badge.jsx — rendered from preview/preview.js in headless Chrome (puppeteer-core) 2026-11-01 — every va · card.jsx — rendered from preview/preview.js in headless Chrome (puppeteer-core) 2026-11-01 — all four"
         },
         "vue": {
           "sources": [
@@ -453,256 +552,6 @@
           "source": "frameworks/web-components/components/mue-card.js",
           "preview": "frameworks/web-components/preview/gallery.html",
           "tag": "mue-card",
-          "status": "experimental",
-          "package": "mue-web-components",
-          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
-          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven"
-        },
-        "svelte": {
-          "status": "planned",
-          "package": "mue-svelte",
-          "architecture": "frameworks/svelte/ARCHITECTURE.md",
-          "docs": "frameworks/svelte/README.md"
-        },
-        "angular": {
-          "status": "planned",
-          "package": "mue-angular",
-          "architecture": "frameworks/angular/ARCHITECTURE.md",
-          "docs": "frameworks/angular/README.md"
-        }
-      }
-    },
-    {
-      "catalogId": "ui-descriptions",
-      "name": "Badges and avatars",
-      "catalog": "components/display/descriptions.html",
-      "bindings": {
-        "vanilla": {
-          "status": "stable",
-          "source": "components/display/descriptions.html",
-          "verified": "node tools/mue.js check all + headless Chrome pass at 390/820/1280 in light and dark"
-        },
-        "react": {
-          "sources": [
-            "frameworks/react/components/badge.jsx",
-            "frameworks/react/components/avatar.jsx"
-          ],
-          "source": "frameworks/react/components/badge.jsx",
-          "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
-          "package": "mue-react",
-          "install": "copy frameworks/react into your project — no npm package is published",
-          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven"
-        },
-        "vue": {
-          "sources": [
-            "frameworks/vue/components/MueBadge.vue",
-            "frameworks/vue/components/MueAvatar.vue"
-          ],
-          "source": "frameworks/vue/components/MueBadge.vue",
-          "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
-          "package": "mue-vue",
-          "install": "copy frameworks/vue into your project — no npm package is published",
-          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven"
-        },
-        "web-components": {
-          "sources": [
-            "frameworks/web-components/components/mue-badge.js",
-            "frameworks/web-components/components/mue-avatar.js",
-            "frameworks/web-components/components/mue-avatar-group.js"
-          ],
-          "source": "frameworks/web-components/components/mue-badge.js",
-          "preview": "frameworks/web-components/preview/gallery.html",
-          "tag": "mue-badge, mue-avatar, mue-avatar-group",
-          "status": "experimental",
-          "package": "mue-web-components",
-          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
-          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven"
-        },
-        "svelte": {
-          "status": "planned",
-          "package": "mue-svelte",
-          "architecture": "frameworks/svelte/ARCHITECTURE.md",
-          "docs": "frameworks/svelte/README.md"
-        },
-        "angular": {
-          "status": "planned",
-          "package": "mue-angular",
-          "architecture": "frameworks/angular/ARCHITECTURE.md",
-          "docs": "frameworks/angular/README.md"
-        }
-      }
-    },
-    {
-      "catalogId": "ui-dialogs",
-      "name": "Dialogs",
-      "catalog": "components/dialogs/dialogs.html",
-      "bindings": {
-        "vanilla": {
-          "status": "stable",
-          "source": "components/dialogs/dialogs.html",
-          "verified": "node tools/mue.js check all + headless Chrome pass at 390/820/1280 in light and dark"
-        },
-        "react": {
-          "sources": [
-            "frameworks/react/components/dialog.jsx"
-          ],
-          "source": "frameworks/react/components/dialog.jsx",
-          "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
-          "package": "mue-react",
-          "install": "copy frameworks/react into your project — no npm package is published",
-          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven"
-        },
-        "vue": {
-          "sources": [
-            "frameworks/vue/components/MueDialog.vue"
-          ],
-          "source": "frameworks/vue/components/MueDialog.vue",
-          "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
-          "package": "mue-vue",
-          "install": "copy frameworks/vue into your project — no npm package is published",
-          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven"
-        },
-        "web-components": {
-          "sources": [
-            "frameworks/web-components/components/mue-dialog.js"
-          ],
-          "source": "frameworks/web-components/components/mue-dialog.js",
-          "preview": "frameworks/web-components/preview/gallery.html",
-          "tag": "mue-dialog",
-          "status": "experimental",
-          "package": "mue-web-components",
-          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
-          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven"
-        },
-        "svelte": {
-          "status": "planned",
-          "package": "mue-svelte",
-          "architecture": "frameworks/svelte/ARCHITECTURE.md",
-          "docs": "frameworks/svelte/README.md"
-        },
-        "angular": {
-          "status": "planned",
-          "package": "mue-angular",
-          "architecture": "frameworks/angular/ARCHITECTURE.md",
-          "docs": "frameworks/angular/README.md"
-        }
-      }
-    },
-    {
-      "catalogId": "ui-dropdowns",
-      "name": "Dropdown menus",
-      "catalog": "components/dropdowns/dropdowns.html",
-      "bindings": {
-        "vanilla": {
-          "status": "stable",
-          "source": "components/dropdowns/dropdowns.html",
-          "verified": "node tools/mue.js check all + headless Chrome pass at 390/820/1280 in light and dark"
-        },
-        "react": {
-          "sources": [
-            "frameworks/react/components/dropdown.jsx"
-          ],
-          "source": "frameworks/react/components/dropdown.jsx",
-          "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
-          "package": "mue-react",
-          "install": "copy frameworks/react into your project — no npm package is published",
-          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven"
-        },
-        "vue": {
-          "sources": [
-            "frameworks/vue/components/MueDropdown.vue"
-          ],
-          "source": "frameworks/vue/components/MueDropdown.vue",
-          "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
-          "package": "mue-vue",
-          "install": "copy frameworks/vue into your project — no npm package is published",
-          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven"
-        },
-        "web-components": {
-          "sources": [
-            "frameworks/web-components/components/mue-dropdown.js"
-          ],
-          "source": "frameworks/web-components/components/mue-dropdown.js",
-          "preview": "frameworks/web-components/preview/gallery.html",
-          "tag": "mue-dropdown",
-          "status": "experimental",
-          "package": "mue-web-components",
-          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
-          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
-          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven"
-        },
-        "svelte": {
-          "status": "planned",
-          "package": "mue-svelte",
-          "architecture": "frameworks/svelte/ARCHITECTURE.md",
-          "docs": "frameworks/svelte/README.md"
-        },
-        "angular": {
-          "status": "planned",
-          "package": "mue-angular",
-          "architecture": "frameworks/angular/ARCHITECTURE.md",
-          "docs": "frameworks/angular/README.md"
-        }
-      }
-    },
-    {
-      "catalogId": "nav-tabs",
-      "name": "Tabs",
-      "catalog": "components/navigation/tabs.html",
-      "bindings": {
-        "vanilla": {
-          "status": "stable",
-          "source": "components/navigation/tabs.html",
-          "verified": "node tools/mue.js check all + headless Chrome pass at 390/820/1280 in light and dark"
-        },
-        "react": {
-          "sources": [
-            "frameworks/react/components/tabs.jsx"
-          ],
-          "source": "frameworks/react/components/tabs.jsx",
-          "preview": "frameworks/react/preview/gallery.html",
-          "status": "experimental",
-          "package": "mue-react",
-          "install": "copy frameworks/react into your project — no npm package is published",
-          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
-          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven"
-        },
-        "vue": {
-          "sources": [
-            "frameworks/vue/components/MueTabs.vue"
-          ],
-          "source": "frameworks/vue/components/MueTabs.vue",
-          "preview": "frameworks/vue/preview/gallery.html",
-          "status": "experimental",
-          "package": "mue-vue",
-          "install": "copy frameworks/vue into your project — no npm package is published",
-          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
-          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven"
-        },
-        "web-components": {
-          "sources": [
-            "frameworks/web-components/components/mue-tabs.js",
-            "frameworks/web-components/components/mue-tab.js",
-            "frameworks/web-components/components/mue-tabpanel.js"
-          ],
-          "source": "frameworks/web-components/components/mue-tabs.js",
-          "preview": "frameworks/web-components/preview/gallery.html",
-          "tag": "mue-tabs",
           "status": "experimental",
           "package": "mue-web-components",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
@@ -847,6 +696,327 @@
       }
     },
     {
+      "catalogId": "ui-charts",
+      "name": "Charts",
+      "catalog": "components/charts/charts.html",
+      "bindings": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/charts/charts.html",
+          "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+        },
+        "react": {
+          "sources": [
+            "frameworks/react/components/charts.jsx"
+          ],
+          "source": "frameworks/react/components/charts.jsx",
+          "preview": "frameworks/react/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-react",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "verified": "node build.mjs rebuilt preview/preview.js with this module; the built gallery was then opened in headless Chrome (puppeteer-core) 2026-11-01, the console and network logs captured, and the DOM was read back — six <rect class=\"bar bar-*\"> with viewBox geometry, six .axis labels, one polyline.line + circles.point + path.area for the trend, and three .legend-item entries; no new CSS is asserted and no colour is set from script"
+        },
+        "vue": {
+          "sources": [
+            "frameworks/vue/components/MueChart.vue"
+          ],
+          "source": "frameworks/vue/components/MueChart.vue",
+          "preview": "frameworks/vue/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-vue",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "verified": "compiles in build.mjs; rendered in the preview gallery (see README)"
+        },
+        "web-components": {
+          "sources": [
+            "frameworks/web-components/components/mue-charts.js"
+          ],
+          "source": "frameworks/web-components/components/mue-charts.js",
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "tag": "mue-charts",
+          "status": "experimental",
+          "package": "mue-web-components",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "verified": "not-verified (headless-Chrome gallery run required)"
+        }
+      }
+    },
+    {
+      "catalogId": "ui-rating",
+      "name": "Rating",
+      "catalog": "components/display/rating.html",
+      "bindings": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/display/rating.html",
+          "verified": "WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01"
+        },
+        "react": {
+          "sources": [
+            "frameworks/react/components/rating.jsx"
+          ],
+          "source": "frameworks/react/components/rating.jsx",
+          "preview": "frameworks/react/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-react",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "verified": "node build.mjs rebuilt preview/preview.js with this module; the built gallery was then opened in headless Chrome (puppeteer-core) 2026-11-01, the console and network logs captured, and the radio group was driven from the keyboard (ArrowRight/ArrowLeft) while reading which input:checked and its value back from the DOM, plus a click on a star; no new CSS is asserted"
+        },
+        "vue": {
+          "sources": [
+            "frameworks/vue/components/MueRating.vue",
+            "frameworks/vue/components/MueRatingInput.vue"
+          ],
+          "source": "frameworks/vue/components/MueRating.vue",
+          "preview": "frameworks/vue/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-vue",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "verified": "2 files, each with its own recorded check: MueRating.vue — compiles in build.mjs; rendered in the preview gallery (see README) · MueRatingInput.vue — compiles in build.mjs; arrow-key selection driven headlessly in the preview gallery (see R"
+        },
+        "web-components": {
+          "sources": [
+            "frameworks/web-components/components/mue-rating.js"
+          ],
+          "source": "frameworks/web-components/components/mue-rating.js",
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "tag": "mue-rating",
+          "status": "experimental",
+          "package": "mue-web-components",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "verified": "not-verified (headless-Chrome gallery run required)"
+        }
+      }
+    },
+    {
+      "catalogId": "ui-dialogs",
+      "name": "Dialogs",
+      "catalog": "components/dialogs/dialogs.html",
+      "bindings": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/dialogs/dialogs.html",
+          "verified": "node tools/mue.js check all + headless Chrome pass at 390/820/1280 in light and dark"
+        },
+        "react": {
+          "sources": [
+            "frameworks/react/components/dialog.jsx"
+          ],
+          "source": "frameworks/react/components/dialog.jsx",
+          "preview": "frameworks/react/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-react",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven"
+        },
+        "vue": {
+          "sources": [
+            "frameworks/vue/components/MueDialog.vue"
+          ],
+          "source": "frameworks/vue/components/MueDialog.vue",
+          "preview": "frameworks/vue/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-vue",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven"
+        },
+        "web-components": {
+          "sources": [
+            "frameworks/web-components/components/mue-dialog.js"
+          ],
+          "source": "frameworks/web-components/components/mue-dialog.js",
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "tag": "mue-dialog",
+          "status": "experimental",
+          "package": "mue-web-components",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven"
+        },
+        "svelte": {
+          "status": "planned",
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "docs": "frameworks/svelte/README.md"
+        },
+        "angular": {
+          "status": "planned",
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "docs": "frameworks/angular/README.md"
+        }
+      }
+    },
+    {
+      "catalogId": "ui-popover",
+      "name": "Popover",
+      "catalog": "components/dialogs/popover.html",
+      "bindings": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/dialogs/popover.html",
+          "verified": "WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01"
+        },
+        "react": {
+          "sources": [
+            "frameworks/react/components/popover.jsx"
+          ],
+          "source": "frameworks/react/components/popover.jsx",
+          "preview": "frameworks/react/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-react",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "verified": "node build.mjs rebuilt preview/preview.js with this module; the built gallery was then opened in headless Chrome (puppeteer-core) 2026-11-01, the console and network logs captured, and the pinned surface was driven — clicking the trigger toggled .is-open + aria-expanded on the wrap/surface, Escape cleared them and focus came back to the trigger; no new CSS is asserted"
+        },
+        "vue": {
+          "sources": [
+            "frameworks/vue/components/MuePopover.vue"
+          ],
+          "source": "frameworks/vue/components/MuePopover.vue",
+          "preview": "frameworks/vue/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-vue",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "verified": "compiles in build.mjs; click-to-pin, Escape and outside-click exercised headlessly in the preview gallery (see README)"
+        },
+        "web-components": {
+          "sources": [
+            "frameworks/web-components/components/mue-popover.js"
+          ],
+          "source": "frameworks/web-components/components/mue-popover.js",
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "tag": "mue-popover",
+          "status": "experimental",
+          "package": "mue-web-components",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "verified": "not-verified (headless-Chrome gallery run required)"
+        }
+      }
+    },
+    {
+      "catalogId": "ui-modals",
+      "name": "Modals",
+      "catalog": "components/modals/modals.html",
+      "bindings": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/modals/modals.html",
+          "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+        },
+        "react": {
+          "sources": [
+            "frameworks/react/components/dialog.jsx",
+            "frameworks/react/components/modal.jsx"
+          ],
+          "source": "frameworks/react/components/dialog.jsx",
+          "preview": "frameworks/react/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-react",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "verified": "2 files, each with its own recorded check: dialog.jsx — rendered from preview/preview.js and driven by headless Chrome (puppeteer-core) 2026-11-01 · modal.jsx — node build.mjs rebuilt preview/preview.js with this module; the built gallery was then ope"
+        },
+        "vue": {
+          "sources": [
+            "frameworks/vue/components/MueDialog.vue",
+            "frameworks/vue/components/MueModal.vue"
+          ],
+          "source": "frameworks/vue/components/MueDialog.vue",
+          "preview": "frameworks/vue/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-vue",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "verified": "2 files, each with its own recorded check: MueDialog.vue — compiles in build.mjs; Escape + focus return exercised headlessly in the preview gallery ( · MueModal.vue — compiles in build.mjs; Escape + focus return + Create button exercised headlessly in the p"
+        },
+        "web-components": {
+          "sources": [
+            "frameworks/web-components/components/mue-modals.js"
+          ],
+          "source": "frameworks/web-components/components/mue-modals.js",
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "tag": "mue-modals",
+          "status": "experimental",
+          "package": "mue-web-components",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "verified": "not-verified (headless-Chrome gallery run required)"
+        }
+      }
+    },
+    {
+      "catalogId": "ui-dropdowns",
+      "name": "Dropdown menus",
+      "catalog": "components/dropdowns/dropdowns.html",
+      "bindings": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/dropdowns/dropdowns.html",
+          "verified": "node tools/mue.js check all + headless Chrome pass at 390/820/1280 in light and dark"
+        },
+        "react": {
+          "sources": [
+            "frameworks/react/components/dropdown.jsx"
+          ],
+          "source": "frameworks/react/components/dropdown.jsx",
+          "preview": "frameworks/react/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-react",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven"
+        },
+        "vue": {
+          "sources": [
+            "frameworks/vue/components/MueDropdown.vue"
+          ],
+          "source": "frameworks/vue/components/MueDropdown.vue",
+          "preview": "frameworks/vue/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-vue",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven"
+        },
+        "web-components": {
+          "sources": [
+            "frameworks/web-components/components/mue-dropdown.js"
+          ],
+          "source": "frameworks/web-components/components/mue-dropdown.js",
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "tag": "mue-dropdown",
+          "status": "experimental",
+          "package": "mue-web-components",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven"
+        },
+        "svelte": {
+          "status": "planned",
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "docs": "frameworks/svelte/README.md"
+        },
+        "angular": {
+          "status": "planned",
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "docs": "frameworks/angular/README.md"
+        }
+      }
+    },
+    {
       "catalogId": "ui-notifications",
       "name": "Alerts and toasts",
       "catalog": "components/notifications/notifications.html",
@@ -904,6 +1074,747 @@
           "package": "mue-angular",
           "architecture": "frameworks/angular/ARCHITECTURE.md",
           "docs": "frameworks/angular/README.md"
+        }
+      }
+    },
+    {
+      "catalogId": "ui-footers",
+      "name": "Footers",
+      "catalog": "components/footers/footers.html",
+      "bindings": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/footers/footers.html",
+          "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+        },
+        "react": {
+          "sources": [
+            "frameworks/react/components/footer.jsx"
+          ],
+          "source": "frameworks/react/components/footer.jsx",
+          "preview": "frameworks/react/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-react",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "verified": "node build.mjs rebuilt preview/preview.js with this module and it was rendered in headless Chrome (puppeteer-core) 2026-11-03 — the landmark, all three columns, the bottom bar and the three social links are in the DOM at both viewports; no new CSS is asserted"
+        },
+        "vue": {
+          "sources": [
+            "frameworks/vue/components/MueFooter.vue"
+          ],
+          "source": "frameworks/vue/components/MueFooter.vue",
+          "preview": "frameworks/vue/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-vue",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "verified": "compiles in build.mjs; rendered in the preview gallery at 1280 and 390 (see README)"
+        },
+        "web-components": {
+          "sources": [
+            "frameworks/web-components/components/mue-footer.js"
+          ],
+          "source": "frameworks/web-components/components/mue-footer.js",
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "tag": "mue-footer",
+          "status": "experimental",
+          "package": "mue-web-components",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "verified": "not-verified (headless-Chrome gallery run required)"
+        }
+      }
+    },
+    {
+      "catalogId": "fb-progress",
+      "name": "Progress",
+      "catalog": "components/feedback/progress.html",
+      "bindings": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/feedback/progress.html",
+          "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+        },
+        "react": {
+          "sources": [
+            "frameworks/react/components/progress.jsx"
+          ],
+          "source": "frameworks/react/components/progress.jsx",
+          "preview": "frameworks/react/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-react",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "verified": "node build.mjs rebuilt preview/preview.js with this module; the built gallery was then opened in headless Chrome (puppeteer-core) 2026-11-01, the console and network logs captured, and the demo buttons were clicked while reading back style.getPropertyValue(\"--value\"), .percent text and aria-valuenow; no new CSS is asserted"
+        },
+        "vue": {
+          "sources": [
+            "frameworks/vue/components/MueProgress.vue"
+          ],
+          "source": "frameworks/vue/components/MueProgress.vue",
+          "preview": "frameworks/vue/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-vue",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "verified": "compiles in build.mjs; value + aria-valuenow update driven headlessly in the preview gallery (see README)"
+        },
+        "web-components": {
+          "sources": [
+            "frameworks/web-components/components/mue-progress.js"
+          ],
+          "source": "frameworks/web-components/components/mue-progress.js",
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "tag": "mue-progress",
+          "status": "experimental",
+          "package": "mue-web-components",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "verified": "not-verified (headless-Chrome gallery run required)"
+        }
+      }
+    },
+    {
+      "catalogId": "fb-skeleton",
+      "name": "Skeleton",
+      "catalog": "components/feedback/skeleton.html",
+      "bindings": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/feedback/skeleton.html",
+          "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+        },
+        "react": {
+          "sources": [
+            "frameworks/react/components/skeleton.jsx"
+          ],
+          "source": "frameworks/react/components/skeleton.jsx",
+          "preview": "frameworks/react/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-react",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "verified": "node build.mjs rebuilt preview/preview.js with this module; the built gallery was then opened in headless Chrome (puppeteer-core) 2026-11-01, the console and network logs captured, and the card/list/button composites were read back from the DOM to confirm the shape classes landed; no new CSS is asserted"
+        },
+        "vue": {
+          "sources": [
+            "frameworks/vue/components/MueSkeleton.vue"
+          ],
+          "source": "frameworks/vue/components/MueSkeleton.vue",
+          "preview": "frameworks/vue/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-vue",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "verified": "compiles in build.mjs; rendered in the preview gallery at 1280 and 390 (see README)"
+        },
+        "web-components": {
+          "sources": [
+            "frameworks/web-components/components/mue-skeleton.js"
+          ],
+          "source": "frameworks/web-components/components/mue-skeleton.js",
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "tag": "mue-skeleton",
+          "status": "experimental",
+          "package": "mue-web-components",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "verified": "not-verified (headless-Chrome gallery run required)"
+        }
+      }
+    },
+    {
+      "catalogId": "fb-empty",
+      "name": "Empty state",
+      "catalog": "components/feedback/empty-state.html",
+      "bindings": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/feedback/empty-state.html",
+          "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+        },
+        "react": {
+          "sources": [
+            "frameworks/react/components/empty-state.jsx"
+          ],
+          "source": "frameworks/react/components/empty-state.jsx",
+          "preview": "frameworks/react/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-react",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "verified": "node build.mjs rebuilt preview/preview.js with this module; the built gallery was then opened in headless Chrome (puppeteer-core) 2026-11-01, the console and network logs captured, and the panel was read back from the DOM (role=\"status\", .empty-title text, the two action buttons) plus its buttons clicked; no new CSS is asserted"
+        },
+        "vue": {
+          "sources": [
+            "frameworks/vue/components/MueEmptyState.vue"
+          ],
+          "source": "frameworks/vue/components/MueEmptyState.vue",
+          "preview": "frameworks/vue/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-vue",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "verified": "compiles in build.mjs; rendered in the preview gallery (see README)"
+        },
+        "web-components": {
+          "sources": [
+            "frameworks/web-components/components/mue-empty.js"
+          ],
+          "source": "frameworks/web-components/components/mue-empty.js",
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "tag": "mue-empty",
+          "status": "experimental",
+          "package": "mue-web-components",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "verified": "not-verified (headless-Chrome gallery run required)"
+        }
+      }
+    },
+    {
+      "catalogId": "fb-error",
+      "name": "Error state",
+      "catalog": "components/feedback/error-state.html",
+      "bindings": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/feedback/error-state.html",
+          "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+        },
+        "react": {
+          "sources": [
+            "frameworks/react/components/error-state.jsx"
+          ],
+          "source": "frameworks/react/components/error-state.jsx",
+          "preview": "frameworks/react/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-react",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "verified": "node build.mjs rebuilt preview/preview.js with this module; the built gallery was then opened in headless Chrome (puppeteer-core) 2026-11-01, the console and network logs captured, both branches were read back from the DOM (role=\"alert\", .error-body headings, .error-icon present in the inline branch only) and the Retry button was clicked; no new CSS is asserted"
+        },
+        "vue": {
+          "sources": [
+            "frameworks/vue/components/MueErrorState.vue"
+          ],
+          "source": "frameworks/vue/components/MueErrorState.vue",
+          "preview": "frameworks/vue/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-vue",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "verified": "compiles in build.mjs; rendered in the preview gallery in both variants (see README)"
+        },
+        "web-components": {
+          "sources": [
+            "frameworks/web-components/components/mue-error.js"
+          ],
+          "source": "frameworks/web-components/components/mue-error.js",
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "tag": "mue-error",
+          "status": "experimental",
+          "package": "mue-web-components",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "verified": "not-verified (headless-Chrome gallery run required)"
+        }
+      }
+    },
+    {
+      "catalogId": "fb-stepper",
+      "name": "Stepper",
+      "catalog": "components/feedback/stepper.html",
+      "bindings": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/feedback/stepper.html",
+          "verified": "WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01"
+        },
+        "react": {
+          "sources": [
+            "frameworks/react/components/stepper.jsx"
+          ],
+          "source": "frameworks/react/components/stepper.jsx",
+          "preview": "frameworks/react/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-react",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "verified": "node build.mjs rebuilt preview/preview.js with this module; the built gallery was then opened in headless Chrome (puppeteer-core) 2026-11-01, the console and network logs captured, and the rail was driven from the keyboard — focusing the <ol> and pressing ArrowRight moved .is-current plus aria-current=\"step\" to the next <li> and turned the previous dot into the check glyph, End jumped to the last step; no new CSS is asserted"
+        },
+        "vue": {
+          "sources": [
+            "frameworks/vue/components/MueStepper.vue"
+          ],
+          "source": "frameworks/vue/components/MueStepper.vue",
+          "preview": "frameworks/vue/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-vue",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "verified": "compiles in build.mjs; Back/Next clicks and arrow keys exercised headlessly in the preview gallery (see README)"
+        },
+        "web-components": {
+          "sources": [
+            "frameworks/web-components/components/mue-stepper.js"
+          ],
+          "source": "frameworks/web-components/components/mue-stepper.js",
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "tag": "mue-stepper",
+          "status": "experimental",
+          "package": "mue-web-components",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "verified": "not-verified (headless-Chrome gallery run required)"
+        }
+      }
+    },
+    {
+      "catalogId": "nav-breadcrumbs",
+      "name": "Breadcrumbs",
+      "catalog": "components/navigation/breadcrumbs.html",
+      "bindings": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/navigation/breadcrumbs.html",
+          "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+        },
+        "react": {
+          "sources": [
+            "frameworks/react/components/breadcrumbs.jsx"
+          ],
+          "source": "frameworks/react/components/breadcrumbs.jsx",
+          "preview": "frameworks/react/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-react",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "verified": "node build.mjs rebuilt preview/preview.js with this module and it was driven in headless Chrome (puppeteer-core) 2026-11-03 — both trails render, the current span carries aria-current=\"page\", separators are aria-hidden; no new CSS is asserted"
+        },
+        "vue": {
+          "sources": [
+            "frameworks/vue/components/MueBreadcrumbs.vue"
+          ],
+          "source": "frameworks/vue/components/MueBreadcrumbs.vue",
+          "preview": "frameworks/vue/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-vue",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "verified": "compiles in build.mjs; clicking a crumb (emits select) exercised headlessly in the preview gallery (see README)"
+        },
+        "web-components": {
+          "sources": [
+            "frameworks/web-components/components/mue-breadcrumbs.js"
+          ],
+          "source": "frameworks/web-components/components/mue-breadcrumbs.js",
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "tag": "mue-breadcrumbs",
+          "status": "experimental",
+          "package": "mue-web-components",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "verified": "not-verified (headless-Chrome gallery run required)"
+        }
+      }
+    },
+    {
+      "catalogId": "nav-header",
+      "name": "Header Navigation",
+      "catalog": "components/navigation/header-nav.html",
+      "bindings": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/navigation/header-nav.html",
+          "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+        },
+        "react": {
+          "sources": [
+            "frameworks/react/components/navbar.jsx"
+          ],
+          "source": "frameworks/react/components/navbar.jsx",
+          "preview": "frameworks/react/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-react",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "verified": "node build.mjs rebuilt preview/preview.js with this module and it was driven in headless Chrome (puppeteer-core) 2026-11-03 — the hamburger toggled .is-open and aria-expanded, Escape closed it, the dropdown opened on click, ArrowDown walked its rows and Escape restored focus; no new CSS is asserted"
+        },
+        "vue": {
+          "sources": [
+            "frameworks/vue/components/MueHeaderNav.vue"
+          ],
+          "source": "frameworks/vue/components/MueHeaderNav.vue",
+          "preview": "frameworks/vue/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-vue",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "verified": "compiles in build.mjs; hamburger open/close, Escape and the scroll shadow exercised headlessly in the preview gallery (see README)"
+        },
+        "web-components": {
+          "sources": [
+            "frameworks/web-components/components/mue-header-nav.js"
+          ],
+          "source": "frameworks/web-components/components/mue-header-nav.js",
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "tag": "mue-header-nav",
+          "status": "experimental",
+          "package": "mue-web-components",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "verified": "not-verified (headless-Chrome gallery run required)"
+        }
+      }
+    },
+    {
+      "catalogId": "nav-menu",
+      "name": "Navigation Menu",
+      "catalog": "components/navigation/navigation-menu.html",
+      "bindings": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/navigation/navigation-menu.html",
+          "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+        },
+        "vue": {
+          "sources": [
+            "frameworks/vue/components/MueNavMenu.vue"
+          ],
+          "source": "frameworks/vue/components/MueNavMenu.vue",
+          "preview": "frameworks/vue/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-vue",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "verified": "compiles in build.mjs; dropdown arrows, Escape, outside click and the drawer toggled headlessly in the preview gallery (see README)"
+        },
+        "web-components": {
+          "sources": [
+            "frameworks/web-components/components/mue-nav-menu.js"
+          ],
+          "source": "frameworks/web-components/components/mue-nav-menu.js",
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "tag": "mue-nav-menu",
+          "status": "experimental",
+          "package": "mue-web-components",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "verified": "not-verified (headless-Chrome gallery run required)"
+        }
+      }
+    },
+    {
+      "catalogId": "nav-pagination",
+      "name": "Pagination",
+      "catalog": "components/navigation/pagination.html",
+      "bindings": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/navigation/pagination.html",
+          "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+        },
+        "react": {
+          "sources": [
+            "frameworks/react/components/pagination.jsx"
+          ],
+          "source": "frameworks/react/components/pagination.jsx",
+          "preview": "frameworks/react/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-react",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "verified": "node build.mjs rebuilt preview/preview.js with this module and it was driven in headless Chrome (puppeteer-core) 2026-11-03 — clicking a cell moved aria-current and disabled the matching edge button, ArrowRight advanced the page; no new CSS is asserted"
+        },
+        "vue": {
+          "sources": [
+            "frameworks/vue/components/MuePagination.vue"
+          ],
+          "source": "frameworks/vue/components/MuePagination.vue",
+          "preview": "frameworks/vue/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-vue",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "verified": "compiles in build.mjs; clicking a page cell and Arrow keys exercised headlessly in the preview gallery (see README)"
+        },
+        "web-components": {
+          "sources": [
+            "frameworks/web-components/components/mue-pagination.js"
+          ],
+          "source": "frameworks/web-components/components/mue-pagination.js",
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "tag": "mue-pagination",
+          "status": "experimental",
+          "package": "mue-web-components",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "verified": "not-verified (headless-Chrome gallery run required)"
+        }
+      }
+    },
+    {
+      "catalogId": "nav-tabs",
+      "name": "Tabs",
+      "catalog": "components/navigation/tabs.html",
+      "bindings": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/navigation/tabs.html",
+          "verified": "node tools/mue.js check all + headless Chrome pass at 390/820/1280 in light and dark"
+        },
+        "react": {
+          "sources": [
+            "frameworks/react/components/tabs.jsx"
+          ],
+          "source": "frameworks/react/components/tabs.jsx",
+          "preview": "frameworks/react/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-react",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "verified": "headless Chrome (puppeteer-core) 2026-11-01: preview/preview.js renders 16/16 sections with 0 console errors; dialog, tabs, switch, dropdown, accordion, table, checkbox, radio, input and toast interaction paths driven"
+        },
+        "vue": {
+          "sources": [
+            "frameworks/vue/components/MueTabs.vue"
+          ],
+          "source": "frameworks/vue/components/MueTabs.vue",
+          "preview": "frameworks/vue/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-vue",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven"
+        },
+        "web-components": {
+          "sources": [
+            "frameworks/web-components/components/mue-tabs.js",
+            "frameworks/web-components/components/mue-tab.js",
+            "frameworks/web-components/components/mue-tabpanel.js"
+          ],
+          "source": "frameworks/web-components/components/mue-tabs.js",
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "tag": "mue-tabs",
+          "status": "experimental",
+          "package": "mue-web-components",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven"
+        },
+        "svelte": {
+          "status": "planned",
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "docs": "frameworks/svelte/README.md"
+        },
+        "angular": {
+          "status": "planned",
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "docs": "frameworks/angular/README.md"
+        }
+      }
+    },
+    {
+      "catalogId": "nav-sidebar",
+      "name": "Sidebar",
+      "catalog": "components/sidebars/sidebar.html",
+      "bindings": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/sidebars/sidebar.html",
+          "verified": "WCAG AA contrast in light + dark and no overflow at 375/768/1280, audited 2026-10-31"
+        },
+        "react": {
+          "sources": [
+            "frameworks/react/components/sidebar.jsx"
+          ],
+          "source": "frameworks/react/components/sidebar.jsx",
+          "preview": "frameworks/react/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-react",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "verified": "node build.mjs rebuilt preview/preview.js with this module and it was driven in headless Chrome (puppeteer-core) 2026-11-03 — both sections render, the default row carries aria-current=\"page\" and clicking another row moved it; no new CSS is asserted"
+        },
+        "vue": {
+          "sources": [
+            "frameworks/vue/components/MueSidebar.vue"
+          ],
+          "source": "frameworks/vue/components/MueSidebar.vue",
+          "preview": "frameworks/vue/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-vue",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "verified": "compiles in build.mjs; clicking a link to move the active row exercised headlessly in the preview gallery (see README)"
+        },
+        "web-components": {
+          "sources": [
+            "frameworks/web-components/components/mue-sidebar.js"
+          ],
+          "source": "frameworks/web-components/components/mue-sidebar.js",
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "tag": "mue-sidebar",
+          "status": "experimental",
+          "package": "mue-web-components",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "verified": "not-verified (headless-Chrome gallery run required)"
+        }
+      }
+    },
+    {
+      "catalogId": "ui-datatable",
+      "name": "Data Table",
+      "catalog": "components/tables/data-table.html",
+      "bindings": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/tables/data-table.html",
+          "verified": "WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01"
+        },
+        "vue": {
+          "sources": [
+            "frameworks/vue/components/MueDataTable.vue"
+          ],
+          "source": "frameworks/vue/components/MueDataTable.vue",
+          "preview": "frameworks/vue/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-vue",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "verified": "compiles in build.mjs; select/sort/filter/expand/search/paginate/density/refresh exercised headlessly in the preview gallery (see README)"
+        },
+        "web-components": {
+          "sources": [
+            "frameworks/web-components/components/mue-datatable.js"
+          ],
+          "source": "frameworks/web-components/components/mue-datatable.js",
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "tag": "mue-datatable",
+          "status": "experimental",
+          "package": "mue-web-components",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "verified": "not-verified (headless-Chrome gallery run required)"
+        }
+      }
+    },
+    {
+      "catalogId": "ui-descriptions",
+      "name": "Badges and avatars",
+      "catalog": "components/display/descriptions.html",
+      "bindings": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/display/descriptions.html",
+          "verified": "node tools/mue.js check all + headless Chrome pass at 390/820/1280 in light and dark"
+        },
+        "react": {
+          "sources": [
+            "frameworks/react/components/avatar.jsx"
+          ],
+          "source": "frameworks/react/components/avatar.jsx",
+          "preview": "frameworks/react/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-react",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "verified": "rendered from preview/preview.js in headless Chrome (puppeteer-core) 2026-11-01 — initials, image and group all render with the sheet's classes; no new CSS is asserted"
+        },
+        "vue": {
+          "sources": [
+            "frameworks/vue/components/MueBadge.vue",
+            "frameworks/vue/components/MueAvatar.vue"
+          ],
+          "source": "frameworks/vue/components/MueBadge.vue",
+          "preview": "frameworks/vue/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-vue",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "verified": "node build.mjs (vite 8.3.5, 25 modules) then headless Chrome 2026-11-01: 16/16 sections, 0 console errors; validation states, switch Space, tabs arrows, dropdown keys, dialog focus trap, accordion, table sort and toast dismissal driven"
+        },
+        "web-components": {
+          "sources": [
+            "frameworks/web-components/components/mue-badge.js",
+            "frameworks/web-components/components/mue-avatar.js",
+            "frameworks/web-components/components/mue-avatar-group.js"
+          ],
+          "source": "frameworks/web-components/components/mue-badge.js",
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "tag": "mue-badge, mue-avatar, mue-avatar-group",
+          "status": "experimental",
+          "package": "mue-web-components",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "verified": "headless Chrome 2026-11-01: 21/21 tags defined, 0 shadow roots; dialog Escape, tab arrows+Enter, switch Space, dropdown select, accordion single-open, table sort and toast hide driven"
+        },
+        "svelte": {
+          "status": "planned",
+          "package": "mue-svelte",
+          "architecture": "frameworks/svelte/ARCHITECTURE.md",
+          "docs": "frameworks/svelte/README.md"
+        },
+        "angular": {
+          "status": "planned",
+          "package": "mue-angular",
+          "architecture": "frameworks/angular/ARCHITECTURE.md",
+          "docs": "frameworks/angular/README.md"
+        }
+      }
+    },
+    {
+      "catalogId": "ui-guidance",
+      "name": "Tour and Float Buttons",
+      "catalog": "components/overlays/guidance.html",
+      "bindings": {
+        "vanilla": {
+          "status": "stable",
+          "source": "components/overlays/guidance.html",
+          "verified": "WCAG AA contrast in light + dark and no overflow at 320/375/768/1200, audited 2026-11-01"
+        },
+        "react": {
+          "sources": [
+            "frameworks/react/components/guidance.jsx"
+          ],
+          "source": "frameworks/react/components/guidance.jsx",
+          "preview": "frameworks/react/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-react",
+          "install": "copy frameworks/react into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/react/index.js\"",
+          "verified": "node build.mjs rebuilt preview/preview.js with this module; the built gallery was then opened in headless Chrome (puppeteer-core) 2026-11-01, the console and network logs captured, and the tour was driven — the replay button opened step 1 with .is-open on its wrapper, Next advanced and focused the next card's Next button, the last step's Finish closed it, Escape closed it and put focus back on the replay button, and .tour-top moved step 3's card above its target; no new CSS is asserted and no colour or radius is set from script"
+        },
+        "vue": {
+          "sources": [
+            "frameworks/vue/components/MueFloatButton.vue",
+            "frameworks/vue/components/MueTour.vue"
+          ],
+          "source": "frameworks/vue/components/MueFloatButton.vue",
+          "preview": "frameworks/vue/preview/gallery.html",
+          "status": "experimental",
+          "package": "mue-vue",
+          "install": "copy frameworks/vue into your project — no npm package is published",
+          "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
+          "verified": "2 files, each with its own recorded check: MueFloatButton.vue — compiles in build.mjs; dock reveal on scroll and a button click exercised headlessly in th · MueTour.vue — compiles in build.mjs; Next/Back clicks and Escape + focus return exercised headlessly in "
+        },
+        "web-components": {
+          "sources": [
+            "frameworks/web-components/components/mue-guidance.js"
+          ],
+          "source": "frameworks/web-components/components/mue-guidance.js",
+          "preview": "frameworks/web-components/preview/gallery.html",
+          "tag": "mue-guidance",
+          "status": "experimental",
+          "package": "mue-web-components",
+          "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
+          "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
+          "verified": "not-verified (headless-Chrome gallery run required)"
         }
       }
     }

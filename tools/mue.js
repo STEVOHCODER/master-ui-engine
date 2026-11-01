@@ -476,7 +476,12 @@ cmd.show = (args, flags, json) => {
   const item = resolveItem(args);
   if (!item) return notFound(args);
   const wantedFw = String(flags.framework || flags.fw || '').toLowerCase();
-  if (wantedFw) return showBinding(item, wantedFw, json);
+  if (wantedFw) {
+    if (!ALIASES[wantedFw]) {
+      return fail(`unknown framework "${wantedFw}". Known: ${Object.keys(ALIASES).join(', ')}.`);
+    }
+    return showBinding(item, wantedFw, json);
+  }
   const meta = readMeta(item.path);
   const regions = sheetRegions(meta);
   const markup = extractMarkup(item.path);
@@ -869,8 +874,113 @@ function indent(text, spaces = 2) {
 
 /* `npx shadcn add button`, for this kit: the component AND the layers it needs,
    dropped into the caller's project so they own the code afterwards. */
+/** Every file a binding actually ships — directories expanded, bundles skipped. */
+function bindingFiles(binding) {
+  const out = [];
+  const collect = (repoRel) => {
+    const abs = path.join(ROOT, repoRel);
+    if (!fs.existsSync(abs)) return;
+    if (fs.statSync(abs).isDirectory()) {
+      for (const entry of fs.readdirSync(abs, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
+        collect(path.posix.join(repoRel, entry.name));
+      }
+      return;
+    }
+    if (/[\\/](node_modules|dist)[\\/]/.test(repoRel) || /\.(map|lock)$/i.test(repoRel)) return;
+    out.push(rel(abs));
+  };
+  for (const source of binding.sources || [binding.source]) {
+    if (source) collect(String(source).trim().split(/\s+/)[0]);
+  }
+  return out;
+}
+
+/** `--framework` on add installs that stack's own source, or writes nothing. */
+function addFrameworkBindings(into, force, minimal, fwRaw, wantedIds, json) {
+  const framework = ALIASES[fwRaw];
+  if (!framework) return fail(`unknown framework "${fwRaw}". Known: ${Object.keys(ALIASES).join(', ')}.`);
+  if (framework === 'vanilla') return fail('vanilla is the default stack — drop --framework and re-run "mue add".');
+
+  const targets = [];
+  const skipped = [];
+  const misses = [];
+  const seen = new Set();
+  for (const raw of wantedIds) {
+    const item = resolveItem([raw]);
+    if (!item) {
+      if (!misses.includes(raw)) misses.push(raw);
+      continue;
+    }
+    if (seen.has(item.id)) continue;
+    seen.add(item.id);
+    const binding = bindingOf(item, framework);
+    if (!LIVE_STATUS.includes(binding.status)) {
+      skipped.push(`${item.id} (${binding.status}${binding.architecture ? ', plan: ' + binding.architecture : ''})`);
+      continue;
+    }
+    targets.push({ item, binding });
+  }
+  if (!targets.length) {
+    return fail(
+      `no ${framework} binding is implemented for ${skipped.concat(misses.map((m) => m + " (not in catalog)")).join(', ') || 'any of those ids'} — ` +
+        `"mue stack ${framework}" lists what is real, and nothing was written.`
+    );
+  }
+
+  const written = [];
+  for (const extra of ['index.js', 'README.md', 'package.json']) {
+    const repoRel = `frameworks/${framework}/${extra}`;
+    const abs = path.join(ROOT, repoRel);
+    if (fs.existsSync(abs)) written.push(copyInto(into, repoRel, fs.readFileSync(abs), force));
+  }
+  const components = [];
+  for (const { item, binding } of targets) {
+    const rows = [];
+    for (const file of bindingFiles(binding)) rows.push(copyInto(into, file, fs.readFileSync(path.join(ROOT, file)), force));
+    components.push({
+      id: item.id,
+      name: item.name,
+      status: binding.status,
+      files: rows,
+      tag: binding.tag || null,
+      install: binding.install || null,
+      import: binding.import || null,
+      verified: binding.verified || null,
+      preview: binding.preview || null,
+    });
+  }
+  /* The bindings write classes; the classes still come from the shared layers. */
+  const shared = copySharedLayers(into, force, true, 'styles/components.css');
+  const notes = [];
+  if (minimal) notes.push('--minimal is ignored with --framework: a binding is source you bundle, not a trimmed snippet.');
+  for (const s of skipped) notes.push(`not installed: ${s}`);
+  for (const m of misses) notes.push(`${m}: not in the catalog — see "mue search ${m}"`);
+  notes.push(`the gallery for this stack lives in the kit at frameworks/${framework}/preview/gallery.html; it is not copied because it is a preview, not a dependency.`);
+
+  const out = { into, framework, components, shared, notes, counts: { components: components.length, bindingFiles: components.reduce((n, c) => n + c.files.length, 0), packageFiles: written.length, sharedFiles: shared.length, skipped: skipped.length } };
+  emit(json, out, (o) =>
+    [
+      `added ${o.counts.components} ${o.framework} binding(s) into ${o.into}`,
+      '',
+      ...o.components.map(
+        (c) =>
+          `${c.id} — ${c.name} (${c.status})\n` +
+          c.files.map((f) => `  ${f.file}  [${f.status}]`).join('\n') +
+          (c.install ? `\n  install: ${c.install}` : '') +
+          (c.import ? `\n  import:  ${c.import}` : '') +
+          (c.tag ? `\n  tag:     <${c.tag}>` : '') +
+          (c.verified ? `\n  verified: ${c.verified}` : '')
+      ),
+      `\npackage files: ${o.counts.packageFiles} — ${o.shared.length} shared layer file(s) (${countBy(o.shared)})`,
+      o.notes.length ? '\nNOTES\n' + o.notes.map((n) => '  · ' + n).join('\n') : '',
+    ]
+      .filter(Boolean)
+      .join('\n')
+  );
+}
+
 cmd.add = (args, flags, json) => {
-  if (!flags.into) return fail('usage: mue add <id>[,<id>] --into ../my-project [--minimal] [--force] [--create]');
+  if (!flags.into) return fail('usage: mue add <id>[,<id>] [--framework react|vue|web-components] --into ../my-project [--minimal] [--force] [--create]');
   const into = path.resolve(process.cwd(), String(flags.into));
   if (!fs.existsSync(into)) {
     if (!flags.create) return fail(`${into} does not exist — re-run with --create, or point --into an existing project`);
@@ -890,6 +1000,12 @@ cmd.add = (args, flags, json) => {
     }
   }
   if (!wanted.length) return fail('nothing to add. Usage: mue add ui-cards btn-buttons --into ../app   or   mue add --all-components --into ../app');
+
+  /* A framework request must install framework source. Falling back to the
+     vanilla snippet here would tell an agent it shipped React when it shipped
+     HTML, so the stack either resolves to its own files or nothing is written. */
+  const addFw = String(flags.framework || flags.fw || '').toLowerCase();
+  if (addFw) return addFrameworkBindings(into, force, minimal, addFw, wanted, json);
 
   const plan = [];
   const seen = new Set();
@@ -1138,6 +1254,7 @@ cmd.help = () => {
     `MUE — reuse what is already designed.
 
   search "<words>"        find a preview by what it looks like
+  list [--group Components] every id, category and path in the library
   show <id|path>          header, what to link, and the copy-ready markup
   show <id> --framework x that binding's source instead (react, vue, web-components…)
   regions                 the ${regionMap().length} CSS copy units in styles/components.css
@@ -1147,6 +1264,7 @@ cmd.help = () => {
   head <file|id>          structured MUE:META for one preview
   scaffold <out> --use a,b  a page wired to the shared sheet with that markup
   add <id>... --into <dir>  install the component + the layers it needs into your project
+  add <id> --framework react --into <dir>  install that stack's own source instead
   stack [react]           which frameworks exist here for real, and their source files
   registry               the whole library as one JSON document (machine endpoint)
   check <file|all>        unresolved classes, broken headers, missing metadata

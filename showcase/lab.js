@@ -185,6 +185,47 @@
     els.status.innerHTML = `<strong>${esc(selected.name)}</strong> · ${esc(selected.group)} / ${esc(selected.category)} · ${esc(selected.path)}`;
     els.open.href = src(selected);
     els.stage.innerHTML = `<iframe title="${esc(selected.name)}" src="${src(selected)}"></iframe>`;
+    relayKeys(els.stage.querySelector("iframe"));
+  }
+
+  /* A preview takes focus when it is clicked, and keydown does not bubble out of
+     an iframe document. The shortcuts are the lab's, so re-dispatch them on the
+     parent document and cancel the browser default when the lab handled them. */
+
+  function relayKeys(frame) {
+    if (!frame) return;
+    const hooked = new WeakSet();
+    const attach = () => {
+      let doc;
+      try {
+        doc = frame.contentDocument;
+      } catch {
+        return false; // cross-origin preview: nothing to relay, and nothing to fix.
+      }
+      if (!doc || doc.location.href === "about:blank" || hooked.has(doc)) return false;
+      hooked.add(doc);
+      doc.addEventListener("keydown", (event) => {
+        const editable = event.target.matches("input, textarea, select, [contenteditable]");
+        const combo = event.metaKey || event.ctrlKey;
+        if (!combo && editable) return;
+        const synthetic = new KeyboardEvent("keydown", {
+          key: event.key,
+          code: event.code,
+          ctrlKey: event.ctrlKey,
+          metaKey: event.metaKey,
+          shiftKey: event.shiftKey,
+          bubbles: true,
+          cancelable: true,
+        });
+        // document has no matches(), and the lab's handler reads event.target.
+        document.body.dispatchEvent(synthetic);
+        if (synthetic.defaultPrevented) event.preventDefault();
+      });
+      return true;
+    };
+    // contentDocument exists before the src document does, so about:blank means "wait".
+    if (attach()) return;
+    frame.addEventListener("load", attach);
   }
 
   /* -------------------------------------------------------------------- theme

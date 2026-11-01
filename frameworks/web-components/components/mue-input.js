@@ -15,7 +15,10 @@
   A11Y: label associated by for/id; error state sets aria-invalid="true" and aria-describedby to
     the .field-msg; helper text sits under the control; disabled drops the input from the tab order
   KEYBOARD: native text-input behaviour
-  VERIFIED: not-verified (headless-Chrome gallery run required)
+  VERIFIED: served by node tools/audit/serve.js --port 8791 and driven in headless Chrome and Edge
+    (puppeteer-core) 2026-11-01: preview/gallery.html passes 46 behaviour probes at 1280px and 390px
+    in light and dark with 0 console errors, and axe-core reports 0 serious/critical at both widths
+    in both browsers
   LICENSE: MIT
   ATTRIBUTION: MASTER-UI-ENGINE contributors
 END MUE:META */

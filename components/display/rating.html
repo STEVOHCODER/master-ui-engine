@@ -211,8 +211,9 @@ END MUE:META -->
       <li>Each input keeps an <code>.sr-only</code> name ("3 stars"), so the group is operable with
         the screen reader's own form controls, not a custom widget</li>
       <li><code>:focus-visible</code> rings the star itself, never the clipped 1px input</li>
-      <li>Stars are 44px squares; the empty state uses <code>--border-medium</code>, which clears 3:1
-        against both surfaces</li>
+      <li>Stars are 44px squares; the empty state uses <code>--text-tertiary</code>, measured at
+        5.07:1 on the light surface and 7.35:1 on the dark one, so the unfilled slots stay
+        findable at the 3:1 non-text threshold</li>
       <li>Half steps are only ever shipped next to a numeric score, never as the only signal</li>
     </ul>
   </div>

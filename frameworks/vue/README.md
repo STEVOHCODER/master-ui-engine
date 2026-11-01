@@ -5,7 +5,7 @@ previews** under `components/**`. Every class comes from `styles/components.css`
 colour/radius/motion value from `design-tokens/engine.css`; this package ships **no CSS and
 no runtime dependency except Vue** (see the contract in [`../README.md`](../README.md)).
 
-Status: **experimental** — compiled and driven headlessly on 2026-11-03 (commands in
+Status: **experimental** — compiled and driven headlessly on 2026-11-01 (commands in
 “Verified” below). No screen-reader or touch-device pass has been run yet.
 
 ## Install
@@ -140,7 +140,7 @@ ES module. The page links `../../../design-tokens/engine.css`, `../../../styles/
 and `../../../styles/mue.js` — mue.js only wires the static theme toggle, because its
 tablist/dialog/dropdown boot hooks run before Vue mounts and find nothing to bind.
 
-## Verified (2026-11-03, Windows, Node v24.11.1)
+## Verified (2026-11-01, Windows, Node v24.11.1)
 
 - Resolved devDependencies: `vue 3.5.44`, `vite 8.3.5`, `@vitejs/plugin-vue 6.0.10`
   (`npm install --save-dev vue vite @vitejs/plugin-vue`; never hand-picked).

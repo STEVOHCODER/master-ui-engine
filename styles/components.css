@@ -1019,25 +1019,27 @@ a.card:focus-visible {
   background: currentColor;
   flex: none;
 }
+/* Opaque mixes, not translucent tints: a tint laid over an already-tinted
+   surface composites to a background too close to its own text colour. */
 .badge-primary {
-  background: var(--tint-primary);
+  background: color-mix(in srgb, var(--text-link) 14%, var(--bg-surface));
   color: var(--text-link);
 }
 .badge-success {
-  background: var(--tint-success);
+  background: color-mix(in srgb, var(--text-success) 14%, var(--bg-surface));
   color: var(--text-success);
 }
 .badge-warning {
-  background: var(--tint-warning);
+  background: color-mix(in srgb, var(--text-warning) 14%, var(--bg-surface));
   color: var(--text-warning);
 }
 .badge-error,
 .badge-danger {
-  background: var(--tint-error);
+  background: color-mix(in srgb, var(--text-error) 14%, var(--bg-surface));
   color: var(--text-error);
 }
 .badge-info {
-  background: var(--tint-info);
+  background: color-mix(in srgb, var(--text-info) 14%, var(--bg-surface));
   color: var(--text-info);
 }
 .badge-solid {
@@ -1200,6 +1202,9 @@ a.card:focus-visible {
   margin: 0;
   padding: 0;
 }
+/* The row that opens a menu is a <button>, and a button with no declared
+   background wears the UA control face — color-scheme: dark paints that as a
+   grey block no token owns, which fails contrast against the link colour. */
 .nav-link,
 .nav-item > a {
   display: inline-flex;
@@ -1209,6 +1214,7 @@ a.card:focus-visible {
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
   color: var(--text-secondary);
+  background: transparent;
   text-decoration: none;
   border-radius: var(--radius-base);
   transition: var(--motion-colors);
@@ -2579,6 +2585,12 @@ html.dark .skeleton::after {
   font-weight: var(--font-semibold);
   overflow: hidden;
 }
+/* --tint-primary is an alpha, so an avatar inside a selected row stacks a
+   second brand tint under the first. The lifted dark blue is the one step that
+   still clears 4.5:1 on that double tint. */
+html.dark .avatar {
+  color: hsl(var(--color-primary-700));
+}
 .avatar img {
   width: 100%;
   height: 100%;
@@ -3852,7 +3864,11 @@ input.dropzone-input::file-selector-button {
   line-height: var(--leading-none);
 }
 .star {
-  color: var(--border-medium);
+  /* The empty slot is a shape the reader has to find in order to count five, so
+     it falls under non-text contrast (3:1) rather than decoration. Measured:
+     gray-300 is 1.56:1 and gray-400 2.63:1 on white, --text-tertiary is 5.07:1
+     light and 7.35:1 on the dark surface. */
+  color: var(--text-tertiary);
 }
 .star.is-filled {
   color: var(--text-warning);
@@ -3860,7 +3876,7 @@ input.dropzone-input::file-selector-button {
 /* Half a star: the glyph is clipped by a hard gradient stop, so it needs no
    second element and stays crisp at any size. */
 .star.is-half {
-  background-image: linear-gradient(90deg, var(--text-warning) 50%, var(--border-medium) 50%);
+  background-image: linear-gradient(90deg, var(--text-warning) 50%, var(--text-tertiary) 50%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -3895,7 +3911,8 @@ input.dropzone-input::file-selector-button {
   height: var(--control-h);
   font-size: var(--text-2xl);
   line-height: var(--leading-none);
-  color: var(--border-medium);
+  /* Same reason as .star: an empty, clickable slot has to be findable at 3:1. */
+  color: var(--text-tertiary);
   border-radius: var(--radius-base);
   cursor: pointer;
   transition: var(--motion-colors), transform var(--duration-fast) var(--ease-spring);
@@ -4606,7 +4623,9 @@ input.dropzone-input::file-selector-button {
   font-weight: var(--font-normal);
   letter-spacing: var(--tracking-normal);
   text-transform: none;
-  color: var(--text-tertiary);
+  /* The email is content, not a caption: tertiary grey at 12px lands under 4.5:1
+     once the row's selected tint sits underneath it. */
+  color: var(--text-secondary);
   overflow-wrap: anywhere;
 }
 @media (max-width: 640px) {

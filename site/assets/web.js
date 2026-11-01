@@ -130,9 +130,10 @@
   function writeClip(text, ok, btn) {
     var done = function () { flash(btn, "Copied"); ok(); };
     var fail = function () { flash(btn, "Copy blocked"); };
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(done, fail);
-    } else {
+    /* The clipboard API needs user activation and a secure context; when either
+       is missing the textarea path is the branch that still puts text on the
+       clipboard, so it has to report the result it actually got. */
+    var legacy = function () {
       var ta = doc.createElement("textarea");
       ta.value = text;
       ta.setAttribute("readonly", "");
@@ -140,8 +141,20 @@
       ta.style.opacity = "0";
       doc.body.appendChild(ta);
       ta.select();
-      try { done(); } catch (e) { fail(); }
+      var copied = false;
+      try {
+        copied = doc.execCommand("copy");
+      } catch (e) {
+        copied = false;
+      }
       doc.body.removeChild(ta);
+      if (copied) done();
+      else fail();
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(done, legacy);
+    } else {
+      legacy();
     }
   }
 

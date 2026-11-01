@@ -43,11 +43,11 @@
   --color-secondary-900: 240 37% 22%;
 
   /* --- Semantic colors --- */
-  --color-success-500: 142 76% 26%;
-  --color-warning-500: 38 92% 27%;
-  --color-error-500: 0 75% 45%;
+  --color-success-500: 142 76% 23%;
+  --color-warning-500: 38 92% 25%;
+  --color-error-500: 0 75% 40%;
   --color-error-600: 0 78% 36%;
-  --color-info-500: 200 100% 32%;
+  --color-info-500: 200 100% 28%;
 
   /* --- Accent (teal) --- */
   --color-accent-400: 160 80% 34%;

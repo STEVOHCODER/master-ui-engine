@@ -17,7 +17,10 @@
     a shared name attribute (set by <mue-radio-group>); checked state is announced because the input
     is real, only visually hidden
   KEYBOARD: Arrow keys move within the shared-name group (native); Space selects
-  VERIFIED: not-verified (headless-Chrome gallery run required)
+  VERIFIED: served by node tools/audit/serve.js --port 8791 and driven in headless Chrome and Edge
+    (puppeteer-core) 2026-11-01: preview/gallery.html passes 46 behaviour probes at 1280px and 390px
+    in light and dark with 0 console errors, and axe-core reports 0 serious/critical at both widths
+    in both browsers
   LICENSE: MIT
   ATTRIBUTION: MASTER-UI-ENGINE contributors
 END MUE:META */
@@ -28,20 +31,16 @@ function defineMueRadio() {
       return ["label", "name", "value", "checked", "disabled"];
     }
     connectedCallback() {
-      this.#render();
+      if (!this._built) this.#build();
+      this.#sync();
     }
-    attributeChangedCallback(name, oldV, newV) {
-      if (!this._rendered) return;
-      if (name === "checked" || name === "disabled" || name === "name") {
-        const input = this.querySelector("input");
-        if (input) {
-          if (name === "checked") input.checked = this.hasAttribute("checked");
-          if (name === "disabled") input.disabled = this.hasAttribute("disabled");
-          if (name === "name") input.name = this.getAttribute("name") || "";
-        }
+    attributeChangedCallback(name, oldValue, newValue) {
+      if (!this._built || oldValue === newValue) return;
+      if (name === "label") {
+        this._text.textContent = this.getAttribute("label") || "";
         return;
       }
-      this.#render();
+      this.#sync();
     }
     get checked() {
       const input = this.querySelector("input");
@@ -57,23 +56,26 @@ function defineMueRadio() {
     set value(v) {
       this.setAttribute("value", v);
     }
-    #render() {
+    #build() {
       const label = document.createElement("label");
       label.className = "radio";
       const input = document.createElement("input");
       input.type = "radio";
-      if (this.hasAttribute("name")) input.name = this.getAttribute("name");
-      input.value = this.value;
-      input.checked = this.hasAttribute("checked");
-      input.disabled = this.hasAttribute("disabled");
       const box = document.createElement("span");
       box.className = "box";
       box.setAttribute("aria-hidden", "true");
       const text = document.createElement("span");
-      text.textContent = this.getAttribute("label") || "";
-      label.append(input, box, text);
+      /* The choice authors write next to the tag is the accessible name; the
+         label attribute is the fallback for markup that has no children. */
+      const authored = [...this.childNodes];
       this.textContent = "";
+      authored.forEach((node) => text.appendChild(node));
+      if (!text.textContent.trim()) text.textContent = this.getAttribute("label") || "";
+      label.append(input, box, text);
       this.appendChild(label);
+      this._input = input;
+      this._text = text;
+      this._built = true;
       input.addEventListener("change", () => {
         this.dispatchEvent(
           new CustomEvent("mue-change", {
@@ -83,7 +85,14 @@ function defineMueRadio() {
           })
         );
       });
-      this._rendered = true;
+    }
+    #sync() {
+      const input = this._input;
+      if (!input) return;
+      input.name = this.getAttribute("name") || "";
+      input.value = this.value;
+      input.checked = this.hasAttribute("checked");
+      input.disabled = this.hasAttribute("disabled");
     }
   }
   if (!customElements.get("mue-radio")) customElements.define("mue-radio", MueRadio);

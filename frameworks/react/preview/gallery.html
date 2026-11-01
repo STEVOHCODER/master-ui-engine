@@ -13,7 +13,7 @@
   DEPENDENCIES: design-tokens/engine.css, styles/components.css, styles/mue.js (all linked in this head), preview/preview.js
   SHEET: styles/components.css — this page adds no stylesheet of its own and no inline style block
   THEME: light + dark (html.dark, persisted and synced by styles/mue.js; the toggle below is plain HTML because mue.js binds it once at boot)
-  VARIANTS: one .section per component in the shared set of sixteen; see preview.jsx
+  VARIANTS: one .section per component in the shared set of thirty-three; see preview.jsx
   A11Y: body.page chrome, a labelled section per component, and a masthead toggle with an aria-label; every dialog, tablist and menu keyboard path is exercised inside the React tree
   KEYBOARD: mue.js owns only the theme toggle on this page — React mounts one frame after it boots, so the shared script never binds the React tablist and nothing is double-wired
   VERIFIED: opened from file:// and over http in headless Chrome (puppeteer-core) 2026-11-01 with zero console errors and no network requests beyond these three local files
@@ -37,7 +37,7 @@ END MUE:META -->
     </button>
   </header>
 
-  <!-- The gallery itself is React: preview/preview.js renders these sixteen
+  <!-- The gallery itself is React: preview/preview.js renders these thirty-three
        sections into this container. Nothing else on the page is scripted. -->
   <div id="preview-root"></div>
 </div>

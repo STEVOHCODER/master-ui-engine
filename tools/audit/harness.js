@@ -68,6 +68,12 @@ function auditContrast(win, doc) {
     if (!el || el.closest("script,style,template,noscript")) continue;
     const cs = win.getComputedStyle(el);
     if (cs.visibility === "hidden" || cs.display === "none") continue;
+    /* SC 1.4.3 is about text a person reads. Screen-reader-only text is
+       clipped to 1px, aria-hidden subtrees are decoration, and a transparent
+       colour is a background-clip fill waiting for its gradient — auditing
+       any of them reports the paint engine, not the design. */
+    if (el.closest('[aria-hidden="true"],.sr-only,.visually-hidden')) continue;
+    if (/rgba\(.*,\s*0\)$/.test(cs.color) || cs.color === "transparent") continue;
     const rect = el.getBoundingClientRect();
     if (!rect.width || !rect.height) continue;
     const fg = over(parseColor(cs.color), opaqueBackground(win, el));
