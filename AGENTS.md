@@ -282,3 +282,5 @@ Rules for a preview file:
 - Do not hardcode brand colors; use design tokens.
 - Do not ship an example without a visual preview that renders standalone.
 - Do not hand-edit `showcase/data/catalog.js` — regenerate it.
+- Do not hand-edit anything under `site/engine/` — it is a build copy of these previews (`node site/build.mjs`), and it is not committed.
+- Do not add a catalog entry without a one-line `summary`: `mue search`, `mue show` and the product site all show it in place of generated filler.

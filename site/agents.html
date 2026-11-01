@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to give a coding agent reusable UI components — MASTER-UI-ENGINE</title>
+<meta name="description" content="A practical guide to making OpenCode, Codex, Claude Code, Cursor or any terminal agent reuse UI components, design tokens and templates instead of generating generic interfaces: AGENTS.md, SKILL.md, the mue CLI and one JSON registry endpoint.">
+<link rel="canonical" href="https://master-ui-engine.vercel.app/agents">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to give a coding agent reusable UI components">
+<meta property="og:description" content="Three surfaces an agent can use: the instruction files, the mue CLI, and one machine-readable registry. With copy-paste prompt patterns.">
+<meta property="og:url" content="https://master-ui-engine.vercel.app/agents">
+<meta property="og:image" content="https://master-ui-engine.vercel.app/assets/img/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0c0f'/%3E%3Crect x='7' y='7' width='8' height='8' fill='%23c9f24a'/%3E%3Crect x='17' y='7' width='8' height='8' fill='%23f5f4f0'/%3E%3Crect x='7' y='17' width='8' height='8' fill='%23f5f4f0'/%3E%3Crect x='17' y='17' width='8' height='8' fill='%23c9f24a'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/engine/design-tokens/engine.css">
+<link rel="stylesheet" href="/assets/web.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","headline":"How to give a coding agent reusable UI components","description":"Making AI coding agents reuse components, design tokens and templates instead of generating generic interfaces.","author":{"@type":"Person","name":"MASTER-UI-ENGINE"},"license":"https://opensource.org/licenses/MIT","isPartOf":{"@type":"WebSite","name":"MASTER-UI-ENGINE","url":"https://master-ui-engine.vercel.app/"}}
+</script>
+</head>
+<body class="page">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <a class="nav-brand" href="/">MASTER-UI-<span>ENGINE</span></a>
+  <nav class="nav-links" id="navLinks" aria-label="Main">
+    <a class="nav-link" href="/library">Library</a>
+    <a class="nav-link" href="/templates">Templates</a>
+    <a class="nav-link" href="/#how">How it works</a>
+    <a class="nav-link" href="/agents" aria-current="page">Agent guide</a>
+    <a class="nav-link" href="/#docs" data-event="documentation_click">Docs</a>
+    <a class="btn-primary" href="https://github.com/STEVOHCODER/master-ui-engine" data-event="github_click">View on GitHub</a>
+  </nav>
+  <span class="nav-spacer"></span>
+  <button class="theme-toggle" data-theme-toggle data-event="theme_switch" aria-pressed="false">Dark mode</button>
+  <button class="menu-toggle" data-menu-toggle="#navLinks" aria-expanded="false" aria-controls="navLinks" aria-label="Menu"><i></i><i></i><i></i></button>
+</header>
+
+<main id="main">
+  <section class="section flush">
+    <div class="shell" style="max-width:52rem">
+      <p class="eyebrow">Documentation · Agent guide</p>
+      <h1 style="font-size:clamp(1.9rem,4.4vw,2.9rem);max-width:24ch">Give your coding agent design resources it can actually retrieve.</h1>
+      <p class="lede" style="margin-top:1.2rem">An agent does not produce generic UI because it is careless. It produces generic UI because every screen is the first screen, and the fastest answer is the one it has seen most often. Reuse changes the job: instead of inventing a table, it adapts one that already resolves contrast, spacing, states and mobile behaviour.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="sec-title">Three surfaces, one repository</h2>
+      <div class="spec" style="margin-top:2rem">
+        <div class="row"><span class="num">01</span><h3>Instruction files</h3><p><span class="mono">AGENTS.md</span> states the rule — reuse a preview, never invent generic UI — plus the token and motion conventions an agent must follow. <span class="mono">SKILL.md</span> packages the same knowledge for agents that load skills. Both are versioned with the code, so they cannot drift away from it.</p></div>
+        <div class="row"><span class="num">02</span><h3>The <span class="mono">mue</span> CLI</h3><p>Any agent with a terminal can call it: <span class="mono">search</span> for what a screen looks like, <span class="mono">show</span> for copy-ready markup, <span class="mono">region</span> for the exact CSS of one unit, <span class="mono">tokens</span> for custom properties, <span class="mono">add</span> to install a component with the layers it needs, <span class="mono">check</span> to catch unresolved classes. Every command accepts <span class="mono">--json</span>.</p></div>
+        <div class="row"><span class="num">03</span><h3>One machine document</h3><p><span class="mono">node tools/mue.js registry --json</span> returns all 54 resources with ids, paths, categories, variants, token files, breakpoints and the audit note recorded for each. Feed it into a context window once and the agent stops guessing what exists. The repository also documents how to wrap the CLI as an MCP server if your agent prefers tools over files.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="sec-title">Setup, per kind of agent</h2>
+      <div class="grid-2" style="margin-top:2rem">
+        <div>
+          <h3 style="font-size:1.15rem">Agents that read the repo</h3>
+          <p class="sec-lede" style="font-size:0.96rem">Codex, Claude Code, OpenCode, Cursor and Aider all read <span class="mono">AGENTS.md</span> (or can be pointed at it). Clone the library next to your project and tell the agent where it is. Nothing to install: the previews are HTML, CSS and JavaScript.</p>
+          <h3 style="font-size:1.15rem;margin-top:1.8rem">Agents that load skills</h3>
+          <p class="sec-lede" style="font-size:0.96rem">Copy <span class="mono">SKILL.md</span> into your agent's skills directory. It carries the same reuse rule plus the command surface, so the agent looks for an existing preview before writing markup.</p>
+          <h3 style="font-size:1.15rem;margin-top:1.8rem">Agents inside another project</h3>
+          <p class="sec-lede" style="font-size:0.96rem">Use the installer: <span class="mono">node tools/mue.js add ui-cards btn-buttons --into ../app</span> copies the component plus the token and stylesheet layers it depends on, so the copied markup is not orphaned.</p>
+        </div>
+        <div class="term">
+          <div class="term-bar"><span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="term-title">agent session</span><button class="copy-btn" type="button" data-copy-text="#agentText">Copy</button></div>
+          <pre><code id="agentText"><span class="prompt">#</span> what exists that looks like this?
+node tools/mue.js search <span class="flag">"pricing table dark"</span>
+
+<span class="prompt">#</span> give me the markup and its dependencies
+node tools/mue.js show ui-sections --json
+
+<span class="prompt">#</span> install it into the app
+node tools/mue.js add ui-sections <span class="flag">--into ../app</span>
+
+<span class="prompt">#</span> did the agent invent a class?
+node tools/mue.js check ../app/index.html
+
+<span class="prompt">#</span> one document for context
+node tools/mue.js registry <span class="flag">--json</span> &gt; mue-registry.json</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="sec-title">Prompt patterns that work</h2>
+      <div class="compare" style="margin-top:2rem">
+        <div class="compare-col neg">
+          <h3>Generate it for me</h3>
+          <ul class="mark-list">
+            <li>“Build a modern pricing page with three tiers.”</li>
+            <li>“Make the dashboard look professional.”</li>
+            <li>“Add a nice table with filters.”</li>
+          </ul>
+          <p class="note">Each of these asks the model to invent structure, spacing and states from memory. Output quality depends entirely on how much of that pattern the model has actually seen.</p>
+        </div>
+        <div class="compare-col">
+          <h3>Reuse, then adapt</h3>
+          <ul class="mark-list pos">
+            <li>“Run <span class="mono">mue search 'pricing tiers'</span>, open the top preview, keep its tokens, replace the copy.”</li>
+            <li>“Use <span class="mono">styles/components.css#pricing</span> and <span class="mono">design-tokens/engine.css</span>. Do not write new colour values.”</li>
+            <li>“Install <span class="mono">ui-datatable</span>, then add the export column. Verify with <span class="mono">mue check</span> at 375 px.”</li>
+          </ul>
+          <p class="note">The agent now has a named starting point, a fixed dependency list and a verification step — three things the first column leaves to chance.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="sec-title">What reuse does not do</h2>
+      <p class="sec-lede">Stated plainly, because the honest version sells better than the inflated one.</p>
+      <div class="spec" style="margin-top:1.5rem">
+        <div class="row"><span class="num">!</span><h3>It does not raise a model's ceiling</h3><p>A small open model still reasons less well than a frontier model. Reuse raises its <em>floor</em>: the interface starts from something already audited instead of something improvised.</p></div>
+        <div class="row"><span class="num">!</span><h3>It does not remove testing</h3><p>Components copied into a new project need to be checked in that project. <span class="mono">mue check</span> finds unresolved classes and missing metadata; it cannot judge whether your content makes sense.</p></div>
+        <div class="row"><span class="num">!</span><h3>It does not vendor other libraries</h3><p>No shadcn/ui, Ant Design, Nuxt UI or daisyUI code ships here. The engine borrows the token naming convention from shadcn/ui and keeps a license-checked index of those libraries in <span class="mono">RESOURCES.md</span> so future imports stay legal.</p></div>
+        <div class="row"><span class="num">!</span><h3>It is not a design replacement</h3><p>Brand, hierarchy, copy and information architecture are still human work. What disappears is the repetitive part: the ninth table, the fourth empty state, the third date picker.</p></div>
+      </div>
+      <div class="cta-row">
+        <a class="btn-primary" href="/library">Explore the 54 previews</a>
+        <a class="btn-ghost" href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/AGENTS.md">Read AGENTS.md</a>
+        <a class="btn-ghost" href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/SKILL.md">Read SKILL.md</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="shell">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="nav-brand" href="/">MASTER-UI-<span>ENGINE</span></a>
+        <p class="note" style="max-width:32ch">A reusable interface engine for AI coding agents.</p>
+      </div>
+      <div class="foot-col"><h3>Explore</h3><ul>
+        <li><a href="/library">Component library</a></li>
+        <li><a href="/templates">Templates</a></li>
+        <li><a href="/#showcase">Live previews</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>Repository</h3><ul>
+        <li><a href="https://github.com/STEVOHCODER/master-ui-engine">Source on GitHub</a></li>
+        <li><a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/README.md">README</a></li>
+        <li><a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/RESOURCES.md">Resource index + licenses</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>Site</h3><ul>
+        <li><a href="/privacy">Privacy</a></li>
+        <li><a href="/sitemap.xml">Sitemap</a></li>
+        <li><a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/LICENSE">MIT license</a></li>
+      </ul></div>
+    </div>
+    <div class="foot-note"><span>© 2026 MASTER-UI-ENGINE · MIT</span><span>Commands on this page come from <span class="mono">node tools/mue.js help</span></span></div>
+  </div>
+</footer>
+
+<script defer src="/engine/styles/mue.js"></script>
+<script defer src="/assets/analytics.js"></script>
+<script defer src="/assets/web.js"></script>
+</body>
+</html>

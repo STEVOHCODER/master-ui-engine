@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy — MASTER-UI-ENGINE</title>
+<meta name="description" content="What the MASTER-UI-ENGINE product site measures about a visit, what it never stores, and how to get a waitlist address or an anonymous visitor id deleted.">
+<link rel="canonical" href="https://master-ui-engine.vercel.app/privacy">
+<!-- Canonical and og:url are the deployed Vercel domain: replace them with your
+     real domain (and SITE_URL in Vercel) before launch. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Privacy — MASTER-UI-ENGINE">
+<meta property="og:description" content="A short, plain-language account of what this site counts and what it refuses to store.">
+<meta property="og:url" content="https://master-ui-engine.vercel.app/privacy">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0c0f'/%3E%3Crect x='7' y='7' width='8' height='8' fill='%23c9f24a'/%3E%3Crect x='17' y='7' width='8' height='8' fill='%23f5f4f0'/%3E%3Crect x='7' y='17' width='8' height='8' fill='%23f5f4f0'/%3E%3Crect x='17' y='17' width='8' height='8' fill='%23c9f24a'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/engine/design-tokens/engine.css">
+<link rel="stylesheet" href="/assets/web.css">
+<style>
+  /* Layout glue for prose pages only; every value comes off the site's tokens. */
+  .prose { max-width: 62ch; }
+  .prose h3 { font-size: 1.12rem; margin-top: 1.8rem; }
+  .prose p { margin: 0.9rem 0 0; color: var(--muted); }
+  .prose p strong { color: var(--ink); font-weight: 600; }
+</style>
+</head>
+<body class="page">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <a class="nav-brand" href="/">MASTER-UI-<span>ENGINE</span></a>
+  <nav class="nav-links" id="navLinks" aria-label="Main">
+    <a class="nav-link" href="/library">Library</a>
+    <a class="nav-link" href="/templates">Templates</a>
+    <a class="nav-link" href="/#how">How it works</a>
+    <a class="nav-link" href="/agents">Agent guide</a>
+    <a class="nav-link" href="/#docs" data-event="documentation_click">Docs</a>
+    <a class="btn-primary" href="https://github.com/STEVOHCODER/master-ui-engine" data-event="github_click">View on GitHub</a>
+  </nav>
+  <span class="nav-spacer"></span>
+  <button class="theme-toggle" data-theme-toggle aria-pressed="false">Dark mode</button>
+  <button class="menu-toggle" data-menu-toggle="#navLinks" aria-expanded="false" aria-controls="navLinks" aria-label="Menu"><i></i><i></i><i></i></button>
+</header>
+
+<main id="main">
+  <section class="section flush">
+    <div class="shell" style="max-width:56rem">
+      <p class="eyebrow">Privacy · no jargon, no dark patterns</p>
+      <h1 class="sec-title">This site counts visits. Not people.</h1>
+      <p class="sec-lede">There is no third-party tracker on these pages, no advertising pixel, no cookie banner and nothing sold or shared. What follows is the complete list of what is measured, what is refused, and how to have your own rows removed.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="sec-title">Counted, and never stored.</h2>
+      <div class="compare" style="margin-top:2rem">
+        <div class="compare-col">
+          <h3>Counted, per visit</h3>
+          <ul class="mark-list pos">
+            <li>The path of the page you opened, for example <span class="mono">/library.html</span> — the path only, never a query string.</li>
+            <li>A two-letter country code, read from the Vercel edge header on your request. Not your city, network or coordinates.</li>
+            <li>The hostname that referred you here, for example <span class="mono">news.ycombinator.com</span> — the host, never the whole URL.</li>
+            <li>That you did something worth knowing about: opened a preview, copied a snippet, searched the library, switched theme, clicked through to GitHub, or joined the waitlist.</li>
+            <li>The short id of the thing you touched, so the owner can see which component is useful. A search is counted as one search; the words you typed are dropped before anything is written.</li>
+          </ul>
+        </div>
+        <div class="compare-col neg">
+          <h3>Refused outright</h3>
+          <ul class="mark-list">
+            <li>Your IP address. It reaches the server as part of any web request and is never written down.</li>
+            <li>Your user agent string. It is read only to discard obvious bots, then thrown away.</li>
+            <li>Query strings and URL fragments, so a search term cannot arrive by the back door.</li>
+            <li>Your name, email or anything you type into a field — except the waitlist address you deliberately submit.</li>
+            <li>The contents of a code snippet you copy, and every other piece of page text.</li>
+            <li>Session replay, screenshots, heatmaps, fingerprinting, cookies and cross-site identifiers.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="note">The rules are enforced twice: the collector in <span class="mono">site/assets/analytics.js</span> only ever sends the fields above, and <span class="mono">/api/track</span> re-validates every value server-side and rejects anything else before a row is written. The database columns themselves have no place for an IP, a user agent or free text.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell" style="max-width:56rem">
+      <h2 class="sec-title" style="font-size:clamp(1.35rem,2.8vw,1.8rem)">The anonymous id in your browser</h2>
+      <div class="prose">
+        <p>One value is kept in <span class="mono">localStorage</span> under the key <span class="mono">mue-vid</span>: sixteen random characters, generated once by your browser. It is what lets the owner tell &ldquo;50 visits&rdquo; apart from &ldquo;50 different people&rdquo;, and it is why returning visitors can be counted without an account or a cookie.</p>
+        <p>It is not derived from you in any way — not from your IP, screen, fonts or user agent. It does not survive a storage wipe and identifies nothing on its own. Clearing this site&rsquo;s browser storage, or using a private window, resets it.</p>
+        <p class="note">To remove it by hand: open this site&rsquo;s developer tools, then Application &rarr; Local Storage, and delete <span class="mono">mue-vid</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell" style="max-width:56rem">
+      <h2 class="sec-title" style="font-size:clamp(1.35rem,2.8vw,1.8rem)">The waitlist</h2>
+      <div class="prose">
+        <p>If you join the waitlist, two things are stored: your email address and the day you joined. It lives in the site&rsquo;s own Supabase database, reachable only by the site&rsquo;s server-side functions, and is used for one thing — telling you when something new ships.</p>
+        <ul class="mark-list pos" style="margin-top:1.2rem">
+          <li>No mailing-list provider, no forwarding, no other party receives it.</li>
+          <li>Repeated signups with the same address do not create extra rows, and a fast burst of attempts from one device is refused.</li>
+          <li>Reply to any message to unsubscribe, or ask the maintainer to delete the row outright.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="sec-title" style="font-size:clamp(1.35rem,2.8vw,1.8rem)">Getting your data gone</h2>
+      <div class="spec" style="margin-top:2rem">
+        <div class="row"><span class="num">01</span><h3>Self-service, ten seconds</h3><p>Clear this site&rsquo;s browser storage. That removes <span class="mono">mue-vid</span>, and every visit that only that id could link becomes unlinkable. Unsubscribe from any waitlist mail you received, and there is nothing left to match.</p></div>
+        <div class="row"><span class="num">02</span><h3>Ask for the rows themselves</h3><p>Contact the maintainer through the GitHub repository. For an anonymous-visit deletion, include the <span class="mono">mue-vid</span> value still in your browser&rsquo;s local storage — that string is the only handle the data is reachable through, which is also why it cannot be matched to you.</p></div>
+        <div class="row"><span class="num">03</span><h3>What deletion actually does</h3><p><span class="mono">site/api/track.js</span> writes visit rows and visitor membership rows; deleting your id removes both, plus your referrer and country tallies. <span class="mono">DEPLOYMENT.md</span> documents the exact SQL, and the owner can run it in minutes.</p></div>
+      </div>
+      <!-- OWNER: if you publish a real email address here, put it in the repo too,
+           so the notice and the source agree. There is no hardcoded address,
+           because inventing one on a privacy page is worse than omitting one. -->
+      <p class="note">Who reads the data: the site owner, through the private dashboard at <span class="mono">/analytics</span>, which shows aggregates — counts, ranked pages, ranked countries — rather than a list of individual visits.</p>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="shell" style="max-width:56rem">
+      <h2 class="sec-title" style="font-size:clamp(1.35rem,2.8vw,1.8rem)">Because the kit is open source</h2>
+      <div class="prose">
+        <p>Every line that measures a visit is public: the collector is <span class="mono">site/assets/analytics.js</span> (about a hundred lines, one <span class="mono">localStorage</span> key, one <span class="mono">POST /api/track</span>), the endpoints are <span class="mono">site/api/track.js</span>, <span class="mono">site/api/stats.js</span> and <span class="mono">site/api/subscribe.js</span>, and the storage shape is <span class="mono">supabase/schema.sql</span>, which has CHECK constraints forbidding the columns this notice promises do not exist.</p>
+        <p>Read them, run them, or fork the repo and delete all of it — the site works identically without analytics, and every endpoint answers honestly when its database is not configured instead of inventing a number.</p>
+        <p class="note">Last updated: 2026-11-01. This notice describes the product website only; it does not apply to software you build with the kit.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="shell">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="nav-brand" href="/">MASTER-UI-<span>ENGINE</span></a>
+        <p class="note" style="max-width:32ch">A reusable interface engine for AI coding agents.</p>
+      </div>
+      <div class="foot-col"><h3>Explore</h3><ul>
+        <li><a href="/library">Component library</a></li>
+        <li><a href="/templates">Templates</a></li>
+        <li><a href="/#showcase">Live previews</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>Repository</h3><ul>
+        <li><a href="https://github.com/STEVOHCODER/master-ui-engine">Source on GitHub</a></li>
+        <li><a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/README.md">README</a></li>
+        <li><a href="/agents">Agent integration guide</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>Site</h3><ul>
+        <li><a href="/privacy" aria-current="page">Privacy</a></li>
+        <li><a href="/sitemap.xml">Sitemap</a></li>
+        <li><a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/LICENSE">MIT license</a></li>
+      </ul></div>
+    </div>
+    <div class="foot-note"><span>© 2026 MASTER-UI-ENGINE · MIT</span><span>MIT licensed</span><span>This page is built with the kit it documents</span></div>
+  </div>
+</footer>
+
+<script defer src="/engine/styles/mue.js"></script>
+<script defer src="/assets/analytics.js"></script>
+<script defer src="/assets/web.js"></script>
+</body>
+</html>

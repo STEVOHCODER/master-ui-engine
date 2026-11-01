@@ -1,0 +1,14 @@
+{
+  "name": "master-ui-engine-site",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Product website for MASTER-UI-ENGINE. Static pages + Vercel serverless analytics.",
+  "scripts": {
+    "build": "node build.mjs",
+    "start": "node build.mjs && node serve.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0"
+  }
+}

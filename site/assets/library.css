@@ -1,0 +1,432 @@
+/* ==========================================================================
+   MASTER-UI-ENGINE — library experience styles
+   Page-specific rules for /library.html, /templates.html and /preview.html.
+   Nothing here is a design system: colours, fonts and radii all resolve through
+   the shell tokens in /assets/web.css (--paper, --panel, --ink, --muted,
+   --line, --accent, --accent-text, --accent-ink, --rad, --font-*). The inline
+   fallbacks exist only so the pages stay legible if the shell sheet has not
+   loaded yet; they never redefine a token. Class names are namespaced .lib-,
+   .tpl- and .pv-, and where the shell already owns a class (it owns .tpl-grid,
+   .tpl-card, .tpl-shot, .tpl-body, .tpl-foot, .frame*, .chip, .note) this file
+   reuses that class and only adds the refinements these three pages need.
+   ========================================================================== */
+
+/* ---------- shared page furniture ---------- */
+.lib-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.lib-lede { max-width: 60ch; margin: 0.9rem 0 0; color: var(--muted); font-size: 1.02rem; line-height: 1.6; }
+
+.lib-summary {
+  margin: 1.4rem 0 0;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--line);
+  border-inline-start: 2px solid var(--accent);
+  border-radius: var(--rad, 7px);
+  background: var(--panel);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.lib-note,
+.lib-error {
+  margin: 1.25rem 0 0;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--rad, 7px);
+  background: var(--panel);
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.lib-error { border-color: #a8402f; color: #a8402f; }
+html.dark .lib-error { border-color: #a86a5f; color: #e59a8d; }
+.lib-error-msg { margin: 0; }
+/* The explorer pages open with a text hero; without this the two full section
+   paddings stack into a dead band above the first card grid. */
+.section.flush + .section { padding-top: clamp(1.5rem, 3vw, 2.75rem); }
+.lib-footnote { margin: 1.25rem 0 0; color: var(--muted); font-size: 0.86rem; line-height: 1.6; max-width: 74ch; }
+
+/* ---------- chips ---------- */
+.lib-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  max-width: 100%;
+  padding: 0.18rem 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lib-chip-kind {
+  border-color: var(--line-strong, var(--line));
+  color: var(--ink);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.lib-chip-template { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.lib-chip-flag { border-style: dashed; }
+.lib-chip-tech { color: var(--ink); }
+.lib-chip-mono { font-size: 0.66rem; }
+.lib-chip-variant { white-space: normal; max-width: 16rem; }
+.lib-chip-more { border-style: dashed; }
+
+/* ---------- meta + assurance ---------- */
+.lib-meta { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0.4rem 0 0; font-size: 0.82rem; line-height: 1.5; }
+.lib-meta-key {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.lib-meta-val { color: var(--ink); font-family: var(--font-mono); font-size: 0.76rem; overflow-wrap: anywhere; }
+
+.lib-variants { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.7rem; }
+.lib-variants-none { color: var(--muted); font-size: 0.82rem; font-style: italic; }
+
+.lib-verified {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  margin: 0.75rem 0 0;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--line);
+  border-inline-start: 2px solid var(--accent);
+  border-radius: var(--rad, 7px);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.lib-verified svg { flex: none; margin-top: 0.15rem; color: var(--accent-text); }
+
+/* ---------- buttons ---------- */
+.lib-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--line-strong, var(--line));
+  border-radius: var(--rad, 7px);
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.lib-btn-solid { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.lib-btn-ghost:hover, .lib-btn-ghost:focus-visible { border-color: var(--ink); }
+.lib-btn-solid:hover, .lib-btn-solid:focus-visible { color: var(--accent-ink); }
+.lib-btn:disabled { opacity: 0.55; cursor: progress; }
+.lib-btn.is-done { border-color: var(--accent-text); color: var(--accent-text); background: transparent; }
+.lib-btn.is-on { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+
+.lib-btn:focus-visible,
+.lib-card-name a:focus-visible,
+.tpl-shot:focus-visible,
+.pv-suggest:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
+
+.lib-actions { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 0.45rem; margin-top: 0.9rem; }
+
+.lib-copy { display: inline-flex; flex-direction: column; gap: 0.25rem; }
+.lib-copy-note {
+  max-width: 15rem;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  line-height: 1.45;
+}
+.lib-copy-note.is-ok { color: var(--accent-text); }
+.lib-copy-note.is-fail { color: #b4544a; }
+
+/* ---------- library explorer ---------- */
+.lib-toolbar {
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: 1fr;
+  margin-top: 1.75rem;
+  padding: 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+}
+
+.lib-field { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
+
+.lib-field-label {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.lib-field input,
+.lib-field select {
+  width: 100%;
+  min-width: 0;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid var(--line-strong, var(--line));
+  border-radius: var(--rad, 7px);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+}
+
+.lib-field input:focus-visible,
+.lib-field select:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 1px; }
+.lib-field select:disabled { opacity: 0.6; cursor: not-allowed; }
+.lib-facet-hint { color: var(--muted); font-size: 0.72rem; line-height: 1.45; }
+.lib-facets { display: grid; gap: 0.8rem; grid-template-columns: 1fr; }
+
+.lib-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+}
+
+.lib-count {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.lib-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+  margin-top: 1rem;
+}
+
+.lib-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.05rem 1.1rem 1.15rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  color: var(--ink);
+}
+
+.lib-card-top { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+
+.lib-card-name {
+  margin: 0.7rem 0 0;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.lib-card-name a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
+.lib-card-name a:hover { color: var(--accent-text); border-bottom-color: var(--accent-text); }
+.lib-card .lib-verified { margin-bottom: 0; }
+.lib-card .lib-actions { margin-top: auto; padding-top: 0.95rem; }
+
+.lib-empty {
+  margin-top: 1rem;
+  padding: 1.5rem;
+  border: 1px dashed var(--line-strong, var(--line));
+  border-radius: 10px;
+  background: var(--panel);
+}
+
+.lib-empty p { margin: 0 0 0.9rem; color: var(--muted); max-width: 60ch; }
+
+/* ---------- templates / examples grid ----------
+   .tpl-grid, .tpl-card, .tpl-shot, .tpl-body and .tpl-foot come from web.css;
+   these rules only add what the discovery page puts inside them. */
+.tpl-summary { max-width: 68ch; margin: 1rem 0 0; color: var(--muted); font-size: 1rem; line-height: 1.6; }
+.tpl-block { margin-top: 3rem; }
+.tpl-block:first-child { margin-top: 2.25rem; }
+.tpl-block-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 1.1rem + 1.4vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.028em;
+  line-height: 1.05;
+  color: var(--ink);
+}
+.tpl-block-copy { margin: 0.6rem 0 0; color: var(--muted); font-size: 0.95rem; line-height: 1.6; max-width: 66ch; }
+.tpl-block-count {
+  margin: 0.5rem 0 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.tpl-grid { margin-top: 1.25rem; }
+.tpl-shot iframe { display: block; }
+.tpl-entry-head { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.tpl-body .tpl-card-name { font-size: 1.1rem; }
+.tpl-body .tpl-card-desc { font-size: 0.86rem; }
+.tpl-body .lib-meta-val { font-size: 0.72rem; }
+.tpl-body .lib-verified { color: var(--ink); font-size: 0.74rem; padding: 0.5rem 0.6rem; }
+.tpl-body .lib-tech { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.55rem; }
+.tpl-body .lib-variants { margin-top: 0.55rem; }
+.tpl-foot { padding-top: 0.4rem; gap: 0.45rem; align-items: flex-start; }
+.tpl-foot-actions { margin-top: 0; width: 100%; }
+.tpl-foot .lib-copy { flex: 1 1 7rem; }
+.tpl-empty { margin-top: 1rem; color: var(--muted); }
+
+.tpl-caveat {
+  margin-top: 3rem;
+  padding: 1.4rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel-2, var(--panel));
+}
+
+.tpl-caveat h2 { margin: 0; font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; letter-spacing: -0.028em; color: var(--ink); }
+.tpl-caveat p { margin: 0.6rem 0 0; color: var(--muted); font-size: 0.92rem; line-height: 1.65; max-width: 74ch; }
+.tpl-caveat ul { margin: 0.7rem 0 0; padding-left: 1.1rem; color: var(--muted); font-size: 0.92rem; line-height: 1.6; max-width: 74ch; }
+.tpl-caveat li { margin-top: 0.3rem; }
+.tpl-caveat code { font-family: var(--font-mono); font-size: 0.84em; color: var(--ink); }
+
+/* ---------- preview ---------- */
+.pv-chrome {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.25rem;
+  margin-top: 1.75rem;
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+}
+
+.pv-chrome-main { flex: 1 1 22rem; min-width: 0; }
+.pv-chrome-side { flex: 0 1 auto; display: flex; flex-direction: column; gap: 0.6rem; align-items: flex-start; }
+.pv-name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 1.1rem + 2vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.028em;
+  line-height: 1.05;
+  color: var(--ink);
+}
+.pv-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.8rem; }
+.pv-summary { margin: 0.9rem 0 0; max-width: 72ch; color: var(--ink); font-size: 1.02rem; line-height: 1.6; }
+.pv-variants { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.8rem; }
+.pv-label {
+  display: block;
+  margin-top: 0.9rem;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.pv-links { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+.pv-stage-wrap { margin-top: 1.25rem; }
+.pv-stage-wrap .frame-tabs .pv-ctl-label {
+  align-self: center;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+/* web.css already lights up .frame-tabs [data-width][aria-pressed="true"];
+   the theme buttons get the same treatment so the two switches read alike. */
+.pv-stage-wrap .frame-tabs [data-frame-theme][aria-pressed="true"] {
+  color: var(--accent-ink);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.pv-note { margin: 0.8rem 0 0; color: var(--muted); font-size: 0.82rem; line-height: 1.55; max-width: 74ch; }
+.pv-install { margin-top: 1.4rem; padding-top: 1.1rem; border-top: 1px solid var(--line); }
+.pv-install-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin-top: 0.55rem; }
+.pv-install-row code {
+  flex: 1 1 20rem; min-width: 0; overflow-x: auto; white-space: nowrap;
+  padding: 0.6rem 0.75rem; border: 1px solid var(--line); border-radius: var(--rad, 7px);
+  background: var(--panel-2); color: var(--ink);
+  font-family: var(--font-mono); font-size: 0.8rem;
+}
+
+.pv-missing {
+  margin-top: 1.75rem;
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+}
+.pv-missing h2 { margin: 0; font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; letter-spacing: -0.028em; color: var(--ink); }
+.pv-missing p { margin: 0.6rem 0 0; color: var(--muted); line-height: 1.6; max-width: 70ch; }
+.pv-missing code { font-family: var(--font-mono); color: var(--ink); }
+.pv-suggests { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+.pv-suggest {
+  padding: 0.35rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: var(--rad, 7px);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-decoration: none;
+}
+.pv-suggest:hover { border-color: var(--ink); color: var(--accent-text); }
+
+/* ---------- wider screens ---------- */
+@media (min-width: 46rem) {
+  .lib-toolbar { grid-template-columns: 1.5fr 1fr; align-items: end; }
+  .lib-facets { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; }
+  .lib-copy { min-width: 9rem; }
+}
+
+/* Only colour transitions, no new keyframes, and none at all when the visitor
+   has asked for reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .lib-btn,
+  .lib-card,
+  .tpl-card,
+  .lib-card-name a,
+  .pv-suggest {
+    transition-property: color, background-color, border-color, outline-color;
+    transition-duration: 140ms;
+    transition-timing-function: ease-out;
+  }
+}

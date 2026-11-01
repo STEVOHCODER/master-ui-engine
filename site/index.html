@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MASTER-UI-ENGINE — stop your coding agent from producing generic UI/UX</title>
+<meta name="description" content="Open-source UI engine for AI coding agents: 54 live component, example and template previews, 31 copy-ready CSS units, one token layer, one CLI. Give OpenCode, Codex, Claude Code and affordable open models reusable interface resources instead of inventing generic UI from scratch. MIT licensed.">
+<meta name="keywords" content="UI components for AI coding agents, AI coding agent design system, reusable UI components, open-source UI library, professional UI templates, design system for AI agents, reduce repetitive UI generation, shadcn alternative, OpenCode components, frontend development with AI">
+<link rel="canonical" href="https://master-ui-engine.vercel.app/">
+<meta name="theme-color" content="#0b0c0f" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f5f4f0" media="(prefers-color-scheme: light)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MASTER-UI-ENGINE">
+<meta property="og:title" content="Stop your coding agent from producing generic UI/UX interfaces">
+<meta property="og:description" content="54 live previews, 31 copy-ready CSS units, one token layer and one CLI your agent can call. MIT licensed, no framework required.">
+<meta property="og:url" content="https://master-ui-engine.vercel.app/">
+<meta property="og:image" content="https://master-ui-engine.vercel.app/assets/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Analytics dashboard rendered from MASTER-UI-ENGINE's own tokens and components">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Stop your coding agent from producing generic UI/UX interfaces">
+<meta name="twitter:description" content="Give your AI coding agent design systems, reusable components and complete templates.">
+<meta name="twitter:image" content="https://master-ui-engine.vercel.app/assets/img/og.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0c0f'/%3E%3Crect x='7' y='7' width='8' height='8' fill='%23c9f24a'/%3E%3Crect x='17' y='7' width='8' height='8' fill='%23f5f4f0'/%3E%3Crect x='7' y='17' width='8' height='8' fill='%23f5f4f0'/%3E%3Crect x='17' y='17' width='8' height='8' fill='%23c9f24a'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/engine/design-tokens/engine.css">
+<link rel="stylesheet" href="/assets/web.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "MASTER-UI-ENGINE",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any (static HTML, CSS and JavaScript)",
+      "url": "https://master-ui-engine.vercel.app/",
+      "license": "https://opensource.org/licenses/MIT",
+      "sameAs": "https://github.com/STEVOHCODER/master-ui-engine",
+      "description": "A reusable UI engine for AI coding agents: 54 live previews (33 components, 15 examples, 6 templates), a shared token layer, 31 copy-ready CSS units and a command-line interface agents can call instead of generating generic interfaces from scratch.",
+      "featureList": [
+        "54 live component, example and template previews",
+        "One shared design-token layer with light and dark themes",
+        "31 copy-ready CSS units in a single stylesheet",
+        "mue CLI: search, show, region, add, registry, check, doctor",
+        "SKILL.md and AGENTS.md so coding agents reuse previews instead of inventing UI",
+        "WCAG AA contrast audited in light and dark, no overflow at 375/768/1280",
+        "MIT licensed, no vendored third-party code"
+      ],
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Does MASTER-UI-ENGINE need React, npm or a CDN?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. Every preview is plain HTML, CSS and JavaScript wired to one token file and one component stylesheet. You can copy a unit into any project." }
+        },
+        {
+          "@type": "Question",
+          "name": "How does a coding agent use it?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The repository ships AGENTS.md and SKILL.md plus a CLI called mue. An agent runs mue search for what a screen looks like, mue show for the copy-ready markup, and mue add to install a component with the layers it needs." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it a cheaper way for small open models to build UI?",
+          "acceptedAnswer": { "@type": "Answer", "text": "It changes the work. Instead of generating structure, spacing and states from scratch, the model retrieves a tested preview and adapts it. That reduces repeated generation of common interface patterns, but it is not a benchmark guarantee and a small model is still a small model." }
+        },
+        {
+          "@type": "Question",
+          "name": "Are shadcn/ui, Ant Design or Nuxt UI included?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No code is vendored from them. The engine implements its own token system, borrows the token naming convention from shadcn/ui, and keeps RESOURCES.md as a license-checked index of those libraries so reuse stays legal." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body class="page">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <a class="nav-brand" href="/">MASTER-UI-<span>ENGINE</span></a>
+  <nav class="nav-links" id="navLinks" aria-label="Main">
+    <a class="nav-link" href="/library">Library</a>
+    <a class="nav-link" href="/templates">Templates</a>
+    <a class="nav-link" href="/#how">How it works</a>
+    <a class="nav-link" href="/agents">Agent guide</a>
+    <a class="nav-link" href="/#docs" data-event="documentation_click">Docs</a>
+    <a class="btn-primary" href="https://github.com/STEVOHCODER/master-ui-engine" data-event="github_click">View on GitHub</a>
+  </nav>
+  <span class="nav-spacer"></span>
+  <button class="theme-toggle" data-theme-toggle data-event="theme_switch" aria-pressed="false">Dark mode</button>
+  <button class="menu-toggle" data-menu-toggle="#navLinks" aria-expanded="false" aria-controls="navLinks" aria-label="Menu"><i></i><i></i><i></i></button>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero hero-grid-bg">
+    <div class="shell grid-2">
+      <div>
+        <p class="eyebrow">Open-source UI engine · MIT · 54 live previews</p>
+        <h1 class="hero-title">Stop your coding agent from producing generic UI/UX&nbsp;<em>interfaces.</em></h1>
+        <p class="hero-lede">Give it the design system, reusable components and complete templates it needs to build professional websites and applications — and stop paying tokens to reinvent a table for the ninth time.</p>
+        <div class="cta-row">
+          <a class="btn-primary btn-lg" href="/library">Explore the Library</a>
+          <a class="btn-ghost btn-lg" href="https://github.com/STEVOHCODER/master-ui-engine" data-event="github_click">View on GitHub</a>
+        </div>
+        <ul class="hero-facts">
+          <li><b>33</b> components</li>
+          <li><b>15</b> worked examples</li>
+          <li><b>6</b> templates</li>
+          <li><b>31</b> copy-ready CSS units</li>
+          <li><b>0</b> required frameworks</li>
+        </ul>
+      </div>
+
+      <div class="showcase-live reveal">
+        <div class="frame" data-live-frame>
+          <div class="frame-bar">
+            <span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="frame-url" data-frame-url>engine/examples/analytics/analytics-dashboard.html</span>
+            <span class="frame-size" data-frame-size>1280 px</span>
+          </div>
+          <div class="frame-stage" data-frame-stage>
+            <iframe class="frame-view" data-frame-view title="Live preview: analytics dashboard built from MASTER-UI-ENGINE tokens and components" src="/engine/examples/analytics/analytics-dashboard.html" loading="eager" style="position:absolute;inset-block-start:0;inset-inline-start:0"></iframe>
+          </div>
+          <div class="frame-tabs" role="tablist" aria-label="Live preview examples">
+            <button role="tab" type="button" aria-selected="true" data-src="/engine/examples/analytics/analytics-dashboard.html">Analytics</button>
+            <button role="tab" type="button" aria-selected="false" data-src="/engine/examples/dashboards/admin-dashboard.html">Admin</button>
+            <button role="tab" type="button" aria-selected="false" data-src="/engine/examples/marketplaces/marketplace-homepage.html">Marketplace</button>
+            <button role="tab" type="button" aria-selected="false" data-src="/engine/examples/landing-pages/landing.html">Landing</button>
+            <button role="tab" type="button" aria-selected="false" data-src="/engine/examples/complete-applications/ai-assistant.html">AI app</button>
+            <span class="nav-spacer"></span>
+            <button type="button" data-width="1280" aria-pressed="true">1280</button>
+            <button type="button" data-width="768" aria-pressed="false">768</button>
+            <button type="button" data-width="375" aria-pressed="false">375</button>
+          </div>
+        </div>
+        <p class="note">This is a real page from the repository, running in your browser right now — not a screenshot of one.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM / SOLUTION -->
+  <section class="section" id="problem">
+    <div class="shell">
+      <p class="eyebrow">01 — The problem</p>
+      <h2 class="sec-title">Agents ship code that works and interfaces that look alike.</h2>
+      <p class="sec-lede">A model asked for “a dashboard” produces the dashboard it has seen most often: the same cards, the same spacing, the same blue. It is functional. It is not designed.</p>
+      <div class="compare reveal" style="margin-top:2.5rem">
+        <div class="compare-col neg">
+          <h3>Without the engine</h3>
+          <ul class="mark-list">
+            <li>Repetitive layouts on every screen</li>
+            <li>Generic cards and dashboards</li>
+            <li>Inconsistent typography, spacing and colour</li>
+            <li>Responsive behaviour invented per page, usually badly</li>
+            <li>Common patterns regenerated from scratch each session</li>
+            <li>Interfaces that work but do not feel designed</li>
+          </ul>
+        </div>
+        <div class="compare-col">
+          <h3>With MASTER-UI-ENGINE</h3>
+          <ul class="mark-list pos">
+            <li>54 previews that already render, theme and reflow</li>
+            <li>One token layer: colour, type, spacing, motion, borders</li>
+            <li>31 copy-ready CSS units with documented names</li>
+            <li>Real mobile audit notes per preview, not promises</li>
+            <li>Retrieve a tested starting point and adapt it</li>
+            <li>Consistent output across agents, models and projects</li>
+          </ul>
+        </div>
+      </div>
+      <p class="note">Lists describe documented behaviour of this repository. The engine does not guarantee a professional result — it removes the need to invent structure that already exists.</p>
+    </div>
+  </section>
+
+  <!-- COMPONENT SHOWCASE -->
+  <section class="section" id="showcase">
+    <div class="shell">
+      <p class="eyebrow">02 — Try the components</p>
+      <h2 class="sec-title">Pick a category. The preview is the implementation.</h2>
+      <p class="sec-lede">Each panel loads the actual repository file. Copy the markup, open the source, or send your agent to the same path.</p>
+
+      <div class="showcase reveal" style="margin-top:2.5rem">
+        <div class="showcase-rail" role="tablist" aria-label="Component categories">
+          <button role="tab" type="button" aria-selected="true" aria-controls="panel-buttons" data-id="btn-buttons">Buttons</button>
+          <button role="tab" type="button" aria-selected="false" aria-controls="panel-cards" data-id="ui-cards">Cards</button>
+          <button role="tab" type="button" aria-selected="false" aria-controls="panel-tables" data-id="ui-datatable">Data table</button>
+          <button role="tab" type="button" aria-selected="false" aria-controls="panel-charts" data-id="ui-charts">Charts</button>
+          <button role="tab" type="button" aria-selected="false" aria-controls="panel-forms" data-id="frm-input-fields">Forms</button>
+          <button role="tab" type="button" aria-selected="false" aria-controls="panel-dialogs" data-id="ui-dialogs">Dialogs</button>
+          <button role="tab" type="button" aria-selected="false" aria-controls="panel-nav" data-id="nav-sidebar">Sidebar</button>
+          <button role="tab" type="button" aria-selected="false" aria-controls="panel-marketing" data-id="ui-sections">Marketing</button>
+        </div>
+
+        <div class="showcase-body">
+          <div id="panel-buttons" role="tabpanel" aria-label="Buttons" data-src="/engine/components/buttons/buttons.html" data-name="Buttons" data-variants="6" data-path="components/buttons/buttons.html"></div>
+          <div id="panel-cards" role="tabpanel" hidden aria-label="Cards" data-src="/engine/components/cards/cards.html" data-name="Cards" data-variants="3" data-path="components/cards/cards.html"></div>
+          <div id="panel-tables" role="tabpanel" hidden aria-label="Data table" data-src="/engine/components/tables/data-table.html" data-name="Data Table" data-variants="8" data-path="components/tables/data-table.html"></div>
+          <div id="panel-charts" role="tabpanel" hidden aria-label="Charts" data-src="/engine/components/charts/charts.html" data-name="Charts" data-variants="2" data-path="components/charts/charts.html"></div>
+          <div id="panel-forms" role="tabpanel" hidden aria-label="Forms" data-src="/engine/components/forms/input-fields.html" data-name="Input Fields" data-variants="7" data-path="components/forms/input-fields.html"></div>
+          <div id="panel-dialogs" role="tabpanel" hidden aria-label="Dialogs" data-src="/engine/components/dialogs/dialogs.html" data-name="Dialogs" data-variants="2" data-path="components/dialogs/dialogs.html"></div>
+          <div id="panel-nav" role="tabpanel" hidden aria-label="Sidebar" data-src="/engine/components/sidebars/sidebar.html" data-name="Sidebar" data-variants="1" data-path="components/sidebars/sidebar.html"></div>
+          <div id="panel-marketing" role="tabpanel" hidden aria-label="Marketing sections" data-src="/engine/components/marketing/sections.html" data-name="Marketing Sections" data-variants="8" data-path="components/marketing/sections.html"></div>
+
+          <div class="frame" style="margin-top:0">
+            <div class="frame-bar">
+              <span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="frame-url" id="showcaseUrl">/engine/components/buttons/buttons.html</span>
+              <button class="copy-btn" type="button" id="showcaseCopy" data-copy-src="/engine/components/buttons/buttons.html">Copy markup</button>
+            </div>
+            <iframe class="frame-view" id="showcaseView" title="Live component preview" style="height:clamp(18rem,32vw,26rem)"></iframe>
+          </div>
+          <div class="showcase-meta">
+            <span class="chip">vanilla HTML/CSS</span>
+            <span class="chip" id="showcaseVariants">6 variants</span>
+            <span class="chip">light + dark</span>
+            <span class="chip">audited 375 / 768 / 1280</span>
+          </div>
+          <div class="link-row">
+            <a href="/preview?id=btn-buttons" id="showcasePreview">Open full preview</a>
+            <a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/components/buttons/buttons.html" id="showcaseSource">View source</a>
+            <a href="/library?kind=components">Browse all 33 components</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEMPLATES -->
+  <section class="section" id="templates">
+    <div class="shell">
+      <p class="eyebrow">03 — Templates</p>
+      <h2 class="sec-title">Complete starting points, not hero images of them.</h2>
+      <p class="sec-lede">Six templates and fifteen worked examples ship with the repository. These frames are the running pages, scaled down.</p>
+      <div class="tpl-grid" style="margin-top:2.5rem">
+        <article class="tpl-card reveal">
+          <a class="tpl-shot" href="/preview?id=tpl-saas" aria-label="Open SaaS starter preview"><iframe src="/engine/templates/saas/saas-starter.html" title="SaaS starter template running live" loading="lazy" tabindex="-1"></iframe></a>
+          <div class="tpl-body">
+            <h3>SaaS starter</h3>
+            <p>Marketing page, pricing, auth screens and app shell wired to one token file.</p>
+            <div class="tpl-foot"><a href="/preview?id=tpl-saas">Open preview</a><a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/templates/saas/saas-starter.html">Source</a></div>
+          </div>
+        </article>
+        <article class="tpl-card reveal">
+          <a class="tpl-shot" href="/preview?id=tpl-admin" aria-label="Open admin starter preview"><iframe src="/engine/templates/dashboards/admin-starter.html" title="Admin dashboard template running live" loading="lazy" tabindex="-1"></iframe></a>
+          <div class="tpl-body">
+            <h3>Admin dashboard</h3>
+            <p>Sidebar, table, filters and detail panel — the pattern agents get wrong most often.</p>
+            <div class="tpl-foot"><a href="/preview?id=tpl-admin">Open preview</a><a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/templates/dashboards/admin-starter.html">Source</a></div>
+          </div>
+        </article>
+        <article class="tpl-card reveal">
+          <a class="tpl-shot" href="/preview?id=tpl-analytics" aria-label="Open analytics starter preview"><iframe src="/engine/templates/dashboards/analytics-starter.html" title="Analytics dashboard template running live" loading="lazy" tabindex="-1"></iframe></a>
+          <div class="tpl-body">
+            <h3>Analytics application</h3>
+            <p>Chart surfaces, ranges and metric cards with real empty and loading states.</p>
+            <div class="tpl-foot"><a href="/preview?id=tpl-analytics">Open preview</a><a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/templates/dashboards/analytics-starter.html">Source</a></div>
+          </div>
+        </article>
+        <article class="tpl-card reveal">
+          <a class="tpl-shot" href="/preview?id=tpl-ecom" aria-label="Open ecommerce starter preview"><iframe src="/engine/templates/ecommerce/ecommerce-starter.html" title="Ecommerce template running live" loading="lazy" tabindex="-1"></iframe></a>
+          <div class="tpl-body">
+            <h3>E-commerce</h3>
+            <p>Catalogue, product detail and cart surfaces that keep spacing consistent.</p>
+            <div class="tpl-foot"><a href="/preview?id=tpl-ecom">Open preview</a><a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/templates/ecommerce/ecommerce-starter.html">Source</a></div>
+          </div>
+        </article>
+        <article class="tpl-card reveal">
+          <a class="tpl-shot" href="/preview?id=tpl-market" aria-label="Open marketplace starter preview"><iframe src="/engine/templates/marketplaces/marketplace-starter.html" title="Marketplace template running live" loading="lazy" tabindex="-1"></iframe></a>
+          <div class="tpl-body">
+            <h3>Marketplace</h3>
+            <p>Listing grid, trust elements and search — dense without losing the rhythm.</p>
+            <div class="tpl-foot"><a href="/preview?id=tpl-market">Open preview</a><a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/templates/marketplaces/marketplace-starter.html">Source</a></div>
+          </div>
+        </article>
+        <article class="tpl-card reveal">
+          <a class="tpl-shot" href="/preview?id=tpl-ai" aria-label="Open AI application starter preview"><iframe src="/engine/templates/web-applications/ai-starter.html" title="AI application template running live" loading="lazy" tabindex="-1"></iframe></a>
+          <div class="tpl-body">
+            <h3>AI web application</h3>
+            <p>Chat surface, streaming states and tool panels for agent products.</p>
+            <div class="tpl-foot"><a href="/preview?id=tpl-ai">Open preview</a><a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/templates/web-applications/ai-starter.html">Source</a></div>
+          </div>
+        </article>
+      </div>
+      <div class="cta-row"><a class="btn-ghost" href="/templates">See all 6 templates and 15 examples</a></div>
+    </div>
+  </section>
+
+  <!-- WHY / BENEFITS -->
+  <section class="section" id="why">
+    <div class="shell">
+      <p class="eyebrow">04 — Why developers keep it in the repo</p>
+      <h2 class="sec-title">Less reinventing. More building.</h2>
+      <div class="spec" style="margin-top:2.5rem">
+        <div class="row"><span class="num">01</span><h3>Better output from affordable models</h3><p>A small open-weight model does not have to invent a design system. It retrieves a preview that already resolves contrast, spacing and states, then edits it. That raises the floor — it does not turn a 7B model into a frontier model, and we will not pretend otherwise.</p></div>
+        <div class="row"><span class="num">02</span><h3>Fewer tokens spent on structure</h3><p>Generation is the expensive part of UI work. When the table, the sidebar and the form already exist as one file path, the prompt becomes “adapt this” instead of “produce 400 lines of markup and CSS”. No fixed saving percentage is published because there is no benchmark behind it.</p></div>
+        <div class="row"><span class="num">03</span><h3>Deterministic starting points</h3><p>Every resource has an id, a category, a variant list and a path an agent can name in a prompt. <span class="mono">mue search "admin sidebar"</span> returns candidates; <span class="mono">mue show ui-cards</span> returns the markup. Same input, same retrieval, on every run.</p></div>
+        <div class="row"><span class="num">04</span><h3>One place, licensing already checked</h3><p>The engine ships its own vanilla token system — nothing is vendored from shadcn/ui, Ant Design, Nuxt UI, daisyUI, Flowbite or Creative Tim. <span class="mono">RESOURCES.md</span> records each of them with its license, framework and whether its source is legally incorporable, so reuse does not become a legal surprise later.<span class="tag">no hidden dependencies</span></p></div>
+        <div class="row"><span class="num">05</span><h3>Design systems that travel</h3><p>Colour, type scale, spacing, radii, shadows and motion are custom properties in one file. Change nine values and every preview follows, in light and dark. Themes are separate files, not find-and-replace.</p></div>
+        <div class="row"><span class="num">06</span><h3>Motion you can turn off with one switch</h3><p>Hover lift, press depth and reveal distance are composite tokens, and a single reduced-motion block zeroes them. Authors are told not to write their own media queries, so accessibility does not depend on whoever generated the page.</p></div>
+        <div class="row"><span class="num">07</span><h3>Agent-oriented by default</h3><p><span class="mono">AGENTS.md</span> sets the rule, <span class="mono">SKILL.md</span> packages it for skill-aware agents, and <span class="mono">mue registry --json</span> exposes the whole library as one machine document. Works with any agent that can read files or run a command — OpenCode, Codex, Claude Code, Cursor, or a plain terminal.</p></div>
+        <div class="row"><span class="num">08</span><h3>Audited, not asserted</h3><p>Each catalog entry carries its own verification note: WCAG AA contrast in light and dark, no overflow at 375, 768 and 1280. <span class="mono">mue check</span> fails a page that references a class the sheet does not define — so drift is caught, not discovered in production.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section" id="how">
+    <div class="shell">
+      <p class="eyebrow">05 — How it works</p>
+      <h2 class="sec-title">Six steps from “make it look good” to a page that does.</h2>
+      <ol class="steps reveal" style="margin-top:2.5rem">
+        <li><span class="num">STEP 01</span><h3>Explore the library</h3><p>Filter 54 previews by kind, category or what the screen looks like.</p></li>
+        <li><span class="num">STEP 02</span><h3>Find the resource</h3><p>Every entry has an id, variants, the tokens it uses and its audit note.</p></li>
+        <li><span class="num">STEP 03</span><h3>Inspect the running page</h3><p>Open the live preview, switch device width and theme, read the source.</p></li>
+        <li><span class="num">STEP 04</span><h3>Hand it to your agent</h3><p>Point the agent at the path, or let it call <span class="mono">mue show</span> itself.</p></li>
+        <li><span class="num">STEP 05</span><h3>Install what you need</h3><p><span class="mono">mue add ui-cards --into ../app</span> copies the component plus the layers it needs.</p></li>
+        <li><span class="num">STEP 06</span><h3>Build and test</h3><p>Adapt the content, then run <span class="mono">mue check</span> in your own project. Reuse is a starting point, not a substitute for testing.</p></li>
+      </ol>
+
+      <h3 style="font-size:1.1rem;margin:3rem 0 1rem" class="num">THE AGENT SURFACE — REAL COMMANDS</h3>
+      <div class="term reveal">
+        <div class="term-bar">
+          <span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="term-title">node tools/mue.js</span>
+          <button class="copy-btn" type="button" data-copy-text="#cliText">Copy commands</button>
+        </div>
+        <pre><code id="cliText"><span class="prompt">$</span> node tools/mue.js search <span class="flag">"admin dashboard sidebar"</span>
+<span class="out">nav-sidebar   Sidebar              components/sidebars/sidebar.html      1 variant</span>
+<span class="out">tpl-admin     Admin dashboard      templates/dashboards/admin-starter.html</span>
+
+<span class="prompt">$</span> node tools/mue.js show ui-cards
+<span class="out"># Cards — components/cards/cards.html</span>
+<span class="out">link: design-tokens/engine.css, styles/components.css#cards</span>
+<span class="out">markup: copy-ready (3 variants)</span>
+
+<span class="prompt">$</span> node tools/mue.js region cards
+<span class="out">/* the exact CSS of that copy unit, from styles/components.css */</span>
+
+<span class="prompt">$</span> node tools/mue.js add ui-cards btn-buttons <span class="flag">--into ../app</span>
+<span class="out">installed components + the layers they need</span>
+
+<span class="prompt">$</span> node tools/mue.js registry <span class="flag">--json</span> &gt; mue-registry.json
+<span class="out">54 items: ids, paths, variants, tokens, audit notes</span>
+
+<span class="prompt">$</span> node tools/mue.js check all
+<span class="out">unresolved classes: none   ·   headers: ok</span></code></pre>
+      </div>
+      <p class="note">Command list and flags taken from <span class="mono">node tools/mue.js help</span> in this repository. Output lines are illustrative of the shape, not a transcript.</p>
+    </div>
+  </section>
+
+  <!-- METRICS -->
+  <section class="section tight flush">
+    <div class="shell">
+      <div class="metrics reveal">
+        <div class="metric"><b data-count="54">0</b><span>previews shipped</span></div>
+        <div class="metric"><b data-count="31">0</b><span>copy-ready CSS units</span></div>
+        <div class="metric"><b data-count="1">0</b><span>token file</span></div>
+        <div class="metric"><b>0</b><span>npm installs required</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOCS + TRUST -->
+  <section class="section" id="docs">
+    <div class="shell grid-2">
+      <div>
+        <p class="eyebrow">06 — Documentation</p>
+        <h2 class="sec-title">Read it in the repository, not in a marketing page.</h2>
+        <p class="sec-lede">Four files carry the contract. They are versioned with the code, so they cannot disagree with it.</p>
+        <div class="cta-row">
+          <a class="btn-primary" href="https://github.com/STEVOHCODER/master-ui-engine">Repository</a>
+          <a class="btn-ghost" href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/README.md">README</a>
+          <a class="btn-ghost" href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/SKILL.md">SKILL.md</a>
+          <a class="btn-ghost" href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/AGENTS.md">AGENTS.md</a>
+        </div>
+      </div>
+      <div>
+        <ul class="mark-list pos" style="gap:1rem">
+          <li><b>MIT licensed.</b> No vendored third-party code; attribution obligations are recorded per resource.</li>
+          <li><b>What ships:</b> 33 component previews, 15 worked examples, 6 templates, the token layer, one 120 KB component stylesheet, the <span class="mono">mue</span> CLI and the visual lab.</li>
+          <li><b>Compatibility:</b> anything that reads files or runs a command. React, Vue and Svelte users copy the markup and tokens; no runtime bridge is claimed.</li>
+          <li><b>No invented proof:</b> there are no testimonials, no star counts, no download figures on this page. Check the repository instead.</li>
+          <li><b>Contribute:</b> <a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a> states how a new preview is registered and audited.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <div class="shell">
+      <p class="eyebrow">07 — Questions</p>
+      <h2 class="sec-title">Answered plainly.</h2>
+      <div class="faq" style="margin-top:2rem">
+        <div class="faq-item"><button class="faq-q" type="button" data-disclosure aria-controls="a1" aria-expanded="false">Does it need React, npm or a CDN?</button><p class="faq-a" id="a1">No. Every preview is plain HTML, CSS and JavaScript wired to <span class="mono">design-tokens/engine.css</span> and <span class="mono">styles/components.css</span>. Drop the two files in and copy the unit you need.</p></div>
+        <div class="faq-item"><button class="faq-q" type="button" data-disclosure aria-controls="a2" aria-expanded="false">How is this different from any component library?</button><p class="faq-a" id="a2">It is built for the person doing the typing: an agent. The unit of reuse is a whole preview plus its token dependencies plus a CLI that names them, rather than a component API you import.</p></div>
+        <div class="faq-item"><button class="faq-q" type="button" data-disclosure aria-controls="a3" aria-expanded="false">Will a cheap open model really produce professional UI?</button><p class="faq-a" id="a3">It produces consistent UI, which is most of the complaint. The model stops inventing structure and starts adapting something audited. Layout judgement, content and brand work are still yours.</p></div>
+        <div class="faq-item"><button class="faq-q" type="button" data-disclosure aria-controls="a4" aria-expanded="false">Are shadcn/ui, Ant Design or Nuxt UI included?</button><p class="faq-a" id="a4">No code is vendored from them. The engine borrows the token naming convention from shadcn/ui and <span class="mono">RESOURCES.md</span> indexes those libraries with licenses and redistribution status so future imports stay legal.</p></div>
+        <div class="faq-item"><button class="faq-q" type="button" data-disclosure aria-controls="a5" aria-expanded="false">Is there a paid plan?</button><p class="faq-a" id="a5">The library is MIT and free. Premium template packs, install support and agency work are under consideration and are not for sale here — nothing on this page takes money.</p></div>
+        <div class="faq-item"><button class="faq-q" type="button" data-disclosure aria-controls="a6" aria-expanded="false">What do you measure about visitors?</button><p class="faq-a" id="a6">Page paths, a coarse country from the host, the referrer hostname and an anonymous id in your browser's storage — enough to see reach and which previews get opened. No IP addresses, no user-agent strings, no page contents. <a href="/privacy">Read the notice</a>.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BAND -->
+  <section class="band">
+    <div class="shell">
+      <div>
+        <h2>Give your agent better design knowledge.</h2>
+        <p>Clone the repository, run the lab, and put the previews in front of the model that builds your UI. Join the list to hear when template packs and paid options exist.</p>
+        <p class="fine">No pricing is announced here. No payment is collected anywhere on this site.</p>
+      </div>
+      <div>
+        <form class="form-row" id="waitlist-form" novalidate>
+          <label class="sr-only" for="email">Email address</label>
+          <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@company.dev" required>
+          <button class="btn-primary" type="submit">Notify me</button>
+        </form>
+        <p class="form-status" id="waitlist-status" role="status" aria-live="polite"></p>
+        <div class="cta-row">
+          <a class="btn-ghost" href="/library">Explore the library</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="shell">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="nav-brand" href="/">MASTER-UI-<span>ENGINE</span></a>
+        <p class="note" style="max-width:32ch">A reusable interface engine for AI coding agents. Built and maintained by one developer; used by whatever agent you point at it.</p>
+      </div>
+      <div class="foot-col"><h3>Explore</h3><ul>
+        <li><a href="/library">Component library</a></li>
+        <li><a href="/templates">Templates</a></li>
+        <li><a href="/library?kind=examples">Worked examples</a></li>
+        <li><a href="/#showcase">Live previews</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>Repository</h3><ul>
+        <li><a href="https://github.com/STEVOHCODER/master-ui-engine">Source on GitHub</a></li>
+        <li><a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/README.md">README</a></li>
+        <li><a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/SKILL.md">Agent skill</a></li>
+        <li><a href="/agents">Agent integration guide</a></li>
+        <li><a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/RESOURCES.md">Resource index + licenses</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>Site</h3><ul>
+        <li><a href="/privacy">Privacy</a></li>
+        <li><a href="/sitemap.xml">Sitemap</a></li>
+        <li><a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/LICENSE">MIT license</a></li>
+      </ul></div>
+    </div>
+    <div class="foot-note">
+      <span>© 2026 MASTER-UI-ENGINE · MIT</span>
+      <span>Every preview on this page is a live page from the repository</span>
+      <span>No vendored third-party components</span>
+    </div>
+  </div>
+</footer>
+
+<script defer src="/engine/styles/mue.js"></script>
+<script defer src="/assets/analytics.js"></script>
+<script defer src="/assets/web.js"></script>
+</body>
+</html>

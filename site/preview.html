@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live preview | MASTER-UI-ENGINE</title>
+<meta name="description" content="Run one MASTER-UI-ENGINE resource at full width from its own file, switch between 375, 768 and 1280 pixel viewports, change its theme and copy its markup." id="pv-desc-meta">
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://master-ui-engine.vercel.app/preview">
+<meta name="theme-color" content="#0b0c0f" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f5f4f0" media="(prefers-color-scheme: light)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0c0f'/%3E%3Crect x='7' y='7' width='8' height='8' fill='%23c9f24a'/%3E%3Crect x='17' y='7' width='8' height='8' fill='%23f5f4f0'/%3E%3Crect x='7' y='17' width='8' height='8' fill='%23f5f4f0'/%3E%3Crect x='17' y='17' width='8' height='8' fill='%23c9f24a'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/engine/design-tokens/engine.css">
+<link rel="stylesheet" href="/assets/web.css">
+<link rel="stylesheet" href="/assets/library.css">
+</head>
+<body class="page">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <a class="nav-brand" href="/">MASTER-UI-<span>ENGINE</span></a>
+  <nav class="nav-links" id="navLinks" aria-label="Main">
+    <a class="nav-link" href="/library">Library</a>
+    <a class="nav-link" href="/templates">Templates</a>
+    <a class="nav-link" href="/#how">How it works</a>
+    <a class="nav-link" href="/agents">Agent guide</a>
+    <a class="nav-link" href="/#docs" data-event="documentation_click">Docs</a>
+    <a class="btn-primary" href="https://github.com/STEVOHCODER/master-ui-engine" data-event="github_click">View on GitHub</a>
+  </nav>
+  <span class="nav-spacer"></span>
+  <button class="theme-toggle" data-theme-toggle data-event="theme_switch" aria-label="Switch theme" aria-pressed="false"><span data-theme-state>Dark mode</span></button>
+  <button class="menu-toggle" data-menu-toggle="#navLinks" aria-expanded="false" aria-controls="navLinks" aria-label="Menu"><i></i><i></i><i></i></button>
+</header>
+
+<main id="main">
+
+  <section class="section flush">
+    <div class="shell">
+
+      <p class="eyebrow">Live preview · one resource</p>
+
+      <div class="lib-error" id="pv-error" hidden><p class="lib-error-msg"></p></div>
+
+      <div id="pv-block" hidden>
+        <div class="pv-chrome">
+          <div class="pv-chrome-main">
+            <h1 class="pv-name" id="pv-name">Loading …</h1>
+            <div class="pv-chips" id="pv-chips"></div>
+            <p class="pv-summary" id="pv-summary" hidden></p>
+            <span class="pv-label" id="pv-variants-label">Variants listed in the catalog</span>
+            <div class="pv-variants" id="pv-variants"></div>
+            <p class="lib-verified" id="pv-verified"></p>
+          </div>
+          <div class="pv-chrome-side">
+            <div class="pv-links" id="pv-copy-slot"></div>
+            <div class="pv-links">
+              <a class="lib-btn lib-btn-ghost" id="pv-source" href="https://github.com/STEVOHCODER/master-ui-engine">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.4 3.4 0 00-.9-2.6c3-.3 6.2-1.5 6.2-6.7A5.2 5.2 0 0019.8 5a4.9 4.9 0 00-.1-3.6s-1.1-.3-3.6 1.4a12.4 12.4 0 00-6.3 0C7.3 1.1 6.2 1.4 6.2 1.4A4.9 4.9 0 006.1 5a5.2 5.2 0 00-1.4 3.6c0 5.2 3.2 6.4 6.2 6.7a3.4 3.4 0 00-.9-2.6V19"/></svg>
+                <span>View source</span>
+              </a>
+              <a class="lib-btn lib-btn-ghost" id="pv-opentab" href="/library" target="_blank" rel="noreferrer">Open file alone &nearr;</a>
+            </div>
+            <div class="pv-links">
+              <a class="lib-btn lib-btn-ghost" href="/library">&larr; Back to library</a>
+              <a class="lib-btn lib-btn-ghost" href="/templates">Templates</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pv-stage-wrap">
+          <div class="frame">
+            <div class="frame-bar">
+              <span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="frame-url" id="pv-url">engine/…</span>
+              <span class="frame-size" id="pv-size">375 px</span>
+            </div>
+            <div class="frame-stage" id="pv-stage">
+              <iframe class="frame-view" id="pv-iframe" title="Live preview" loading="eager"
+                      style="position:absolute;inset-block-start:0;inset-inline-start:0"></iframe>
+            </div>
+            <div class="frame-tabs" id="pv-controls">
+              <span class="pv-ctl-label">Width</span>
+              <button type="button" data-width="375" aria-pressed="true">375</button>
+              <button type="button" data-width="768" aria-pressed="false">768</button>
+              <button type="button" data-width="1280" aria-pressed="false">1280</button>
+              <button type="button" data-width="full" aria-pressed="false">Full</button>
+              <span class="nav-spacer"></span>
+              <span class="pv-ctl-label">Frame theme</span>
+              <button type="button" data-frame-theme="light" aria-pressed="false">Light</button>
+              <button type="button" data-frame-theme="dark" aria-pressed="false">Dark</button>
+            </div>
+          </div>
+          <p class="pv-note" id="pv-note">The frame above is the resource's own file, served from <span class="mono">/engine/…</span>. The width buttons resize the frame it renders into; the theme buttons set <span class="mono">html.dark</span> on the preview document itself.</p>
+
+          <div class="pv-install" id="pv-install" hidden>
+            <span class="pv-label">Install it from a clone of the repository</span>
+            <div class="pv-install-row">
+              <code id="pv-install-cmd">node tools/mue.js add …</code>
+              <button type="button" class="lib-btn lib-btn-ghost" id="pv-install-copy">Copy command</button>
+            </div>
+            <p class="pv-note" id="pv-install-note">The command copies this file plus the token and component layers it links, so it renders the same way in your project as it does here.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="pv-missing" id="pv-missing" hidden>
+        <h2>That resource is not in the catalog</h2>
+        <p>This page shows one entry looked up by <code>?id=</code>. The id you asked for — <code id="pv-missing-id"></code> — is not in <span class="mono">showcase/data/component-catalog.json</span>, so nothing was rendered rather than an empty frame pretending to be a preview.</p>
+        <p>Go back and pick one from the library, or start with any of these:</p>
+        <div class="pv-links"><a class="lib-btn lib-btn-solid" href="/library">Back to library</a></div>
+        <div class="pv-suggests" id="pv-missing-list"></div>
+      </div>
+
+      <noscript>
+        <p class="lib-note">This viewer asks the catalog for the file behind <span class="mono">?id=…</span> and then frames it, so it needs JavaScript. The file itself does not: open it directly under <span class="mono">/engine/…</span> or read it on <a href="https://github.com/STEVOHCODER/master-ui-engine">GitHub</a>.</p>
+      </noscript>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="shell">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="nav-brand" href="/">MASTER-UI-<span>ENGINE</span></a>
+        <p class="note" style="max-width:32ch">A reusable interface engine for AI coding agents. Built and maintained by one developer; used by whatever agent you point at it.</p>
+      </div>
+      <div class="foot-col"><h3>Explore</h3><ul>
+        <li><a href="/library">Component library</a></li>
+        <li><a href="/templates">Templates</a></li>
+        <li><a href="/library?kind=examples">Worked examples</a></li>
+        <li><a href="/#showcase">Live previews</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>Repository</h3><ul>
+        <li><a href="https://github.com/STEVOHCODER/master-ui-engine">Source on GitHub</a></li>
+        <li><a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/README.md">README</a></li>
+        <li><a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/SKILL.md">Agent skill</a></li>
+        <li><a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/RESOURCES.md">Resource index + licenses</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>Site</h3><ul>
+        <li><a href="/privacy">Privacy</a></li>
+        <li><a href="/sitemap.xml">Sitemap</a></li>
+        <li><a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/LICENSE">MIT license</a></li>
+      </ul></div>
+    </div>
+    <div class="foot-note">
+      <span>© 2026 MASTER-UI-ENGINE · MIT</span>
+      <span>Every preview on this page is a live page from the repository</span>
+      <span>No vendored third-party components</span>
+    </div>
+  </div>
+</footer>
+
+<script defer src="/engine/styles/mue.js"></script>
+<script defer src="/assets/analytics.js"></script>
+<script defer src="/assets/library.js"></script>
+</body>
+</html>

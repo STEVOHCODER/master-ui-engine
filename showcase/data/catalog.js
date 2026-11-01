@@ -675,6 +675,7 @@ window.MUE_CATALOG = {
     {
       "id": "ex-saas-dashboard",
       "name": "SaaS dashboard",
+        "summary": "Single-screen SaaS dashboard assembled from library components: nav, KPI row, chart and table.",
       "group": "Examples",
       "category": "dashboards",
       "path": "examples/dashboards/saas-dashboard.html",
@@ -695,6 +696,7 @@ window.MUE_CATALOG = {
     {
       "id": "ex-admin-dashboard",
       "name": "Admin dashboard",
+        "summary": "Admin overview screen: orders, filters and status badges in one page.",
       "group": "Examples",
       "category": "dashboards",
       "path": "examples/dashboards/admin-dashboard.html",
@@ -714,6 +716,7 @@ window.MUE_CATALOG = {
     {
       "id": "ex-analytics",
       "name": "Analytics dashboard",
+        "summary": "Analytics overview: KPI cards, traffic chart and a channel breakdown table.",
       "group": "Examples",
       "category": "analytics",
       "path": "examples/analytics/analytics-dashboard.html",
@@ -755,6 +758,7 @@ window.MUE_CATALOG = {
     {
       "id": "ex-ecom-pdp",
       "name": "Product details",
+        "summary": "Product detail page: gallery, price block, key-features list and buy panel.",
       "group": "Examples",
       "category": "ecommerce",
       "path": "examples/ecommerce/product-details.html",
@@ -796,6 +800,7 @@ window.MUE_CATALOG = {
     {
       "id": "ex-ai",
       "name": "AI assistant",
+        "summary": "Assistant screen: conversation list, message thread and a \"Message...\" composer.",
       "group": "Examples",
       "category": "apps",
       "path": "examples/complete-applications/ai-assistant.html",
@@ -836,6 +841,7 @@ window.MUE_CATALOG = {
     {
       "id": "ex-login",
       "name": "Login",
+        "summary": "Sign-in screen: email and password fields, error state and Google/GitHub provider buttons.",
       "group": "Examples",
       "category": "auth",
       "path": "examples/authentication/login.html",
@@ -853,6 +859,7 @@ window.MUE_CATALOG = {
     {
       "id": "ex-signup",
       "name": "Signup",
+        "summary": "Registration screen: name, email and password fields with Google/GitHub provider buttons.",
       "group": "Examples",
       "category": "auth",
       "path": "examples/authentication/signup.html",
@@ -991,6 +998,7 @@ window.MUE_CATALOG = {
     {
       "id": "tpl-saas",
       "name": "SaaS starter",
+        "summary": "Product dashboard shell: sidebar nav, KPI cards, activity feed, customer table, quick actions and a plan-mix chart.",
       "group": "Templates",
       "category": "saas",
       "path": "templates/saas/saas-starter.html",
@@ -1010,6 +1018,7 @@ window.MUE_CATALOG = {
     {
       "id": "tpl-admin",
       "name": "Admin starter",
+        "summary": "Back-office start: order table with status badges, system-health panel, global search and role nav.",
       "group": "Templates",
       "category": "dashboards",
       "path": "templates/dashboards/admin-starter.html",
@@ -1029,6 +1038,7 @@ window.MUE_CATALOG = {
     {
       "id": "tpl-analytics",
       "name": "Analytics starter",
+        "summary": "Reporting screen: date-range header, four KPI cards, an SVG traffic-trend chart and a top-sources list.",
       "group": "Templates",
       "category": "dashboards",
       "path": "templates/dashboards/analytics-starter.html",
@@ -1048,6 +1058,7 @@ window.MUE_CATALOG = {
     {
       "id": "tpl-ecom",
       "name": "Ecommerce starter",
+        "summary": "Storefront start: category nav, product grid with prices and ratings, quick-view cards and shop/support footer.",
       "group": "Templates",
       "category": "ecommerce",
       "path": "templates/ecommerce/ecommerce-starter.html",
@@ -1067,6 +1078,7 @@ window.MUE_CATALOG = {
     {
       "id": "tpl-market",
       "name": "Marketplace starter",
+        "summary": "Marketplace browse: category filters, listing cards with price and condition, contact-seller and list-item actions.",
       "group": "Templates",
       "category": "marketplaces",
       "path": "templates/marketplaces/marketplace-starter.html",
@@ -1086,6 +1098,7 @@ window.MUE_CATALOG = {
     {
       "id": "tpl-ai",
       "name": "AI starter",
+        "summary": "Chat app start: conversation sidebar, message thread, prompt suggestions and a composer with send.",
       "group": "Templates",
       "category": "apps",
       "path": "templates/web-applications/ai-starter.html",

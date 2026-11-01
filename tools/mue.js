@@ -429,6 +429,7 @@ cmd.search = (args, flags, json) => {
         category: item.category.toLowerCase(),
         group: item.group.toLowerCase(),
         variants: (item.variants || []).join(' ').toLowerCase(),
+        summary: (item.summary || '').toLowerCase(),
         prose: Object.values(meta.fields).join(' ').toLowerCase(),
       };
       let score = 0;
@@ -436,7 +437,7 @@ cmd.search = (args, flags, json) => {
       for (const t of terms) {
         const hit = Object.entries(haystack).find((([k, v]) => v.includes(t)));
         if (!hit) continue;
-        const weight = hit[0] === 'name' ? 6 : hit[0] === 'variants' ? 4 : hit[0] === 'category' ? 3 : hit[0] === 'prose' ? 2 : 3;
+        const weight = hit[0] === 'name' ? 6 : hit[0] === 'summary' ? 5 : hit[0] === 'variants' ? 4 : hit[0] === 'category' ? 3 : hit[0] === 'prose' ? 2 : 3;
         score += weight;
         if (!why.includes(hit[0])) why.push(hit[0]);
       }
@@ -450,11 +451,12 @@ cmd.search = (args, flags, json) => {
   if (!scored.length) {
     return fail(`no preview matches "${q}". Try: mue regions, or mue list --group Components`);
   }
-  emit(json, scored.map(r => ({ ...pick(r.item, 'id', 'name', 'group', 'path'), score: r.score, matchedOn: r.why, regions: sheetRegions(r.meta), theme: r.meta.fields.THEME || r.item.theming })), (rows) =>
+  emit(json, scored.map(r => ({ ...pick(r.item, 'id', 'name', 'group', 'path', 'summary'), score: r.score, matchedOn: r.why, regions: sheetRegions(r.meta), theme: r.meta.fields.THEME || r.item.theming })), (rows) =>
     rows
       .map(
         (r) =>
           `${pad(r.id, 22)} ${pad(r.name, 22)} ${r.path}\n` +
+          (r.summary ? `  ${r.summary}\n` : '') +
           `  regions: ${r.regions.length ? r.regions.join(', ') : 'none yet — page is self-contained'}\n` +
           `  matched: ${r.matchedOn.join(', ')}`
       )
@@ -475,6 +477,7 @@ cmd.show = (args, flags, json) => {
     name: item.name,
     group: item.group,
     category: item.category,
+    summary: item.summary || null,
     path: item.path,
     preview: 'file:///' + rel(path.join(ROOT, item.path)).replace(/\\/g, '/'),
     meta: meta.fields,
@@ -489,6 +492,7 @@ cmd.show = (args, flags, json) => {
     const lines = [
       `${item.name}  (${item.id})`,
       `${item.group} · ${item.category} · ${item.path}`,
+      ...(item.summary ? [String(item.summary)] : []),
       '',
       'HEADER',
       ...Object.entries(meta.fields).map(([k, v]) => `  ${pad(k + ':', 14)} ${v}`),

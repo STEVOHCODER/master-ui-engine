@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Visitor analytics — MASTER-UI-ENGINE</title>
+<meta name="description" content="Owner dashboard for the MASTER-UI-ENGINE product site: views, visitors, countries, referrers, events and waitlist signups, read live from /api/stats.">
+<!-- Owner page. Kept out of the index, and deliberately does NOT load
+     /assets/analytics.js, so reading this dashboard never inflates its numbers. -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0c0f'/%3E%3Crect x='7' y='7' width='8' height='8' fill='%23c9f24a'/%3E%3Crect x='17' y='7' width='8' height='8' fill='%23f5f4f0'/%3E%3Crect x='7' y='17' width='8' height='8' fill='%23f5f4f0'/%3E%3Crect x='17' y='17' width='8' height='8' fill='%23c9f24a'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/engine/design-tokens/engine.css">
+<link rel="stylesheet" href="/assets/web.css">
+<style>
+  /* Page-local glue only: how a ranked row and a chart bar are laid out. Every
+     colour, radius and font comes off the site's own custom properties. */
+  .metric b[data-live] { overflow-wrap: anywhere; }
+  .metric .metric-note { display: block; margin-top: .35rem; font-size: .72rem; letter-spacing: .04em; text-transform: none; color: var(--muted); }
+  .pill {
+    display: inline-flex; align-items: center; gap: .45rem;
+    font-family: var(--font-mono); font-size: .72rem; letter-spacing: .06em;
+    border: 1px solid var(--line-strong); border-radius: 999px; padding: .3rem .7rem;
+    color: var(--muted); overflow-wrap: anywhere;
+  }
+  .pill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--line-strong); flex: none; }
+  .pill[data-state="live"] { color: var(--accent-text); border-color: color-mix(in srgb, var(--accent-text) 45%, var(--line)); }
+  .pill[data-state="live"]::before { background: var(--accent); }
+  .pill[data-state="warn"]::before { background: #e5a13c; }
+  .pill[data-state="error"] { color: var(--ink); border-color: var(--line-strong); }
+  .pill[data-state="error"]::before { background: #d1503c; }
+  .btn-ghost[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .dash-sub { font-size: 1.05rem; margin-bottom: .2rem; }
+  .rank { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+  .rank li { display: grid; grid-template-columns: minmax(0, 1fr) 3.5rem auto; gap: .7rem; align-items: baseline; }
+  .rank-label { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); }
+  .rank-track { height: 2px; background: var(--line); }
+  .rank-track i { display: block; height: 100%; width: var(--w, 0%); background: var(--accent); }
+  .rank-num { font-family: var(--font-mono); font-size: .8rem; color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; }
+  .rank li.is-empty .rank-label { color: var(--muted); }
+  .chart-box { border: 1px solid var(--line); border-radius: var(--rad); background: var(--panel); padding: clamp(.9rem, 2.4vw, 1.3rem); }
+  .chart-box svg { display: block; width: 100%; height: auto; }
+  .chart-box .c-grid { stroke: var(--line); stroke-width: 1; }
+  .chart-box .c-bar { fill: var(--accent); }
+  .chart-box .c-axis { fill: var(--muted); font-family: var(--font-mono); font-size: 9px; }
+  .chart-box .c-empty { color: var(--muted); font-size: .9rem; margin: 0; }
+</style>
+</head>
+<body class="page">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <a class="nav-brand" href="/">MASTER-UI-<span>ENGINE</span></a>
+  <nav class="nav-links" id="navLinks" aria-label="Main">
+    <a class="nav-link" href="/library">Library</a>
+    <a class="nav-link" href="/templates">Templates</a>
+    <a class="nav-link" href="/#how">How it works</a>
+    <a class="nav-link" href="/agents">Agent guide</a>
+    <a class="nav-link" href="/#docs" data-event="documentation_click">Docs</a>
+    <a class="btn-primary" href="https://github.com/STEVOHCODER/master-ui-engine" data-event="github_click">View on GitHub</a>
+  </nav>
+  <span class="nav-spacer"></span>
+  <button class="theme-toggle" data-theme-toggle aria-pressed="false">Dark mode</button>
+  <button class="menu-toggle" data-menu-toggle="#navLinks" aria-expanded="false" aria-controls="navLinks" aria-label="Menu"><i></i><i></i><i></i></button>
+</header>
+
+<main id="main">
+  <section class="section flush">
+    <div class="shell">
+      <p class="eyebrow">Owner dashboard · not indexed</p>
+      <h1 class="sec-title">Who is finding the site.</h1>
+      <p class="sec-lede">Every number here is read from your own Supabase tables through <span class="mono">/api/stats</span>. Nothing is estimated, sampled or filled in: when a read fails, the card says <strong>unavailable</strong> instead of showing you a zero.</p>
+
+      <div class="cta-row" style="margin-top:1.5rem">
+        <span class="pill" id="mue-status" role="status" aria-live="polite" data-state="warn">Loading…</span>
+        <span class="pill" id="mue-window" hidden></span>
+      </div>
+      <div class="cta-row" role="group" aria-label="Time window" style="margin-top:1rem">
+        <button class="btn-ghost" type="button" data-days="7" aria-pressed="false">7 days</button>
+        <button class="btn-ghost" type="button" data-days="14" aria-pressed="true">14 days</button>
+        <button class="btn-ghost" type="button" data-days="30" aria-pressed="false">30 days</button>
+      </div>
+
+      <div class="metrics" style="margin-top:2.2rem">
+        <div class="metric"><b data-live="views">—</b><span>Views in window</span><span class="metric-note" data-live="views-all">all time: —</span></div>
+        <div class="metric"><b data-live="visitors">—</b><span>Visitors in window</span><span class="metric-note" data-live="visitors-returning">anonymous device ids</span></div>
+        <div class="metric"><b data-live="countries">—</b><span>Countries</span><span class="metric-note" data-live="countries-note">from the Vercel edge header</span></div>
+        <div class="metric"><b data-live="subscribers">—</b><span>Waitlist in window</span><span class="metric-note" data-live="subscribers-all">on the list: —</span></div>
+      </div>
+      <p class="note" id="cap-warning" hidden>This window passed the 5,000-row read cap, so the series and ranked lists below cover only the most recent 5,000 recorded hits — the headline counts stay exact.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="sec-title">Views per day</h2>
+      <p class="sec-lede">Zero-filled: a day with no traffic is drawn as an empty slot, so the shape of the series cannot flatter itself.</p>
+      <div class="chart-box" id="mue-chart" role="img" aria-label="Bar chart of page views for each day in the selected window" style="margin-top:1.6rem">
+        <p class="c-empty" id="mue-chart-empty">Loading the window…</p>
+      </div>
+      <p class="sr-only" id="mue-chart-summary"></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="sec-title">What got attention.</h2>
+      <p class="sec-lede">Ranked within the selected window, ten rows deep, each bar sized against the leader.</p>
+      <div class="grid-2" style="margin-top:1.8rem">
+        <div>
+          <h3 class="dash-sub">Top pages</h3>
+          <ol class="rank" id="mue-paths"><li class="is-empty"><span class="rank-label">Loading…</span><span class="rank-track" aria-hidden="true"><i></i></span><span class="rank-num">—</span></li></ol>
+        </div>
+        <div>
+          <h3 class="dash-sub">Countries</h3>
+          <ol class="rank" id="mue-countries"><li class="is-empty"><span class="rank-label">Loading…</span><span class="rank-track" aria-hidden="true"><i></i></span><span class="rank-num">—</span></li></ol>
+        </div>
+        <div>
+          <h3 class="dash-sub">Referrers</h3>
+          <ol class="rank" id="mue-referrers"><li class="is-empty"><span class="rank-label">Loading…</span><span class="rank-track" aria-hidden="true"><i></i></span><span class="rank-num">—</span></li></ol>
+        </div>
+        <div>
+          <h3 class="dash-sub">Events</h3>
+          <ol class="rank" id="mue-events"><li class="is-empty"><span class="rank-label">Loading…</span><span class="rank-track" aria-hidden="true"><i></i></span><span class="rank-num">—</span></li></ol>
+        </div>
+      </div>
+      <div style="margin-top:2.4rem">
+        <h3 class="dash-sub">Most-touched items</h3>
+        <p class="note" style="margin-top:0">Which component or template was opened, copied or clicked most often. The label carries the event kind, so a code copy and a preview open never blend into one row.</p>
+        <ol class="rank" id="mue-targets" style="margin-top:1.1rem"><li class="is-empty"><span class="rank-label">Loading…</span><span class="rank-track" aria-hidden="true"><i></i></span><span class="rank-num">—</span></li></ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="shell">
+      <h2 class="sec-title" style="font-size:clamp(1.3rem,2.6vw,1.7rem)">How to read this honestly</h2>
+      <ul class="mark-list pos" style="margin-top:1.4rem">
+        <li>Counted per hit: the page path, a two-letter country from Vercel&rsquo;s request header, the referrer hostname, and a random id this browser keeps in <span class="mono">localStorage</span>.</li>
+        <li>Never stored: IP address, user agent, full referrer URL, query strings, form contents or the code a visitor copies. Library searches are counted, but the words typed are dropped by <span class="mono">/api/track</span> before anything is written.</li>
+        <li>&ldquo;Visitors&rdquo; counts distinct device ids seen in the window, so one person on two devices reads as two. It is a floor on reach, not a headcount.</li>
+        <li>Details, including how to get your own rows deleted, are in <a href="/privacy">the privacy notice</a>.</li>
+      </ul>
+      <p class="note">This page is not protected by itself: anyone holding the URL can read it, and <span class="mono">/api/stats</span> serves the same numbers as JSON. Turn on Vercel&rsquo;s Deployment Protection and leave <span class="mono">/api/track</span> and <span class="mono">/api/subscribe</span> excluded — the steps are in <span class="mono">DEPLOYMENT.md</span>.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="shell">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="nav-brand" href="/">MASTER-UI-<span>ENGINE</span></a>
+        <p class="note" style="max-width:32ch">A reusable interface engine for AI coding agents.</p>
+      </div>
+      <div class="foot-col"><h3>Explore</h3><ul>
+        <li><a href="/library">Component library</a></li>
+        <li><a href="/templates">Templates</a></li>
+        <li><a href="/#showcase">Live previews</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>Repository</h3><ul>
+        <li><a href="https://github.com/STEVOHCODER/master-ui-engine">Source on GitHub</a></li>
+        <li><a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/README.md">README</a></li>
+        <li><a href="/agents">Agent integration guide</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>Site</h3><ul>
+        <li><a href="/privacy">Privacy</a></li>
+        <li><a href="/analytics" aria-current="page">Analytics</a></li>
+        <li><a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/LICENSE">MIT license</a></li>
+      </ul></div>
+    </div>
+    <div class="foot-note"><span>© 2026 MASTER-UI-ENGINE · MIT</span><span>Owner page · not indexed, not measured</span><span>Numbers come from <span class="mono">GET /api/stats</span></span></div>
+  </div>
+</footer>
+
+<script defer src="/engine/styles/mue.js"></script>
+<script>
+(function () {
+  "use strict";
+  var REASONS = {
+    not_configured: "Not connected: SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are missing in the Vercel project.",
+    database_unavailable: "Unreachable: the read failed. Supabase may be down, or supabase/schema.sql has not been run."
+  };
+  var EVENT_LABELS = {
+    page_view: "Page views",
+    library_search: "Library searches",
+    component_preview_open: "Component previews",
+    template_preview_open: "Template previews",
+    copy_code: "Code copies",
+    github_click: "GitHub clicks",
+    documentation_click: "Documentation clicks",
+    install_instruction_open: "Install instructions",
+    theme_switch: "Theme switches",
+    newsletter_signup: "Waitlist clicks"
+  };
+  var LIVE_KEYS = ["views", "visitors", "countries", "subscribers", "views-all", "visitors-returning",
+    "countries-note", "subscribers-all"];
+  var LIST_IDS = ["mue-paths", "mue-countries", "mue-referrers", "mue-events", "mue-targets"];
+  var endpoint = "/api/stats";
+  var current = 14;
+  var dash = document.getElementById("mue-chart");
+  var dayButtons = document.querySelectorAll("[data-days]");
+
+  function text(id, value) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = value;
+  }
+
+  function byKey(key, value) {
+    var nodes = document.querySelectorAll('[data-live="' + key + '"]');
+    for (var i = 0; i < nodes.length; i += 1) nodes[i].textContent = value;
+  }
+
+  function liveUnavailable() {
+    for (var i = 0; i < LIVE_KEYS.length; i += 1) {
+      byKey(LIVE_KEYS[i], i < 4 ? "unavailable" : "—");
+    }
+  }
+
+  function number(value) {
+    return typeof value === "number" && isFinite(value) ? value.toLocaleString("en-US") : "unavailable";
+  }
+
+  function status(state, message) {
+    var el = document.getElementById("mue-status");
+    el.setAttribute("data-state", state);
+    el.textContent = message;
+  }
+
+  function windowChip(textValue) {
+    var el = document.getElementById("mue-window");
+    if (!textValue) { el.hidden = true; el.textContent = ""; return; }
+    el.hidden = false;
+    el.textContent = textValue;
+  }
+
+  /* One ranked row: label, bar sized against the leader, count. */
+  function fillList(id, rows, labelOf, countOf) {
+    var host = document.getElementById(id);
+    if (!host) return;
+    host.innerHTML = "";
+    if (!rows.length) {
+      var empty = document.createElement("li");
+      empty.className = "is-empty";
+      empty.innerHTML = '<span class="rank-label">Nothing recorded in this window yet.</span>' +
+        '<span class="rank-track" aria-hidden="true"><i></i></span><span class="rank-num">0</span>';
+      host.appendChild(empty);
+      return;
+    }
+    var top = countOf(rows[0]);
+    for (var i = 0; i < rows.length; i += 1) {
+      var count = countOf(rows[i]);
+      var li = document.createElement("li");
+      var label = document.createElement("span");
+      label.className = "rank-label mono";
+      label.title = labelOf(rows[i]);
+      label.textContent = labelOf(rows[i]);
+      var track = document.createElement("span");
+      track.className = "rank-track";
+      track.setAttribute("aria-hidden", "true");
+      var fill = document.createElement("i");
+      fill.style.setProperty("--w", (top > 0 ? Math.max(3, Math.round((count / top) * 100)) : 0) + "%");
+      track.appendChild(fill);
+      var value = document.createElement("span");
+      value.className = "rank-num";
+      value.textContent = number(count);
+      li.appendChild(label); li.appendChild(track); li.appendChild(value);
+      host.appendChild(li);
+    }
+  }
+
+  function fillEmptyLists() {
+    for (var i = 0; i < LIST_IDS.length; i += 1) {
+      fillList(LIST_IDS[i], [], function () { return ""; }, function () { return 0; });
+    }
+  }
+
+  function entry(label, count) { return { label: label, count: count }; }
+
+  function showChartMessage(message) {
+    dash.innerHTML = "";
+    var note = document.createElement("p");
+    note.className = "c-empty";
+    note.textContent = message;
+    dash.appendChild(note);
+    dash.setAttribute("aria-label", "Bar chart of page views per day: " + message);
+    text("mue-chart-summary", message);
+  }
+
+  function drawChart(series, days) {
+    if (!series || !series.length) {
+      showChartMessage("No views recorded in this window yet.");
+      return;
+    }
+    dash.innerHTML = "";
+    var width = 600, height = 170, pad = 18, ceiling = 12, baseline = height - 22;
+    var max = 0, total = 0, i;
+    for (i = 0; i < series.length; i += 1) { max = Math.max(max, series[i].views); total += series[i].views; }
+    var slot = (width - pad * 2) / series.length;
+    var barW = Math.max(3, Math.min(30, slot - 4));
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + width + " " + height +
+      '" role="presentation" focusable="false">';
+    svg += '<line class="c-grid" x1="' + pad + '" y1="' + baseline + '" x2="' + (width - pad) + '" y2="' + baseline + '"></line>';
+    for (i = 0; i < series.length; i += 1) {
+      var views = series[i].views;
+      var h = Math.round(views > 0 ? Math.max(2, (max > 0 ? views / max : 0) * (baseline - ceiling - 8)) : 0);
+      var x = pad + i * slot + (slot - barW) / 2;
+      svg += '<rect class="c-bar" x="' + x.toFixed(1) + '" y="' + (baseline - h) + '" width="' + barW.toFixed(1) +
+        '" height="' + h + '" rx="1"><title>' + series[i].day + ": " + views + " views, " + series[i].visitors + " visitors</title></rect>";
+      if (i === 0 || i === series.length - 1 || (series.length <= 16 && i % 2 === 0)) {
+        svg += '<text class="c-axis" x="' + (x + barW / 2).toFixed(1) + '" y="' + (height - 6) + '" text-anchor="middle">' +
+          series[i].day.slice(5).replace("-", "/") + "</text>";
+      }
+    }
+    svg += '<text class="c-axis" x="' + pad + '" y="10">' + number(max) + " view" + (max === 1 ? "" : "s") + " at peak</text>";
+    /* Built through a detached element so markup from the API can never be
+       parsed as HTML: every value above is a number or an ISO date. */
+    var holder = document.createElement("div");
+    holder.innerHTML = svg;
+    if (holder.firstChild) dash.appendChild(holder.firstChild);
+    dash.setAttribute("aria-label", "Bar chart of page views for each of the last " + days +
+      " days. Peak " + max + " views, window total " + total + " views.");
+    var summary = [];
+    for (i = 0; i < series.length; i += 1) {
+      summary.push(series[i].day + ": " + series[i].views + " views, " + series[i].visitors + " visitors");
+    }
+    text("mue-chart-summary", summary.join(". ") + ".");
+  }
+
+  function renderUnavailable(reason) {
+    liveUnavailable();
+    status("error", REASONS[reason] || "Unavailable: the stats endpoint returned no data.");
+    windowChip("");
+    showChartMessage("Chart unavailable — the numbers could not be read.");
+    document.getElementById("cap-warning").hidden = true;
+    fillEmptyLists();
+  }
+
+  function render(data) {
+    var t = data.totals || {};
+    var all = data.all_time || {};
+    var win = data.window || {};
+    var cover = data.coverage || {};
+    byKey("views", number(t.views));
+    byKey("visitors", number(t.visitors));
+    byKey("countries", number(t.countries));
+    byKey("subscribers", number(t.subscribers));
+    byKey("views-all", "all time: " + number(all.views));
+    byKey("visitors-returning", number(t.returning_visitors) + " returning · " + number(t.new_visitors) + " new");
+    byKey("countries-note", number(all.countries) + " all time" + (cover.countries_exact ? " · window exact" : " · window from the scan"));
+    byKey("subscribers-all", "on the list: " + number(all.subscribers));
+    windowChip((win.start_day || "") + " → " + (win.end_day || ""));
+    status("live", "Live from your Supabase project");
+    var truncated = !!cover.truncated;
+    document.getElementById("cap-warning").hidden = !truncated;
+    if (truncated) {
+      status("warn", "Live, but this window was capped at " + number(cover.scan_limit) + " rows per table");
+    }
+
+    drawChart(data.series || [], win.days || current);
+
+    fillList("mue-paths", (data.top_paths || []).map(function (r) { return entry(r.path, r.views); }),
+      function (r) { return r.label; }, function (r) { return r.count; });
+    fillList("mue-countries", (data.top_countries || []).map(function (r) { return entry(r.country, r.views); }),
+      function (r) { return r.label; }, function (r) { return r.count; });
+    fillList("mue-referrers", (data.top_referrers || []).map(function (r) { return entry(r.host, r.views); }),
+      function (r) { return r.label; }, function (r) { return r.count; });
+
+    var byName = data.events || {};
+    var events = [];
+    for (var name in EVENT_LABELS) {
+      if (Object.prototype.hasOwnProperty.call(EVENT_LABELS, name) && byName[name]) {
+        events.push(entry(EVENT_LABELS[name], byName[name]));
+      }
+    }
+    events.sort(function (a, b) { return b.count - a.count; });
+    fillList("mue-events", events, function (r) { return r.label; }, function (r) { return r.count; });
+
+    fillList("mue-targets", (data.top_targets || []).map(function (r) {
+      var kind = (EVENT_LABELS[r.name] || r.name);
+      return entry(kind.replace(/s$/, "") + " · " + r.target, r.count);
+    }), function (r) { return r.label; }, function (r) { return r.count; });
+  }
+
+  function load(days) {
+    current = days;
+    for (var i = 0; i < dayButtons.length; i += 1) {
+      dayButtons[i].setAttribute("aria-pressed", String(Number(dayButtons[i].getAttribute("data-days")) === days));
+    }
+    status("warn", "Loading…");
+    try {
+      fetch(endpoint + "?days=" + days, { credentials: "same-origin", cache: "no-store" })
+        .then(function (response) { return response.json(); })
+        .then(function (data) { if (data && data.ok) { render(data); } else { renderUnavailable(data && data.reason); } })
+        .catch(function () { renderUnavailable("database_unavailable"); });
+    } catch (error) {
+      renderUnavailable("database_unavailable");
+    }
+  }
+
+  for (var b = 0; b < dayButtons.length; b += 1) {
+    dayButtons[b].addEventListener("click", function (event) {
+      load(Number(event.currentTarget.getAttribute("data-days")));
+    });
+  }
+  load(current);
+}());
+</script>
+</body>
+</html>
