@@ -201,11 +201,11 @@ revoke all on function public.mue_count_distinct_country(text, text)           f
 -- service_role bypasses RLS, but it is not the table owner, so it still needs
 -- explicit privileges. These are the only grants that matter for the site.
 grant usage on schema public to service_role;
-grant select, insert, update on public.web_page_views  to service_role;
-grant select, insert, update on public.web_events      to service_role;
-grant select, insert, update on public.web_visitors    to service_role;
-grant select, insert         on public.web_subscribers to service_role;
-grant select, insert, update on public.web_rate_hits   to service_role;
+grant select, insert, update, delete on public.web_page_views  to service_role;
+grant select, insert, update, delete on public.web_events      to service_role;
+grant select, insert, update, delete on public.web_visitors    to service_role;
+grant select, insert, delete         on public.web_subscribers to service_role;
+grant select, insert, update         on public.web_rate_hits   to service_role;
 grant execute on function public.mue_track_visitor(text, text, text)     to service_role;
 grant execute on function public.mue_bump_rate_hit(text, text, integer)  to service_role;
 grant execute on function public.mue_count_distinct_country(text, text)  to service_role;

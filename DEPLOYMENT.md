@@ -9,9 +9,11 @@ plus one Supabase project. No build step, no framework runtime.
 ```
 site/
   index.html  library.html  templates.html  preview.html  agents.html
-  analytics.html  privacy.html          (this file's author owns analytics + privacy)
-  assets/     web.css  web.js  library.css  library.js  analytics.js  img/
-  api/        track.js  stats.js  subscribe.js  _lib.js
+  admin.html  admin-login.html  privacy.html
+  assets/     web.css  web.js  library.css  library.js  admin.css  admin.js  analytics.js  img/
+  api/        track.js  stats.js  subscribe.js  _lib.js  _admin.js  admin/login.js  admin/session.js  admin/data.js
+  middleware.js                     <- edge route guard for /admin and /api/stats
+  tools/      admin-credentials.mjs <- creates the owner password hash locally (not deployed)
   engine/     <- copied from styles/, design-tokens/, components/, examples/,
                 templates/, showcase/ by site/build.mjs (generated, not committed)
   vercel.json cleanUrls + the extensionless rewrites + security headers
@@ -71,16 +73,22 @@ directly — only the three functions do, with the service role key.
    files *are* `site/`. Vercel installs `site/package.json` for you, which is how
    `@supabase/supabase-js` reaches the functions. `site/vercel.json` is read
    because it sits at the root directory: it keeps `cleanUrls` on, maps
-   `/analytics` and `/privacy` to their `.html` files, and adds the
-   `X-Robots-Tag: noindex` header to the dashboard.
-4. **Environment Variables**, three names on *Production*, *Preview* and
-   *Development*:
+   `/admin`, `/admin/login` and `/privacy` to their `.html` files, and adds the
+   `X-Robots-Tag: noindex` header to the console.
+4. **Environment Variables**. Three of these connect the analytics, three more
+   open the owner console. The Supabase pair and `SITE_URL` go on *Production*,
+   *Preview* and *Development*; the `ADMIN_*` trio only needs *Production*,
+   because a preview deployment that cannot sign in shows a clear
+   `admin_not_configured` rather than a fake dashboard.
 
    | Name | Value | Notes |
    | --- | --- | --- |
    | `SUPABASE_URL` | `https://<ref>.supabase.co` | Project URL from step 1.5 |
    | `SUPABASE_SERVICE_ROLE_KEY` | the `service_role` secret | **Sensitive** — tick the encrypt flag |
    | `SITE_URL` | `https://your-domain` | used for canonical/og URLs; not read by the functions |
+   | `ADMIN_USERNAME` | the owner login name | matched exactly, case-sensitive |
+   | `ADMIN_PASSWORD_HASH` | `scrypt$N$r$p$salt$digest` | output of `site/tools/admin-credentials.mjs`; never a password |
+   | `ADMIN_SESSION_SECRET` | 32+ random characters | signs the session cookie; rotating it signs everyone out |
 
    The functions are deliberately dumb about configuration: with either
    Supabase variable missing they answer `200 {"ok":false,"available":false,
@@ -92,11 +100,12 @@ directly — only the three functions do, with the service role key.
 
 ### 3. Smoke test the pipe (2 minutes, before you tell anyone)
 
-Locally first, with no deploy: put the two Supabase values in `site/.env.local`
-(git-ignored) and run `npm start` inside `site/` — `serve.mjs` imports the same
-three handler files, so `http://127.0.0.1:8820/analytics` renders the real
-dashboard. `Origin` must match the host, which it does from that page. Then the
-same checks against the deployed app:
+Locally first, with no deploy: put the two Supabase values (plus the three
+`ADMIN_*` values from `site/.env.admin`) in `site/.env.local`, git-ignored, and
+run `npm start` inside `site/` — `serve.mjs` imports the same handler files, so
+`http://127.0.0.1:8820/admin` renders the real console after you sign in at
+`/admin/login`. `Origin` must match the host, which it does from that page. Then
+the same checks against the deployed app:
 
 ```bash
 # 1. a visit, straight to the collector
@@ -111,44 +120,83 @@ curl -X POST https://YOUR-APP.vercel.app/api/track \
   -H 'Origin: https://YOUR-APP.vercel.app' -H 'Content-Type: application/json' \
   -d '{"v":"abcdefghijklmnop","p":"/library.html","events":[{"name":"copy_code","id":"card-pricing","target":"snippet"}]}'
 
-# 3. the numbers
+# 3. the numbers are not public
 curl https://YOUR-APP.vercel.app/api/stats?days=7
-# totals.views / visitors / countries, series[], top_paths[], top_countries[],
-# top_referrers[], top_targets[], events{}, all_time{}, coverage.truncated
+# -> {"ok":false,"available":false,"error":"authentication_required"}  (HTTP 401)
+
+# 4. sign in, then read them
+curl -c /tmp/mue-jar -X POST https://YOUR-APP.vercel.app/api/admin/login \
+  -H 'Origin: https://YOUR-APP.vercel.app' -H 'Content-Type: application/json' \
+  -d '{"username":"YOU","password":"FROM-ADMIN-PASSWORD-HASH"}'
+curl -b /tmp/mue-jar 'https://YOUR-APP.vercel.app/api/stats?days=7'
+# totals.views / visitors / countries / events / subscribers, comparison{deltas},
+# series[], top_paths[], top_countries[], top_referrers[], top_targets[],
+# events{}, all_time{}, coverage.truncated
+rm -f /tmp/mue-jar
 ```
 
 Then open the site in a normal browser, copy a snippet, switch the theme, and
-reload `/analytics` — the `copy_code` and `theme_switch` counters must move.
+reload `/admin` — the `copy_code` and `theme_switch` counters must move.
 Nothing on this site is a sample or an estimate, so if a number does not move the
 instrument is broken, not the marketing.
 
-### 4. Gate the dashboard
+### 4. The owner console
 
-`/analytics` (and `/analytics.html`, which is the same file) is **public to
-anyone who has the URL**, and so is `/api/stats` — the JSON the dashboard renders
-is the same data with or without the page. The site has no accounts, so the gate
-belongs at the hosting layer:
+`/admin` is the dashboard, and it is not public. Four pieces hold it shut:
 
-1. Vercel → your project → **Settings → Deployment Protection**.
-2. Enable **Vercel Authentication** (invited collaborators / your own Vercel
-   account; available on every plan). If you are on Pro or Enterprise,
-   **Password Protection** is the simpler choice for a single owner.
-3. Set **Protection Mode** to **Every Deployment** — the default only guards
-   preview URLs, which leaves production wide open.
-4. Add the two write endpoints to **Excluded Paths** so real visitors are not
-   challenged on a beacon: `/api/track` and `/api/subscribe`. Leave
-   `/api/stats` and `/analytics` protected (the exclusion list is not needed for
-   them, and `robots.txt` plus the `noindex` header already keep the dashboard
-   out of search). A protected deployment is read through your browser session,
-   so the dashboard keeps working for you. The local `serve.mjs` has no such gate
-   — never point it at a production Supabase project from a shared machine.
-5. Decide deliberately about `/api/subscribe`: it is same-origin-guarded and
-   rate-limited, but it is still an open write endpoint. It accepts one
-   normalized address per submission, ignores duplicates, and stores nothing else.
+1. **Credentials, as Vercel secrets.** `ADMIN_USERNAME`, `ADMIN_PASSWORD_HASH`
+   and `ADMIN_SESSION_SECRET` are read by the functions; none of them is a
+   password. Create all three locally without typing the password into a command
+   argument:
 
-Vercel's plan gating and the exact labels in these panels change; if a toggle is
-not where it is described above, look for the same three concepts — an auth
-method, a scope covering production, and a path exclusion list.
+   ```bash
+   cd site
+   node tools/admin-credentials.mjs --username you --generate   # prints .env.admin
+   set -o pipefail && grep '^ADMIN_PASSWORD_HASH=' .env.admin | cut -d= -f2- \
+     | vercel env add ADMIN_PASSWORD_HASH production
+   set -o pipefail && grep '^ADMIN_SESSION_SECRET=' .env.admin | cut -d= -f2- \
+     | vercel env add ADMIN_SESSION_SECRET production
+   echo -n 'you' | vercel env add ADMIN_USERNAME production
+   shred -u .env.admin        # or rm .env.admin — the hash lives in Vercel now
+   ```
+
+   `ADMIN_PASSWORD_HASH` is `scrypt$N$r$p$salt$digest`; the raw password is never
+   stored, logged or compared with `===`. Rotate by re-running the tool and
+   re-adding the two secret values.
+
+2. **A signed session cookie.** Login sets `mue_admin_session` —
+   base64 payload + HMAC-SHA256 over `ADMIN_SESSION_SECRET`, `HttpOnly`,
+   `SameSite=Lax`, `Secure`, eight hours. `api/_admin.js` verifies it in the
+   functions and `middleware.js` verifies the same signature with Web Crypto at
+   the edge, because `node:crypto` does not exist there.
+
+3. **Middleware in front of the routes.** `site/middleware.js` matches `/admin`,
+   `/admin/login`, `/api/stats` and `/api/admin/:path*`. Without a valid cookie,
+   an HTML request is redirected to `/admin/login` and an API request gets a
+   `401 { ok: false, error: "authentication_required" }`. `/analytics` now
+   redirects to `/admin`. Each function re-checks the session anyway, so a
+   routing change cannot silently expose the data.
+
+4. **Rate limiting that the owner cannot lock out.** `api/admin/login.js` reads
+   today's counter from `web_rate_hits` first, then verifies the password and
+   increments only on a miss — so ten bad guesses close the door until the next
+   UTC day, but your own successful sign-ins cost nothing. A failed counter read
+   returns `503` rather than allowing unmeasured guesses.
+
+`/api/track` and `/api/subscribe` stay public: they are the collector and the
+waitlist form, they are origin-guarded and bot-filtered, and Vercel Deployment
+Protection would challenge real visitors on a `sendBeacon`. If you also want the
+hosting-layer gate, protect `/admin` only and keep both write endpoints excluded.
+
+Records are reachable from the console itself: `api/admin/data.js` lists page
+views, events and waitlist rows newest-first and erases one visitor (views,
+events and membership rows) or one address on request. The Supabase role used by
+the functions needs `delete` on those tables, which `supabase/schema.sql` grants.
+
+If Vercel refuses to build `middleware.js` for your framework preset, the site
+still fails closed: the functions answer `401` on their own, so the dashboard
+renders its "session expired" state instead of data. Delete the file and route
+protection then lives entirely in `api/_admin.js`.
 
 ### 5. Canonical URLs and the last mile
 
@@ -159,7 +207,8 @@ method, a scope covering production, and a path exclusion list.
   comment marking it for replacement. `SITE_URL` is documentation only: the
   functions derive the allowed origin from `x-forwarded-host`, so a wrong
   `SITE_URL` cannot lock out your own visitors.
-- `analytics.html` ships `noindex, nofollow` and does **not** load
+- `admin.html` and `admin-login.html` ship `noindex, nofollow`, carry a
+  `X-Robots-Tag` header, are disallowed in `robots.txt`, and do **not** load
   `/assets/analytics.js`, so the owner's own visits never inflate the numbers.
 - Library search text: `library.js` reports a search as
   `mueTrack("library_search", { id: <typed text> })`. `STORE_SEARCH_TERMS` in

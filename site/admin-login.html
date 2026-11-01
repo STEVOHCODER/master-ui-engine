@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Owner sign-in — MASTER-UI-ENGINE</title>
+<meta name="description" content="Sign-in for the MASTER-UI-ENGINE owner console.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0c0f'/%3E%3Crect x='7' y='7' width='8' height='8' fill='%23c9f24a'/%3E%3Crect x='17' y='7' width='8' height='8' fill='%23f5f4f0'/%3E%3Crect x='7' y='17' width='8' height='8' fill='%23f5f4f0'/%3E%3Crect x='17' y='17' width='8' height='8' fill='%23c9f24a'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/engine/design-tokens/engine.css">
+<link rel="stylesheet" href="/assets/web.css">
+<link rel="stylesheet" href="/assets/admin.css">
+</head>
+<body class="admin-body">
+<main class="gate">
+  <div class="gate-card">
+    <p class="gate-kicker">Owner console</p>
+    <h1 class="gate-brand">MASTER-UI-<span>ENGINE</span></h1>
+    <p class="gate-lede">Sign in to read live visitor analytics, the waitlist and the raw records behind them. Nothing here is public, and this page is not indexed.</p>
+
+    <div class="gate-error" id="gateError" role="alert" aria-live="assertive"></div>
+
+    <form id="loginForm" novalidate>
+      <div class="field" id="fieldUsername">
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" autocomplete="username" spellcheck="false" autocapitalize="none" required maxlength="128">
+      </div>
+      <div class="field" id="fieldPassword">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required maxlength="512">
+      </div>
+      <button class="btn-primary" type="submit" id="submitButton" style="width:100%">Sign in</button>
+    </form>
+
+    <p class="gate-foot">
+      Ten failed attempts per day are allowed, then the door closes until the next UTC day.
+      Sessions last eight hours and are held in an HttpOnly cookie.
+      <a href="/">Back to the site</a>
+    </p>
+  </div>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  var root = document.documentElement;
+  try { if (localStorage.getItem("mui-theme") === "dark") root.classList.add("dark"); } catch (error) { /* storage blocked */ }
+
+  var form = document.getElementById("loginForm");
+  var button = document.getElementById("submitButton");
+  var box = document.getElementById("gateError");
+  var fields = { username: document.getElementById("fieldUsername"), password: document.getElementById("fieldPassword") };
+
+  function show(message, focusTarget) {
+    box.textContent = message;
+    box.setAttribute("data-show", "true");
+    if (focusTarget) fields[focusTarget].classList.add("has-error");
+  }
+
+  function clear() {
+    box.removeAttribute("data-show");
+    box.textContent = "";
+    fields.username.classList.remove("has-error");
+    fields.password.classList.remove("has-error");
+  }
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    clear();
+    var username = document.getElementById("username").value.trim();
+    var password = document.getElementById("password").value;
+    if (!username) { show("Enter your username.", "username"); document.getElementById("username").focus(); return; }
+    if (!password) { show("Enter your password.", "password"); document.getElementById("password").focus(); return; }
+
+    button.disabled = true;
+    button.textContent = "Checking…";
+    fetch("/api/admin/login", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username: username, password: password })
+    })
+      .then(function (response) {
+        return response.json().catch(function () { return {}; }).then(function (data) {
+          return { status: response.status, data: data || {} };
+        });
+      })
+      .then(function (result) {
+        if (result.data && result.data.ok) { window.location.replace("/admin"); return; }
+        button.disabled = false;
+        button.textContent = "Sign in";
+        var code = result.data && result.data.error;
+        if (result.status === 401) { document.getElementById("password").value = ""; show("That username and password do not match.", "password"); document.getElementById("password").focus(); }
+        else if (result.status === 429) show("Too many failed attempts. Sign-in reopens at the start of the next UTC day.");
+        else if (code === "admin_not_configured") show("Owner login is not configured on this deployment yet.");
+        else if (code === "database_unavailable") show("The attempt counter is unreachable, so sign-in is closed for now. Check the analytics database connection.");
+        else show("Sign-in failed. Try again in a moment.");
+      })
+      .catch(function () {
+        button.disabled = false;
+        button.textContent = "Sign in";
+        show("The network did not answer. Try again.");
+      });
+  });
+}());
+</script>
+</body>
+</html>

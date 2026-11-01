@@ -221,6 +221,13 @@ export function startDayOf(endDay, days) {
   const series = daySeries(endDay, days);
   return series.length ? series[0] : endDay;
 }
+
+/* Shift one UTC calendar day by a whole-day amount. */
+export function shiftDay(day, deltaDays) {
+  const base = dayNumber(day);
+  const amount = Math.trunc(Number(deltaDays) || 0);
+  return Number.isFinite(base) ? dayLabel(base + amount * 86400000) : day;
+}
 /* #endregion calendar math */
 
 /* #region request shaping */

@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Owner console — MASTER-UI-ENGINE</title>
+<meta name="description" content="Private owner console for the MASTER-UI-ENGINE site: live visitor analytics, waitlist and record management.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0c0f'/%3E%3Crect x='7' y='7' width='8' height='8' fill='%23c9f24a'/%3E%3Crect x='17' y='17' width='8' height='8' fill='%23f5f4f0'/%3E%3Crect x='7' y='17' width='8' height='8' fill='%23f5f4f0'/%3E%3Crect x='17' y='17' width='8' height='8' fill='%23c9f24a'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/engine/design-tokens/engine.css">
+<link rel="stylesheet" href="/assets/web.css">
+<link rel="stylesheet" href="/assets/admin.css">
+</head>
+<body class="admin-body">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="console-bar">
+  <a class="nav-brand" href="/">MASTER-UI-<span>ENGINE</span></a>
+  <span class="console-tag">Owner console</span>
+  <div class="console-actions">
+    <button class="icon-btn" type="button" id="themeButton" aria-pressed="false">Dark</button>
+    <button class="icon-btn" type="button" id="exportButton">Export CSV</button>
+    <button class="icon-btn" type="button" id="refreshButton">Refresh</button>
+    <button class="text-btn" type="button" id="logoutButton" data-tone="danger">Sign out</button>
+  </div>
+</header>
+
+<main id="main" class="console-main">
+  <div class="console-head">
+    <div>
+      <h1>Who is finding the site.</h1>
+      <p>Every number is read from your own Supabase tables through <span class="mono">/api/stats</span>. Nothing is estimated or backfilled — when a read fails the tile says <strong>unavailable</strong> instead of showing a zero, and the percentage changes compare the same length of time immediately before this window.</p>
+    </div>
+    <div class="seg" role="group" aria-label="Time window">
+      <button type="button" data-days="7" aria-pressed="false">7d</button>
+      <button type="button" data-days="14" aria-pressed="true">14d</button>
+      <button type="button" data-days="30" aria-pressed="false">30d</button>
+      <button type="button" data-days="90" aria-pressed="false">90d</button>
+    </div>
+  </div>
+
+  <div class="chip-row">
+    <span class="pill" id="statusPill" role="status" aria-live="polite" data-state="warn">Checking session…</span>
+    <span class="pill" id="windowPill" hidden></span>
+    <span class="pill" id="updatedPill" hidden></span>
+  </div>
+
+  <p class="note" id="capWarning" hidden>This window passed the 5,000-row read cap, so the chart and ranked lists cover only the most recent 5,000 recorded hits. The headline counts stay exact.</p>
+
+  <section class="tiles" aria-label="Window totals" id="tiles" hidden>
+    <div class="tile">
+      <b data-live="views">—</b><span>Views</span>
+      <span class="delta" data-delta="views">—</span>
+      <span class="tile-note" data-live="views-all">all time: —</span>
+    </div>
+    <div class="tile">
+      <b data-live="visitors">—</b><span>Visitors</span>
+      <span class="delta" data-delta="visitors">—</span>
+      <span class="tile-note" data-live="visitors-split">anonymous device ids</span>
+    </div>
+    <div class="tile">
+      <b data-live="countries">—</b><span>Countries</span>
+      <span class="delta" data-delta="countries">—</span>
+      <span class="tile-note" data-live="countries-note">from the Vercel edge header</span>
+    </div>
+    <div class="tile">
+      <b data-live="events">—</b><span>Events</span>
+      <span class="delta" data-delta="events">—</span>
+      <span class="tile-note">copies, previews, GitHub clicks</span>
+    </div>
+    <div class="tile">
+      <b data-live="subscribers">—</b><span>Waitlist joined</span>
+      <span class="delta" data-delta="subscribers">—</span>
+      <span class="tile-note" data-live="subscribers-all">on the list: —</span>
+    </div>
+  </section>
+
+  <section class="panel" id="chartPanel">
+    <div class="panel-head">
+      <div>
+        <h2>Views per day</h2>
+        <p class="sub">Zero-filled, so a quiet day is drawn as an empty slot instead of flattering the shape.</p>
+      </div>
+      <span class="pill" id="chartNote" hidden>previous window</span>
+    </div>
+    <div class="chart" id="chart" role="img" aria-label="Bar chart of page views for each day in the selected window" style="margin-top:1rem">
+      <p class="note">Loading the window…</p>
+    </div>
+    <div class="legend">
+      <span><i></i>this window</span>
+      <span><i class="alt"></i>previous window of the same length</span>
+    </div>
+    <p class="sr-only" id="chartSummary"></p>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <h2>What got attention</h2>
+        <p class="sub">Ranked inside the selected window, ten rows deep, each bar sized against the leader.</p>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-top:1rem">
+      <div>
+        <h3 class="console-sub">Top pages</h3>
+        <ol class="rank" id="rankPaths"><li class="is-empty"><span class="rank-label">Loading…</span><span class="rank-track" aria-hidden="true"><i></i></span><span class="rank-num">—</span></li></ol>
+      </div>
+      <div>
+        <h3 class="console-sub">Countries</h3>
+        <ol class="rank" id="rankCountries"><li class="is-empty"><span class="rank-label">Loading…</span><span class="rank-track" aria-hidden="true"><i></i></span><span class="rank-num">—</span></li></ol>
+      </div>
+      <div>
+        <h3 class="console-sub">Referrers</h3>
+        <ol class="rank" id="rankReferrers"><li class="is-empty"><span class="rank-label">Loading…</span><span class="rank-track" aria-hidden="true"><i></i></span><span class="rank-num">—</span></li></ol>
+      </div>
+      <div>
+        <h3 class="console-sub">Events</h3>
+        <ol class="rank" id="rankEvents"><li class="is-empty"><span class="rank-label">Loading…</span><span class="rank-track" aria-hidden="true"><i></i></span><span class="rank-num">—</span></li></ol>
+      </div>
+    </div>
+    <div style="margin-top:1.4rem">
+      <h3 class="console-sub">Most-touched items</h3>
+      <p class="note" style="margin-top:.2rem">Which component or template was opened, copied or clicked most often. The label carries the event kind, so a code copy and a preview open never blend into one row.</p>
+      <ol class="rank" id="rankTargets" style="margin-top:.8rem"><li class="is-empty"><span class="rank-label">Loading…</span><span class="rank-track" aria-hidden="true"><i></i></span><span class="rank-num">—</span></li></ol>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <h2>Records</h2>
+        <p class="sub">The rows behind the aggregates. Erasing a visitor removes their page views, events and membership row; erasing an address removes it from the waitlist. Both are immediate and cannot be undone.</p>
+      </div>
+      <div class="pager">
+        <button class="icon-btn" type="button" id="prevPage">&larr; Newer</button>
+        <span id="pageLabel">page 1</span>
+        <button class="icon-btn" type="button" id="nextPage">Older &rarr;</button>
+      </div>
+    </div>
+    <div class="tabs" role="tablist" aria-label="Record type" style="margin-top:1rem">
+      <button role="tab" type="button" aria-selected="true" data-kind="views">Page views</button>
+      <button role="tab" type="button" aria-selected="false" data-kind="events">Events</button>
+      <button role="tab" type="button" aria-selected="false" data-kind="subscribers">Waitlist</button>
+    </div>
+    <div class="table-wrap">
+      <table class="records" id="recordTable">
+        <caption class="sr-only">Most recent records for the selected type</caption>
+        <thead><tr id="recordHead"><th scope="col">When</th><th scope="col">What</th><th scope="col">Action</th></tr></thead>
+        <tbody id="recordBody"><tr><td colspan="3">Loading…</td></tr></tbody>
+      </table>
+    </div>
+    <p class="note" id="eraseNote" style="margin-top:.7rem">Visitor ids are random per device and carry no name, IP address or contact details.</p>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head"><div><h2>How to read this honestly</h2></div></div>
+    <ul class="mark-list pos" style="margin-top:.8rem">
+      <li>Counted per hit: the page path, a two-letter country from Vercel&rsquo;s request header, the referrer hostname, and a random id each browser keeps in <span class="mono">localStorage</span>.</li>
+      <li>Never stored: IP address, user agent, full referrer URL, query strings, form contents or the code a visitor copies. Library searches are counted, but the words typed are dropped by <span class="mono">/api/track</span> before anything is written.</li>
+      <li>&ldquo;Visitors&rdquo; counts distinct device ids, so one person on two devices reads as two. It is a floor on reach, not a headcount.</li>
+      <li>Bot-shaped user agents are rejected at <span class="mono">/api/track</span>, so the traffic here is real browsers rather than crawler noise.</li>
+    </ul>
+    <p class="note">This console is served behind a signed, HttpOnly session cookie and the stats API re-checks it on every read, so the URL alone grants nothing.</p>
+  </section>
+</main>
+
+<footer class="console-foot">
+  <span>© 2026 MASTER-UI-ENGINE · MIT</span>
+  <span>Owner console · not indexed, not measured by the site&rsquo;s own tracker</span>
+  <span>Data from <span class="mono">GET /api/stats</span> and <span class="mono">GET /api/admin/data</span></span>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script defer src="/engine/styles/mue.js"></script>
+<script defer src="/assets/admin.js"></script>
+</body>
+</html>

@@ -9,7 +9,14 @@ import { fileURLToPath } from "node:url";
 
 const SITE = dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.env.PORT || 8820);
-const ROUTES = ["/library", "/templates", "/preview", "/agents", "/analytics", "/privacy"];
+const ROUTES = ["/library", "/templates", "/preview", "/agents", "/admin", "/admin/login", "/privacy"];
+
+/* Mirrors the rewrites in vercel.json, so the clean URLs resolve to the same
+   files locally as they do on Vercel. */
+const REWRITES = {
+  "/admin": "/admin.html",
+  "/admin/login": "/admin-login.html",
+};
 
 loadEnv(join(SITE, ".env.local"));
 
@@ -41,6 +48,12 @@ function loadEnv(file) {
 
 function fileFor(pathname) {
   if (pathname === "/") return join(SITE, "index.html");
+  if (pathname === "/analytics" || pathname === "/analytics.html") return null;
+  const rewritten = REWRITES[pathname];
+  if (rewritten) {
+    const target = join(SITE, rewritten);
+    if (existsSync(target) && statSync(target).isFile()) return target;
+  }
   const safe = normalize(decodeURIComponent(pathname)).replace(/^(\.\.[/\\])+/, "");
   const direct = join(SITE, safe);
   if (existsSync(direct) && statSync(direct).isFile()) return direct;
@@ -58,7 +71,12 @@ const api = {
   "/api/track": () => import("./api/track.js"),
   "/api/stats": () => import("./api/stats.js"),
   "/api/subscribe": () => import("./api/subscribe.js"),
+  "/api/admin/login": () => import("./api/admin/login.js"),
+  "/api/admin/session": () => import("./api/admin/session.js"),
+  "/api/admin/data": () => import("./api/admin/data.js"),
 };
+
+const REDIRECTS = { "/analytics": "/admin", "/analytics.html": "/admin" };
 
 const server = createServer(async (req, res) => {
   const url = new URL(req.url, "http://localhost:" + PORT);
@@ -71,6 +89,13 @@ const server = createServer(async (req, res) => {
     } catch (error) {
       send(res, 500, JSON.stringify({ ok: false, reason: "local_function_error", error: String(error && error.message) }), "application/json");
     }
+    return;
+  }
+
+  const redirected = REDIRECTS[url.pathname];
+  if (redirected) {
+    res.writeHead(307, { Location: redirected, "Cache-Control": "no-store" });
+    res.end();
     return;
   }
 

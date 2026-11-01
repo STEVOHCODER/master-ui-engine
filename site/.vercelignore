@@ -1,0 +1,6 @@
+# Files that must never reach the deployment.
+.env*
+.env.admin
+.vercel
+tools/
+serve.mjs
