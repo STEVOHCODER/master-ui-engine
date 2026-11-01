@@ -25,7 +25,7 @@ Contact: open an issue on the GitHub repository — there is no sales team and n
 - [Agent integration guide](https://masterinterface.xyz/agents): the three surfaces an agent uses — instruction files, the `mue` CLI, one machine-readable registry.
 - [FAQ](https://masterinterface.xyz/faq): testing scope, what `stable` means and does not mean, licence terms, framework coverage.
 - [Visual lab](https://masterinterface.xyz/engine/showcase): browse all previews with a command palette, viewport and theme controls.
-- [Token studio](https://masterinterface.xyz/engine/showcase/studio.html): edit the token ramps and read the resulting WCAG contrast ratios.
+- [Token studio](https://masterinterface.xyz/engine/showcase/studio): edit the token ramps and read the resulting WCAG contrast ratios.
 
 ## Commands (no install, no npm package)
 

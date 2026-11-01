@@ -201,7 +201,12 @@
     return null;
   }
 
-  function engineUrl(item) { return ENGINE_BASE + String(item.path || ""); }
+  /* Deployed URLs are the extension-less form: Vercel's cleanUrls 308s every
+     /engine/**.html to the same path without it, and a URL we hand a crawler
+     that costs a redirect shows up in Search Console as a "Redirect page"
+     instead of the page itself. Relative asset paths still resolve, because
+     the directory half of the URL is unchanged. */
+  function engineUrl(item) { return ENGINE_BASE + String(item.path || "").replace(/\.html$/i, ""); }
   function githubUrl(item) { return GITHUB_BASE + String(item.path || ""); }
 
   function kindLabel(item) {
@@ -455,7 +460,7 @@
     var row = make("div", (opts && opts.cls) || "lib-actions");
 
     var prev = make("a", "lib-btn lib-btn-solid");
-    prev.href = "/preview.html?id=" + encodeURIComponent(item.id);
+    prev.href = "/preview?id=" + encodeURIComponent(item.id);
     prev.appendChild(icon(ICON.eye, 15));
     prev.appendChild(make("span", null, (opts && opts.previewLabel) || "Open preview"));
     on(prev, "click", function () { track(previewEventFor(item), { id: String(item.id) }); });
@@ -698,7 +703,7 @@
 
       var title = make("h3", "lib-card-name");
       var link = make("a", null, String(item.name));
-      link.href = "/preview.html?id=" + encodeURIComponent(item.id);
+      link.href = "/preview?id=" + encodeURIComponent(item.id);
       on(link, "click", function () { track(previewEventFor(item), { id: String(item.id) }); });
       title.appendChild(link);
       box.appendChild(title);
@@ -773,7 +778,7 @@
     var box = make("article", "tpl-card");
 
     var shot = make("a", "tpl-shot");
-    shot.href = "/preview.html?id=" + encodeURIComponent(item.id);
+    shot.href = "/preview?id=" + encodeURIComponent(item.id);
     shot.setAttribute("aria-label", "Open the live preview of " + item.name);
     shot.appendChild(thumbFrame(item, !eager));
     on(shot, "click", function () { track(previewEventFor(item), { id: String(item.id) }); });
@@ -903,7 +908,7 @@
           list.textContent = "";
           for (var i = 0; i < ids.length; i++) {
             var a = make("a", "pv-suggest", String(ids[i].name) + " — " + String(ids[i].id));
-            a.href = "/preview.html?id=" + encodeURIComponent(ids[i].id);
+            a.href = "/preview?id=" + encodeURIComponent(ids[i].id);
             list.appendChild(a);
           }
         }
@@ -1237,7 +1242,7 @@
         src.href = githubUrl(item);
         if (fwNote) fwNote.textContent = "The frame is the vanilla file the catalog names, served from /engine/… — the same file a copy-and-paste user gets.";
       } else if (state === "live" && binding.preview) {
-        var previewUrl = ENGINE_BASE + binding.preview;
+        var previewUrl = ENGINE_BASE + String(binding.preview).replace(/\.html$/i, "");
         showFrame(previewUrl, "Live preview: " + FW_LABEL[entry.name] + " binding of " + String(item.name));
         src.href = GITHUB_BASE + (binding.sources ? binding.sources[0] : binding.source);
         if (fwNote) {
@@ -1330,7 +1335,7 @@
         for (var r = 0; r < others.length && r < 8; r++) {
           (function (other) {
             var a = make("a", "lib-btn lib-btn-ghost");
-            a.href = "/preview.html?id=" + encodeURIComponent(other.id);
+            a.href = "/preview?id=" + encodeURIComponent(other.id);
             a.appendChild(make("span", null, String(other.name)));
             on(a, "click", function () { track(previewEventFor(other), { id: String(other.id), target: "related:" + String(item.id) }); });
             relatedList.appendChild(a);

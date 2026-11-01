@@ -100,7 +100,7 @@
       var id = panel.getAttribute("aria-label").toLowerCase().replace(/\s+/g, "-");
       var tab = rail.querySelector('[aria-controls="' + panel.id + '"]');
       if (tab) id = tab.getAttribute("data-id") || id;
-      $("#showcasePreview").setAttribute("href", "/preview.html?id=" + id);
+      $("#showcasePreview").setAttribute("href", "/preview?id=" + id);
       $("#showcaseSource").setAttribute("href", "https://github.com/STEVOHCODER/master-ui-engine/blob/main/" + panel.getAttribute("data-path"));
       $("#showcaseCopy").setAttribute("data-copy-src", src);
       $("#showcaseCopy").setAttribute("data-id", id);

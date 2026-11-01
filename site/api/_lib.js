@@ -421,6 +421,10 @@ export function sendJson(res, status, payload) {
   if (typeof res.setHeader === "function") {
     res.setHeader("Cache-Control", "no-store");
     res.setHeader("Content-Type", "application/json; charset=utf-8");
+    /* Crawlers GET these POST-only endpoints, take the 405 JSON and Google files
+       the row as "Other error". noindex is the only way to clear it: robots.txt
+       Disallow hides the URL from crawling but leaves the existing row reported. */
+    res.setHeader("X-Robots-Tag", "noindex, nofollow");
     /* The endpoints are same-origin only and never need CORS; sending no
        Access-Control-Allow-Origin is the second half of the write guard. */
   }

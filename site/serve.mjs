@@ -9,7 +9,6 @@ import { fileURLToPath } from "node:url";
 
 const SITE = dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.env.PORT || 8820);
-const ROUTES = ["/library", "/templates", "/preview", "/agents", "/faq", "/admin", "/admin/login", "/privacy"];
 
 loadEnv(join(SITE, ".env.local"));
 
@@ -51,7 +50,10 @@ function fileFor(pathname) {
   const index = join(direct, "index.html");
   if (existsSync(index) && statSync(index).isFile()) return index;
   const html = direct + ".html";
-  if (!extname(safe) && existsSync(html) && ROUTES.includes(pathname)) return html;
+  /* Vercel's cleanUrls serves /library and /engine/components/buttons/buttons
+     from their .html files, so the local server resolves any extension-less
+     path the same way instead of only the marketing routes. */
+  if (!extname(safe) && existsSync(html)) return html;
   return null;
 }
 
