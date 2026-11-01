@@ -5,7 +5,7 @@
   CATEGORY: frameworks
   FRAMEWORK: react 19 (JSX, bundled to preview/preview.js by node build.mjs)
   DESIGN_SYSTEM: MASTER-UI-ENGINE tokens
-  DEPENDENCIES: index.js (the sixteen bindings), preview/index.html which links design-tokens/engine.css, styles/components.css and styles/mue.js
+  DEPENDENCIES: index.js (the sixteen bindings), preview/gallery.html which links design-tokens/engine.css, styles/components.css and styles/mue.js
   SHEET: none of its own — every class below is taken from styles/components.css, and the page carries no local <style>
   VARIANTS: one .section per component in the shared set, showing the variants that page's preview documents
   A11Y: the page is body.page with the shared .masthead chrome; each section is a labelled <div class="section" id="sec-*"> so the checks can name what rendered; the theme toggle is plain HTML in index.html because styles/mue.js binds it at boot

@@ -134,8 +134,8 @@ node build.mjs       # compiles all 16 SFCs + preview/App.vue → preview/dist/p
 ```
 
 `preview/dist/preview.js` (stable name, single chunk, no hashing, `base: "./`) is committed.
-Open `preview/index.html` through a static server rooted at the **repo root** (e.g.
-`npx serve .` there, then `/frameworks/vue/preview/index.html`); `file://` won't load the
+Open `preview/gallery.html` through a static server rooted at the **repo root** (e.g.
+`npx serve .` there, then `/frameworks/vue/preview/gallery.html`); `file://` won't load the
 ES module. The page links `../../../design-tokens/engine.css`, `../../../styles/components.css`
 and `../../../styles/mue.js` — mue.js only wires the static theme toggle, because its
 tablist/dialog/dropdown boot hooks run before Vue mounts and find nothing to bind.
@@ -147,7 +147,7 @@ tablist/dialog/dropdown boot hooks run before Vue mounts and find nothing to bin
 - `node build.mjs` → exit 0, 25 modules transformed, `preview/dist/preview.js` (103 349 bytes)
   — proves all sixteen SFCs compile.
 - Headless Chrome (puppeteer-core) against a `node:http` static server at the repo root,
-  page `/frameworks/vue/preview/index.html`: **console errors `[]`, page errors `[]`**
+  page `/frameworks/vue/preview/gallery.html`: **console errors `[]`, page errors `[]`**
   (the only 404 anywhere was the browser's automatic `/favicon.ico` request), and all
   sixteen `#section-*` blocks present. Interactions that passed:
   - email input: typing `bad` → `.field.is-error` + `aria-invalid="true"`; valid address → `.is-success`

@@ -75,7 +75,7 @@ the React/Vue runtime inside the two committed preview bundles.
 
 | Package | Command | Result as run |
 | --- | --- | --- |
-| React | `node build.mjs`, then headless Chrome over `preview/index.html` (`file://` and over http) | bundle 250.2 KiB; 16/16 sections; `proofFailures []`, `consoleErrors []`, `consoleWarnings []`, `pageErrors []`, `remoteRequests []`; dialog focus trap + Escape return, tab roving + `End`, switch `Space`, dropdown arrows/wrap/Escape/select, accordion single-open, table `aria-sort`, field `is-error`/`aria-invalid`, toast dismiss, theme persisted; only 404 over http was `/favicon.ico` |
+| React | `node build.mjs`, then headless Chrome over `preview/gallery.html` (`file://` and over http) | bundle 250.2 KiB; 16/16 sections; `proofFailures []`, `consoleErrors []`, `consoleWarnings []`, `pageErrors []`, `remoteRequests []`; dialog focus trap + Escape return, tab roving + `End`, switch `Space`, dropdown arrows/wrap/Escape/select, accordion single-open, table `aria-sort`, field `is-error`/`aria-invalid`, toast dismiss, theme persisted; only 404 over http was `/favicon.ico` |
 | Vue | `node build.mjs` (vite 8.3.5), then headless Chrome | 25 modules, `preview/dist/preview.js` 103,349 bytes; 16/16 `#section-*`; `errors []`, `pageerrors []`; same interaction set as React plus `Selected: edit` from the dropdown callback |
 | Web Components | `node --check` per module, then headless Chrome over a local http server | 21/21 tags defined, 0 elements with a `shadowRoot`, `pageErrors []`; dialog Escape, tabs `ArrowRight`+`Enter` with `data-mue-bound="1"`, switch `Space`, dropdown select closing, accordion flags `[false,true,false]`, table `data-sort="asc"` + `mue-sort`, toast `hide()`; events observed: `mue-open`, `mue-close`, `mue-change`, `mue-select`, `mue-sort` |
 | Site integration | `node tools/audit/framework-parity.mjs --write`, `node site/build.mjs`, headless Chrome over the built site | library facet offers React (14) / Vue (14) / Web Components (14); selecting React shows 14 cards; the binding strip switches the iframe to each package's real preview, `?id=…&fw=…` stays in the URL, planned tabs hide the frame with an honest note, copying `card.jsx` returns "Copied 4.6k chars of component source", `errors none`, 0 px overflow at 390 wide |
@@ -99,6 +99,18 @@ viewport/contrast sweeps of the framework previews, and any load or Lighthouse f
 Results per component, with the date and the command, live in
 `frameworks/registry.json` (`verified` per binding) and are what the site renders
 in the "Bindings in this repository" strip on every preview page.
+
+### Why the galleries are called `gallery.html`, not `index.html`
+
+The site is deployed with `cleanUrls: true`, and Vercel answers
+`/dir/index.html` with a redirect to `/dir` — no trailing slash. A page loaded
+from that URL resolves its relative assets one level shallower than it does on
+the file system, so `../../../design-tokens/engine.css` lands on
+`/design-tokens/engine.css` and the deployed gallery renders unstyled with a
+404 on its bundle. Renaming the file to `preview/gallery.html` makes the
+redirect target `/engine/frameworks/<name>/preview/gallery`, whose directory is
+the one the paths were written against, so the same file works from a clone and
+from the site. Do not rename it back to `index.html`.
 
 ## What a framework binding does **not** include
 

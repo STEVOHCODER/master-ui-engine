@@ -73,7 +73,10 @@ code. The rules:
    gallery page under `frameworks/<name>/preview/`. React and Vue galleries are
    built in-repo (`node build.mjs`) and the bundles are committed, so the
    deployed preview makes zero CDN requests. Do not commit `node_modules`,
-   lockfiles for the site build, or a CDN tag.
+   lockfiles for the site build, or a CDN tag. Keep the gallery file named
+   something other than `index.html` — `cleanUrls` on the host redirects
+   `/dir/index.html` to `/dir`, which shifts every relative asset path one
+   level and serves the deployed gallery without its stylesheet.
 6. **Attribution and licence.** All four stacks here are the repository's own
    MIT-licensed work. Taking a component from shadcn/ui, Ant Design or anywhere
    else means recording it in the `ATTRIBUTION` field, in the catalog entry and

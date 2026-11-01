@@ -65,7 +65,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/react/components/button.jsx"
           ],
-          "preview": "frameworks/react/preview/index.html",
+          "preview": "frameworks/react/preview/gallery.html",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
           "tag": null,
@@ -89,7 +89,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/vue/components/MueButton.vue"
           ],
-          "preview": "frameworks/vue/preview/index.html",
+          "preview": "frameworks/vue/preview/gallery.html",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
           "tag": null,
@@ -112,7 +112,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/web-components/components/mue-button.js"
           ],
-          "preview": "frameworks/web-components/preview/index.html",
+          "preview": "frameworks/web-components/preview/gallery.html",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
           "tag": "mue-button",
@@ -220,7 +220,7 @@ window.MUE_CATALOG = {
             "frameworks/react/components/input.jsx",
             "frameworks/react/components/textarea.jsx"
           ],
-          "preview": "frameworks/react/preview/index.html",
+          "preview": "frameworks/react/preview/gallery.html",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
           "tag": null,
@@ -245,7 +245,7 @@ window.MUE_CATALOG = {
             "frameworks/vue/components/MueInput.vue",
             "frameworks/vue/components/MueTextarea.vue"
           ],
-          "preview": "frameworks/vue/preview/index.html",
+          "preview": "frameworks/vue/preview/gallery.html",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
           "tag": null,
@@ -269,7 +269,7 @@ window.MUE_CATALOG = {
             "frameworks/web-components/components/mue-input.js",
             "frameworks/web-components/components/mue-textarea.js"
           ],
-          "preview": "frameworks/web-components/preview/index.html",
+          "preview": "frameworks/web-components/preview/gallery.html",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
           "tag": "mue-input, mue-textarea",
@@ -372,7 +372,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/react/components/select.jsx"
           ],
-          "preview": "frameworks/react/preview/index.html",
+          "preview": "frameworks/react/preview/gallery.html",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
           "tag": null,
@@ -396,7 +396,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/vue/components/MueSelect.vue"
           ],
-          "preview": "frameworks/vue/preview/index.html",
+          "preview": "frameworks/vue/preview/gallery.html",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
           "tag": null,
@@ -419,7 +419,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/web-components/components/mue-select.js"
           ],
-          "preview": "frameworks/web-components/preview/index.html",
+          "preview": "frameworks/web-components/preview/gallery.html",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
           "tag": "mue-select",
@@ -520,7 +520,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/react/components/checkbox.jsx"
           ],
-          "preview": "frameworks/react/preview/index.html",
+          "preview": "frameworks/react/preview/gallery.html",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
           "tag": null,
@@ -544,7 +544,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/vue/components/MueCheckbox.vue"
           ],
-          "preview": "frameworks/vue/preview/index.html",
+          "preview": "frameworks/vue/preview/gallery.html",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
           "tag": null,
@@ -567,7 +567,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/web-components/components/mue-checkbox.js"
           ],
-          "preview": "frameworks/web-components/preview/index.html",
+          "preview": "frameworks/web-components/preview/gallery.html",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
           "tag": "mue-checkbox",
@@ -669,7 +669,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/react/components/switch.jsx"
           ],
-          "preview": "frameworks/react/preview/index.html",
+          "preview": "frameworks/react/preview/gallery.html",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
           "tag": null,
@@ -693,7 +693,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/vue/components/MueSwitch.vue"
           ],
-          "preview": "frameworks/vue/preview/index.html",
+          "preview": "frameworks/vue/preview/gallery.html",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
           "tag": null,
@@ -716,7 +716,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/web-components/components/mue-switch.js"
           ],
-          "preview": "frameworks/web-components/preview/index.html",
+          "preview": "frameworks/web-components/preview/gallery.html",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
           "tag": "mue-switch",
@@ -817,7 +817,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/react/components/radio.jsx"
           ],
-          "preview": "frameworks/react/preview/index.html",
+          "preview": "frameworks/react/preview/gallery.html",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
           "tag": null,
@@ -841,7 +841,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/vue/components/MueRadioGroup.vue"
           ],
-          "preview": "frameworks/vue/preview/index.html",
+          "preview": "frameworks/vue/preview/gallery.html",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
           "tag": null,
@@ -865,7 +865,7 @@ window.MUE_CATALOG = {
             "frameworks/web-components/components/mue-radio.js",
             "frameworks/web-components/components/mue-radio-group.js"
           ],
-          "preview": "frameworks/web-components/preview/index.html",
+          "preview": "frameworks/web-components/preview/gallery.html",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
           "tag": "mue-radio, mue-radio-group",
@@ -1011,7 +1011,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/react/components/card.jsx"
           ],
-          "preview": "frameworks/react/preview/index.html",
+          "preview": "frameworks/react/preview/gallery.html",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
           "tag": null,
@@ -1035,7 +1035,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/vue/components/MueCard.vue"
           ],
-          "preview": "frameworks/vue/preview/index.html",
+          "preview": "frameworks/vue/preview/gallery.html",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
           "tag": null,
@@ -1058,7 +1058,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/web-components/components/mue-card.js"
           ],
-          "preview": "frameworks/web-components/preview/index.html",
+          "preview": "frameworks/web-components/preview/gallery.html",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
           "tag": "mue-card",
@@ -1167,7 +1167,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/react/components/accordion.jsx"
           ],
-          "preview": "frameworks/react/preview/index.html",
+          "preview": "frameworks/react/preview/gallery.html",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
           "tag": null,
@@ -1191,7 +1191,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/vue/components/MueAccordion.vue"
           ],
-          "preview": "frameworks/vue/preview/index.html",
+          "preview": "frameworks/vue/preview/gallery.html",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
           "tag": null,
@@ -1215,7 +1215,7 @@ window.MUE_CATALOG = {
             "frameworks/web-components/components/mue-accordion.js",
             "frameworks/web-components/components/mue-accordion-item.js"
           ],
-          "preview": "frameworks/web-components/preview/index.html",
+          "preview": "frameworks/web-components/preview/gallery.html",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
           "tag": "mue-accordion",
@@ -1317,7 +1317,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/react/components/table.jsx"
           ],
-          "preview": "frameworks/react/preview/index.html",
+          "preview": "frameworks/react/preview/gallery.html",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
           "tag": null,
@@ -1341,7 +1341,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/vue/components/MueTable.vue"
           ],
-          "preview": "frameworks/vue/preview/index.html",
+          "preview": "frameworks/vue/preview/gallery.html",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
           "tag": null,
@@ -1364,7 +1364,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/web-components/components/mue-table.js"
           ],
-          "preview": "frameworks/web-components/preview/index.html",
+          "preview": "frameworks/web-components/preview/gallery.html",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
           "tag": "mue-table",
@@ -1509,7 +1509,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/react/components/dialog.jsx"
           ],
-          "preview": "frameworks/react/preview/index.html",
+          "preview": "frameworks/react/preview/gallery.html",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
           "tag": null,
@@ -1533,7 +1533,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/vue/components/MueDialog.vue"
           ],
-          "preview": "frameworks/vue/preview/index.html",
+          "preview": "frameworks/vue/preview/gallery.html",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
           "tag": null,
@@ -1556,7 +1556,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/web-components/components/mue-dialog.js"
           ],
-          "preview": "frameworks/web-components/preview/index.html",
+          "preview": "frameworks/web-components/preview/gallery.html",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
           "tag": "mue-dialog",
@@ -1697,7 +1697,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/react/components/dropdown.jsx"
           ],
-          "preview": "frameworks/react/preview/index.html",
+          "preview": "frameworks/react/preview/gallery.html",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
           "tag": null,
@@ -1721,7 +1721,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/vue/components/MueDropdown.vue"
           ],
-          "preview": "frameworks/vue/preview/index.html",
+          "preview": "frameworks/vue/preview/gallery.html",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
           "tag": null,
@@ -1744,7 +1744,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/web-components/components/mue-dropdown.js"
           ],
-          "preview": "frameworks/web-components/preview/index.html",
+          "preview": "frameworks/web-components/preview/gallery.html",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
           "tag": "mue-dropdown",
@@ -1844,7 +1844,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/react/components/notification.jsx"
           ],
-          "preview": "frameworks/react/preview/index.html",
+          "preview": "frameworks/react/preview/gallery.html",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
           "tag": null,
@@ -1868,7 +1868,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/vue/components/MueNotification.vue"
           ],
-          "preview": "frameworks/vue/preview/index.html",
+          "preview": "frameworks/vue/preview/gallery.html",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
           "tag": null,
@@ -1891,7 +1891,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/web-components/components/mue-notification.js"
           ],
-          "preview": "frameworks/web-components/preview/index.html",
+          "preview": "frameworks/web-components/preview/gallery.html",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
           "tag": "mue-notification",
@@ -2206,7 +2206,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/react/components/tabs.jsx"
           ],
-          "preview": "frameworks/react/preview/index.html",
+          "preview": "frameworks/react/preview/gallery.html",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
           "tag": null,
@@ -2230,7 +2230,7 @@ window.MUE_CATALOG = {
           "sources": [
             "frameworks/vue/components/MueTabs.vue"
           ],
-          "preview": "frameworks/vue/preview/index.html",
+          "preview": "frameworks/vue/preview/gallery.html",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
           "tag": null,
@@ -2255,7 +2255,7 @@ window.MUE_CATALOG = {
             "frameworks/web-components/components/mue-tab.js",
             "frameworks/web-components/components/mue-tabpanel.js"
           ],
-          "preview": "frameworks/web-components/preview/index.html",
+          "preview": "frameworks/web-components/preview/gallery.html",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
           "tag": "mue-tabs",
@@ -2853,7 +2853,7 @@ window.MUE_CATALOG = {
             "frameworks/react/components/badge.jsx",
             "frameworks/react/components/avatar.jsx"
           ],
-          "preview": "frameworks/react/preview/index.html",
+          "preview": "frameworks/react/preview/gallery.html",
           "install": "copy frameworks/react into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/react/index.js\"",
           "tag": null,
@@ -2878,7 +2878,7 @@ window.MUE_CATALOG = {
             "frameworks/vue/components/MueBadge.vue",
             "frameworks/vue/components/MueAvatar.vue"
           ],
-          "preview": "frameworks/vue/preview/index.html",
+          "preview": "frameworks/vue/preview/gallery.html",
           "install": "copy frameworks/vue into your project — no npm package is published",
           "import": "import { Mue* } from \"./frameworks/vue/index.js\"",
           "tag": null,
@@ -2903,7 +2903,7 @@ window.MUE_CATALOG = {
             "frameworks/web-components/components/mue-avatar.js",
             "frameworks/web-components/components/mue-avatar-group.js"
           ],
-          "preview": "frameworks/web-components/preview/index.html",
+          "preview": "frameworks/web-components/preview/gallery.html",
           "install": "<script type=\"module\" src=\"frameworks/web-components/index.js\"></script>",
           "import": "import \"./frameworks/web-components/index.js\" (registers every mue-* tag)",
           "tag": "mue-badge, mue-avatar, mue-avatar-group",

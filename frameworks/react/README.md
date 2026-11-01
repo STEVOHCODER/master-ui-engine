@@ -215,8 +215,8 @@ node build.mjs       # → preview/preview.js (250.2 KiB, committed, exit 0)
 ```
 
 `preview/preview.js` is an **IIFE with react and react-dom bundled in**, so
-`preview/index.html` opens with zero network requests: from `file://` directly, or from any
-static server (`node ../../tools/audit/serve.js`, then `/frameworks/react/preview/index.html`).
+`preview/gallery.html` opens with zero network requests: from `file://` directly, or from any
+static server (`node ../../tools/audit/serve.js`, then `/frameworks/react/preview/gallery.html`).
 The page links the engine CSS, the component sheet and `styles/mue.js` for the theme toggle.
 React mounts one frame *after* `mue.js` boots, so the shared script never binds the React
 tablist and nothing is double-wired.
@@ -224,7 +224,7 @@ tablist and nothing is double-wired.
 ## Verified
 
 Headless Chrome 25.16.0 (puppeteer-core, local Chrome binary), 2026-11-01, on
-`file:///D:/…/frameworks/react/preview/index.html`. Check scripts live outside the repo.
+`file:///D:/…/frameworks/react/preview/gallery.html`. Check scripts live outside the repo.
 
 Gallery: **16/16 sections found** (Button, Input, Textarea, Select, Checkbox, Radio group,
 Switch, Card, Badge, Dialog, Dropdown, Tabs, Accordion, Table, Notification, Avatar),
@@ -255,7 +255,7 @@ Interactions driven in the browser (all passed):
 - Theme — the masthead toggle (plain HTML, driven by `styles/mue.js`) added `html.dark` with the
   React tree still mounted, and the choice was restored from localStorage after a reload.
 - Static server pass over `http://127.0.0.1:…` rendered all 16 sections with no page errors.
-- `node tools/audit/check-classes.js frameworks/react/preview/index.html` exits clean: one HEAD
+- `node tools/audit/check-classes.js frameworks/react/preview/gallery.html` exits clean: one HEAD
   comment, all three links, `UNRESOLVED(0)`, `DUPES(0)`, `RAWPRIM 0`, `HARDCODED-MOTION 0`.
 - `npm pack --dry-run` produces a valid `mue-react-0.1.0.tgz` (18 files: `index.js`, the sixteen
   `components/*.jsx`, `package.json`, this README); no preview bundle or `node_modules` inside.

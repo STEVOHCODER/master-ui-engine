@@ -32,7 +32,7 @@ A shadow root would isolate these elements from `styles/components.css` and from
 document-level classes, tokens and theme rules reach them with no `::part` or
 `adoptedStyleSheets` plumbing. The cost is that the host reorganises your children, so the
 child markup per element is fixed and documented (and visible in
-[`preview/index.html`](preview/index.html)).
+[`preview/gallery.html`](preview/gallery.html)).
 
 ## Elements
 
@@ -62,12 +62,12 @@ replace it.
 
 ## Preview
 
-[`preview/index.html`](preview/index.html) demos all sixteen components (one section per
+[`preview/gallery.html`](preview/gallery.html) demos all sixteen components (one section per
 component) and logs every custom event into a live region. It needs no build step, but
 `served` over http — ES modules and the `../index.js` import are blocked on `file://`:
 
 ```bash
-node tools/audit/serve.js --port 8791   # then open /frameworks/web-components/preview/index.html
+node tools/audit/serve.js --port 8791   # then open /frameworks/web-components/preview/gallery.html
 ```
 
 ## Verified (2026-11-01, headless Chrome via puppeteer-core)
