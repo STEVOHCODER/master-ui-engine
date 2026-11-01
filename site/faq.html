@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UI Component FAQ — Testing, Licences, Agents</title>
+<meta name="description" content="How MASTER-UI-ENGINE's free copy-paste UI components are tested, what stable means, which browsers were run, licence terms, and how a coding agent uses them.">
+<link rel="canonical" href="https://masterinterface.xyz/faq">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="MASTER-UI-ENGINE">
+<meta property="og:title" content="What is verified, what is not, and what it costs">
+<meta property="og:description" content="Testing scope, the stable label, accessibility, licences, design tokens, framework ports and agent setup — answered without rounding up.">
+<meta property="og:url" content="https://masterinterface.xyz/faq">
+<meta property="og:image" content="https://masterinterface.xyz/assets/img/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MASTER-UI-ENGINE — questions answerable with a file path">
+<meta name="twitter:description" content="How the free copy-paste UI components are tested, what stable means, and what was never run.">
+<meta name="twitter:image" content="https://masterinterface.xyz/assets/img/og.png">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0c0f'/%3E%3Crect x='7' y='7' width='8' height='8' fill='%23c9f24a'/%3E%3Crect x='17' y='7' width='8' height='8' fill='%23f5f4f0'/%3E%3Crect x='7' y='17' width='8' height='8' fill='%23f5f4f0'/%3E%3Crect x='17' y='17' width='8' height='8' fill='%23c9f24a'/%3E%3C/svg%3E">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/engine/design-tokens/engine.css">
+<link rel="stylesheet" href="/assets/web.css">
+<style>
+  /* Prose pages only; every value comes off the site's own tokens. */
+  .prose { max-width: 62ch; }
+  .prose p { margin: 0.9rem 0 0; color: var(--muted); }
+  .prose p strong { color: var(--ink); font-weight: 600; }
+  details { border-top: 1px solid var(--line); padding: 1.1rem 0; }
+  details:last-of-type { border-bottom: 1px solid var(--line); }
+  summary {
+    cursor: pointer; list-style: none; color: var(--ink);
+    font-family: var(--font-display); font-size: 1.06rem; font-weight: 600;
+    display: flex; gap: 0.9rem; align-items: baseline;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::before {
+    content: "+"; flex: 0 0 auto; color: var(--accent-text);
+    font-family: var(--font-mono); font-size: 0.95rem;
+  }
+  details[open] summary::before { content: "−"; }
+  details p, details .note { margin: 0.8rem 0 0 1.5rem; max-width: 64ch; color: var(--muted); }
+  details p a { color: var(--accent-text); }
+  details[open] summary { margin-bottom: 0.2rem; }
+  @media (prefers-reduced-motion: no-preference) {
+    details summary::before { transition: color 0.18s ease; }
+  }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://masterinterface.xyz/#site",
+      "url": "https://masterinterface.xyz/",
+      "name": "MASTER-UI-ENGINE",
+      "description": "A free, MIT-licensed UI component engine for AI coding agents: 33 components, 15 worked screens and 6 templates in plain HTML, CSS and JavaScript, ported to React, Vue and Web Components.",
+      "publisher": { "@id": "https://masterinterface.xyz/#org" },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://masterinterface.xyz/#org",
+      "name": "MASTER-UI-ENGINE",
+      "url": "https://masterinterface.xyz/",
+      "sameAs": ["https://github.com/STEVOHCODER/master-ui-engine"]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://masterinterface.xyz/faq#page",
+      "url": "https://masterinterface.xyz/faq",
+      "name": "MASTER-UI-ENGINE FAQ — testing, licences and agent setup",
+      "isPartOf": { "@id": "https://masterinterface.xyz/#site" },
+      "description": "Questions about the free copy-paste UI component library: how it is tested, what the stable label rests on, licence terms, design tokens, framework ports and how a coding agent consumes it."
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "url": "https://masterinterface.xyz/" },
+        { "@type": "ListItem", "position": 2, "name": "FAQ", "url": "https://masterinterface.xyz/faq" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "What is MASTER-UI-ENGINE, in one paragraph?", "acceptedAnswer": { "@type": "Answer", "text": "A library of 33 interface components, 15 worked screens and 6 complete page templates, written as plain HTML, CSS and JavaScript against one shared design-token stylesheet. Every one of the 33 components is also ported to React, Vue and Web Components, and each carries a machine-readable MUE:META contract — variants, props, accessibility notes, keyboard behaviour, events, licence and a dated verification note — so a human can read it and a coding agent can retrieve it instead of generating generic markup. Sources: README.md, showcase/data/component-catalog.json, frameworks/registry.json." } },
+        { "@type": "Question", "name": "Do I need React, npm, Tailwind or a build step to use it?", "acceptedAnswer": { "@type": "Answer", "text": "No. The engine is static files: copy design-tokens/engine.css and styles/components.css into your project, then take the markup from the component you want. Nothing imports a package, nothing calls a CDN, and no preview on this site makes a single remote request. The React, Vue and Web Components ports are for apps that already use those frameworks — the framework is not a requirement of the design system. There is no npm package. You copy the folder, the same way shadcn/ui-style kits hand you source instead of a dependency." } },
+        { "@type": "Question", "name": "Is it a shadcn/ui alternative?", "acceptedAnswer": { "@type": "Answer", "text": "It overlaps in spirit — you own the code after you take it — and differs in mechanism. shadcn/ui pastes React components built on Radix primitives and styled with Tailwind utility classes. This kit is HTML/CSS/JS first, styled with semantic classes off one token file, and the React, Vue and Web Components ports write the same classes rather than a Tailwind config. No code is vendored from shadcn/ui, Ant Design, Nuxt UI, daisyUI or Flowbite; the token naming convention is borrowed from shadcn/ui and the rest is this repository's own work, which RESOURCES.md documents library by library with licences." } },
+        { "@type": "Question", "name": "What are design tokens and why does one stylesheet matter?", "acceptedAnswer": { "@type": "Answer", "text": "Tokens are the named decisions a design system repeats: colour ramps, spacing, radii, shadows, type scale, motion durations. Here they are CSS custom properties in design-tokens/engine.css, and styles/components.css — 404 classes, maintained by hand and checked by tools/audit/check-classes.js — consumes them instead of hardcoding values. That is why light and dark are one file apart, and why a component ported to Vue looks identical to the vanilla original: the three stacks write the same classes and ship no CSS of their own. Try it live at /engine/showcase/studio.html — the token studio recomputes ramps and reports WCAG contrast as you drag." } },
+        { "@type": "Question", "name": "Are the components accessible?", "acceptedAnswer": { "@type": "Answer", "text": "Keyboard paths and ARIA wiring are part of the contract, not decoration: dialogs trap focus and return it on Escape, tabs use a roving tabindex with arrow and End keys, switches toggle on Space, accordions keep one panel open, sortable tables write aria-sort, and error states set aria-invalid. Contrast is audited for WCAG AA in light and dark across four widths, and axe-core reports zero serious or critical findings in the 24 framework runs recorded for 2026-11-01. The gap: no run has used a screen reader or a touch device, so \"announced correctly in NVDA/VoiceOver\" is not a claim this repository makes. Each component's A11Y and KEYBOARD fields list what was checked." } },
+        { "@type": "Question", "name": "How do I re-run the checks myself?", "acceptedAnswer": { "@type": "Answer", "text": "Three commands, no install: node tools/audit/framework-parity.mjs (registry, classes, licences and verification notes), node tools/mue.js check all (unresolved classes and missing metadata across 54 previews), and node site/build.mjs to reproduce the deployed copy. The behaviour harness and axe-core runs live outside the repo because they need a browser binary — docs/framework-support.md records exactly which commands produced each number." } },
+        { "@type": "Question", "name": "Which frameworks have real source today?", "acceptedAnswer": { "@type": "Answer", "text": "React (34 modules), Vue (37 single-file components) and Web Components (40 modules defining 43 <mue-*> tags) each cover all 33 catalogued components. Run node tools/mue.js stack for the counts as the repository sees them: react: 33/54 entries live, the same for vue and web-components, and svelte: 0/54 entries live, 33 documented as planned." } },
+        { "@type": "Question", "name": "Why do the ports share one stylesheet instead of each having its own?", "acceptedAnswer": { "@type": "Answer", "text": "So a component cannot drift between stacks. The React Card, the Vue MueCard and the <mue-card> element all write card, card-header and the same variant classes; the parity audit reads every class a binding writes and fails if it is not defined in the shared layer. Web Components are light DOM on purpose — the gallery reports 0 shadow roots — so the same document-level tokens apply." } },
+        { "@type": "Question", "name": "Will you add Svelte, Angular or Next.js?", "acceptedAnswer": { "@type": "Answer", "text": "Svelte and Angular have written plans and no code, and no date is promised. Next.js-specific work is not planned: the ports are plain client components, and server rendering has never been run here, so nothing labels itself Next-ready. Ask the CLI rather than trusting a badge — node tools/mue.js show ui-cards --framework svelte answers \"This repository has no svelte component for ui-cards\" and points at the plan." } },
+        { "@type": "Question", "name": "How does Cursor, Claude Code, Codex or Copilot actually consume this?", "acceptedAnswer": { "@type": "Answer", "text": "Three surfaces, in the order an agent usually needs them: AGENTS.md and SKILL.md for the instruction layer, node tools/mue.js for retrieval (search, show, add, stack, registry --json), and showcase/data/component-catalog.json when the agent would rather read one file than run a command. mue add ui-cards --framework react --into ./src writes the component plus the token and stylesheet layers it depends on, and rewrites the barrel so it only references what it installed. No MCP server exists yet. The registry is the seam one would be built on; today any shell-capable agent can use the CLI without registration." } },
+        { "@type": "Question", "name": "Does that stop an agent writing bad UI, or just different UI?", "acceptedAnswer": { "@type": "Answer", "text": "It removes the repetitive part. An agent that retrieves an audited dialog does not have to invent focus trapping again, and a small open model starts from something already checked rather than something improvised. It does not raise a model's reasoning ceiling, it does not judge whether your content makes sense, and it does not remove testing in your project — mue check finds unresolved classes, not bad copy." } },
+        { "@type": "Question", "name": "Is there an API I can call from another machine?", "acceptedAnswer": { "@type": "Answer", "text": "The public endpoints are the two the site itself uses: POST /api/track for a page view or event and POST /api/subscribe for the waitlist. Both refuse a request whose Origin is not the site's own host, and both re-validate every field server-side. Everything else under /api/ and /admin is session-gated, and robots.txt keeps crawlers out of both." } }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body class="page">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <a class="nav-brand" href="/">MASTER-UI-<span>ENGINE</span></a>
+  <nav class="nav-links" id="navLinks" aria-label="Main">
+    <a class="nav-link" href="/library">Library</a>
+    <a class="nav-link" href="/templates">Templates</a>
+    <a class="nav-link" href="/#frameworks">Frameworks</a>
+    <a class="nav-link" href="/#how">How it works</a>
+    <a class="nav-link" href="/agents">Agent guide</a>
+    <a class="nav-link" href="/faq" aria-current="page">FAQ</a>
+    <a class="btn-primary" href="https://github.com/STEVOHCODER/master-ui-engine" data-event="github_click">View on GitHub</a>
+  </nav>
+  <span class="nav-spacer"></span>
+  <button class="theme-toggle" data-theme-toggle aria-pressed="false">Dark mode</button>
+  <button class="menu-toggle" data-menu-toggle="#navLinks" aria-expanded="false" aria-controls="navLinks" aria-label="Menu"><i></i><i></i><i></i></button>
+</header>
+
+<main id="main">
+  <section class="section flush">
+    <div class="shell" style="max-width:56rem">
+      <p class="eyebrow">FAQ · every answer names a file</p>
+      <h1 class="sec-title">The questions a component library should be able to answer with a path.</h1>
+      <p class="sec-lede">Testing scope, the <span class="mono">stable</span> label, accessibility, licences, design tokens, framework ports and agent setup — answered the way the repository answers them, including the parts that are &ldquo;not run&rdquo; rather than &ldquo;fine&rdquo;. Each answer points at a file you can open.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell" style="max-width:56rem">
+      <h2 class="sec-title" style="font-size:clamp(1.35rem,2.8vw,1.8rem)">What it is</h2>
+
+      <details open>
+        <summary>What is MASTER-UI-ENGINE, in one paragraph?</summary>
+        <p>A library of 33 interface components, 15 worked screens and 6 complete page templates, written as plain HTML, CSS and JavaScript against one shared design-token stylesheet. Every one of the 33 components is also ported to React, Vue and Web Components, and each carries a machine-readable <span class="mono">MUE:META</span> contract — variants, props, accessibility notes, keyboard behaviour, events, licence and a dated verification note — so a human can read it and a coding agent can retrieve it instead of generating generic markup.</p>
+        <p class="note">Sources: <span class="mono">README.md</span>, <span class="mono">showcase/data/component-catalog.json</span>, <span class="mono">frameworks/registry.json</span>.</p>
+      </details>
+
+      <details>
+        <summary>Do I need React, npm, Tailwind or a build step to use it?</summary>
+        <p>No. The engine is static files: copy <span class="mono">design-tokens/engine.css</span> and <span class="mono">styles/components.css</span> into your project, then take the markup from the component you want. Nothing imports a package, nothing calls a CDN, and no preview on this site makes a single remote request. The React, Vue and Web Components ports are for apps that already use those frameworks — the framework is not a requirement of the design system.</p>
+        <p class="note">There is no npm package. You copy the folder, the same way shadcn/ui-style kits hand you source instead of a dependency.</p>
+      </details>
+
+      <details>
+        <summary>Is it a shadcn/ui alternative?</summary>
+        <p>It overlaps in spirit — you own the code after you take it — and differs in mechanism. shadcn/ui pastes React components built on Radix primitives and styled with Tailwind utility classes. This kit is HTML/CSS/JS first, styled with semantic classes off one token file, and the React, Vue and Web Components ports write the same classes rather than a Tailwind config. No code is vendored from shadcn/ui, Ant Design, Nuxt UI, daisyUI or Flowbite; the token <em>naming convention</em> is borrowed from shadcn/ui and the rest is this repository&rsquo;s own work, which <span class="mono">RESOURCES.md</span> documents library by library with licences.</p>
+      </details>
+
+      <details>
+        <summary>What are design tokens and why does one stylesheet matter?</summary>
+        <p>Tokens are the named decisions a design system repeats: colour ramps, spacing, radii, shadows, type scale, motion durations. Here they are CSS custom properties in <span class="mono">design-tokens/engine.css</span>, and <span class="mono">styles/components.css</span> — 404 classes, maintained by hand and checked by <span class="mono">tools/audit/check-classes.js</span> — consumes them instead of hardcoding values. That is why light and dark are one file apart, and why a component ported to Vue looks identical to the vanilla original: the three stacks write the same classes and ship no CSS of their own.</p>
+        <p class="note">Try it live at <span class="mono">/engine/showcase/studio.html</span> — the token studio recomputes ramps and reports WCAG contrast as you drag.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell" style="max-width:56rem">
+      <h2 class="sec-title" style="font-size:clamp(1.35rem,2.8vw,1.8rem)">What &ldquo;verified&rdquo; and &ldquo;stable&rdquo; mean</h2>
+
+      <div class="spec" style="margin-top:1.5rem">
+        <div class="row"><span class="num">01</span><h3>What <span class="mono">stable</span> is</h3><p>The binding builds or serves, renders in its own gallery, and was driven there in headless <b>Chrome and Edge</b>: behaviour probes at 1280px and 390px in light and dark, plus axe-core at both widths. The command that proved it is written into the binding&rsquo;s <span class="mono">verified</span> note and dated. See <span class="mono">frameworks/registry.json</span>.</p></div>
+        <div class="row"><span class="num">02</span><h3>What <span class="mono">stable</span> is not</h3><p>It is not a production-adoption report. Safari, Firefox, a screen reader with real assistive technology, touch devices, server-side rendering and npm publication were <b>not</b> run, and no label claims them. The audit that assigns the label, <span class="mono">tools/audit/framework-parity.mjs</span>, fails the build when a verification note names an adjective instead of a command.</p></div>
+        <div class="row"><span class="num">03</span><h3>What <span class="mono">planned</span> means</h3><p>An architecture document and nothing else. Svelte and Angular are <span class="mono">planned</span> for all 33 components: <span class="mono">frameworks/svelte/ARCHITECTURE.md</span> and <span class="mono">frameworks/angular/ARCHITECTURE.md</span> exist, no source file does. The site labels those stacks absent rather than showing an empty tab.</p></div>
+      </div>
+
+      <details>
+        <summary>Are the components accessible?</summary>
+        <p>Keyboard paths and ARIA wiring are part of the contract, not decoration: dialogs trap focus and return it on Escape, tabs use a roving tabindex with arrow and <span class="mono">End</span> keys, switches toggle on Space, accordions keep one panel open, sortable tables write <span class="mono">aria-sort</span>, and error states set <span class="mono">aria-invalid</span>. Contrast is audited for WCAG AA in light and dark across four widths, and axe-core reports zero serious or critical findings in the 24 framework runs recorded for 2026-11-01.</p>
+        <p><b>The gap:</b> no run has used a screen reader or a touch device, so &ldquo;announced correctly in NVDA/VoiceOver&rdquo; is not a claim this repository makes. Each component&rsquo;s <span class="mono">A11Y</span> and <span class="mono">KEYBOARD</span> fields list what was checked.</p>
+      </details>
+
+      <details>
+        <summary>How do I re-run the checks myself?</summary>
+        <p>Three commands, no install: <span class="mono">node tools/audit/framework-parity.mjs</span> (registry, classes, licences and verification notes), <span class="mono">node tools/mue.js check all</span> (unresolved classes and missing metadata across 54 previews), and <span class="mono">node site/build.mjs</span> to reproduce the deployed copy. The behaviour harness and axe-core runs live outside the repo because they need a browser binary — <span class="mono">docs/framework-support.md</span> records exactly which commands produced each number.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell" style="max-width:56rem">
+      <h2 class="sec-title" style="font-size:clamp(1.35rem,2.8vw,1.8rem)">Frameworks and porting</h2>
+
+      <details>
+        <summary>Which frameworks have real source today?</summary>
+        <p>React (34 modules), Vue (37 single-file components) and Web Components (40 modules defining 43 <span class="mono">&lt;mue-*&gt;</span> tags) each cover all 33 catalogued components. Run <span class="mono">node tools/mue.js stack</span> for the counts as the repository sees them: <span class="mono">react: 33/54 entries live</span>, the same for vue and web-components, and <span class="mono">svelte: 0/54 entries live, 33 documented as planned</span>.</p>
+      </details>
+
+      <details>
+        <summary>Why do the ports share one stylesheet instead of each having its own?</summary>
+        <p>So a component cannot drift between stacks. The React <span class="mono">Card</span>, the Vue <span class="mono">MueCard</span> and the <span class="mono">&lt;mue-card&gt;</span> element all write <span class="mono">card</span>, <span class="mono">card-header</span> and the same variant classes; the parity audit reads every class a binding writes and fails if it is not defined in the shared layer. Web Components are light DOM on purpose — the gallery reports 0 shadow roots — so the same document-level tokens apply.</p>
+      </details>
+
+      <details>
+        <summary>Will you add Svelte, Angular or Next.js?</summary>
+        <p>Svelte and Angular have written plans and no code, and no date is promised. Next.js-specific work is not planned: the ports are plain client components, and server rendering has never been run here, so nothing labels itself Next-ready. Ask the CLI rather than trusting a badge — <span class="mono">node tools/mue.js show ui-cards --framework svelte</span> answers &ldquo;This repository has no svelte component for ui-cards&rdquo; and points at the plan.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell" style="max-width:56rem">
+      <h2 class="sec-title" style="font-size:clamp(1.35rem,2.8vw,1.8rem)">Using it with a coding agent</h2>
+
+      <details>
+        <summary>How does Cursor, Claude Code, Codex or Copilot actually consume this?</summary>
+        <p>Three surfaces, in the order an agent usually needs them: <span class="mono">AGENTS.md</span> and <span class="mono">SKILL.md</span> for the instruction layer, <span class="mono">node tools/mue.js</span> for retrieval (<span class="mono">search</span>, <span class="mono">show</span>, <span class="mono">add</span>, <span class="mono">stack</span>, <span class="mono">registry --json</span>), and <span class="mono">showcase/data/component-catalog.json</span> when the agent would rather read one file than run a command. <span class="mono">mue add ui-cards --framework react --into ./src</span> writes the component plus the token and stylesheet layers it depends on, and rewrites the barrel so it only references what it installed.</p>
+        <p class="note">No MCP server exists yet. The registry is the seam one would be built on; today any shell-capable agent can use the CLI without registration.</p>
+      </details>
+
+      <details>
+        <summary>Does that stop an agent writing bad UI, or just different UI?</summary>
+        <p>It removes the repetitive part. An agent that retrieves an audited dialog does not have to invent focus trapping again, and a small open model starts from something already checked rather than something improvised. It does not raise a model&rsquo;s reasoning ceiling, it does not judge whether your content makes sense, and it does not remove testing in your project — <span class="mono">mue check</span> finds unresolved classes, not bad copy.</p>
+      </details>
+
+      <details>
+        <summary>Is there an API I can call from another machine?</summary>
+        <p>The public endpoints are the two the site itself uses: <span class="mono">POST /api/track</span> for a page view or event and <span class="mono">POST /api/subscribe</span> for the waitlist. Both refuse a request whose <span class="mono">Origin</span> is not the site&rsquo;s own host, and both re-validate every field server-side. Everything else under <span class="mono">/api/</span> and <span class="mono">/admin</span> is session-gated, and <span class="mono">robots.txt</span> keeps crawlers out of both.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="shell" style="max-width:56rem">
+      <h2 class="sec-title" style="font-size:clamp(1.35rem,2.8vw,1.8rem)">Licence, contribution, and what is not here</h2>
+      <div class="prose">
+        <p><strong>Licence.</strong> MIT on all four stacks, <span class="mono">LICENSE</span> in the repository. Attribution is not required in your interface; redistribution keeps the licence text. <span class="mono">RESOURCES.md</span> is the checked index of the libraries this kit was compared against but did not copy.</p>
+        <p><strong>Contribution.</strong> <span class="mono">CONTRIBUTING.md</span> explains how a binding earns a status: source, preview, a registration row in <span class="mono">frameworks/registry.json</span>, then a recorded browser run before the word <span class="mono">stable</span> appears anywhere.</p>
+        <p><strong>Not here.</strong> No Figma file, no icon set pretending to be a design system, no dashboard product, no paid plan, no claims about load performance or Lighthouse scores that were never measured.</p>
+        <p class="note">Something missing or wrong? Open an issue at <span class="mono">github.com/STEVOHCODER/master-ui-engine</span>. Last updated 2026-11-01, the same day the framework matrix was re-run.</p>
+      </div>
+      <div class="cta-row" style="margin-top:2rem">
+        <a class="btn-primary" href="/library">Browse the 33 components</a>
+        <a class="btn-ghost" href="/agents">Read the agent integration guide</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="shell">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="nav-brand" href="/">MASTER-UI-<span>ENGINE</span></a>
+        <p class="note" style="max-width:32ch">A reusable interface engine for AI coding agents.</p>
+      </div>
+      <div class="foot-col"><h3>Explore</h3><ul>
+        <li><a href="/library">Component library</a></li>
+        <li><a href="/templates">Templates</a></li>
+        <li><a href="/#showcase">Live previews</a></li>
+        <li><a href="/faq" aria-current="page">FAQ</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>Repository</h3><ul>
+        <li><a href="https://github.com/STEVOHCODER/master-ui-engine">Source on GitHub</a></li>
+        <li><a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/README.md">README</a></li>
+        <li><a href="/agents">Agent integration guide</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>Site</h3><ul>
+        <li><a href="/privacy">Privacy</a></li>
+        <li><a href="/sitemap.xml">Sitemap</a></li>
+        <li><a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/LICENSE">MIT license</a></li>
+      </ul></div>
+    </div>
+    <div class="foot-note"><span>© 2026 MASTER-UI-ENGINE · MIT</span><span>MIT licensed</span><span>This page is built with the kit it documents</span></div>
+  </div>
+</footer>
+
+<script defer src="/engine/styles/mue.js"></script>
+<script defer src="/assets/analytics.js"></script>
+<script defer src="/assets/web.js"></script>
+</body>
+</html>

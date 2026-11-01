@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>How to give a coding agent reusable UI components — MASTER-UI-ENGINE</title>
-<meta name="description" content="A practical guide to making OpenCode, Codex, Claude Code, Cursor or any terminal agent reuse UI components, design tokens and templates instead of generating generic interfaces: AGENTS.md, SKILL.md, the mue CLI with stable React, Vue and Web Components retrieval for all 33 components, and one JSON registry endpoint.">
-<link rel="canonical" href="https://master-ui-engine.vercel.app/agents">
+<title>Reusable UI Components for Coding Agents | MASTER-UI-ENGINE</title>
+<meta name="description" content="Give Claude Code, Cursor, Codex or OpenCode a component catalog, a zero-install CLI and a SKILL.md, so agents reuse tested UI instead of inventing generic markup.">
+<link rel="canonical" href="https://masterinterface.xyz/agents">
 <meta property="og:type" content="article">
 <meta property="og:title" content="How to give a coding agent reusable UI components">
 <meta property="og:description" content="Three surfaces an agent can use: the instruction files, the mue CLI, and one machine-readable registry — including asking the CLI for a React, Vue or Web Components binding and getting its source, contract and verification note. With copy-paste prompt patterns.">
-<meta property="og:url" content="https://master-ui-engine.vercel.app/agents">
-<meta property="og:image" content="https://master-ui-engine.vercel.app/assets/img/og.png">
+<meta property="og:url" content="https://masterinterface.xyz/agents">
+<meta property="og:image" content="https://masterinterface.xyz/assets/img/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0c0f'/%3E%3Crect x='7' y='7' width='8' height='8' fill='%23c9f24a'/%3E%3Crect x='17' y='7' width='8' height='8' fill='%23f5f4f0'/%3E%3Crect x='7' y='17' width='8' height='8' fill='%23f5f4f0'/%3E%3Crect x='17' y='17' width='8' height='8' fill='%23c9f24a'/%3E%3C/svg%3E">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
@@ -20,7 +20,7 @@
 <link rel="stylesheet" href="/engine/design-tokens/engine.css">
 <link rel="stylesheet" href="/assets/web.css">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"TechArticle","headline":"How to give a coding agent reusable UI components","description":"Making AI coding agents reuse components, design tokens and templates instead of generating generic interfaces.","author":{"@type":"Person","name":"MASTER-UI-ENGINE"},"license":"https://opensource.org/licenses/MIT","isPartOf":{"@type":"WebSite","name":"MASTER-UI-ENGINE","url":"https://master-ui-engine.vercel.app/"}}
+{"@context":"https://schema.org","@type":"TechArticle","headline":"How to give a coding agent reusable UI components","description":"Making AI coding agents reuse components, design tokens and templates instead of generating generic interfaces.","url":"https://masterinterface.xyz/agents","author":{"@type":"Organization","name":"MASTER-UI-ENGINE","url":"https://masterinterface.xyz/","sameAs":"https://github.com/STEVOHCODER/master-ui-engine"},"license":"https://opensource.org/licenses/MIT","isPartOf":{"@type":"WebSite","name":"MASTER-UI-ENGINE","url":"https://masterinterface.xyz/"}}
 </script>
 </head>
 <body class="page">
@@ -35,6 +35,7 @@
     <a class="nav-link" href="/#how">How it works</a>
     <a class="nav-link" href="/agents" aria-current="page">Agent guide</a>
     <a class="nav-link" href="/#docs" data-event="documentation_click">Docs</a>
+    <a class="nav-link" href="/faq">FAQ</a>
     <a class="btn-primary" href="https://github.com/STEVOHCODER/master-ui-engine" data-event="github_click">View on GitHub</a>
   </nav>
   <span class="nav-spacer"></span>
@@ -199,6 +200,7 @@ node tools/mue.js registry <span class="flag">--json</span> &gt; mue-registry.js
         <li><a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/RESOURCES.md">Resource index + licenses</a></li>
       </ul></div>
       <div class="foot-col"><h3>Site</h3><ul>
+        <li><a href="/faq">FAQ</a></li>
         <li><a href="/privacy">Privacy</a></li>
         <li><a href="/sitemap.xml">Sitemap</a></li>
         <li><a href="https://github.com/STEVOHCODER/master-ui-engine/blob/main/LICENSE">MIT license</a></li>

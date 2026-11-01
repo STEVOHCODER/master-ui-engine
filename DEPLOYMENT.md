@@ -112,26 +112,26 @@ the same checks against the deployed app:
 
 ```bash
 # 1. a visit, straight to the collector
-curl -X POST https://YOUR-APP.vercel.app/api/track \
-  -H 'Origin: https://YOUR-APP.vercel.app' \
+curl -X POST https://masterinterface.xyz/api/track \
+  -H 'Origin: https://masterinterface.xyz' \
   -H 'Content-Type: application/json' \
   -d '{"v":"abcdefghijklmnop","p":"/","events":[{"name":"page_view","path":"/"}]}'
 # -> {"ok":true,"stored":1}   ({"ok":false,"reason":"not_configured"} = env vars)
 
 # 2. an event
-curl -X POST https://YOUR-APP.vercel.app/api/track \
-  -H 'Origin: https://YOUR-APP.vercel.app' -H 'Content-Type: application/json' \
+curl -X POST https://masterinterface.xyz/api/track \
+  -H 'Origin: https://masterinterface.xyz' -H 'Content-Type: application/json' \
   -d '{"v":"abcdefghijklmnop","p":"/library.html","events":[{"name":"copy_code","id":"card-pricing","target":"snippet"}]}'
 
 # 3. the numbers are not public
-curl https://YOUR-APP.vercel.app/api/stats?days=7
+curl https://masterinterface.xyz/api/stats?days=7
 # -> {"ok":false,"available":false,"error":"authentication_required"}  (HTTP 401)
 
 # 4. sign in, then read them
-curl -c /tmp/mue-jar -X POST https://YOUR-APP.vercel.app/api/admin/login \
-  -H 'Origin: https://YOUR-APP.vercel.app' -H 'Content-Type: application/json' \
+curl -c /tmp/mue-jar -X POST https://masterinterface.xyz/api/admin/login \
+  -H 'Origin: https://masterinterface.xyz' -H 'Content-Type: application/json' \
   -d '{"username":"YOU","password":"FROM-ADMIN-PASSWORD-HASH"}'
-curl -b /tmp/mue-jar 'https://YOUR-APP.vercel.app/api/stats?days=7'
+curl -b /tmp/mue-jar 'https://masterinterface.xyz/api/stats?days=7'
 # totals.views / visitors / countries / events / subscribers, comparison{deltas},
 # series[], top_paths[], top_countries[], top_referrers[], top_targets[],
 # events{}, all_time{}, coverage.truncated
@@ -212,13 +212,24 @@ console asks before it sends, and the rows are gone.
 
 ### 5. Canonical URLs and the last mile
 
-- Point `SITE_URL` and the `<link rel="canonical">` / `og:url` values in
-  `index.html`, `library.html`, `templates.html`, `agents.html`, `privacy.html`
-  at the real domain (a custom domain changes every one of them). `privacy.html`
-  currently carries `https://master-ui-engine.vercel.app/privacy` with an HTML
-  comment marking it for replacement. `SITE_URL` is documentation only: the
-  functions derive the allowed origin from `x-forwarded-host`, so a wrong
-  `SITE_URL` cannot lock out your own visitors.
+- **The domain is `https://masterinterface.xyz`** (apex + `www`, both attached to
+  the Vercel project). Every `SITE_URL`, `<link rel="canonical">`, `og:url`,
+  `twitter:image` and JSON-LD `url`/`@id` in `index.html`, `library.html`,
+  `templates.html`, `agents.html`, `preview.html`, `faq.html` and `privacy.html`
+  points there, `sitemap.xml` lists those pages with a `<lastmod>`, and
+  `robots.txt` ends with `Sitemap: https://masterinterface.xyz/sitemap.xml`.
+  `site/vercel.json` redirects `www.masterinterface.xyz` and
+  `master-ui-engine.vercel.app` to the apex with permanent host-matched rules, so
+  only one hostname can be canonical; preview deployments keep their own hashed
+  host and are unaffected. `SITE_URL` is documentation only: the functions derive
+  the allowed origin from `x-forwarded-host`, so a wrong `SITE_URL` cannot lock
+  out your own visitors.
+- **One consequence of the apex not having HTTPS yet:** `api/_admin.js` treats a
+  request as secure when `x-forwarded-proto` is `https` *or* the host ends in
+  `.vercel.app`. Over plain `http://masterinterface.xyz` the session cookie is
+  `Secure`, so the browser refuses to store it and `/admin` login cannot
+  complete. Signing in still works on the `.vercel.app` host and on the apex the
+  moment Vercel finishes issuing the certificate — nothing in the repo changes.
 - `/admin` and `/admin/login` ship `noindex, nofollow`, carry a
   `X-Robots-Tag` header, are disallowed in `robots.txt`, and do **not** load
   `/assets/analytics.js`, so the owner's own visits never inflate the numbers.
@@ -261,12 +272,27 @@ and verify with the read-only `node tools/mue.js catalog`. A site deploy that
 skips the regeneration ships a library page whose counts disagree with the
 files in the repo. See `AGENTS.md` for the full build order and the gate list.
 
-### What is not covered here
+### 8. Search submission
 
-- No live Supabase project was available while this was written, so the
-  Supabase calls in `site/api/*.js` are verified against the v2 client API and
-  the schema, not executed end to end. The steps above are the verification.
-- The site is one Vercel project on a hobby plan; Vercel's function-invocation
-  and bandwidth limits apply to the beacons. `SCAN_LIMIT` in `site/api/_lib.js`
-  caps one stats request at 5,000 rows per table and the dashboard prints a
-  warning when a window hits that cap instead of quietly undercounting.
+Two things have to happen in Google's own UI; nothing in this repo can do them
+for you:
+
+1. **Verify the domain.** In Search Console choose *Domain property* and add the
+   TXT record Google gives you to the DNS for `masterinterface.xyz` (Vercel DNS,
+   since the domain registered there). If you would rather verify a URL-prefix
+   property, hand me the `google-site-verification` token and I will add it as a
+   meta tag in the `<head>` of every page in the same commit as the rest of the
+   head tags — a token belongs in the repo, a password does not.
+2. **Submit the sitemap** at `https://masterinterface.xyz/sitemap.xml`, after the
+   apex certificate is issued, so Google crawls `https` on the canonical host
+   instead of following `http` into a redirect chain.
+
+Then check, in this order: `curl -sI https://masterinterface.xyz/robots.txt`
+returns 200 and names the sitemap; `sitemap.xml` returns 200 and every `<loc>`
+resolves 200 on the same host; and a `site:masterinterface.xyz` query in Search
+Console's URL Inspection shows the canonical as the apex URL, not
+`master-ui-engine.vercel.app`.
+
+`llms.txt` at the site root is for agent readers, not for ranking — Google has
+said it does not use the file, so treat it as machine-readable documentation and
+expect no Search Console entry for it.

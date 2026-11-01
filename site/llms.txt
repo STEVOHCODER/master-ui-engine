@@ -1,0 +1,67 @@
+# MASTER-UI-ENGINE
+
+> A free, MIT-licensed library of 33 UI components, 15 worked screens and 6 complete page
+> templates, written as plain HTML, CSS and JavaScript against one shared design-token
+> stylesheet. All 33 components are also ported to React, Vue and Web Components. Its purpose
+> is retrieval: an AI coding agent should reuse an audited component instead of generating
+> generic UI from scratch.
+
+Site: https://masterinterface.xyz
+Source: https://github.com/STEVOHCODER/master-ui-engine
+Licence: MIT (https://github.com/STEVOHCODER/master-ui-engine/blob/main/LICENSE)
+Contact: open an issue on the GitHub repository — there is no sales team and no paid tier.
+
+## What an agent should read first
+
+- [AGENTS.md](https://github.com/STEVOHCODER/master-ui-engine/blob/main/AGENTS.md): the instruction file a coding agent picks up automatically.
+- [SKILL.md](https://github.com/STEVOHCODER/master-ui-engine/blob/main/SKILL.md): the installable skill, with the command list and the retrieval order.
+- [Component catalog (JSON)](https://masterinterface.xyz/engine/showcase/data/component-catalog.json): all 54 entries with id, group, category, variants, tokens, audit notes and the frameworks each entry exists in. Read this before searching by eye.
+- [Framework registry (JSON)](https://masterinterface.xyz/engine/frameworks/registry.json): per-component bindings for React, Vue and Web Components — source path, install line, import line, tag name and the dated verification note behind each status.
+
+## Pages
+
+- [Library](https://masterinterface.xyz/library): search and filter the 54 entries; every preview is the real file, not a screenshot.
+- [Templates](https://masterinterface.xyz/templates): 6 starter pages and 15 worked screens, rendered live.
+- [Agent integration guide](https://masterinterface.xyz/agents): the three surfaces an agent uses — instruction files, the `mue` CLI, one machine-readable registry.
+- [FAQ](https://masterinterface.xyz/faq): testing scope, what `stable` means and does not mean, licence terms, framework coverage.
+- [Visual lab](https://masterinterface.xyz/engine/showcase): browse all previews with a command palette, viewport and theme controls.
+- [Token studio](https://masterinterface.xyz/engine/showcase/studio.html): edit the token ramps and read the resulting WCAG contrast ratios.
+
+## Commands (no install, no npm package)
+
+```bash
+node tools/mue.js stack                       # which stacks really ship source
+node tools/mue.js search "data table"         # find an entry by what it is called
+node tools/mue.js show ui-cards               # copy-ready markup for the vanilla file
+node tools/mue.js show ui-cards --framework vue
+node tools/mue.js add ui-cards --framework react --into ./src   # component + the layers it needs
+node tools/mue.js registry --json             # the whole registry, machine-readable
+node tools/mue.js check all                   # unresolved classes and missing metadata
+node tools/audit/framework-parity.mjs         # statuses vs the checks that earned them
+```
+
+## How to use it correctly
+
+1. Retrieve before generating. `mue search`, then `mue show` — the markup, props and accessibility
+   notes come from the file itself, not from a description of it.
+2. Take the layers together. `mue add` copies the component plus `design-tokens/engine.css` and
+   `styles/components.css`; a component without the token layer renders unstyled.
+3. Write the shared classes, never new CSS. The three framework ports only emit classes defined in
+   `styles/components.css`; `tools/audit/check-classes.js` fails on a class that does not exist.
+4. Respect the status vocabulary. `stable` means the binding was driven in headless Chrome and Edge
+   at 1280px and 390px in light and dark, with axe-core runs recorded in the registry. It does not
+   mean Safari, Firefox, a screen reader, a touch device, server-side rendering or npm publication
+   were tested — none of those have been run, and the site says so on every page that shows a status.
+5. `planned` means an architecture document and no source. Svelte and Angular are planned for all
+   33 components. Asking for them returns that answer rather than a placeholder.
+
+## Verification, honestly stated
+
+- Checked: build or serve, live gallery, behaviour probes at 1280px and 390px in light and dark,
+  axe-core (0 serious/critical), WCAG AA contrast, no horizontal overflow at 320/375/768/1280,
+  in headless Chrome and Edge. Recorded run date: 2026-11-01.
+- Not checked: Safari, Firefox, screen readers, touch devices, SSR, load or Lighthouse figures,
+  npm publication, production adoption.
+- Full record: [Framework support](https://github.com/STEVOHCODER/master-ui-engine/blob/main/docs/framework-support.md),
+  [Contributing](https://github.com/STEVOHCODER/master-ui-engine/blob/main/CONTRIBUTING.md),
+  [Resource and licence index](https://github.com/STEVOHCODER/master-ui-engine/blob/main/RESOURCES.md).

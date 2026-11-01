@@ -6,9 +6,22 @@
     { "source": "/templates", "destination": "/templates.html" },
     { "source": "/preview", "destination": "/preview.html" },
     { "source": "/agents", "destination": "/agents.html" },
+    { "source": "/faq", "destination": "/faq.html" },
     { "source": "/privacy", "destination": "/privacy.html" }
   ],
   "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "www.masterinterface.xyz" }],
+      "destination": "https://masterinterface.xyz/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "master-ui-engine.vercel.app" }],
+      "destination": "https://masterinterface.xyz/$1",
+      "permanent": true
+    },
     { "source": "/analytics", "destination": "/admin", "permanent": false },
     { "source": "/analytics.html", "destination": "/admin", "permanent": false }
   ],

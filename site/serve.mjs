@@ -9,7 +9,7 @@ import { fileURLToPath } from "node:url";
 
 const SITE = dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.env.PORT || 8820);
-const ROUTES = ["/library", "/templates", "/preview", "/agents", "/admin", "/admin/login", "/privacy"];
+const ROUTES = ["/library", "/templates", "/preview", "/agents", "/faq", "/admin", "/admin/login", "/privacy"];
 
 loadEnv(join(SITE, ".env.local"));
 

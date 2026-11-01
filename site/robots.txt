@@ -4,4 +4,38 @@ Disallow: /admin
 Disallow: /admin/login
 Disallow: /api/
 
-Sitemap: https://master-ui-engine.vercel.app/sitemap.xml
+# AI assistants and coding agents are welcome: the catalog, the CLI and the docs
+# are the product, and a crawler that cannot read them cannot recommend this kit.
+User-agent: GPTBot
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+User-agent: Claude-User
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+# The analytics collector posts from the page itself; no crawler needs /api/, and
+# a bot driving it would only inflate the counts the owner console reads.
+Sitemap: https://masterinterface.xyz/sitemap.xml
