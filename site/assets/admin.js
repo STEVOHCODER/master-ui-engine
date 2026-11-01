@@ -206,9 +206,13 @@
       var views = series[i].views || 0;
       var h = views > 0 && scale > 0 ? Math.max(2, Math.round((views / max) * scale)) : 0;
       var x = pad + i * slot + (slot - barW) / 2;
-      svg += '<rect class="c-bar" x="' + x.toFixed(1) + '" y="' + (baseline - h) + '" width="' + barW.toFixed(1) +
-        '" height="' + h + '" rx="1"><title>' + escapeText(series[i].day) + ": " + views + " views, " +
-        (series[i].visitors || 0) + " visitors</title></rect>";
+      /* A zero-height rect still paints its rounded corners, so empty days
+         draw no bar at all instead of a stray mark on the baseline. */
+      if (h > 0) {
+        svg += '<rect class="c-bar" x="' + x.toFixed(1) + '" y="' + (baseline - h) + '" width="' + barW.toFixed(1) +
+          '" height="' + h + '" rx="1"><title>' + escapeText(series[i].day) + ": " + views + " views, " +
+          (series[i].visitors || 0) + " visitors</title></rect>";
+      }
       if (i === 0 || i === series.length - 1 || (series.length <= 16 && i % 2 === 0)) {
         svg += '<text class="c-axis" x="' + (x + barW / 2).toFixed(1) + '" y="' + (height - 7) +
           '" text-anchor="middle">' + escapeText(String(series[i].day || "").slice(5).replace("-", "/")) + "</text>";
@@ -344,9 +348,9 @@
 
   /* ---- records ---- */
   var TABLES = {
-    views: { columns: ["When", "Path", "Country", "Referrer", "Visitor", ""], keys: ["occurred_at", "path", "country", "referrer_host", "vid", "erase"] },
-    events: { columns: ["When", "Event", "Path", "Target", "Visitor", ""], keys: ["occurred_at", "name", "path", "target", "vid", "erase"] },
-    subscribers: { columns: ["When", "Email", "Day", "", ""], keys: ["created_at", "email", "day", "erase"] }
+    views: { columns: ["When", "Path", "Country", "Referrer", "Visitor", "Erase"] },
+    events: { columns: ["When", "Event", "Path", "Target", "Visitor", "Erase"] },
+    subscribers: { columns: ["When", "Email", "Day", "Remove"] }
   };
 
   function renderHead(nextKind) {
@@ -356,7 +360,7 @@
     for (var i = 0; i < columns.length; i += 1) {
       var th = document.createElement("th");
       th.scope = "col";
-      th.textContent = columns[i] || "Erase";
+      th.textContent = columns[i];
       row.appendChild(th);
     }
     el.head.appendChild(row);

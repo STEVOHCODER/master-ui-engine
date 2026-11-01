@@ -227,12 +227,28 @@
 .tiles {
   display: grid;
   gap: 1px;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  grid-template-columns: 1fr;
   margin-top: 1.8rem;
   background: var(--line);
   border: 1px solid var(--line);
   border-radius: var(--rad);
   overflow: hidden;
+}
+
+/* Five metrics never leave an unfilled cell: the last tile spans whatever the
+   row is missing at each breakpoint. */
+@media (min-width: 30rem) {
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tile:nth-child(5) { grid-column: span 2; }
+}
+
+@media (min-width: 48rem) {
+  .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (min-width: 68rem) {
+  .tiles { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .tile:nth-child(5) { grid-column: auto; }
 }
 
 .tile { background: var(--panel); padding: clamp(.9rem, 2.4vw, 1.2rem); }
